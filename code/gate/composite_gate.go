@@ -81,12 +81,29 @@ func (ExplainabilityPolicy) Check(_ context.Context, msg Message) error {
 }
 
 // ConsentPolicy checks the append-only consent ledger before PII processing.
-type ConsentPolicy struct{}
+// When LedgerCheck is provided, it queries the live append-only ledger;
+// otherwise it falls back to msg.ConsentLive.
+type ConsentPolicy struct {
+	LedgerCheck func(subjectID, category string) (live bool, reason string)
+}
 
 func (ConsentPolicy) Name() string { return "consent" }
 
-func (ConsentPolicy) Check(_ context.Context, msg Message) error {
-	if msg.ContainsPII && !msg.ConsentLive {
+func (p ConsentPolicy) Check(_ context.Context, msg Message) error {
+	if !msg.ContainsPII {
+		return nil
+	}
+	if p.LedgerCheck != nil {
+		live, reason := p.LedgerCheck(msg.ActorID, "pii")
+		if !live {
+			if reason != "" {
+				return fmt.Errorf("no live consent (%s)", reason)
+			}
+			return errors.New("no live consent for this category")
+		}
+		return nil
+	}
+	if !msg.ConsentLive {
 		return errors.New("no live consent for this category")
 	}
 	return nil

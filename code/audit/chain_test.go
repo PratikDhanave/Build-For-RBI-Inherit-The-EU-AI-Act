@@ -1,12 +1,19 @@
 package audit
 
 import (
+	"crypto/ed25519"
+	"crypto/rand"
 	"testing"
 	"time"
 )
 
-func TestHashChainDetectsTamper(t *testing.T) {
+func TestHashChainDetectsTamperAndSignsHonestManifest(t *testing.T) {
 	fixed := time.Date(2026, 11, 28, 10, 0, 0, 0, time.UTC)
+	_, priv, err := ed25519.GenerateKey(rand.Reader)
+	if err != nil {
+		t.Fatalf("GenerateKey failed: %v", err)
+	}
+
 	l := NewLog()
 	l.Now = func() time.Time { return fixed }
 
@@ -26,11 +33,20 @@ func TestHashChainDetectsTamper(t *testing.T) {
 		t.Fatalf("expected broken at seq=2 row_hash, got ok=%v seq=%d field=%s", ok, seq, field)
 	}
 
-	manifest := l.ExportManifest()
-	if manifest.ChainVerified {
-		t.Fatalf("manifest must report ChainVerified=false when tampered")
+	signed := l.ExportSignedManifest(priv, "rfc3161://tsa.bank.internal/2026-11-28T10:00:00Z")
+	if !VerifySignedManifest(signed) {
+		t.Fatalf("expected Ed25519 signature over manifest to verify")
 	}
-	if manifest.Count != 3 || manifest.BrokenAtSeq != 2 {
-		t.Fatalf("unexpected manifest: %+v", manifest)
+	if signed.Manifest.ChainVerified {
+		t.Fatalf("signed manifest must honestly report ChainVerified=false when tampered")
+	}
+	if signed.Manifest.Count != 3 || signed.Manifest.BrokenAtSeq != 2 {
+		t.Fatalf("unexpected manifest: %+v", signed.Manifest)
+	}
+
+	// Attempting to forge ChainVerified=true on the exported manifest breaks the Ed25519 signature
+	signed.Manifest.ChainVerified = true
+	if VerifySignedManifest(signed) {
+		t.Fatalf("forged manifest must fail Ed25519 signature verification")
 	}
 }

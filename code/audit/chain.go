@@ -1,6 +1,7 @@
 package audit
 
 import (
+	"crypto/ed25519"
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
@@ -168,4 +169,45 @@ func (l *Log) ExportManifest() Manifest {
 		PayloadSHA256: hex.EncodeToString(sum[:]),
 		ExportedAt:    nowFn().UTC().Format(time.RFC3339),
 	}
+}
+
+// SignedManifest wraps Manifest with an Ed25519 signature and external timestamp
+// anchor reference so auditors can prove the export itself was not altered —
+// even when ChainVerified is false.
+type SignedManifest struct {
+	Manifest        Manifest `json:"manifest"`
+	TimestampAnchor string   `json:"timestamp_anchor"`
+	PublicKeyHex    string   `json:"public_key_hex"`
+	SignatureHex    string   `json:"signature_hex"`
+}
+
+// ExportSignedManifest signs the canonical manifest JSON using Ed25519.
+func (l *Log) ExportSignedManifest(priv ed25519.PrivateKey, anchor string) SignedManifest {
+	m := l.ExportManifest()
+	canonical, _ := json.Marshal(m)
+	sig := ed25519.Sign(priv, canonical)
+	pub := priv.Public().(ed25519.PublicKey)
+	return SignedManifest{
+		Manifest:        m,
+		TimestampAnchor: anchor,
+		PublicKeyHex:    hex.EncodeToString(pub),
+		SignatureHex:    hex.EncodeToString(sig),
+	}
+}
+
+// VerifySignedManifest verifies the Ed25519 signature over the exported manifest.
+func VerifySignedManifest(sm SignedManifest) bool {
+	pub, err := hex.DecodeString(sm.PublicKeyHex)
+	if err != nil || len(pub) != ed25519.PublicKeySize {
+		return false
+	}
+	sig, err := hex.DecodeString(sm.SignatureHex)
+	if err != nil || len(sig) != ed25519.SignatureSize {
+		return false
+	}
+	canonical, err := json.Marshal(sm.Manifest)
+	if err != nil {
+		return false
+	}
+	return ed25519.Verify(ed25519.PublicKey(pub), canonical, sig)
 }

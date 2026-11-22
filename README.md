@@ -289,7 +289,7 @@ go test ./...        # -> 127 packages ok
 go run ./cmd/genie   # -> full pipeline, sample CSV, ~30s
 ```
 
-> Standalone files included in [`code/`](./code): [`code/cmd/demo/main.go`](./code/cmd/demo/main.go) (`go run ./cmd/demo`) · [`code/gate/composite_gate.go`](./code/gate/composite_gate.go) · [`code/gate/approval_gate.go`](./code/gate/approval_gate.go) · [`code/audit/chain.go`](./code/audit/chain.go) · [`code/incident/annexure_vi.go`](./code/incident/annexure_vi.go) · [`code/registry/registry.go`](./code/registry/registry.go) · [`code/redteam/corpus.json`](./code/redteam/corpus.json) · [`code/python/`](./code/python) · [`code/config/policy.yaml`](./code/config/policy.yaml) · [`code/scripts/offline_verify.sh`](./code/scripts/offline_verify.sh).
+> Standalone files included in [`code/`](./code): [`code/cmd/demo/main.go`](./code/cmd/demo/main.go) (`go run ./cmd/demo`) · [`code/config/loader.go`](./code/config/loader.go) · [`code/consent/ledger.go`](./code/consent/ledger.go) · [`code/disclosure/disclosure.go`](./code/disclosure/disclosure.go) · [`code/gate/composite_gate.go`](./code/gate/composite_gate.go) · [`code/gate/approval_gate.go`](./code/gate/approval_gate.go) · [`code/audit/chain.go`](./code/audit/chain.go) *(with Ed25519 signing)* · [`code/incident/annexure_vi.go`](./code/incident/annexure_vi.go) · [`code/registry/registry.go`](./code/registry/registry.go) · [`code/redteam/corpus.json`](./code/redteam/corpus.json) · [`code/python/`](./code/python) · [`code/scripts/offline_verify.sh`](./code/scripts/offline_verify.sh).
 
 ---
 
@@ -671,13 +671,15 @@ Under the EU AI Act, you can accidentally move your customer from **deployer** t
 ├── code/                                # All governance modules & snippets as runnable, tested code
 │   ├── go.mod                           # Zero-dependency Go module
 │   ├── cmd/demo/main.go                 # One-command offline CLI pipeline (`go run ./cmd/demo`)
+│   ├── config/                          # Board-approved `policy.yaml` + zero-dep Go YAML loader (Rec 14 / Art 17)
+│   ├── consent/                         # Append-only Consent Ledger with Tuesday revocation proof (Rec 15)
+│   ├── disclosure/                      # First-event AI disclosure tracker (Rec 18, 25 / Art 50)
 │   ├── gate/                            # Composite Policy Gate & ErrRiskChanged drift guard (Go)
-│   ├── audit/                           # SHA-256 hash-chained audit log & manifest export (Go)
+│   ├── audit/                           # SHA-256 hash chain + Ed25519 signed manifest export (Rec 22 / Art 12)
 │   ├── incident/                        # RBI Annexure VI / EU AI Act Art 73 generator (Go)
 │   ├── registry/                        # Zero-drift live agent registry exporter (Rec 23 / Annex IV)
 │   ├── redteam/                         # 16-case adversarial red-team corpus run on every PR (Rec 20 / Art 15)
-│   ├── python/                          # Standalone Python labs (`gate_demo.py`, `approval.py`, `audit.py`)
-│   ├── config/policy.yaml               # Board-approved declarative AI policy (Rec 14 / Art 17)
+│   ├── python/                          # Canonical Python labs (`gate_demo.py`, `approval.py`, `audit.py`)
 │   └── scripts/offline_verify.sh        # One-command zero-network verification script
 ├── examples/
 │   ├── policy.yaml                      # Board-approved policy YAML
