@@ -725,10 +725,10 @@ Under the EU AI Act, you can accidentally move your customer from **deployer** t
 
 ```text
 .
-├── index.html                           # 22-slide ClearRoute-styled interactive web deck
+├── index.html                           # 22-slide ClearRoute-styled interactive web deck (+ 3 Q&A backup slides)
 ├── assets/                              # 9 lightweight brand & QR assets (~260 KB total)
-├── build-for-rbi-ppt.pptx               # 22-slide ClearRoute 2026 PowerPoint deck (20" × 11.25")
-├── build-for-rbi-handout.pdf            # Print-ready 22-slide PDF handout
+├── build-for-rbi-ppt.pptx               # ClearRoute 2026 PowerPoint deck (22 talk + 3 Q&A backup slides, 20" × 11.25")
+├── build-for-rbi-handout.pdf            # Print-ready 25-slide PDF handout (22 talk + 3 Q&A backup slides)
 ├── code/                                # All governance modules & snippets as runnable, tested code
 │   ├── go.mod                           # Zero-dependency Go module
 │   ├── cmd/demo/main.go                 # One-command offline CLI pipeline (`go run ./cmd/demo`)
@@ -786,21 +786,23 @@ make serve   # runs python3 -m http.server 8000
 | `F` | Toggle fullscreen |
 | `T` | Toggle ClearRoute dark / light theme |
 
-### Full 22-Slide Map
+### Full Slide Map (22 Talk Slides + 3 Q&A Backup Slides)
 
 | # | Slide | Theme | # | Slide | Theme |
 | :-: | --- | --- | :-: | --- | --- |
 | 01 | Build for RBI, inherit the EU AI Act | Hero Mint | 12 | Edit One Row, Every Link Breaks *(SVG)* | Deep Slate |
-| 02 | The Score, Up Front (`17 / 7 / 2`) | Mint | 13 | Lab 02: `audit.py` *(Runnable)* | Deep Slate |
+| 02 | The Score, Up Front (`17 / 7 / 2`) | Mint | 13 | Lab 02: `audit.py` *(Runnable + Ed25519)* | Deep Slate |
 | 03 | Open Banking: ADGM, DIFC, SAMA | Hero Mint | 14 | The EU AI Act Reaches You | Lavender |
 | 04 | The Map: RBI FREE-AI | Mint | 15 | Two Regulators, One Control Set *(SVG)* | Deep Slate |
-| 05 | The 9 / 17 Split | Mint | 16 | Cross-Walk: 7 Controls Table | Lavender |
+| 05 | The 9 / 17 Split | Mint | 16 | Cross-Walk: 7 Controls + Omnibus Note | Lavender |
 | 06 | One Gate, Every Message *(SVG)* | Deep Slate | 17 | RBI Draft MRM Guidance (24 Jun 2026) | Peach |
-| 07 | Clone It, Run It Offline | Mint | 18 | Scored Against It, Honestly (`4 / 2`) | Peach |
+| 07 | Clone It, Run It Offline (`genie` + `make demo`) | Mint | 18 | Scored Against It, Honestly (`4 / 2`) | Peach |
 | 08 | Finding 1: Governance Goes Stale | Peach | 19 | Two Open Engineering Problems | Peach |
 | 09 | What Drift Looks Like *(SVG)* | Deep Slate | 20 | Deployer → Provider (SOW Scoping) | Lavender |
 | 10 | Lab 01: `approval.py` *(Runnable)* | Deep Slate | 21 | Take These Four Things + Name Gaps | Mint |
-| 11 | Finding 2: Manifesto *(Diamond)* | Mint | 22 | Thank You & Questions | Hero Mint |
+| 11 | Finding 2: Manifesto *(Diamond)* | Mint | 22 | Thank You, QR Codes & Companion Repo | Hero Mint |
+| Q&A 01 | Backup: AI Kill Switch — Hard Stop vs. Dimmer Switch | Peach | Q&A 02 | Backup: One Bus Across Five Regimes (Nov 2026) | Mint |
+| Q&A 03 | Backup: Composite Gate vs. OWASP ASI Top 10 | Lavender | — | — | — |
 
 ---
 

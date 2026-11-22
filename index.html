@@ -1001,12 +1001,15 @@
       <pre class="code-body"><span class="c"># no cloud account. no API key. no network.</span>
 <span class="p">$</span> git clone … &amp;&amp; cd genie
 <span class="p">$</span> go test ./...        <span class="s">→  127 packages ok</span>
-<span class="p">$</span> go run ./cmd/genie   <span class="k">→  full pipeline, sample CSV, ~30s</span></pre>
+<span class="p">$</span> go run ./cmd/genie   <span class="k">→  full pipeline, sample CSV, ~30s</span>
+
+<span class="c"># public companion repo (QR on slide 22) — runnable tonight:</span>
+<span class="p">$</span> make demo            <span class="s">→  9 Go pkgs · 16 OWASP red-team tests · evidencepack (&lt;10s)</span></pre>
     </div>
     <div class="mini-badges">
       <div class="mini-badge"><strong class="mint">Zero Cloud Account</strong><span>Runs identically on an air-gapped laptop</span></div>
       <div class="mini-badge lav"><strong class="lav">Zero API Keys</strong><span>Deterministic local execution, no vendor lock-in</span></div>
-      <div class="mini-badge peach"><strong class="peach">127 Test Packages</strong><span>Executable evidence, not compliance slides</span></div>
+      <div class="mini-badge peach"><strong class="peach">127 + 9 Test Packages</strong><span>Executable evidence, not compliance slides</span></div>
     </div>
     <p class="note"><b>A control nobody can run is a claim.</b> <span class="mint">It is a fair test to put to any AI vendor, and a fairer one to put to yourself.</span></p>
   </div>
@@ -1270,6 +1273,7 @@ print()
 print("The export does not hide the break. It reports it.")</textarea>
       <div class="out"></div>
     </div>
+    <p class="muted" style="font-family:var(--mono);font-size:.78rem;margin-top:4px"><span class="mint">Go companion repo:</span> <code>code/audit/chain.go</code> + <code>go run ./cmd/evidencepack</code> sign the manifest with <b>Ed25519</b> and emit RBI Annexure VI &amp; EU Art. 73/Annex IV JSON.</p>
   </div>
 </section>
 
@@ -1372,6 +1376,7 @@ print("The export does not hide the break. It reports it.")</textarea>
         </tbody>
       </table>
     </div>
+    <p class="note" style="font-size:.86rem;margin-top:6px"><span class="lav"><b>Digital Omnibus — Reg. (EU) 2026/1744:</b></span> Art. 50 live since 2 Aug 2026 · Annex III High-Risk shifted to 2 Dec 2027 &nbsp;|&nbsp; <code style="color:var(--mint)">go run ./cmd/evidencepack</code> emits both packs (Ed25519 signed).</p>
   </div>
 </section>
 
@@ -1527,6 +1532,84 @@ print("The export does not hide the break. It reports it.")</textarea>
         <img src="assets/qr-repo.png" alt="QR: GitHub Repo" style="width:108px;height:108px;border-radius:6px;display:block;margin:0 auto">
         <div style="font-family:var(--display);font-size:10px;font-weight:800;letter-spacing:.08em;color:var(--lavender);margin-top:6px">GITHUB REPO</div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 23 (Q&A BACKUP 01): AI KILL SWITCH ==================== -->
+<section class="slide bg-peach" data-t="Q&A 01 · Kill Switch" data-note="Q&amp;A Backup 01 — Use if asked how to architect an AI kill switch in production. Connects CrowdStrike Falcon Guardian (Nov 2026) to the 3-tier Dimmer Switch -> NHI Revocation -> Hard Stop banking pattern.">
+  <div class="wrap">
+    <div class="kicker peach"><i class="dash"></i>Q&amp;A Backup 01 · Gap 01 / RFC-001</div>
+    <h2>AI Kill Switch: <span class="peach">Hard Stop vs. "Dimmer Switch"</span></h2>
+    <div class="two">
+      <div class="card coral">
+        <span class="tag-pill coral" style="align-self:flex-start">CROWDSTRIKE FALCON GUARDIAN · NOV 2026</span>
+        <h3>4-Layer Enforcement Pattern</h3>
+        <p><b class="peach">01 · AI Gateway Cut-Off</b> — Block model/provider access via connected gateways (Composite Gate fail-closed).</p>
+        <p><b class="peach">02 · Root Process Kill</b> — Terminate rogue running agent where it executes (cancel active <code>context.Context</code> trees).</p>
+        <p><b class="peach">03 · Relaunch Prevention</b> — Block orchestrator auto-restart loops.</p>
+        <p><b class="peach">04 · Network Isolation</b> — Revoke downstream credentials &amp; log blast radius.</p>
+      </div>
+      <div class="card mint-hl">
+        <span class="tag-pill mint" style="align-self:flex-start">BANKING · TIERED CONTAINMENT</span>
+        <h3>Stop Agents Without Freezing Payments</h3>
+        <p><b class="mint">Tier 1 · Dimmer Switch</b> — Degrade agent to read-only, strip high-risk tools (<code>ASI02</code>), or force HITL above a cap.</p>
+        <p><b class="lav">Tier 2 · Identity / NHI Revocation</b> — Instantly revoke short-lived OAuth tokens &amp; IAM keys (<code>ASI03</code>) to sever core rail access.</p>
+        <p><b class="peach">Tier 3 · Operator Hard Stop</b> — Broadcast fail-closed scope stop, cancel in-flight workflows, append <code>KILL_SWITCH_ON</code> to SHA-256 chain.</p>
+      </div>
+    </div>
+    <p class="note"><b class="peach">RBI Draft MRM Guidance:</b> requires client-side kill-switch capability even on third-party vendor models. <span class="muted">See <code>docs/open-problems/RFC-001-ai-kill-switch.md</code></span></p>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 24 (Q&A BACKUP 02): MULTI-JURISDICTION MATRIX ==================== -->
+<section class="slide bg-mint" data-t="Q&A 02 · Five Regimes" data-note="Q&amp;A Backup 02 — Use if asked about regional differences across ADGM, DIFC, SAMA, India, and EU as of November 2026.">
+  <div class="wrap">
+    <div class="kicker"><i class="dash"></i>Q&amp;A Backup 02 · Per-Message Residency (Nov 2026)</div>
+    <h2>One bus across <span class="mint">five regimes</span></h2>
+    <div class="tw">
+      <table>
+        <thead>
+          <tr><th>Jurisdiction</th><th class="mint-col">Active 2025–2026 Instrument</th><th class="lav-col">Per-Message Enforcement &amp; Evidence</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="b">India (in)</td><td>RBI FREE-AI · Draft MRM (11 REs) · DPDP</td><td>PAN/Aadhaar/payment PII stays in IN pools; hash-chained refusal proof</td></tr>
+          <tr><td class="b">ADGM (adgm)</td><td>FSRA Notice No. 222 of 2026 · ADGM DPR</td><td>Internal AI guardrails, algorithmic transparency, monitoring &amp; transfer consent</td></tr>
+          <tr><td class="r">DIFC (difc)</td><td>Reg 10 (AI / ISO 42001) · DP Amend. Law 1/2025</td><td>AI register, Transfer Risk Assessments, human oversight &amp; DIFC Court right of action</td></tr>
+          <tr><td class="r law">Saudi (sama)</td><td>SAMA Commercial Open Banking · Saudi PDPL</td><td>Strict in-Kingdom hosting for customer/KYC data; external cloud needs SAMA approval</td></tr>
+          <tr><td class="r">Europe (eu)</td><td>EU AI Act + Digital Omnibus (EU) 2026/1744</td><td>Applies if output used in EU (Art 2(1)(c)); Art 50 live Aug 2026; Annex III Dec 2027</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Configured per message in <code style="color:var(--mint)">policy.yaml</code> — <b>zero country forks.</b> <span class="muted">See <code>docs/deep-dive/05-open-banking-multi-jurisdiction-residency.md</code></span></p>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 25 (Q&A BACKUP 03): OWASP ASI TOP 10 ==================== -->
+<section class="slide bg-lavender" data-t="Q&A 03 · OWASP ASI" data-note="Q&amp;A Backup 03 — Use for CISO/security questions on OWASP Top 10 for Agentic Applications (ASI01-ASI03, ASI08) and NIST AI RMF / AI 600-1 decoupled runtime governance.">
+  <div class="wrap">
+    <div class="kicker lav"><i class="dash"></i>Q&amp;A Backup 03 · Agentic Security &amp; CI Red-Team</div>
+    <h2>Composite gate vs. <span class="lav">OWASP ASI Top 10</span></h2>
+    <div class="two">
+      <div class="num-card">
+        <span class="num" style="font-size:1.5rem">ASI01</span>
+        <div><h4>Agent Goal Hijack</h4><p>Indirect prompt injection tries to exfiltrate PAN/KYC to <code>us</code>/<code>eu</code> → blocked by <b>Residency + Consent</b> (<code>RT-01..03, 14..15</code>).</p></div>
+      </div>
+      <div class="num-card lav">
+        <span class="num" style="font-size:1.5rem">ASI02</span>
+        <div><h4>Tool Misuse &amp; Exploitation</h4><p>Drifted agent invokes advice/credit tools without rationale or active sign-off → blocked by <b>Explainability + ErrRiskChanged</b> (<code>RT-08..09</code>).</p></div>
+      </div>
+      <div class="num-card peach">
+        <span class="num" style="font-size:1.5rem">ASI03</span>
+        <div><h4>Identity &amp; Privilege Abuse</h4><p>Retail user or guest session probes <code>payment_orchestrator</code> → blocked by <b>RBAC least-agency guard</b> (<code>RT-11..12</code>).</p></div>
+      </div>
+      <div class="num-card peach">
+        <span class="num" style="font-size:1.5rem">ASI08</span>
+        <div><h4>Resource Exhaustion</h4><p>Recursive multi-agent loops drain budgets or payment queues → bounded by <b>budget/rate caps + circuit breakers</b> (hard stop: <code>RFC-001</code>).</p></div>
+      </div>
+    </div>
+    <div class="banner">
+      <span class="lav"><b>Decoupled Runtime Governance (NIST AI RMF / AI 600-1):</b></span> Gate sits outside every agent's reasoning loop — 16 OWASP-tagged tests run in CI on every PR (<code>code/redteam/corpus.json</code>).
     </div>
   </div>
 </section>
