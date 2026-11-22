@@ -122,7 +122,7 @@
     {"requirement": "Full model inventory, nothing running outside it", "status": "built", "rfc": null},
     {"requirement": "Risk tiering by materiality, complexity and autonomy", "status": "built", "rfc": null},
     {"requirement": "Accountable for a vendor's model, certified or not", "status": "built", "rfc": null},
-    {"requirement": "Mandatory AI kill switch (operator-triggered stop)", "status": "gap", "rfc": "docs/open-problems/RFC-001-ai-kill-switch.md"},
+    {"requirement": "Mandatory AI kill switch (operator-triggered stop)", "status": "gap", "rfc": "docs/open-problems/RFC-001-ai-kill-switch.md", "industry_reference": "https://www.crowdstrike.com/en-us/blog/crowdstrike-introduces-ai-kill-switch/"},
     {"requirement": "Inventory kept 10 years, including decommissioned models", "status": "gap", "rfc": "docs/open-problems/RFC-002-ten-year-retention.md"}
   ]
 }

@@ -46,7 +46,20 @@ sequenceDiagram
     end
 ```
 
-## 4. Open Questions — How Have You Solved This?
+## 4. Industry Reference & Prior Art
+
+- **[CrowdStrike Introduces AI Kill Switch (Falcon Guardian, 3 Nov 2026)](https://www.crowdstrike.com/en-us/blog/crowdstrike-introduces-ai-kill-switch/)** — Announced at Fal.Con Europe, CrowdStrike's AI Kill Switch illustrates an emerging **four-layer enforcement pattern** for stopping rogue autonomous agents in production:
+
+| Enforcement Layer (CrowdStrike Falcon Guardian) | Equivalent Problem in a Multi-Agent Banking Platform |
+| --- | --- |
+| **1. AI Gateway Cut-Off** — Blocks the agent's access to underlying AI models/providers via connected AI gateways | **Composite Policy Gate fail-closed broadcast** — Rejects all new dispatches matching the killed scope |
+| **2. Process Termination at the Root** — Terminates the running agent process on the endpoint | **In-flight context cancellation** — Cancels active `context.Context` trees & multi-hop tool calls |
+| **3. Relaunch Prevention** — Blocks terminated agents from automatically restarting on hosts | **Control-plane lease & startup block** — Prevents Kubernetes/orchestrator liveness probes from re-spawning the killed agent |
+| **4. Network Isolation** — Cuts off enterprise network access to stop lateral movement or data spread | **Egress & bus quarantine** — Revokes downstream API/DB credentials and logs the blast radius to the SHA-256 audit chain |
+
+> **Why this remains an open gap for our codebase:** Commercial AIDR/endpoint tools show that gateway + runtime termination is becoming a real industry pattern, but regulated entities still have to wire operator-triggered kill controls across **application-level multi-agent buses, dual-custody approval workflows, and tamper-evident audit trails** (RBI Draft MRM Guidance).
+
+## 5. Open Questions — How Have You Solved This?
 
 - How do you guarantee sub-second propagation across stateless replicas without creating a single point of failure in the hot path?
 - What is the safest re-arm / resume workflow (e.g., dual-custody sign-off + fresh risk-class verification)?

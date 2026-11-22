@@ -656,6 +656,7 @@ Naming your gaps buys more credibility in an architectural or regulatory review 
 1. **Gap 01 — Mandatory AI Kill Switch** — Read full RFC: [`docs/open-problems/RFC-001-ai-kill-switch.md`](./docs/open-problems/RFC-001-ai-kill-switch.md)
    - We already have circuit breakers, deadlines, budget caps, and deterministic fallbacks.
    - A mandated kill switch requires an **operator-triggered hard stop** with guaranteed propagation across active sessions. Adjacent — not the same thing.
+   - *Industry reference:* [CrowdStrike Falcon Guardian AI Kill Switch (Nov 2026)](https://www.crowdstrike.com/en-us/blog/crowdstrike-introduces-ai-kill-switch/) — real-world 4-layer pattern (AI gateway model cut-off, root process termination, relaunch prevention, network isolation).
 2. **Gap 02 — Ten-Year Retention vs. Zero-Drift Live Inventory** — Read full RFC: [`docs/open-problems/RFC-002-ten-year-retention.md`](./docs/open-problems/RFC-002-ten-year-retention.md)
    - The current inventory reads the **live registry** directly, so it **cannot drift** from what is actually running in production.
    - The draft requires retaining decommissioned models for **10 years**.
@@ -773,6 +774,7 @@ python3 -m http.server 8000
 - **Pratik Dhanave** — AI Architect, ClearRoute
 - **Live Talk Deck:** https://build-for-rbi-talk.vercel.app
 - **Official RBI FREE-AI Report (13 Aug 2025):** [Download PDF](https://rbidocs.rbi.org.in/rdocs/PublicationReport/Pdfs/FREEAIR130820250A24FF2D4578453F824C72ED9F5D5851.PDF)
+- **AI Kill Switch Industry Reference (3 Nov 2026):** [CrowdStrike Introduces AI Kill Switch](https://www.crowdstrike.com/en-us/blog/crowdstrike-introduces-ai-kill-switch/)
 - **Website:** https://pratikdhanave.com
 - **LinkedIn:** https://linkedin.com/in/pratikdhanave
 - **GitHub:** https://github.com/PratikDhanave
