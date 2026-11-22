@@ -6,6 +6,7 @@
 [![RBI FREE-AI](https://img.shields.io/badge/RBI_FREE--AI-17%2F17_RE_Controls-34A853?style=for-the-badge)](#2-the-9--17-split-scoping-rbi-free-ai-correctly)
 [![EU AI Act](https://img.shields.io/badge/EU_AI_Act-7_Controls_Inherited-F9AB00?style=for-the-badge&logoColor=202124)](#6-regulatory-convergence-rbi-free-ai--eu-ai-act)
 [![MRM Draft](https://img.shields.io/badge/RBI_MRM_Draft-4_Built_%7C_2_Gaps-EA4335?style=for-the-badge)](#7-the-binding-instrument-rbi-draft-model-risk-management-guidance)
+[![License: MIT](https://img.shields.io/badge/License-MIT-5F6368?style=for-the-badge)](./LICENSE)
 
 > **What RBI FREE-AI asks of your codebase — and how much of the EU AI Act comes with it.**  
 > Presented by **Pratik Dhanave** (AI Architect, ClearRoute) at **FDExHyderabad · 28 November 2026**.
@@ -18,7 +19,7 @@
 | **Tamper-Evident Hash Chain (Slide 12)** | **RBI ↔ EU AI Act Cross-Walk (Slide 16)** |
 | [![Hash Chain](docs/screenshots/12-hash-chain.png)](https://build-for-rbi-talk.vercel.app/#12) | [![Cross-Walk](docs/screenshots/16-crosswalk.png)](https://build-for-rbi-talk.vercel.app/#16) |
 
-**Downloads:** [`build-for-rbi-ppt.pptx`](./build-for-rbi-ppt.pptx) · [`build-for-rbi-handout.pdf`](./build-for-rbi-handout.pdf) · [`rbi-eu-ai-act.json`](./crosswalk/rbi-eu-ai-act.json) · [`rbi-eu-ai-act.csv`](./crosswalk/rbi-eu-ai-act.csv)
+**Downloads & Playbooks:** [`build-for-rbi-ppt.pptx`](./build-for-rbi-ppt.pptx) · [`build-for-rbi-handout.pdf`](./build-for-rbi-handout.pdf) · [`17-Rec Traceability Matrix`](./docs/RBI-FREE-AI-17-MATRIX.md) · [`5-Min Vendor Checklist`](./docs/VENDOR-CHECKLIST.md) · [`SOW Deployer vs. Provider Guide`](./docs/SOW-DEPLOYER-VS-PROVIDER.md) · [`rbi-eu-ai-act.json`](./crosswalk/rbi-eu-ai-act.json) · [`rbi-eu-ai-act.csv`](./crosswalk/rbi-eu-ai-act.csv)
 
 ---
 
@@ -369,7 +370,7 @@ go test ./...        # -> 127 packages ok
 go run ./cmd/genie   # -> full pipeline, sample CSV, ~30s
 ```
 
-> Standalone files included in [`code/`](./code): [`code/gate/composite_gate.go`](./code/gate/composite_gate.go) · [`code/gate/approval_gate.go`](./code/gate/approval_gate.go) · [`code/gate/gate_test.go`](./code/gate/gate_test.go) · [`code/python/gate_demo.py`](./code/python/gate_demo.py) · [`code/python/approval.py`](./code/python/approval.py) · [`code/python/audit.py`](./code/python/audit.py) · [`code/config/policy.yaml`](./code/config/policy.yaml) · [`code/scripts/offline_verify.sh`](./code/scripts/offline_verify.sh).
+> Standalone files included in [`code/`](./code): [`code/cmd/demo/main.go`](./code/cmd/demo/main.go) (`go run ./cmd/demo`) · [`code/gate/composite_gate.go`](./code/gate/composite_gate.go) · [`code/gate/approval_gate.go`](./code/gate/approval_gate.go) · [`code/audit/chain.go`](./code/audit/chain.go) · [`code/incident/annexure_vi.go`](./code/incident/annexure_vi.go) · [`code/registry/registry.go`](./code/registry/registry.go) · [`code/redteam/corpus.json`](./code/redteam/corpus.json) · [`code/python/`](./code/python) · [`code/config/policy.yaml`](./code/config/policy.yaml) · [`code/scripts/offline_verify.sh`](./code/scripts/offline_verify.sh).
 
 ---
 
@@ -760,38 +761,32 @@ Under the EU AI Act, you can accidentally move your customer from **deployer** t
 ├── assets/                              # 7 lightweight brand assets (234 KB total)
 ├── build-for-rbi-ppt.pptx               # 22-slide ClearRoute 2026 PowerPoint deck (20" × 11.25")
 ├── build-for-rbi-handout.pdf            # Print-ready 22-slide PDF handout
-├── code/                                # All README code snippets as runnable, tested files
+├── code/                                # All governance modules & snippets as runnable, tested code
 │   ├── go.mod                           # Zero-dependency Go module
-│   ├── gate/
-│   │   ├── composite_gate.go            # Pre-dispatch Composite Policy Gate (Go)
-│   │   ├── approval_gate.go             # Finding 1: Runtime drift guard ErrRiskChanged (Go)
-│   │   └── gate_test.go                 # Unit tests for gate & drift detection (`go test ./...`)
-│   ├── python/
-│   │   ├── gate_demo.py                 # Standalone Composite Policy Gate simulation
-│   │   ├── approval.py                  # Lab 01: Approval drift guard (ErrRiskChanged)
-│   │   └── audit.py                     # Lab 02: SHA-256 hash chain & tamper manifest
-│   ├── config/
-│   │   └── policy.yaml                  # Board-approved declarative AI policy (Rec 14 / Art 17)
-│   └── scripts/
-│       └── offline_verify.sh            # One-command offline verification script
-├── labs/                                # Standalone Python lab mirrors
-│   ├── gate_demo.py                     # Standalone Composite Policy Gate simulation
-│   ├── approval.py                      # Lab 01: Approval drift guard (ErrRiskChanged)
-│   └── audit.py                         # Lab 02: SHA-256 hash chain & tamper manifest
+│   ├── cmd/demo/main.go                 # One-command offline CLI pipeline (`go run ./cmd/demo`)
+│   ├── gate/                            # Composite Policy Gate & ErrRiskChanged drift guard (Go)
+│   ├── audit/                           # SHA-256 hash-chained audit log & manifest export (Go)
+│   ├── incident/                        # RBI Annexure VI / EU AI Act Art 73 generator (Go)
+│   ├── registry/                        # Zero-drift live agent registry exporter (Rec 23 / Annex IV)
+│   ├── redteam/                         # 16-case adversarial red-team corpus run on every PR (Rec 20 / Art 15)
+│   ├── python/                          # Standalone Python labs (`gate_demo.py`, `approval.py`, `audit.py`)
+│   ├── config/policy.yaml               # Board-approved declarative AI policy (Rec 14 / Art 17)
+│   └── scripts/offline_verify.sh        # One-command zero-network verification script
 ├── examples/
-│   └── policy.yaml                      # Board-approved declarative AI policy (Rec 14 / Art 17)
-├── crosswalk/
-│   ├── rbi-eu-ai-act.json               # Machine-readable 26-rec + 7-control + 6-MRM dataset
-│   └── rbi-eu-ai-act.csv                # Spreadsheet-ready RBI FREE-AI <-> EU AI Act mapping
+│   ├── policy.yaml                      # Board-approved policy YAML
+│   ├── annexure-vi-sample.json          # Sample RBI Annexure VI / EU AI Act Art 73 incident report
+│   └── inventory-export.json            # Sample live registry inventory export (Rec 23 / Annex IV)
 ├── docs/
+│   ├── RBI-FREE-AI-17-MATRIX.md         # Full 17-recommendation traceability matrix
+│   ├── VENDOR-CHECKLIST.md              # Printable 5-minute AI vendor procurement scorecard
+│   ├── SOW-DEPLOYER-VS-PROVIDER.md      # Deployer vs. Provider SOW scoping guide + diagram
+│   ├── qr-live-deck.png & qr-repo.png   # Conference QR codes for live deck & repository
 │   ├── screenshots/                     # Slide preview renders embedded in README
-│   └── open-problems/
-│       ├── RFC-001-ai-kill-switch.md    # Gap 01 architecture RFC
-│       └── RFC-002-ten-year-retention.md# Gap 02 architecture RFC
-├── .github/
-│   ├── workflows/verify.yml             # CI verifying all labs, cross-walk, YAML & index.html
-│   └── ISSUE_TEMPLATE/
-│       └── open-problem-proposal.md     # Community proposal template for RFC-001 / RFC-002
+│   └── open-problems/                   # Architecture RFCs (`RFC-001` Kill Switch, `RFC-002` Retention)
+├── crosswalk/                           # Machine-readable JSON & CSV regulatory cross-walks
+├── labs/                                # Standalone Python lab mirrors
+├── .github/                             # CI workflow (`verify.yml`) + RFC issue template
+├── LICENSE, CONTRIBUTING.md, SECURITY.md
 ├── Makefile                             # make demo | make test | make serve
 └── README.md
 ```
@@ -836,10 +831,16 @@ python3 -m http.server 8000
 
 ---
 
-## Author & Links
+## Author, QR Codes & Links
+
+| Scan for Live Web Deck | Scan for GitHub Repository |
+| :---: | :---: |
+| <img src="docs/qr-live-deck.png" width="160" alt="QR Code for Live Deck"> | <img src="docs/qr-repo.png" width="160" alt="QR Code for GitHub Repo"> |
+| [build-for-rbi-talk.vercel.app](https://build-for-rbi-talk.vercel.app) | [Build-For-RBI-Inherit-The-EU-AI-Act](https://github.com/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act) |
 
 - **Pratik Dhanave** — AI Architect, ClearRoute
 - **Live Talk Deck:** https://build-for-rbi-talk.vercel.app
 - **Website:** https://pratikdhanave.com
 - **LinkedIn:** https://linkedin.com/in/pratikdhanave
 - **GitHub:** https://github.com/PratikDhanave
+- **License:** [MIT](./LICENSE) · [Contributing](./CONTRIBUTING.md) · [Security](./SECURITY.md)

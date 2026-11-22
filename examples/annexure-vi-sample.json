@@ -1,0 +1,19 @@
+{
+  "incident_id": "INC-2026-0042",
+  "reported_at": "2026-11-28T10:00:00Z",
+  "regulated_entity": "ClearRoute Reference Bank",
+  "instrument_mappings": [
+    "RBI FREE-AI Rec 22 (Annexure VI)",
+    "EU AI Act Article 73"
+  ],
+  "agent_id": "var_calculator",
+  "risk_tier": "high",
+  "category": "Governance Drift (ErrRiskChanged)",
+  "severity": "HIGH",
+  "summary": "var_calculator was approved at medium risk and refactored to declare high risk without renewed CRO sign-off.",
+  "control_triggered": "ApprovalDriftGuard (RBI Rec 17)",
+  "customer_impact": "None — blocked pre-dispatch by Composite Policy Gate",
+  "containment_action": "Blocked pre-dispatch; CRO re-approval workflow triggered.",
+  "audit_chain_verified": true,
+  "audit_manifest_sha256": "9f3c4dc6a8ff560f326e014a"
+}

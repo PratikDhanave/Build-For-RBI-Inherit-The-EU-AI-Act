@@ -1,0 +1,57 @@
+{
+  "generated_at": "2026-11-28T10:00:00Z",
+  "source": "live-runtime-registry (zero-drift)",
+  "instrument_mappings": [
+    "RBI FREE-AI Rec 23",
+    "EU AI Act Annex IV",
+    "RBI Draft MRM Full Inventory"
+  ],
+  "total_live_agents": 5,
+  "agents": [
+    {
+      "id": "aml_monitor",
+      "domain": "financial-crime",
+      "declared_risk": "high",
+      "owner": "fincrime-ops@bank",
+      "vendor_model": "rules+llm-classifier",
+      "data_categories": ["transaction", "kyc"],
+      "disclosure_mode": "first-event"
+    },
+    {
+      "id": "educator",
+      "domain": "retail-experience",
+      "declared_risk": "low",
+      "owner": "cx-platform@bank",
+      "vendor_model": "local-slm",
+      "data_categories": ["public-faq"],
+      "disclosure_mode": "first-event"
+    },
+    {
+      "id": "kyc_orchestrator",
+      "domain": "onboarding",
+      "declared_risk": "high",
+      "owner": "kyc-platform@bank",
+      "vendor_model": "doc-vision+llm",
+      "data_categories": ["pii", "identity-docs"],
+      "disclosure_mode": "first-event"
+    },
+    {
+      "id": "payment_orchestrator",
+      "domain": "payments",
+      "declared_risk": "high",
+      "owner": "payments-platform@bank",
+      "vendor_model": "deterministic+llm",
+      "data_categories": ["transaction", "account_id"],
+      "disclosure_mode": "first-event"
+    },
+    {
+      "id": "var_calculator",
+      "domain": "market-risk",
+      "declared_risk": "high",
+      "owner": "treasury-quant@bank",
+      "vendor_model": "quant-llm",
+      "data_categories": ["portfolio", "market-data"],
+      "disclosure_mode": "first-event"
+    }
+  ]
+}
