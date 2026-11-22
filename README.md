@@ -1,11 +1,11 @@
 # Build for RBI, Inherit the EU AI Act
 
-[![Live Deck](https://img.shields.io/badge/Live_Web_Deck-build--for--rbi--talk.vercel.app-00E8AF?style=for-the-badge&logo=vercel&logoColor=181D29)](https://build-for-rbi-talk.vercel.app)
-[![Verify CI](https://img.shields.io/github/actions/workflow/status/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act/verify.yml?branch=main&style=for-the-badge&label=CI_Verified&color=00E8AF)](https://github.com/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act/actions/workflows/verify.yml)
-[![Event](https://img.shields.io/badge/FDExHyderabad-28_Nov_2026-C4A3FF?style=for-the-badge)](https://build-for-rbi-talk.vercel.app)
-[![RBI FREE-AI](https://img.shields.io/badge/RBI_FREE--AI-17%2F17_RE_Controls-00E8AF?style=for-the-badge)](#2-the-9--17-split-scoping-rbi-free-ai-correctly)
-[![EU AI Act](https://img.shields.io/badge/EU_AI_Act-7_Controls_Inherited-C4A3FF?style=for-the-badge)](#6-regulatory-convergence-rbi-free-ai--eu-ai-act)
-[![MRM Draft](https://img.shields.io/badge/RBI_MRM_Draft-4_Built_%7C_2_Gaps-FFB78E?style=for-the-badge)](#7-the-binding-instrument-rbi-draft-model-risk-management-guidance)
+[![Live Deck](https://img.shields.io/badge/Live_Web_Deck-build--for--rbi--talk.vercel.app-4285F4?style=for-the-badge&logo=vercel&logoColor=FFFFFF)](https://build-for-rbi-talk.vercel.app)
+[![Verify CI](https://img.shields.io/github/actions/workflow/status/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act/verify.yml?branch=main&style=for-the-badge&label=CI_Verified&color=34A853)](https://github.com/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act/actions/workflows/verify.yml)
+[![Event](https://img.shields.io/badge/FDExHyderabad-28_Nov_2026-1A73E8?style=for-the-badge)](https://build-for-rbi-talk.vercel.app)
+[![RBI FREE-AI](https://img.shields.io/badge/RBI_FREE--AI-17%2F17_RE_Controls-34A853?style=for-the-badge)](#2-the-9--17-split-scoping-rbi-free-ai-correctly)
+[![EU AI Act](https://img.shields.io/badge/EU_AI_Act-7_Controls_Inherited-F9AB00?style=for-the-badge&logoColor=202124)](#6-regulatory-convergence-rbi-free-ai--eu-ai-act)
+[![MRM Draft](https://img.shields.io/badge/RBI_MRM_Draft-4_Built_%7C_2_Gaps-EA4335?style=for-the-badge)](#7-the-binding-instrument-rbi-draft-model-risk-management-guidance)
 
 > **What RBI FREE-AI asks of your codebase — and how much of the EU AI Act comes with it.**  
 > Presented by **Pratik Dhanave** (AI Architect, ClearRoute) at **FDExHyderabad · 28 November 2026**.
@@ -73,6 +73,19 @@ RBI published the **FREE-AI** (*Framework for Responsible and Ethical Enablement
 Before quoting or scoping a regulated AI engagement, separate what the regulator owns from what the Regulated Entity must build:
 
 ```mermaid
+%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif",
+    "fontSize": "14px",
+    "primaryColor": "#E8F0FE",
+    "primaryTextColor": "#202124",
+    "primaryBorderColor": "#4285F4",
+    "lineColor": "#5F6368",
+    "secondaryColor": "#E6F4EA",
+    "tertiaryColor": "#FEF7E0"
+  }
+}}%%
 flowchart LR
     FREEAI["RBI FREE-AI Framework<br/>7 Sutras · 6 Pillars · 26 Recommendations"]
 
@@ -87,9 +100,15 @@ flowchart LR
     RE --> E2["Pre-Dispatch Policy Gate & Live Registry"]
     RE --> E3["Hash-Chained Audit, Red-Teaming & Disclosure"]
 
-    style FREEAI fill:#1A2133,stroke:#FFFFFF,color:#FFFFFF
-    style REG fill:#2B2342,stroke:#C4A3FF,color:#C4A3FF
-    style RE fill:#0C3A34,stroke:#00E8AF,color:#00E8AF
+    style FREEAI fill:#4285F4,stroke:#1A73E8,stroke-width:2px,color:#FFFFFF
+    style REG fill:#FEF7E0,stroke:#F9AB00,stroke-width:2px,color:#202124
+    style RE fill:#E6F4EA,stroke:#34A853,stroke-width:2px,color:#137333
+    style R1 fill:#F8F9FA,stroke:#DADCE0,color:#202124
+    style R2 fill:#F8F9FA,stroke:#DADCE0,color:#202124
+    style R3 fill:#F8F9FA,stroke:#DADCE0,color:#202124
+    style E1 fill:#E8F0FE,stroke:#4285F4,color:#174EA6
+    style E2 fill:#E8F0FE,stroke:#4285F4,color:#174EA6
+    style E3 fill:#E8F0FE,stroke:#4285F4,color:#174EA6
 ```
 
 > Quote for all 26 recommendations and you have priced the regulator's own roadmap. **17** is the actual engineering scope of a Regulated Entity engagement.
@@ -101,6 +120,19 @@ flowchart LR
 Instead of scattering compliance checks across 62 individual agents, **every message traverses one Composite Policy Gate before dispatch**. Ten policies run deterministically before any agent ever sees the payload.
 
 ```mermaid
+%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif",
+    "fontSize": "14px",
+    "primaryColor": "#E8F0FE",
+    "primaryTextColor": "#202124",
+    "primaryBorderColor": "#4285F4",
+    "lineColor": "#5F6368",
+    "clusterBkg": "#F8F9FA",
+    "clusterBorder": "#DADCE0"
+  }
+}}%%
 flowchart LR
     subgraph IN["Incoming Messages"]
         M1["1. ordinary question"]
@@ -133,11 +165,16 @@ flowchart LR
     GATE -->|"DENY"| D3
     GATE -->|"DENY"| D4
 
-    style GATE fill:#0C3A34,stroke:#00E8AF,stroke-width:2px,color:#00E8AF
-    style D2 fill:#3D1C24,stroke:#FF6B6B,color:#FFB78E
-    style D3 fill:#3D1C24,stroke:#FF6B6B,color:#FFB78E
-    style D4 fill:#3D1C24,stroke:#FF6B6B,color:#FFB78E
-    style A1 fill:#2B2342,stroke:#C4A3FF,color:#FFFFFF
+    style M1 fill:#E6F4EA,stroke:#34A853,color:#137333
+    style M2 fill:#FCE8E6,stroke:#EA4335,color:#A50E0E
+    style M3 fill:#FCE8E6,stroke:#EA4335,color:#A50E0E
+    style M4 fill:#FCE8E6,stroke:#EA4335,color:#A50E0E
+    style M5 fill:#E6F4EA,stroke:#34A853,color:#137333
+    style GATE fill:#4285F4,stroke:#1A73E8,stroke-width:2px,color:#FFFFFF
+    style D2 fill:#FCE8E6,stroke:#EA4335,stroke-width:1.5px,color:#A50E0E
+    style D3 fill:#FCE8E6,stroke:#EA4335,stroke-width:1.5px,color:#A50E0E
+    style D4 fill:#FCE8E6,stroke:#EA4335,stroke-width:1.5px,color:#A50E0E
+    style A1 fill:#E6F4EA,stroke:#34A853,stroke-width:2px,color:#137333
 ```
 
 **One place to audit. One place to change.** When the next regulatory clause lands, it becomes a policy config change — not a 62-agent rewrite.
@@ -149,6 +186,28 @@ flowchart LR
 ### 4.1 Pre-Dispatch Composite Policy Enforcement
 
 ```mermaid
+%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif",
+    "actorFontFamily": "Google Sans, Roboto, sans-serif",
+    "noteFontFamily": "Google Sans, Roboto, sans-serif",
+    "messageFontFamily": "Roboto Mono, ui-monospace, monospace",
+    "messageFontSize": "13px",
+    "actorBkg": "#E8F0FE",
+    "actorBorder": "#4285F4",
+    "actorTextColor": "#174EA6",
+    "actorLineColor": "#DADCE0",
+    "signalColor": "#5F6368",
+    "signalTextColor": "#202124",
+    "noteBkgColor": "#FEF7E0",
+    "noteBorderColor": "#F9AB00",
+    "noteTextColor": "#202124",
+    "activationBkgColor": "#E6F4EA",
+    "activationBorderColor": "#34A853",
+    "sequenceNumberColor": "#FFFFFF"
+  }
+}}%%
 sequenceDiagram
     autonumber
     actor Caller as Client / Upstream Service
@@ -158,6 +217,7 @@ sequenceDiagram
     participant Audit as SHA-256 Audit Log
     participant Agent as Target Agent (1 of 62)
 
+    rect rgb(230, 244, 234)
     Note over Caller,Agent: Case A — Compliant Request (Allowed)
     Caller->>Bus: send("ordinary question", actor="user-1", region="in")
     Bus->>Gate: Evaluate(msg)
@@ -167,14 +227,18 @@ sequenceDiagram
     Gate-->>Bus: ALLOW
     Bus->>Agent: Dispatch(msg)
     Agent-->>Caller: Response + first-event AI disclosure
+    end
 
+    rect rgb(252, 232, 230)
     Note over Caller,Agent: Case B — Cross-Border PII Violation (Blocked Pre-Dispatch)
     Caller->>Bus: send("PAN -> US model", pii=true, region="us")
     Bus->>Gate: Evaluate(msg)
     Gate->>Audit: Append(DENY, policy="residency", reason="pii bound for region us")
     Gate-->>Bus: DENY [residency]
     Bus-->>Caller: 403 Refused (agent never invoked)
+    end
 
+    rect rgb(254, 247, 224)
     Note over Caller,Agent: Case C — Consent Revoked Mid-Flight (Blocked Pre-Dispatch)
     Caller->>Bus: send("PII lookup", actor="user-1", pii=true)
     Bus->>Gate: Evaluate(msg)
@@ -183,6 +247,7 @@ sequenceDiagram
     Gate->>Audit: Append(DENY, policy="consent", reason="no live consent")
     Gate-->>Bus: DENY [consent]
     Bus-->>Caller: 403 Refused (provable refusal in audit log)
+    end
 ```
 
 ---
@@ -192,6 +257,25 @@ sequenceDiagram
 An approval describes a system **as it was on the day it was signed**. When `var_calculator` is refactored from `medium` to `high` risk, nobody rejected or withdrew it — the approval register simply went stale. The gate catches that drift at dispatch time:
 
 ```mermaid
+%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif",
+    "actorFontFamily": "Google Sans, Roboto, sans-serif",
+    "noteFontFamily": "Google Sans, Roboto, sans-serif",
+    "messageFontFamily": "Roboto Mono, ui-monospace, monospace",
+    "messageFontSize": "13px",
+    "actorBkg": "#E8F0FE",
+    "actorBorder": "#4285F4",
+    "actorTextColor": "#174EA6",
+    "actorLineColor": "#DADCE0",
+    "signalColor": "#5F6368",
+    "signalTextColor": "#202124",
+    "noteBkgColor": "#FEF7E0",
+    "noteBorderColor": "#F9AB00",
+    "noteTextColor": "#202124"
+  }
+}}%%
 sequenceDiagram
     autonumber
     participant CRO as CRO / Approval Register
@@ -203,13 +287,15 @@ sequenceDiagram
     CRO->>CRO: Sign off var_calculator (status="approved", risk="medium")
     Dev->>Agent: Refactor expands autonomy -> declares risk="high"
 
-    Note over Agent,Gate: Dispatch Request Arrives
+    rect rgb(252, 232, 230)
+    Note over Agent,Gate: Dispatch Request Arrives — Drift Caught Pre-Dispatch
     Agent->>Gate: RequestDispatch(agent_id="var_calculator", declares_now="high")
     Gate->>CRO: Lookup("var_calculator")
     CRO-->>Gate: {status: "approved", risk: "medium"}
-    Gate->>Gate: Compare rec.RiskClass ("medium") != declares_now ("high")
+    Gate->>Gate: rec.RiskClass ("medium") != declares_now ("high")
     Gate->>Audit: Append(STOP, "var_calculator", "ErrRiskChanged")
     Gate-->>Agent: STOP — ErrRiskChanged (approved as medium, now declares high)
+    end
 ```
 
 ---
@@ -219,6 +305,25 @@ sequenceDiagram
 A control that cannot catch its own operator is not a control. Each audit entry binds `prev_hash` into its SHA-256 digest, and the signed export manifest **always reports whether verification held — including when it did not**.
 
 ```mermaid
+%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif",
+    "actorFontFamily": "Google Sans, Roboto, sans-serif",
+    "noteFontFamily": "Google Sans, Roboto, sans-serif",
+    "messageFontFamily": "Roboto Mono, ui-monospace, monospace",
+    "messageFontSize": "13px",
+    "actorBkg": "#E8F0FE",
+    "actorBorder": "#4285F4",
+    "actorTextColor": "#174EA6",
+    "actorLineColor": "#DADCE0",
+    "signalColor": "#5F6368",
+    "signalTextColor": "#202124",
+    "noteBkgColor": "#FCE8E6",
+    "noteBorderColor": "#EA4335",
+    "noteTextColor": "#A50E0E"
+  }
+}}%%
 sequenceDiagram
     autonumber
     participant System as Policy Gate
@@ -226,19 +331,21 @@ sequenceDiagram
     participant Operator as Privileged Operator (Tamper)
     participant Verifier as Export Verifier / Auditor
 
+    rect rgb(230, 244, 234)
     System->>Log: append(seq=1, prev="genesis", action="consent.grant") -> h1
     System->>Log: append(seq=2, prev=h1, action="portfolio.read", actor="advisor-7") -> h2
     System->>Log: append(seq=3, prev=h2, action="refund.issue") -> h3
-
     Verifier->>Log: verify(log)
     Log-->>Verifier: OK (all row_hash and prev_hash links match)
+    end
 
+    rect rgb(252, 232, 230)
     Note over Operator,Log: Quiet History Edit Attempt
     Operator->>Log: UPDATE seq=2 SET actor="advisor-99"
-
     Verifier->>Log: verify(log) & export_manifest()
-    Log-->>Verifier: BROKEN at seq 2 (recomputed row_hash != stored h2; h3 link severed)
-    Verifier-->>Verifier: Emit manifest {count: 3, chain_verified: false, sha256: "7f3c1a9d..."}
+    Log-->>Verifier: BROKEN at seq 2 (row_hash != stored h2; h3 link severed)
+    Verifier-->>Verifier: manifest {count: 3, chain_verified: false, sha256: "9f3c4dc6..."}
+    end
 ```
 
 ---
@@ -507,6 +614,19 @@ policies:
 The EU AI Act reaches you **the moment your output is used in Europe** — regardless of where the system was engineered. Regulators converge because there are only so many ways to make an automated system accountable.
 
 ```mermaid
+%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif",
+    "fontSize": "14px",
+    "primaryColor": "#E8F0FE",
+    "primaryTextColor": "#202124",
+    "primaryBorderColor": "#4285F4",
+    "lineColor": "#5F6368",
+    "clusterBkg": "#F8F9FA",
+    "clusterBorder": "#DADCE0"
+  }
+}}%%
 flowchart LR
     subgraph RBI["RBI FREE-AI"]
         R22["Rec 22"]
@@ -542,18 +662,26 @@ flowchart LR
     R20 --> C5 --> E15
     R14 --> C6 --> E17
 
-    style R22 fill:#0C3A34,stroke:#00E8AF,color:#00E8AF
-    style R16 fill:#0C3A34,stroke:#00E8AF,color:#00E8AF
-    style R23 fill:#0C3A34,stroke:#00E8AF,color:#00E8AF
-    style R18 fill:#0C3A34,stroke:#00E8AF,color:#00E8AF
-    style R20 fill:#0C3A34,stroke:#00E8AF,color:#00E8AF
-    style R14 fill:#0C3A34,stroke:#00E8AF,color:#00E8AF
-    style E12 fill:#2B2342,stroke:#C4A3FF,color:#C4A3FF
-    style E9 fill:#2B2342,stroke:#C4A3FF,color:#C4A3FF
-    style E4 fill:#2B2342,stroke:#C4A3FF,color:#C4A3FF
-    style E50 fill:#3D2722,stroke:#FFB78E,color:#FFB78E
-    style E15 fill:#2B2342,stroke:#C4A3FF,color:#C4A3FF
-    style E17 fill:#2B2342,stroke:#C4A3FF,color:#C4A3FF
+    style R22 fill:#E8F0FE,stroke:#4285F4,stroke-width:1.5px,color:#174EA6
+    style R16 fill:#E8F0FE,stroke:#4285F4,stroke-width:1.5px,color:#174EA6
+    style R23 fill:#E8F0FE,stroke:#4285F4,stroke-width:1.5px,color:#174EA6
+    style R18 fill:#E8F0FE,stroke:#4285F4,stroke-width:1.5px,color:#174EA6
+    style R20 fill:#E8F0FE,stroke:#4285F4,stroke-width:1.5px,color:#174EA6
+    style R14 fill:#E8F0FE,stroke:#4285F4,stroke-width:1.5px,color:#174EA6
+
+    style C1 fill:#E6F4EA,stroke:#34A853,stroke-width:1.5px,color:#137333
+    style C2 fill:#E6F4EA,stroke:#34A853,stroke-width:1.5px,color:#137333
+    style C3 fill:#E6F4EA,stroke:#34A853,stroke-width:1.5px,color:#137333
+    style C4 fill:#E6F4EA,stroke:#34A853,stroke-width:1.5px,color:#137333
+    style C5 fill:#E6F4EA,stroke:#34A853,stroke-width:1.5px,color:#137333
+    style C6 fill:#E6F4EA,stroke:#34A853,stroke-width:1.5px,color:#137333
+
+    style E12 fill:#FCE8E6,stroke:#EA4335,stroke-width:1.5px,color:#A50E0E
+    style E9 fill:#FCE8E6,stroke:#EA4335,stroke-width:1.5px,color:#A50E0E
+    style E4 fill:#FCE8E6,stroke:#EA4335,stroke-width:1.5px,color:#A50E0E
+    style E50 fill:#FEF7E0,stroke:#F9AB00,stroke-width:2px,color:#B06000
+    style E15 fill:#FCE8E6,stroke:#EA4335,stroke-width:1.5px,color:#A50E0E
+    style E17 fill:#FCE8E6,stroke:#EA4335,stroke-width:1.5px,color:#A50E0E
 ```
 
 ### Reusable Cross-Walk (One Implementation, Two Evidence Packs)

@@ -27,18 +27,41 @@ In a 62-agent system behind a Composite Policy Gate:
 ## 3. Proposed Architecture Direction (Draft for Discussion)
 
 ```mermaid
+%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif",
+    "actorFontFamily": "Google Sans, Roboto, sans-serif",
+    "noteFontFamily": "Google Sans, Roboto, sans-serif",
+    "messageFontFamily": "Roboto Mono, ui-monospace, monospace",
+    "messageFontSize": "13px",
+    "actorBkg": "#E8F0FE",
+    "actorBorder": "#4285F4",
+    "actorTextColor": "#174EA6",
+    "actorLineColor": "#DADCE0",
+    "signalColor": "#5F6368",
+    "signalTextColor": "#202124",
+    "noteBkgColor": "#FCE8E6",
+    "noteBorderColor": "#EA4335",
+    "noteTextColor": "#A50E0E"
+  }
+}}%%
 sequenceDiagram
+    autonumber
     actor Op as Authorized Operator
     participant KS as Kill-Switch Control Plane
     participant Gate as Composite Policy Gate
     participant Bus as Active Agent Contexts
     participant Audit as SHA-256 Audit Log
 
+    rect rgb(252, 232, 230)
+    Note over Op,Audit: Emergency Operator-Triggered Hard Stop
     Op->>KS: TriggerStop(scope="agent:var_calculator", reason="drift incident")
     KS->>Audit: Append(KILL_SWITCH_ON, operator, scope, seq=N)
     KS-->>Gate: Broadcast Stop Generation (fail-closed)
     KS-->>Bus: Cancel active context.Context tokens for scope
     Gate->>Gate: Reject all new dispatches matching scope (503 Killed)
+    end
 ```
 
 ## 4. Open Questions — How Have You Solved This?
