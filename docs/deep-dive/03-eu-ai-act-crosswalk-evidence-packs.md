@@ -1,6 +1,6 @@
 # Deep Dive 03: Building Dual Evidence Packs (RBI FREE-AI + EU AI Act) From One Control Set
 
-> **Companion to [Slide 14](https://build-for-rbi-talk.vercel.app/#14), [Slide 15](https://build-for-rbi-talk.vercel.app/#15) & [Slide 16](https://build-for-rbi-talk.vercel.app/#16)**
+> **Companion to [Slide 15](https://build-for-rbi-talk.vercel.app/#15), [Slide 16](https://build-for-rbi-talk.vercel.app/#16) & [Slide 17](https://build-for-rbi-talk.vercel.app/#17)**
 
 ---
 

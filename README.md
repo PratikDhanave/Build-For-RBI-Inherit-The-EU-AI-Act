@@ -13,11 +13,11 @@
 
 ### Deck Preview ([Open Interactive Web Deck →](https://build-for-rbi-talk.vercel.app))
 
-| Cover (Slide 01) | Composite Policy Gate (Slide 06) |
+| Cover (Slide 01) | Composite Policy Gate (Slide 07) |
 | :---: | :---: |
-| [![Cover](docs/screenshots/01-cover.png)](https://build-for-rbi-talk.vercel.app/#1) | [![Composite Policy Gate](docs/screenshots/06-policy-gate.png)](https://build-for-rbi-talk.vercel.app/#6) |
-| **Tamper-Evident Hash Chain (Slide 12)** | **RBI ↔ EU AI Act Cross-Walk (Slide 16)** |
-| [![Hash Chain](docs/screenshots/12-hash-chain.png)](https://build-for-rbi-talk.vercel.app/#12) | [![Cross-Walk](docs/screenshots/16-crosswalk.png)](https://build-for-rbi-talk.vercel.app/#16) |
+| [![Cover](docs/screenshots/01-cover.png)](https://build-for-rbi-talk.vercel.app/#1) | [![Composite Policy Gate](docs/screenshots/06-policy-gate.png)](https://build-for-rbi-talk.vercel.app/#7) |
+| **Tamper-Evident Hash Chain (Slide 13)** | **RBI ↔ EU AI Act Cross-Walk (Slide 17)** |
+| [![Hash Chain](docs/screenshots/12-hash-chain.png)](https://build-for-rbi-talk.vercel.app/#13) | [![Cross-Walk](docs/screenshots/16-crosswalk.png)](https://build-for-rbi-talk.vercel.app/#17) |
 
 **Downloads & Playbooks:** [`build-for-rbi-ppt.pptx`](./build-for-rbi-ppt.pptx) · [`build-for-rbi-handout.pdf`](./build-for-rbi-handout.pdf) · [**Visual Diagram Atlas (25 Diagrams)**](./docs/DIAGRAMS.md) · [**Official RBI FREE-AI Report (PDF)**](https://rbidocs.rbi.org.in/rdocs/PublicationReport/Pdfs/FREEAIR130820250A24FF2D4578453F824C72ED9F5D5851.PDF) · [`17-Rec Traceability Matrix`](./docs/RBI-FREE-AI-17-MATRIX.md) · [`5-Min Vendor Checklist`](./docs/VENDOR-CHECKLIST.md) · [`SOW Deployer vs. Provider Guide`](./docs/SOW-DEPLOYER-VS-PROVIDER.md) · [`rbi-eu-ai-act.json`](./crosswalk/rbi-eu-ai-act.json) · [`rbi-eu-ai-act.csv`](./crosswalk/rbi-eu-ai-act.csv)
 
@@ -308,7 +308,7 @@ cd Build-For-RBI-Inherit-The-EU-AI-Act
 make demo   # runs code/scripts/offline_verify.sh (9 Go pkgs + cmd/demo + 4 Python labs + cmd/evidencepack)
 make test   # runs all Go/Python assertions + validates JSON/CSV cross-walk & red-team corpus
 
-# Full Go implementation benchmark referenced in Slide 07:
+# Full Go implementation benchmark referenced in Slide 08:
 git clone <genie-repo> && cd genie
 go test ./...        # -> 127 packages ok
 go run ./cmd/genie   # -> full pipeline, sample CSV, ~30s
@@ -385,7 +385,7 @@ if rec.RiskClass != risk {
 
 ### 5.4 Lab 01 — Five Agents, One Bad Approval (`approval.py`)
 
-Interactive in **Slide 10** of [https://build-for-rbi-talk.vercel.app/#10](https://build-for-rbi-talk.vercel.app/#10) (press **`R`** to run live in browser via Pyodide) or run locally via `python3 code/python/approval.py`:
+Interactive in **Slide 11** of [https://build-for-rbi-talk.vercel.app/#11](https://build-for-rbi-talk.vercel.app/#11) (press **`R`** to run live in browser via Pyodide) or run locally via `python3 code/python/approval.py`:
 
 **Expected Output:**
 
@@ -459,7 +459,7 @@ print("var_calculator is the one I would have missed.")
 
 ### 5.5 Lab 02 — Rewrite One Row, Watch It Fail (`audit.py`)
 
-Interactive in **Slide 13** of [https://build-for-rbi-talk.vercel.app/#13](https://build-for-rbi-talk.vercel.app/#13) (press **`R`** to run live in browser via Pyodide) or run locally via `python3 code/python/audit.py`:
+Interactive in **Slide 14** of [https://build-for-rbi-talk.vercel.app/#14](https://build-for-rbi-talk.vercel.app/#14) (press **`R`** to run live in browser via Pyodide) or run locally via `python3 code/python/audit.py`:
 
 **Expected Output:**
 
@@ -725,10 +725,10 @@ Under the EU AI Act, you can accidentally move your customer from **deployer** t
 
 ```text
 .
-├── index.html                           # 22-slide ClearRoute-styled interactive web deck (+ 3 Q&A backup slides)
+├── index.html                           # 23-slide ClearRoute-styled interactive web deck (+ 3 Q&A backup slides)
 ├── assets/                              # 9 lightweight brand & QR assets (~260 KB total)
-├── build-for-rbi-ppt.pptx               # ClearRoute 2026 PowerPoint deck (22 talk + 3 Q&A backup slides, 20" × 11.25")
-├── build-for-rbi-handout.pdf            # Print-ready 25-slide PDF handout (22 talk + 3 Q&A backup slides)
+├── build-for-rbi-ppt.pptx               # ClearRoute 2026 PowerPoint deck (23 talk + 3 Q&A backup slides, 20" × 11.25")
+├── build-for-rbi-handout.pdf            # Print-ready 26-slide PDF handout (23 talk + 3 Q&A backup slides)
 ├── code/                                # All governance modules & snippets as runnable, tested code
 │   ├── go.mod                           # Zero-dependency Go module
 │   ├── cmd/demo/main.go                 # One-command offline CLI pipeline (`go run ./cmd/demo`)
@@ -779,30 +779,30 @@ make serve   # runs python3 -m http.server 8000
 | Key | Action |
 | --- | --- |
 | `←` / `→` / `Space` | Navigate slides |
-| `O` | Toggle 22-slide overview grid |
+| `O` | Toggle slide overview grid |
 | `S` | Toggle speaker notes drawer |
 | `R` | Run live Pyodide Python lab or replay active SVG diagram |
 | `A` | Toggle step-by-step build animations |
 | `F` | Toggle fullscreen |
 | `T` | Toggle ClearRoute dark / light theme |
 
-### Full Slide Map (22 Talk Slides + 3 Q&A Backup Slides)
+### Full Slide Map (23 Talk Slides + 3 Q&A Backup Slides)
 
 | # | Slide | Theme | # | Slide | Theme |
 | :-: | --- | --- | :-: | --- | --- |
-| 01 | Build for RBI, inherit the EU AI Act | Hero Mint | 12 | Edit One Row, Every Link Breaks *(SVG)* | Deep Slate |
-| 02 | The Score, Up Front (`17 / 7 / 2`) | Mint | 13 | Lab 02: `audit.py` *(Runnable + Ed25519)* | Deep Slate |
-| 03 | Open Banking: ADGM, DIFC, SAMA | Hero Mint | 14 | The EU AI Act Reaches You | Lavender |
-| 04 | The Map: RBI FREE-AI | Mint | 15 | Two Regulators, One Control Set *(SVG)* | Deep Slate |
-| 05 | The 9 / 17 Split | Mint | 16 | Cross-Walk: 7 Controls + Omnibus Note | Lavender |
-| 06 | One Gate, Every Message *(SVG)* | Deep Slate | 17 | RBI Draft MRM Guidance (24 Jun 2026) | Peach |
-| 07 | Clone It, Run It Offline (`genie` + `make demo`) | Mint | 18 | Scored Against It, Honestly (`4 / 2`) | Peach |
-| 08 | Finding 1: Governance Goes Stale | Peach | 19 | Two Open Engineering Problems | Peach |
-| 09 | What Drift Looks Like *(SVG)* | Deep Slate | 20 | Deployer → Provider (SOW Scoping) | Lavender |
-| 10 | Lab 01: `approval.py` *(Runnable)* | Deep Slate | 21 | Take These Four Things + Name Gaps | Mint |
-| 11 | Finding 2: Manifesto *(Diamond)* | Mint | 22 | Thank You, QR Codes & Companion Repo | Hero Mint |
-| Q&A 01 | Backup: AI Kill Switch — Hard Stop vs. Dimmer Switch | Peach | Q&A 02 | Backup: One Bus Across Five Regimes (Nov 2026) | Mint |
-| Q&A 03 | Backup: Composite Gate vs. OWASP ASI Top 10 | Lavender | — | — | — |
+| 01 | Build for RBI, inherit the EU AI Act | Hero Mint | 13 | Edit One Row, Every Link Breaks *(SVG)* | Deep Slate |
+| 02 | Huge Shoutout (FDExHyderabad Operations Team) | Mint | 14 | Lab 02: `audit.py` *(Runnable + Ed25519)* | Deep Slate |
+| 03 | The Score, Up Front (`17 / 7 / 2`) | Mint | 15 | The EU AI Act Reaches You | Lavender |
+| 04 | Open Banking: ADGM, DIFC, SAMA | Hero Mint | 16 | Two Regulators, One Control Set *(SVG)* | Deep Slate |
+| 05 | The Map: RBI FREE-AI | Mint | 17 | Cross-Walk: 7 Controls + Omnibus Note | Lavender |
+| 06 | The 9 / 17 Split | Mint | 18 | RBI Draft MRM Guidance (24 Jun 2026) | Peach |
+| 07 | One Gate, Every Message *(SVG)* | Deep Slate | 19 | Scored Against It, Honestly (`4 / 2`) | Peach |
+| 08 | Clone It, Run It Offline (`genie` + `make demo`) | Mint | 20 | Two Open Engineering Problems | Peach |
+| 09 | Finding 1: Governance Goes Stale | Peach | 21 | Deployer → Provider (SOW Scoping) | Lavender |
+| 10 | What Drift Looks Like *(SVG)* | Deep Slate | 22 | Take These Four Things + Name Gaps | Mint |
+| 11 | Lab 01: `approval.py` *(Runnable)* | Deep Slate | 23 | Thank You, QR Codes & Companion Repo | Hero Mint |
+| 12 | Finding 2: Manifesto *(Diamond)* | Mint | Q&A 01 | Backup: AI Kill Switch — Hard Stop vs. Dimmer Switch | Peach |
+| Q&A 02 | Backup: One Bus Across Five Regimes (Nov 2026) | Mint | Q&A 03 | Backup: Composite Gate vs. OWASP ASI Top 10 | Lavender |
 
 ---
 
