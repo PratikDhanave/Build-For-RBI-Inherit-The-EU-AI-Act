@@ -19,7 +19,7 @@
 | **Tamper-Evident Hash Chain (Slide 12)** | **RBI ↔ EU AI Act Cross-Walk (Slide 16)** |
 | [![Hash Chain](docs/screenshots/12-hash-chain.png)](https://build-for-rbi-talk.vercel.app/#12) | [![Cross-Walk](docs/screenshots/16-crosswalk.png)](https://build-for-rbi-talk.vercel.app/#16) |
 
-**Downloads & Playbooks:** [`build-for-rbi-ppt.pptx`](./build-for-rbi-ppt.pptx) · [`build-for-rbi-handout.pdf`](./build-for-rbi-handout.pdf) · [**Official RBI FREE-AI Report (PDF)**](https://rbidocs.rbi.org.in/rdocs/PublicationReport/Pdfs/FREEAIR130820250A24FF2D4578453F824C72ED9F5D5851.PDF) · [`17-Rec Traceability Matrix`](./docs/RBI-FREE-AI-17-MATRIX.md) · [`5-Min Vendor Checklist`](./docs/VENDOR-CHECKLIST.md) · [`SOW Deployer vs. Provider Guide`](./docs/SOW-DEPLOYER-VS-PROVIDER.md) · [`rbi-eu-ai-act.json`](./crosswalk/rbi-eu-ai-act.json) · [`rbi-eu-ai-act.csv`](./crosswalk/rbi-eu-ai-act.csv)
+**Downloads & Playbooks:** [`build-for-rbi-ppt.pptx`](./build-for-rbi-ppt.pptx) · [`build-for-rbi-handout.pdf`](./build-for-rbi-handout.pdf) · [**Visual Diagram Atlas (25 Diagrams)**](./docs/DIAGRAMS.md) · [**Official RBI FREE-AI Report (PDF)**](https://rbidocs.rbi.org.in/rdocs/PublicationReport/Pdfs/FREEAIR130820250A24FF2D4578453F824C72ED9F5D5851.PDF) · [`17-Rec Traceability Matrix`](./docs/RBI-FREE-AI-17-MATRIX.md) · [`5-Min Vendor Checklist`](./docs/VENDOR-CHECKLIST.md) · [`SOW Deployer vs. Provider Guide`](./docs/SOW-DEPLOYER-VS-PROVIDER.md) · [`rbi-eu-ai-act.json`](./crosswalk/rbi-eu-ai-act.json) · [`rbi-eu-ai-act.csv`](./crosswalk/rbi-eu-ai-act.csv)
 
 ---
 
@@ -73,6 +73,7 @@ The slide deck at [build-for-rbi-talk.vercel.app](https://build-for-rbi-talk.ver
 
 | Companion Guide | What It Covers Beyond the Slides |
 | --- | --- |
+| **[Visual Architecture Atlas (25 Diagrams)](./docs/DIAGRAMS.md)** | 12 dedicated Google Cloud-styled diagrams (System Context, 3-Layer FREE-AI Taxonomy, Approval State Machine, Consent Sequence, ER Data Model, Go Class Diagram, CI Red-Team Gate, Incident Escalation, RFC-002 Options & Evidence Pipeline) |
 | **[01 · Composite Policy Gate Architecture](./docs/deep-dive/01-composite-policy-gate-architecture.md)** | Why agent-level guardrails fail at 62 agents, the ordered 10-policy pre-dispatch pipeline, latency vs. LLM-as-a-judge trade-offs, and Git-governed YAML config |
 | **[02 · All 26 RBI FREE-AI Recommendations](./docs/deep-dive/02-rbi-free-ai-26-breakdown.md)** | Complete 7 Sutras, 6 Pillars, and all 26 recommendations mapped row-by-row into the exact **9 Regulator/SRO** vs. **17 Regulated Entity** split |
 | **[03 · Dual Evidence Packs (RBI + EU AI Act)](./docs/deep-dive/03-eu-ai-act-crosswalk-evidence-packs.md)** | Extraterritorial EU AI Act scope for Indian engineering teams, regulatory timeline, dual evidence-pack directory layout, and article-by-article mapping |
@@ -706,7 +707,8 @@ Under the EU AI Act, you can accidentally move your customer from **deployer** t
 │   ├── annexure-vi-sample.json          # Sample RBI Annexure VI / EU AI Act Art 73 incident report
 │   └── inventory-export.json            # Sample live registry inventory export (Rec 23 / Annex IV)
 ├── docs/
-│   ├── deep-dive/                       # Full companion guides expanding beyond the 20-min talk (01–04)
+│   ├── DIAGRAMS.md                      # Visual Architecture Atlas (12 dedicated diagrams; 25 total across repo)
+│   ├── deep-dive/                       # Full companion guides expanding beyond the 20-min talk (01–06)
 │   ├── RBI-FREE-AI-17-MATRIX.md         # Full 17-recommendation traceability matrix
 │   ├── VENDOR-CHECKLIST.md              # Printable 5-minute AI vendor procurement scorecard
 │   ├── SOW-DEPLOYER-VS-PROVIDER.md      # Deployer vs. Provider SOW scoping guide + diagram
