@@ -9,7 +9,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-5F6368?style=for-the-badge)](./LICENSE)
 
 > **What RBI FREE-AI asks of your codebase — and how much of the EU AI Act comes with it.**  
-> Presented by **Pratik Dhanave** (AI Architect, ClearRoute) at **FDExHyderabad · 28 November 2026**.
+> Presented by **Pratik Dhanave** (Staff Engineer, ClearRoute) at **FDExHyderabad · 28 November 2026**.
 
 ### Deck Preview ([Open Interactive Web Deck →](https://build-for-rbi-talk.vercel.app))
 
@@ -811,7 +811,7 @@ make serve   # runs python3 -m http.server 8000
 | <img src="docs/qr-live-deck.png" width="160" alt="QR Code for Live Deck"> | <img src="docs/qr-repo.png" width="160" alt="QR Code for GitHub Repo"> |
 | [build-for-rbi-talk.vercel.app](https://build-for-rbi-talk.vercel.app) | [Build-For-RBI-Inherit-The-EU-AI-Act](https://github.com/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act) |
 
-- **Pratik Dhanave** — AI Architect, ClearRoute
+- **Pratik Dhanave** — Staff Engineer, ClearRoute
 - **Live Talk Deck:** https://build-for-rbi-talk.vercel.app
 - **Official RBI FREE-AI Report (13 Aug 2025):** [Download PDF](https://rbidocs.rbi.org.in/rdocs/PublicationReport/Pdfs/FREEAIR130820250A24FF2D4578453F824C72ED9F5D5851.PDF)
 - **AI Kill Switch Industry Reference (3 Nov 2026):** [CrowdStrike Introduces AI Kill Switch](https://www.crowdstrike.com/en-us/blog/crowdstrike-introduces-ai-kill-switch/)
