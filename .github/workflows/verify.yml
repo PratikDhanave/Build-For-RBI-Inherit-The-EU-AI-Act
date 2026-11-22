@@ -1,0 +1,57 @@
+name: Verify Labs, Cross-Walk & Web Deck
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run runnable labs & assertions
+        run: |
+          python3 labs/gate_demo.py --test
+          python3 labs/approval.py --test
+          python3 labs/audit.py --test
+
+      - name: Validate machine-readable cross-walk (JSON & CSV)
+        run: make validate-crosswalk
+
+      - name: Validate board policy YAML structure
+        run: |
+          python3 -c '
+          text = open("examples/policy.yaml").read()
+          for required in ["version:", "approved_by:", "residency:", "consent:", "approval_drift:", "audit:"]:
+              assert required in text, f"Missing {required} in examples/policy.yaml"
+          print("[OK] examples/policy.yaml verified.")
+          '
+
+      - name: Validate index.html JS syntax & asset references
+        run: |
+          node -e '
+          const fs = require("fs");
+          const html = fs.readFileSync("index.html", "utf8");
+          const m = html.match(/<script>([\s\S]*?)<\/script>/);
+          if (!m) throw new Error("No script block found");
+          new Function(m[1]);
+          const refs = [...html.matchAll(/src="(assets\/[^"]+)"/g)].map(x => x[1]);
+          for (const r of refs) {
+            if (!fs.existsSync(r)) throw new Error("Missing asset: " + r);
+          }
+          console.log(`[OK] index.html JS syntax valid; ${refs.length} asset refs verified.`);
+          '

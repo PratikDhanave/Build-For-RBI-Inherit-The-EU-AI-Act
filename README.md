@@ -1,6 +1,7 @@
 # Build for RBI, Inherit the EU AI Act
 
 [![Live Deck](https://img.shields.io/badge/Live_Web_Deck-build--for--rbi--talk.vercel.app-00E8AF?style=for-the-badge&logo=vercel&logoColor=181D29)](https://build-for-rbi-talk.vercel.app)
+[![Verify CI](https://img.shields.io/github/actions/workflow/status/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act/verify.yml?branch=main&style=for-the-badge&label=CI_Verified&color=00E8AF)](https://github.com/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act/actions/workflows/verify.yml)
 [![Event](https://img.shields.io/badge/FDExHyderabad-28_Nov_2026-C4A3FF?style=for-the-badge)](https://build-for-rbi-talk.vercel.app)
 [![RBI FREE-AI](https://img.shields.io/badge/RBI_FREE--AI-17%2F17_RE_Controls-00E8AF?style=for-the-badge)](#2-the-9--17-split-scoping-rbi-free-ai-correctly)
 [![EU AI Act](https://img.shields.io/badge/EU_AI_Act-7_Controls_Inherited-C4A3FF?style=for-the-badge)](#6-regulatory-convergence-rbi-free-ai--eu-ai-act)
@@ -8,6 +9,16 @@
 
 > **What RBI FREE-AI asks of your codebase — and how much of the EU AI Act comes with it.**  
 > Presented by **Pratik Dhanave** (AI Architect, ClearRoute) at **FDExHyderabad · 28 November 2026**.
+
+### Deck Preview ([Open Interactive Web Deck →](https://build-for-rbi-talk.vercel.app))
+
+| Cover (Slide 01) | Composite Policy Gate (Slide 06) |
+| :---: | :---: |
+| [![Cover](docs/screenshots/01-cover.png)](https://build-for-rbi-talk.vercel.app/#1) | [![Composite Policy Gate](docs/screenshots/06-policy-gate.png)](https://build-for-rbi-talk.vercel.app/#6) |
+| **Tamper-Evident Hash Chain (Slide 12)** | **RBI ↔ EU AI Act Cross-Walk (Slide 16)** |
+| [![Hash Chain](docs/screenshots/12-hash-chain.png)](https://build-for-rbi-talk.vercel.app/#12) | [![Cross-Walk](docs/screenshots/16-crosswalk.png)](https://build-for-rbi-talk.vercel.app/#16) |
+
+**Downloads:** [`build-for-rbi-ppt.pptx`](./build-for-rbi-ppt.pptx) · [`build-for-rbi-handout.pdf`](./build-for-rbi-handout.pdf) · [`rbi-eu-ai-act.json`](./crosswalk/rbi-eu-ai-act.json) · [`rbi-eu-ai-act.csv`](./crosswalk/rbi-eu-ai-act.csv)
 
 ---
 
@@ -239,11 +250,19 @@ sequenceDiagram
 A control nobody can run is a claim. It is a fair test to put to any AI vendor — and a fairer one to put to yourself:
 
 ```bash
-# No cloud account. No API key. No network.
-git clone <repo> && cd genie
+# Run all standalone labs & cross-walk checks from this repo (zero dependencies, zero network):
+git clone https://github.com/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act.git
+cd Build-For-RBI-Inherit-The-EU-AI-Act
+make demo   # runs labs/gate_demo.py, labs/approval.py, labs/audit.py
+make test   # runs all assertions + validates JSON/CSV cross-walk
+
+# Full Go implementation benchmark referenced in Slide 07:
+git clone <genie-repo> && cd genie
 go test ./...        # -> 127 packages ok
 go run ./cmd/genie   # -> full pipeline, sample CSV, ~30s
 ```
+
+> Standalone files included in this repository: [`labs/gate_demo.py`](./labs/gate_demo.py) · [`labs/approval.py`](./labs/approval.py) · [`labs/audit.py`](./labs/audit.py) · [`examples/policy.yaml`](./examples/policy.yaml).
 
 ---
 
@@ -539,6 +558,8 @@ flowchart LR
 
 ### Reusable Cross-Walk (One Implementation, Two Evidence Packs)
 
+> **Machine-readable exports for Jira, Confluence, or GRC ingestion:** [`crosswalk/rbi-eu-ai-act.json`](./crosswalk/rbi-eu-ai-act.json) · [`crosswalk/rbi-eu-ai-act.csv`](./crosswalk/rbi-eu-ai-act.csv)
+
 | Control Implemented | RBI FREE-AI | EU AI Act |
 | --- | --- | --- |
 | Hash-chained audit log | `Rec 22` | `Article 12` |
@@ -576,13 +597,15 @@ FREE-AI is an advisory committee report. The instrument that will actually bind 
 
 Naming your gaps buys more credibility in an architectural or regulatory review than claiming full coverage ever has:
 
-1. **Gap 01 — Mandatory AI Kill Switch**
+1. **Gap 01 — Mandatory AI Kill Switch** — Read full RFC: [`docs/open-problems/RFC-001-ai-kill-switch.md`](./docs/open-problems/RFC-001-ai-kill-switch.md)
    - We already have circuit breakers, deadlines, budget caps, and deterministic fallbacks.
    - A mandated kill switch requires an **operator-triggered hard stop** with guaranteed propagation across active sessions. Adjacent — not the same thing.
-2. **Gap 02 — Ten-Year Retention vs. Zero-Drift Live Inventory**
+2. **Gap 02 — Ten-Year Retention vs. Zero-Drift Live Inventory** — Read full RFC: [`docs/open-problems/RFC-002-ten-year-retention.md`](./docs/open-problems/RFC-002-ten-year-retention.md)
    - The current inventory reads the **live registry** directly, so it **cannot drift** from what is actually running in production.
    - The draft requires retaining decommissioned models for **10 years**.
    - **Architectural conflict:** *A live inventory cannot drift, and cannot remember.*
+
+> Have a production pattern for either gap? [**Submit an Open Problem Proposal →**](https://github.com/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act/issues/new?template=open-problem-proposal.md)
 
 ---
 
@@ -605,17 +628,29 @@ Under the EU AI Act, you can accidentally move your customer from **deployer** t
 
 ```text
 .
-├── index.html               # 22-slide ClearRoute-styled interactive web deck
-├── assets/                  # 7 lightweight brand assets (234 KB total)
-│   ├── clearroute-logo.png
-│   ├── ribbon-hero.webp
-│   ├── ribbon-right.webp
-│   ├── ribbon-diamond.webp
-│   ├── ribbon-mint.webp
-│   ├── ribbon-lavender.webp
-│   └── ribbon-peach.webp
-├── build-for-rbi-ppt.pptx   # 22-slide ClearRoute 2026 PowerPoint deck (20" × 11.25")
-├── .vercelignore
+├── index.html                           # 22-slide ClearRoute-styled interactive web deck
+├── assets/                              # 7 lightweight brand assets (234 KB total)
+├── build-for-rbi-ppt.pptx               # 22-slide ClearRoute 2026 PowerPoint deck (20" × 11.25")
+├── build-for-rbi-handout.pdf            # Print-ready 22-slide PDF handout
+├── labs/
+│   ├── gate_demo.py                     # Standalone Composite Policy Gate simulation
+│   ├── approval.py                      # Lab 01: Approval drift guard (ErrRiskChanged)
+│   └── audit.py                         # Lab 02: SHA-256 hash chain & tamper manifest
+├── examples/
+│   └── policy.yaml                      # Board-approved declarative AI policy (Rec 14 / Art 17)
+├── crosswalk/
+│   ├── rbi-eu-ai-act.json               # Machine-readable 26-rec + 7-control + 6-MRM dataset
+│   └── rbi-eu-ai-act.csv                # Spreadsheet-ready RBI FREE-AI <-> EU AI Act mapping
+├── docs/
+│   ├── screenshots/                     # Slide preview renders embedded in README
+│   └── open-problems/
+│       ├── RFC-001-ai-kill-switch.md    # Gap 01 architecture RFC
+│       └── RFC-002-ten-year-retention.md# Gap 02 architecture RFC
+├── .github/
+│   ├── workflows/verify.yml             # CI verifying all labs, cross-walk, YAML & index.html
+│   └── ISSUE_TEMPLATE/
+│       └── open-problem-proposal.md     # Community proposal template for RFC-001 / RFC-002
+├── Makefile                             # make demo | make test | make serve
 └── README.md
 ```
 

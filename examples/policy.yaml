@@ -1,0 +1,84 @@
+# Board-Approved Declarative AI Governance Policy
+# Maps to: RBI FREE-AI Rec 14 & EU AI Act Article 17 (Quality Management System)
+# Principle: Enforce one composite policy gate on the bus so the next clause is
+#            configuration rather than a 62-agent rewrite.
+
+version: "2026.11"
+approved_by: "board-risk-committee@bank"
+effective_date: "2026-11-28"
+review_cycle_days: 90
+
+instruments:
+  - name: "RBI FREE-AI Framework"
+    published: "2025-08-13"
+    regulated_entity_scope: [2, 4, 6, 8, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+  - name: "EU AI Act"
+    applicable_articles: ["Art 9", "Art 12", "Art 14", "Art 15", "Art 17", "Art 50", "Art 73", "Annex IV"]
+  - name: "RBI Draft Model Risk Management Guidance"
+    published: "2026-06-24"
+    status: "consultation-closed"
+
+policies:
+  residency:
+    enabled: true
+    enforce_per_message: true
+    pii_allowed_regions:
+      - "in"
+      - "adgm"
+      - "difc"
+      - "sama"
+    deny_regions:
+      - "us"
+    fail_closed: true
+
+  consent:
+    enabled: true
+    ledger_mode: "append-only"
+    fail_in_flight_on_revocation: true
+    record_refusal_reason: true
+
+  explainability:
+    enabled: true
+    require_rationale_for:
+      - "advice"
+      - "credit_decision"
+      - "loan_decision"
+      - "portfolio_rebalance"
+
+  approval_drift:
+    enabled: true
+    high_risk_requires_active_signoff: true
+    block_on_expired_approval: true       # ErrExpired
+    block_on_risk_class_change: true      # ErrRiskChanged (Rec 17)
+    block_on_unreviewed_high_risk: true   # ErrNoApproval
+
+  rbac:
+    enabled: true
+    high_risk_allowed_roles:
+      - "advisor"
+      - "operator"
+
+  disclosure:
+    enabled: true
+    emit_on_first_event: true             # RBI Rec 18/25 & EU AI Act Art 50 (law since 2 Aug 2026)
+
+  audit:
+    enabled: true
+    hash_algorithm: "sha256"              # RBI Rec 22 & EU AI Act Art 12
+    anchor_external_timestamp: true
+    report_broken_chain_in_manifest: true
+    incident_form_template: "rbi-annexure-vi"  # Rec 22 & EU AI Act Art 73
+
+  red_team:
+    enabled: true
+    run_on_every_pr: true                 # RBI Rec 20 & EU AI Act Art 15
+
+  inventory:
+    source: "live-registry"               # RBI Rec 23 & EU AI Act Annex IV
+    # Open Problem (RFC-002): 10-year decommissioned retention pending design
+
+  kill_switch:
+    # Open Problem (RFC-001): operator-triggered hard stop pending design
+    circuit_breakers_enabled: true
+    budget_caps_enabled: true
+    operator_hard_stop_implemented: false

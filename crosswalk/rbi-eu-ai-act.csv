@@ -1,0 +1,8 @@
+id,control,rbi_free_ai,eu_ai_act,evidence_artefact,notes
+ctrl-01,Hash-chained audit log,Rec 22,Article 12,labs/audit.py + signed export manifest,SHA-256 chain anchored to external timestamp; reports broken chain transparently
+ctrl-02,Annexure VI incident form (RBI prescribed AI-incident report),Rec 22,Article 73,Structured incident report generator,Serious incident reporting workflow
+ctrl-03,Risk class checked before dispatch,Rec 16,"Articles 9, 14",labs/approval.py + approval_gate.go,Pre-dispatch enforcement including ErrRiskChanged drift guard
+ctrl-04,Inventory from the live registry,Rec 23,Annex IV,Live agent registry exporter (62 agents),Zero-drift live technical documentation & inventory
+ctrl-05,Red-team corpus on every PR,Rec 20,Article 15,CI automated red-team test suite,"Accuracy, robustness, and cybersecurity regression gate"
+ctrl-06,Disclosure on the first event,"Rec 18, 25",Article 50,Composite gate first-event disclosure,EU AI Act Article 50 binding law since 2 August 2026
+ctrl-07,Board-approved policy YAML,Rec 14,Article 17,examples/policy.yaml,"Versioned, board-approved Quality Management System configuration"

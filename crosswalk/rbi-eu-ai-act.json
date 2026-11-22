@@ -1,0 +1,127 @@
+{
+  "metadata": {
+    "title": "Build for RBI, Inherit the EU AI Act — Regulatory Cross-Walk",
+    "author": "Pratik Dhanave (AI Architect, ClearRoute)",
+    "event": "FDExHyderabad",
+    "date": "2026-11-28",
+    "live_deck": "https://build-for-rbi-talk.vercel.app",
+    "instruments": {
+      "rbi_free_ai": {
+        "name": "RBI FREE-AI Framework",
+        "published": "2025-08-13",
+        "sutras": 7,
+        "pillars": 6,
+        "total_recommendations": 26,
+        "regulator_sro_count": 9,
+        "regulated_entity_count": 17
+      },
+      "eu_ai_act": {
+        "name": "EU Artificial Intelligence Act",
+        "converged_controls": 7,
+        "article_50_effective": "2026-08-02"
+      },
+      "rbi_draft_mrm": {
+        "name": "RBI Draft Model Risk Management Guidance",
+        "published": "2026-06-24",
+        "consultation_closed": "2026-07-24",
+        "status": "final_circular_pending",
+        "built": 4,
+        "open_gaps": 2
+      }
+    }
+  },
+  "rbi_free_ai_recommendations": [
+    {"rec": 1,  "owner": "regulator_sro",    "scope": "Shared AI infrastructure / regulator enablement", "implemented_by_re": false},
+    {"rec": 2,  "owner": "regulated_entity", "scope": "Regulated Entity AI adoption & foundational governance", "implemented_by_re": true},
+    {"rec": 3,  "owner": "regulator_sro",    "scope": "Indigenous financial datasets & public digital infrastructure", "implemented_by_re": false},
+    {"rec": 4,  "owner": "regulated_entity", "scope": "Data governance, lineage & residency controls", "implemented_by_re": true},
+    {"rec": 5,  "owner": "regulator_sro",    "scope": "AI Innovation Sandbox / regulatory experimentation", "implemented_by_re": false},
+    {"rec": 6,  "owner": "regulated_entity", "scope": "Internal testing, validation & sandbox readiness", "implemented_by_re": true},
+    {"rec": 7,  "owner": "regulator_sro",    "scope": "Sector-wide capacity building & AI Centre of Excellence", "implemented_by_re": false},
+    {"rec": 8,  "owner": "regulated_entity", "scope": "Organizational AI literacy, training & operational readiness", "implemented_by_re": true},
+    {"rec": 9,  "owner": "regulator_sro",    "scope": "Inter-regulatory coordination", "implemented_by_re": false},
+    {"rec": 10, "owner": "regulator_sro",    "scope": "Sectoral code of conduct (SRO)", "implemented_by_re": false},
+    {"rec": 11, "owner": "regulator_sro",    "scope": "Supervisory AI toolkit & regulatory oversight", "implemented_by_re": false},
+    {"rec": 12, "owner": "regulator_sro",    "scope": "Sectoral incident intelligence sharing", "implemented_by_re": false},
+    {"rec": 13, "owner": "regulator_sro",    "scope": "Regulatory framework alignment & periodic review", "implemented_by_re": false},
+    {"rec": 14, "owner": "regulated_entity", "scope": "Board-approved AI policy (declarative policy YAML)", "implemented_by_re": true},
+    {"rec": 15, "owner": "regulated_entity", "scope": "Data privacy, residency per message & append-only consent ledger", "implemented_by_re": true},
+    {"rec": 16, "owner": "regulated_entity", "scope": "Risk classification & tiering enforced before dispatch", "implemented_by_re": true},
+    {"rec": 17, "owner": "regulated_entity", "scope": "Governance approval lifecycle & runtime drift guard (ErrRiskChanged)", "implemented_by_re": true},
+    {"rec": 18, "owner": "regulated_entity", "scope": "Consumer transparency & AI disclosure on first event", "implemented_by_re": true},
+    {"rec": 19, "owner": "regulated_entity", "scope": "Explainability & mandatory rationale for advice/decisions", "implemented_by_re": true},
+    {"rec": 20, "owner": "regulated_entity", "scope": "Red-team corpus executed on every PR", "implemented_by_re": true},
+    {"rec": 21, "owner": "regulated_entity", "scope": "Third-party / vendor model accountability & controls", "implemented_by_re": true},
+    {"rec": 22, "owner": "regulated_entity", "scope": "Tamper-evident SHA-256 hash-chained audit log & Annexure VI incident reporting", "implemented_by_re": true},
+    {"rec": 23, "owner": "regulated_entity", "scope": "Full model/agent inventory generated from live registry", "implemented_by_re": true},
+    {"rec": 24, "owner": "regulated_entity", "scope": "Continuous monitoring, guardrails & deterministic fallbacks", "implemented_by_re": true},
+    {"rec": 25, "owner": "regulated_entity", "scope": "Customer grievance redressal & first-event AI disclosure", "implemented_by_re": true},
+    {"rec": 26, "owner": "regulated_entity", "scope": "Auditability, independent assurance & verifiable evidence packs", "implemented_by_re": true}
+  ],
+  "rbi_to_eu_crosswalk": [
+    {
+      "id": "ctrl-01",
+      "control": "Hash-chained audit log",
+      "rbi_free_ai": "Rec 22",
+      "eu_ai_act": "Article 12",
+      "evidence_artefact": "labs/audit.py + signed export manifest",
+      "notes": "SHA-256 chain anchored to external timestamp; reports broken chain transparently"
+    },
+    {
+      "id": "ctrl-02",
+      "control": "Annexure VI incident form (RBI prescribed AI-incident report)",
+      "rbi_free_ai": "Rec 22",
+      "eu_ai_act": "Article 73",
+      "evidence_artefact": "Structured incident report generator",
+      "notes": "Serious incident reporting workflow"
+    },
+    {
+      "id": "ctrl-03",
+      "control": "Risk class checked before dispatch",
+      "rbi_free_ai": "Rec 16",
+      "eu_ai_act": "Articles 9, 14",
+      "evidence_artefact": "labs/approval.py + approval_gate.go",
+      "notes": "Pre-dispatch enforcement including ErrRiskChanged drift guard"
+    },
+    {
+      "id": "ctrl-04",
+      "control": "Inventory from the live registry",
+      "rbi_free_ai": "Rec 23",
+      "eu_ai_act": "Annex IV",
+      "evidence_artefact": "Live agent registry exporter (62 agents)",
+      "notes": "Zero-drift live technical documentation & inventory"
+    },
+    {
+      "id": "ctrl-05",
+      "control": "Red-team corpus on every PR",
+      "rbi_free_ai": "Rec 20",
+      "eu_ai_act": "Article 15",
+      "evidence_artefact": "CI automated red-team test suite",
+      "notes": "Accuracy, robustness, and cybersecurity regression gate"
+    },
+    {
+      "id": "ctrl-06",
+      "control": "Disclosure on the first event",
+      "rbi_free_ai": "Rec 18, 25",
+      "eu_ai_act": "Article 50",
+      "evidence_artefact": "Composite gate first-event disclosure header/payload",
+      "notes": "EU AI Act Article 50 has been binding law since 2 August 2026"
+    },
+    {
+      "id": "ctrl-07",
+      "control": "Board-approved policy YAML",
+      "rbi_free_ai": "Rec 14",
+      "eu_ai_act": "Article 17",
+      "evidence_artefact": "examples/policy.yaml",
+      "notes": "Versioned, board-approved Quality Management System configuration"
+    }
+  ],
+  "rbi_draft_mrm_scorecard": [
+    {"requirement": "Board-approved model risk framework", "status": "built", "rfc": null},
+    {"requirement": "Full model inventory, nothing running outside it", "status": "built", "rfc": null},
+    {"requirement": "Risk tiering by materiality, complexity and autonomy", "status": "built", "rfc": null},
+    {"requirement": "Accountable for a vendor's model, certified or not", "status": "built", "rfc": null},
+    {"requirement": "Mandatory AI kill switch (operator-triggered stop)", "status": "gap", "rfc": "docs/open-problems/RFC-001-ai-kill-switch.md"},
+    {"requirement": "Inventory kept 10 years, including decommissioned models", "status": "gap", "rfc": "docs/open-problems/RFC-002-ten-year-retention.md"}
+  ]
+}

@@ -1,3 +1,10 @@
 *.pptx
+*.pdf
+docs
+labs
+examples
+crosswalk
+Makefile
+.github
 .gstack
 .claude
