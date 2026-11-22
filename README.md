@@ -67,6 +67,23 @@ These constraints came from regulated **Open Banking delivery across ADGM, DIFC,
 
 ---
 
+## Beyond the 20-Minute Talk: Deep-Dive Companion Guides
+
+The slide deck at [build-for-rbi-talk.vercel.app](https://build-for-rbi-talk.vercel.app) is intentionally concise for a **20-minute conference talk**. This repository goes much deeper with full engineering guides, runnable Go/Python controls, and buyer playbooks:
+
+| Companion Guide | What It Covers Beyond the Slides |
+| --- | --- |
+| **[01 · Composite Policy Gate Architecture](./docs/deep-dive/01-composite-policy-gate-architecture.md)** | Why agent-level guardrails fail at 62 agents, the ordered 10-policy pre-dispatch pipeline, latency vs. LLM-as-a-judge trade-offs, and Git-governed YAML config |
+| **[02 · All 26 RBI FREE-AI Recommendations](./docs/deep-dive/02-rbi-free-ai-26-breakdown.md)** | Complete 7 Sutras, 6 Pillars, and all 26 recommendations mapped row-by-row into the exact **9 Regulator/SRO** vs. **17 Regulated Entity** split |
+| **[03 · Dual Evidence Packs (RBI + EU AI Act)](./docs/deep-dive/03-eu-ai-act-crosswalk-evidence-packs.md)** | Extraterritorial EU AI Act scope for Indian engineering teams, regulatory timeline, dual evidence-pack directory layout, and article-by-article mapping |
+| **[04 · Production Hardening, Drift & Audit Anchoring](./docs/deep-dive/04-production-hardening-and-audit-trail.md)** | External RFC 3161 / WORM timestamp anchoring, Ed25519 manifest signing, scaling partitioned hash chains, and CI chaos drills |
+| **[Complete 17-Rec Traceability Matrix](./docs/RBI-FREE-AI-17-MATRIX.md)** | Every Regulated Entity recommendation (`2, 4, 6, 8, 14–26`) linked to runnable code & tests |
+| **[5-Minute AI Vendor Procurement Checklist](./docs/VENDOR-CHECKLIST.md)** | Printable 12-point RFP scorecard (*"A control nobody can run is a claim"*) |
+| **[Deployer vs. Provider SOW Scoping Guide](./docs/SOW-DEPLOYER-VS-PROVIDER.md)** | EU AI Act Art. 25 decision flowchart + 5 concrete contract clauses before signing an SOW |
+| **[Open Problem RFCs (`RFC-001` & `RFC-002`)](./docs/open-problems/)** | Deep dives into the two unclosed gaps: Operator-Triggered Kill Switch & 10-Year Retention vs. Zero-Drift Live Inventory |
+
+---
+
 ## 2. The 9 / 17 Split: Scoping RBI FREE-AI Correctly
 
 RBI published the [**FREE-AI** (*Framework for Responsible and Ethical Enablement of AI*) committee report (Official PDF)](https://rbidocs.rbi.org.in/rdocs/PublicationReport/Pdfs/FREEAIR130820250A24FF2D4578453F824C72ED9F5D5851.PDF) on **13 August 2025**: **7 Sutras · 6 Pillars · 26 Recommendations**.
@@ -686,6 +703,7 @@ Under the EU AI Act, you can accidentally move your customer from **deployer** t
 │   ├── annexure-vi-sample.json          # Sample RBI Annexure VI / EU AI Act Art 73 incident report
 │   └── inventory-export.json            # Sample live registry inventory export (Rec 23 / Annex IV)
 ├── docs/
+│   ├── deep-dive/                       # Full companion guides expanding beyond the 20-min talk (01–04)
 │   ├── RBI-FREE-AI-17-MATRIX.md         # Full 17-recommendation traceability matrix
 │   ├── VENDOR-CHECKLIST.md              # Printable 5-minute AI vendor procurement scorecard
 │   ├── SOW-DEPLOYER-VS-PROVIDER.md      # Deployer vs. Provider SOW scoping guide + diagram
