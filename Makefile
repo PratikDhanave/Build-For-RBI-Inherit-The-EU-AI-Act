@@ -1,16 +1,13 @@
 .PHONY: demo test serve validate-crosswalk
 
 demo:
-	@echo "=== 1. Composite Policy Gate Demo ==="
-	python3 labs/gate_demo.py
-	@echo ""
-	@echo "=== 2. Lab 01: Approval Drift (approval.py) ==="
-	python3 labs/approval.py
-	@echo ""
-	@echo "=== 3. Lab 02: Tamper-Evident Audit Chain (audit.py) ==="
-	python3 labs/audit.py
+	bash code/scripts/offline_verify.sh
 
 test: validate-crosswalk
+	(cd code && go test -v ./...)
+	python3 code/python/gate_demo.py --test
+	python3 code/python/approval.py --test
+	python3 code/python/audit.py --test
 	python3 labs/gate_demo.py --test
 	python3 labs/approval.py --test
 	python3 labs/audit.py --test

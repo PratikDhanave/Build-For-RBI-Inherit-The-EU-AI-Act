@@ -13,6 +13,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -23,7 +28,10 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Run runnable labs & assertions
+      - name: Run Go & Python code verification (offline suite)
+        run: bash code/scripts/offline_verify.sh
+
+      - name: Run standalone lab assertions
         run: |
           python3 labs/gate_demo.py --test
           python3 labs/approval.py --test

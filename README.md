@@ -369,7 +369,7 @@ go test ./...        # -> 127 packages ok
 go run ./cmd/genie   # -> full pipeline, sample CSV, ~30s
 ```
 
-> Standalone files included in this repository: [`labs/gate_demo.py`](./labs/gate_demo.py) · [`labs/approval.py`](./labs/approval.py) · [`labs/audit.py`](./labs/audit.py) · [`examples/policy.yaml`](./examples/policy.yaml).
+> Standalone files included in [`code/`](./code): [`code/gate/composite_gate.go`](./code/gate/composite_gate.go) · [`code/gate/approval_gate.go`](./code/gate/approval_gate.go) · [`code/gate/gate_test.go`](./code/gate/gate_test.go) · [`code/python/gate_demo.py`](./code/python/gate_demo.py) · [`code/python/approval.py`](./code/python/approval.py) · [`code/python/audit.py`](./code/python/audit.py) · [`code/config/policy.yaml`](./code/config/policy.yaml) · [`code/scripts/offline_verify.sh`](./code/scripts/offline_verify.sh).
 
 ---
 
@@ -760,7 +760,21 @@ Under the EU AI Act, you can accidentally move your customer from **deployer** t
 ├── assets/                              # 7 lightweight brand assets (234 KB total)
 ├── build-for-rbi-ppt.pptx               # 22-slide ClearRoute 2026 PowerPoint deck (20" × 11.25")
 ├── build-for-rbi-handout.pdf            # Print-ready 22-slide PDF handout
-├── labs/
+├── code/                                # All README code snippets as runnable, tested files
+│   ├── go.mod                           # Zero-dependency Go module
+│   ├── gate/
+│   │   ├── composite_gate.go            # Pre-dispatch Composite Policy Gate (Go)
+│   │   ├── approval_gate.go             # Finding 1: Runtime drift guard ErrRiskChanged (Go)
+│   │   └── gate_test.go                 # Unit tests for gate & drift detection (`go test ./...`)
+│   ├── python/
+│   │   ├── gate_demo.py                 # Standalone Composite Policy Gate simulation
+│   │   ├── approval.py                  # Lab 01: Approval drift guard (ErrRiskChanged)
+│   │   └── audit.py                     # Lab 02: SHA-256 hash chain & tamper manifest
+│   ├── config/
+│   │   └── policy.yaml                  # Board-approved declarative AI policy (Rec 14 / Art 17)
+│   └── scripts/
+│       └── offline_verify.sh            # One-command offline verification script
+├── labs/                                # Standalone Python lab mirrors
 │   ├── gate_demo.py                     # Standalone Composite Policy Gate simulation
 │   ├── approval.py                      # Lab 01: Approval drift guard (ErrRiskChanged)
 │   └── audit.py                         # Lab 02: SHA-256 hash chain & tamper manifest
