@@ -57,7 +57,15 @@ sequenceDiagram
 | **3. Relaunch Prevention** — Blocks terminated agents from automatically restarting on hosts | **Control-plane lease & startup block** — Prevents Kubernetes/orchestrator liveness probes from re-spawning the killed agent |
 | **4. Network Isolation** — Cuts off enterprise network access to stop lateral movement or data spread | **Egress & bus quarantine** — Revokes downstream API/DB credentials and logs the blast radius to the SHA-256 audit chain |
 
-> **Why this remains an open gap for our codebase:** Commercial AIDR/endpoint tools show that gateway + runtime termination is becoming a real industry pattern, but regulated entities still have to wire operator-triggered kill controls across **application-level multi-agent buses, dual-custody approval workflows, and tamper-evident audit trails** (RBI Draft MRM Guidance).
+> **Why this remains an open gap for our codebase:** Commercial AIDR/endpoint tools show that gateway + runtime termination is becoming a real industry pattern, but regulated entities still have to wire operator-triggered kill controls across **application-level multi-agent buses, dual-custody approval workflows, and tamper-evident audit trails** (RBI Draft MRM Guidance — which also requires **client-side override/deactivation controls on third-party vendor models**).
+
+### Hard Stop vs. "Dimmer Switch" Containment Spectrum (Financial Services Pattern)
+
+Financial CISOs implementing NIST AI RMF / OWASP Agentic Security (`ASI Top 10`) guidance increasingly pair an emergency hard stop with **tiered containment** so stopping a misbehaving agent doesn't inadvertently freeze legitimate payment queues:
+
+1. **Dimmer Switch (Granular Degrade):** Dynamically shift an agent to read-only mode, strip high-risk tool scopes (`ASI02`), or force mandatory human-in-the-loop (HITL) sign-off above a transaction threshold via an external policy proxy.
+2. **Identity / NHI Revocation:** Immediately revoke short-lived OAuth tokens, service-account credentials, or API keys in the IAM layer (`ASI03`) so the agent cannot call core banking rails even if a worker container hangs.
+3. **Hard Stop (Full Kill Switch):** Broadcast fail-closed scope termination to the Composite Policy Gate, cancel active `context.Context` trees, block orchestrator relaunch, and write an immutable `KILL_SWITCH_ON` record to the SHA-256 audit log.
 
 ## 5. Open Questions — How Have You Solved This?
 

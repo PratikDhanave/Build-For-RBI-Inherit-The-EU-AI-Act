@@ -97,8 +97,9 @@
       "control": "Red-team corpus on every PR",
       "rbi_free_ai": "Rec 20",
       "eu_ai_act": "Article 15",
-      "evidence_artefact": "CI automated red-team test suite",
-      "notes": "Accuracy, robustness, and cybersecurity regression gate"
+      "owasp_asi": ["ASI01", "ASI02", "ASI03"],
+      "evidence_artefact": "CI automated red-team test suite (code/redteam/corpus.json)",
+      "notes": "Accuracy, robustness, and cybersecurity regression gate mapped to OWASP Agentic Top 10"
     },
     {
       "id": "ctrl-06",
@@ -106,7 +107,7 @@
       "rbi_free_ai": "Rec 18, 25",
       "eu_ai_act": "Article 50",
       "evidence_artefact": "Composite gate first-event disclosure header/payload",
-      "notes": "EU AI Act Article 50 has been binding law since 2 August 2026"
+      "notes": "EU AI Act Article 50 has been binding law since 2 August 2026 (legacy provider watermarking grace ends 2 December 2026; Annex III High-Risk deferred to 2 December 2027 under Digital Omnibus Regulation (EU) 2026/1744)"
     },
     {
       "id": "ctrl-07",

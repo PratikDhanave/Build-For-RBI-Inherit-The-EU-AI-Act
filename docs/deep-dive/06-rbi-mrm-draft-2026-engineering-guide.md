@@ -9,7 +9,12 @@
 
 Many teams stopped reading after RBI's **FREE-AI** committee report (13 August 2025). FREE-AI is an advisory framework — invaluable as an architectural map, but non-binding.
 
-On **24 June 2026**, RBI issued the **Draft Model Risk Management (MRM) Guidance** for consultation (comments closed **24 July 2026**, final circular pending). Once finalised as a Master Direction / circular, supervised banks and NBFCs will be inspected directly against it.
+On **24 June 2026**, RBI issued the **Draft Guidance on Regulatory Principles for Model Risk Management, 2026** for public consultation (comments closed **24 July 2026**, final circular pending as of November 2026). Once finalised as a Master Direction / circular, supervised entities will be inspected directly against it.
+
+### Scope & What Changed From Earlier Credit-Risk Guidelines
+- **Broad Institutional Coverage (11 Categories of REs):** Applies across commercial banks, small finance banks, payments banks, regional rural banks, urban/rural co-operative banks, NBFCs (across all layers), ARCs, CICs, and All-India Financial Institutions (AIFIs).
+- **Expansive Model Definition:** Explicitly covers traditional statistical models, ML, **Generative AI, frontier foundation models, third-party vendor algorithms, and material decision-making spreadsheets**.
+- **Third-Party Client-Side Override Mandate:** Regulated entities remain **100% accountable** for vendor-supplied models — including ensuring **client-side override / deactivation ("kill-switch") capabilities** independent of the vendor's underlying software logic.
 
 ---
 

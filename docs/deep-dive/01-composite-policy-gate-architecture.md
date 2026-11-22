@@ -75,6 +75,19 @@ In [`code/config/policy.yaml`](../../code/config/policy.yaml) and [`code/config/
 
 ---
 
-## 4. Open Boundary: Automated Guardrails vs. Operator Kill Switch
+## 4. Alignment With OWASP Top 10 for Agentic Applications (`ASI Top 10`) & NIST AI RMF
+
+Because the Composite Policy Gate sits **outside** every agent's reasoning loop (matching NIST AI RMF / AI 600-1 guidance that runtime controls must be decoupled from the agent itself), it directly mitigates core **OWASP Agentic Security (`ASI`)** threats:
+
+| OWASP Agentic Risk | Threat in Regulated Finance | Enforced at the Composite Gate |
+| --- | --- | --- |
+| **`ASI01` — Agent Goal Hijack** | Indirect prompt injection in a customer PDF redirects an agent to exfiltrate PAN/KYC to an unapproved region | **ResidencyPolicy** + **ConsentPolicy** block disallowed regions/revoked PII before dispatch (`RT-01`..`RT-03`, `RT-14`..`RT-15`) |
+| **`ASI02` — Tool Misuse & Exploitation** | Hijacked or drifted agent invokes a high-risk advice/payment tool without required justification or active sign-off | **ExplainabilityPolicy** + **ApprovalDriftGuard (`ErrRiskChanged`)** fail closed (`RT-08`..`RT-09`) |
+| **`ASI03` — Identity & Privilege Abuse** | Low-privilege user or guest session escalates into a high-risk agent (`payment_orchestrator`, `var_calculator`) | **RBACPolicy** enforces least-agency pre-dispatch (`RT-11`..`RT-12`) |
+| **`ASI08` — Resource Exhaustion** | Recursive multi-agent loops exhaust inference budgets or queue capacity | **Budget & Rate Cap** + circuit breakers *(with operator hard stop tracked in `RFC-001`)* |
+
+---
+
+## 5. Open Boundary: Automated Guardrails vs. Operator Kill Switch
 
 Budget caps, deadlines, and circuit breakers protect availability automatically. They do **not** satisfy the RBI Draft MRM Guidance's requirement for an **operator-triggered hard stop**. See [`RFC-001: Mandatory Operator-Triggered AI Kill Switch`](../open-problems/RFC-001-ai-kill-switch.md) for the open design challenge.

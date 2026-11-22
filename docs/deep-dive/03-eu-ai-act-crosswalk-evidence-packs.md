@@ -8,21 +8,26 @@
 
 Under **EU AI Act Article 2(1)(c)**, territorial jurisdiction follows **where the output is used**, not where the engineering team sits. If an engineering centre in Hyderabad, Bengaluru, or Pune builds an AI agent whose output is consumed by a European parent bank, affiliate, or customer, the EU AI Act applies directly.
 
-### Regulatory Timeline Alignment
+### Regulatory Timeline Alignment (Updated for Digital Omnibus `Regulation (EU) 2026/1744`)
+
+> **Key July 2026 Legislative Update:** Under the **Digital Omnibus on AI (`Regulation (EU) 2026/1744`)**, adopted July 2026, the EU deferred compliance deadlines for **Annex III standalone High-Risk AI systems** (such as credit scoring, creditworthiness, and insurance risk pricing) from 2 August 2026 to **2 December 2027** (and Annex I embedded product AI to **2 August 2028**). It also extended SME fine-cap simplifications to **Small Mid-Caps (≤500 employees)** and added a legal carve-out for processing special-category data for **bias detection**.  
+> **What did *not* move:** **Article 50 transparency obligations** (customer AI disclosure / chatbot notices) became **active binding law on 2 August 2026** (with a short legacy provider watermarking grace period ending **2 December 2026**).
 
 ```mermaid
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif", "fontSize": "14px", "primaryColor": "#E8F0FE", "primaryTextColor": "#202124", "primaryBorderColor": "#4285F4", "lineColor": "#5F6368"}}}%%
 flowchart LR
-    T1["Feb 2025<br/>EU AI Act<br/>Prohibited Practices"] --> T2["Aug 2025<br/>EU AI Act GPAI &<br/>RBI FREE-AI (13 Aug)"]
+    T1["Feb 2025<br/>EU AI Act<br/>Prohibited Practices"] --> T2["Aug 2025<br/>EU GPAI Rules &<br/>RBI FREE-AI (13 Aug)"]
     T2 --> T3["24 Jun 2026<br/>RBI Draft MRM<br/>Consultation Opens"]
-    T3 --> T4["2 Aug 2026<br/>EU AI Act High-Risk<br/>& Art 50 Law"]
-    T4 --> T5["Pending<br/>RBI Final Binding<br/>MRM Circular"]
+    T3 --> T4["2 Aug 2026<br/>EU Art 50 Law Active<br/>(Grace Ends 2 Dec 2026)"]
+    T4 --> T5["2 Dec 2027<br/>EU Annex III High-Risk<br/>(Omnibus 2026/1744)"]
+    T5 --> T6["Pending<br/>RBI Final Binding<br/>MRM Circular"]
 
     style T1 fill:#FCE8E6,stroke:#EA4335,color:#A50E0E
     style T2 fill:#E8F0FE,stroke:#4285F4,color:#174EA6
     style T3 fill:#FEF7E0,stroke:#F9AB00,color:#B06000
     style T4 fill:#FCE8E6,stroke:#EA4335,stroke-width:2px,color:#A50E0E
-    style T5 fill:#FEF7E0,stroke:#F9AB00,stroke-width:2px,color:#B06000
+    style T5 fill:#E8F0FE,stroke:#4285F4,stroke-width:2px,color:#174EA6
+    style T6 fill:#FEF7E0,stroke:#F9AB00,stroke-width:2px,color:#B06000
 ```
 
 ---

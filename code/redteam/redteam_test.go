@@ -14,6 +14,7 @@ import (
 type corpusCase struct {
 	ID           string `json:"id"`
 	Category     string `json:"category"`
+	OWASPASI     string `json:"owasp_asi"`
 	Description  string `json:"description"`
 	ActorRole    string `json:"actor_role"`
 	DeclaredRisk string `json:"declared_risk"`

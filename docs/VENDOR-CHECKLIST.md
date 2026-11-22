@@ -28,7 +28,7 @@ Hand this 1-page checklist to any AI vendor (or internal platform team) before s
 | :-: | --- | --- | :-: |
 | **9** | **Did the proposal price 17 RBI FREE-AI RE controls or all 26?** | Pricing all 26 means you are paying for the regulator/SRO's own roadmap (`Recs 1, 3, 5, 7, 9–13`) | ☐ Pass ☐ Fail |
 | **10** | **Does the SOW explicitly define Deployer vs. Provider under the EU AI Act?** | Fine-tuning on bank data or white-labeling under the bank's brand silently shifts provider liability to you | ☐ Pass ☐ Fail |
-| **11** | **Can the vendor name at least two honest gaps in their current coverage?** | Vendors claiming "100% RBI + EU AI Act coverage" haven't tested against the June 2026 Draft MRM kill switch or 10-year retention rules | ☐ Pass ☐ Fail |
+| **11** | **Can the vendor name at least two honest gaps AND provide a client-side kill switch?** | Vendors claiming "100% RBI + EU AI Act coverage" haven't tested against the June 2026 Draft MRM rules — which explicitly require **client-side override/kill-switch capabilities on third-party models** plus 10-year decommissioned retention | ☐ Pass ☐ Fail |
 | **12** | **Can they emit both RBI Annexure VI and EU AI Act evidence from one control set?** | Duplicate compliance stacks double maintenance cost and diverge under audit | ☐ Pass ☐ Fail |
 
 ---

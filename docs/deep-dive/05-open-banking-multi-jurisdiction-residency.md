@@ -54,15 +54,15 @@ flowchart LR
 
 ---
 
-## 3. Multi-Jurisdiction Regulatory Matrix
+## 3. Multi-Jurisdiction Regulatory Matrix (Updated Nov 2026)
 
-| Jurisdiction | Primary Regulator / Law | Key Per-Message Enforcement Rule | Evidence Required on Demand |
+| Jurisdiction | Primary Regulator / Active 2025–2026 Instruments | Key Per-Message Enforcement Rule | Evidence Required on Demand |
 | --- | --- | --- | --- |
-| **India (`in`)** | RBI FREE-AI, RBI Payment Data Storage, DPDP Act | Payment/PAN/Aadhaar PII must remain inside approved Indian inference regions | Hash-chained audit log showing `region=in` + refusal logs for outbound attempts |
-| **ADGM (`adgm`)** | FSRA & ADGM Data Protection Regulations | Cross-border transfers require explicit adequacy/consent proof | Append-only consent ledger + transfer destination record |
-| **DIFC (`difc`)** | DFSA & DIFC Data Protection Law | Automated decisioning requires lawful basis, disclosure & human recourse | First-event disclosure (`Art 50` / `Rec 18`) + explainability rationale |
-| **Saudi Arabia (`sama`)** | SAMA Open Banking & Saudi PDPL | Strict in-kingdom storage/processing for regulated banking data | Per-message routing proof & partner-bank data-lineage query |
-| **Europe (`eu`)** | EU AI Act & GDPR | Applies whenever output is used in Europe (`Art 2(1)(c)`) | Dual Evidence Pack (`Art 12`, `Art 50`, `Annex IV`) |
+| **India (`in`)** | RBI FREE-AI (13 Aug 2025), RBI Draft MRM Guidance (24 Jun 2026), Payment Data Storage, DPDP Act | Payment/PAN/Aadhaar PII must remain inside approved Indian inference regions; consent must align with DPDP | Hash-chained audit log showing `region=in` + refusal logs for outbound attempts |
+| **ADGM (`adgm`)** | FSRA (*Notice No. 222 of 2026 on AI & Cyber Risk Management*) & ADGM Data Protection Regulations | Internal AI guardrails, algorithmic transparency, continuous risk monitoring, and explicit adequacy/consent proof for cross-border transfers | Append-only consent ledger + transfer destination & monitoring record |
+| **DIFC (`difc`)** | DFSA, **DIFC Regulation 10** (Autonomous & Semi-Autonomous AI, active enforcement; ISO 42001 alignment & ASO role) & **DP Amendment Law No. 1 of 2025** | Mandatory AI register, AI impact assessments, continuous human oversight, Transfer Risk Assessments (TRAs), and private right of action in DIFC Courts | Live registry export + first-event disclosure (`Art 50` / `Rec 18`) + explainability rationale |
+| **Saudi Arabia (`sama`)** | **SAMA Formal Commercial Open Banking Licensing** (AIS/PIS) & **Saudi PDPL (SDAIA)** | Strict in-Kingdom hosting/processing for customer & KYC data (external cloud requires explicit SAMA approval) + algorithmic explainability | Per-message routing proof & partner-bank data-lineage query |
+| **Europe (`eu`)** | **EU AI Act** + **Digital Omnibus (`Regulation (EU) 2026/1744`)** & GDPR | Applies whenever output is used in Europe (`Art 2(1)(c)`); `Art 50` live since 2 Aug 2026; Annex III High-Risk deferred to 2 Dec 2027 | Dual Evidence Pack (`Art 12`, `Art 50`, `Annex IV`) |
 
 ---
 

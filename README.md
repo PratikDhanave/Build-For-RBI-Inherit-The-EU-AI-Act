@@ -23,9 +23,11 @@
 
 ---
 
-## Table of Contents
+<details>
+<summary><strong>Table of Contents</strong> (click to expand)</summary>
 
 1. [The Short Version](#1-the-short-version)
+   - [Beyond the 20-Minute Talk: Deep-Dive Companion Guides](#beyond-the-20-minute-talk-deep-dive-companion-guides)
 2. [The 9 / 17 Split: Scoping RBI FREE-AI Correctly](#2-the-9--17-split-scoping-rbi-free-ai-correctly)
 3. [Architecture: One Gate, Every Message](#3-architecture-one-gate-every-message)
 4. [Message Sequence Diagrams](#4-message-sequence-diagrams)
@@ -44,6 +46,9 @@
 8. [Two Open Engineering Problems (Gaps Named, Not Closed)](#8-two-open-engineering-problems-gaps-named-not-closed)
 9. [Deployer vs. Provider: The Scoping Clause That Belongs in the SOW](#9-deployer-vs-provider-the-scoping-clause-that-belongs-in-the-sow)
 10. [Using the Interactive Web Deck & PowerPoint](#10-using-the-interactive-web-deck--powerpoint)
+11. [Author, QR Codes & Links](#author-qr-codes--links)
+
+</details>
 
 ---
 
@@ -297,11 +302,11 @@ sequenceDiagram
 A control nobody can run is a claim. It is a fair test to put to any AI vendor — and a fairer one to put to yourself:
 
 ```bash
-# Run all standalone labs & cross-walk checks from this repo (zero dependencies, zero network):
+# Run all standalone Go packages, Python labs & evidence-pack export (zero dependencies, zero network):
 git clone https://github.com/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act.git
 cd Build-For-RBI-Inherit-The-EU-AI-Act
-make demo   # runs labs/gate_demo.py, labs/approval.py, labs/audit.py
-make test   # runs all assertions + validates JSON/CSV cross-walk
+make demo   # runs code/scripts/offline_verify.sh (9 Go pkgs + cmd/demo + 4 Python labs + cmd/evidencepack)
+make test   # runs all Go/Python assertions + validates JSON/CSV cross-walk & red-team corpus
 
 # Full Go implementation benchmark referenced in Slide 07:
 git clone <genie-repo> && cd genie
@@ -309,7 +314,7 @@ go test ./...        # -> 127 packages ok
 go run ./cmd/genie   # -> full pipeline, sample CSV, ~30s
 ```
 
-> Standalone files included in [`code/`](./code): [`code/cmd/demo/main.go`](./code/cmd/demo/main.go) (`go run ./cmd/demo`) · [`code/config/loader.go`](./code/config/loader.go) · [`code/consent/ledger.go`](./code/consent/ledger.go) · [`code/disclosure/disclosure.go`](./code/disclosure/disclosure.go) · [`code/gate/composite_gate.go`](./code/gate/composite_gate.go) · [`code/gate/approval_gate.go`](./code/gate/approval_gate.go) · [`code/audit/chain.go`](./code/audit/chain.go) *(with Ed25519 signing)* · [`code/incident/annexure_vi.go`](./code/incident/annexure_vi.go) · [`code/registry/registry.go`](./code/registry/registry.go) · [`code/redteam/corpus.json`](./code/redteam/corpus.json) · [`code/python/`](./code/python) · [`code/scripts/offline_verify.sh`](./code/scripts/offline_verify.sh).
+> Standalone files included in [`code/`](./code): [`code/cmd/demo/main.go`](./code/cmd/demo/main.go) (`go run ./cmd/demo`) · [`code/cmd/evidencepack/main.go`](./code/cmd/evidencepack/main.go) (`go run ./cmd/evidencepack`) · [`code/config/loader.go`](./code/config/loader.go) · [`code/consent/ledger.go`](./code/consent/ledger.go) · [`code/disclosure/disclosure.go`](./code/disclosure/disclosure.go) · [`code/gate/composite_gate.go`](./code/gate/composite_gate.go) · [`code/gate/approval_gate.go`](./code/gate/approval_gate.go) · [`code/audit/chain.go`](./code/audit/chain.go) *(with Ed25519 signing)* · [`code/incident/annexure_vi.go`](./code/incident/annexure_vi.go) · [`code/registry/registry.go`](./code/registry/registry.go) · [`code/redteam/corpus.json`](./code/redteam/corpus.json) *(tagged with OWASP ASI)* · [`code/python/consent_ledger.py`](./code/python/consent_ledger.py) & [`code/python/`](./code/python) · [`code/scripts/offline_verify.sh`](./code/scripts/offline_verify.sh).
 
 ---
 
@@ -327,11 +332,13 @@ import (
 
 type Message struct {
 	ActorID      string
+	ActorRole    string
 	AgentID      string
 	Region       string
 	ContainsPII  bool
 	IsAdvice     bool
 	Rationale    string
+	ConsentLive  bool
 	DeclaredRisk string
 }
 
@@ -348,11 +355,15 @@ type CompositeGate struct {
 func (g *CompositeGate) Allow(ctx context.Context, msg Message) error {
 	for _, p := range g.Policies {
 		if err := p.Check(ctx, msg); err != nil {
-			_ = g.Audit.RecordDeny(msg, p.Name(), err.Error())
+			if g.Audit != nil {
+				_ = g.Audit.RecordDeny(msg, p.Name(), err.Error())
+			}
 			return fmt.Errorf("DENY [%s]: %w", p.Name(), err)
 		}
 	}
-	_ = g.Audit.RecordAllow(msg)
+	if g.Audit != nil {
+		_ = g.Audit.RecordAllow(msg)
+	}
 	return nil
 }
 ```
@@ -374,7 +385,22 @@ if rec.RiskClass != risk {
 
 ### 5.4 Lab 01 — Five Agents, One Bad Approval (`approval.py`)
 
-Interactive in **Slide 10** of [https://build-for-rbi-talk.vercel.app/#10](https://build-for-rbi-talk.vercel.app/#10) (press **`R`** to run live in browser via Pyodide):
+Interactive in **Slide 10** of [https://build-for-rbi-talk.vercel.app/#10](https://build-for-rbi-talk.vercel.app/#10) (press **`R`** to run live in browser via Pyodide) or run locally via `python3 code/python/approval.py`:
+
+**Expected Output:**
+
+```text
+RUN   payment_orchestrator   live
+STOP  kyc_orchestrator       ErrExpired
+STOP  aml_monitor            ErrNotApproved (rejected)
+STOP  var_calculator         ErrRiskChanged (approved as medium, now declares high)
+RUN   educator               low/medium — no approval required
+
+var_calculator is the one I would have missed.
+```
+
+<details>
+<summary>View full <code>approval.py</code> source (<a href="./code/python/approval.py"><code>code/python/approval.py</code></a>)</summary>
 
 ```python
 from datetime import datetime, timedelta
@@ -427,23 +453,27 @@ print()
 print("var_calculator is the one I would have missed.")
 ```
 
-**Expected Output:**
-
-```text
-RUN   payment_orchestrator   live
-STOP  kyc_orchestrator       ErrExpired
-STOP  aml_monitor            ErrNotApproved (rejected)
-STOP  var_calculator         ErrRiskChanged (approved as medium, now declares high)
-RUN   educator               low/medium — no approval required
-
-var_calculator is the one I would have missed.
-```
+</details>
 
 ---
 
 ### 5.5 Lab 02 — Rewrite One Row, Watch It Fail (`audit.py`)
 
-Interactive in **Slide 13** of [https://build-for-rbi-talk.vercel.app/#13](https://build-for-rbi-talk.vercel.app/#13) (press **`R`** to run live in browser via Pyodide):
+Interactive in **Slide 13** of [https://build-for-rbi-talk.vercel.app/#13](https://build-for-rbi-talk.vercel.app/#13) (press **`R`** to run live in browser via Pyodide) or run locally via `python3 code/python/audit.py`:
+
+**Expected Output:**
+
+```text
+fresh chain           OK
+after one edited row  BROKEN at seq 2 (row_hash)
+
+export manifest       {'count': 3, 'chain_verified': False, 'sha256': '9f3c4dc6a8ff560f326e014a…'}
+
+The export does not hide the break. It reports it.
+```
+
+<details>
+<summary>View full <code>audit.py</code> source (<a href="./code/python/audit.py"><code>code/python/audit.py</code></a>)</summary>
 
 ```python
 import hashlib
@@ -499,49 +529,57 @@ print()
 print("The export does not hide the break. It reports it.")
 ```
 
-**Expected Output:**
-
-```text
-fresh chain           OK
-after one edited row  BROKEN at seq 2 (row_hash)
-
-export manifest       {'count': 3, 'chain_verified': False, 'sha256': '9f3c4dc6a8ff560f326e014a…'}
-
-The export does not hide the break. It reports it.
-```
+</details>
 
 ---
 
 ### 5.6 Board-Approved Policy-as-Config (`policy.yaml`)
 
-Declarative governance configuration answering both **RBI FREE-AI Rec 14** and **EU AI Act Article 17** so new regulatory clauses are config updates rather than code rewrites:
+Declarative governance configuration answering both **RBI FREE-AI Rec 14** and **EU AI Act Article 17** so new regulatory clauses are config updates rather than code rewrites (excerpt matching [`code/config/policy.yaml`](./code/config/policy.yaml), parsed directly by [`code/config/loader.go`](./code/config/loader.go)):
 
 ```yaml
 version: "2026.11"
 approved_by: "board-risk-committee@bank"
 effective_date: "2026-11-28"
+review_cycle_days: 90
 
 policies:
   residency:
+    enabled: true
     enforce_per_message: true
-    pii_allowed_regions: ["in", "adgm", "difc", "sama"]
-    deny_regions: ["us"]
+    pii_allowed_regions:
+      - "in"
+      - "adgm"
+      - "difc"
+      - "sama"
+    deny_regions:
+      - "us"
+    fail_closed: true
 
   consent:
-    mode: "append-only-ledger"
+    enabled: true
+    ledger_mode: "append-only"
     fail_in_flight_on_revocation: true
 
   explainability:
-    require_rationale_for: ["advice", "credit_decision", "loan_decision"]
+    enabled: true
+    require_rationale_for:
+      - "advice"
+      - "credit_decision"
+      - "loan_decision"
+      - "portfolio_rebalance"
 
   approval_drift:
+    enabled: true
     high_risk_requires_active_signoff: true
-    block_on_risk_class_change: true # ErrRiskChanged
+    block_on_risk_class_change: true # ErrRiskChanged (Rec 17)
 
   disclosure:
+    enabled: true
     emit_on_first_event: true # RBI Rec 18/25 & EU AI Act Art 50
 
   audit:
+    enabled: true
     hash_algorithm: "sha256"
     anchor_external_timestamp: true
     report_broken_chain_in_manifest: true
@@ -552,6 +590,8 @@ policies:
 ## 6. Regulatory Convergence: RBI FREE-AI ↔ EU AI Act
 
 The EU AI Act reaches you **the moment your output is used in Europe** — regardless of where the system was engineered. Regulators converge because there are only so many ways to make an automated system accountable.
+
+> **2026 Enforcement Note (`Regulation (EU) 2026/1744`, Digital Omnibus on AI):** **Article 50 transparency** is binding law since **2 August 2026** (legacy watermarking grace ends 2 Dec 2026), while standalone **Annex III High-Risk AI** deadlines (credit scoring, insurance pricing) shifted to **2 December 2027**. Full timeline in [Deep Dive 03](./docs/deep-dive/03-eu-ai-act-crosswalk-evidence-packs.md).
 
 ```mermaid
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif", "fontSize": "14px", "primaryColor": "#E8F0FE", "primaryTextColor": "#202124", "primaryBorderColor": "#4285F4", "lineColor": "#5F6368", "clusterBkg": "#F8F9FA", "clusterBorder": "#DADCE0"}}}%%
@@ -630,7 +670,7 @@ flowchart LR
 
 ## 7. The Binding Instrument: RBI Draft Model Risk Management Guidance
 
-FREE-AI is an advisory committee report. The instrument that will actually bind regulated entities is the **RBI Draft Model Risk Management (MRM) Guidance**:
+FREE-AI is an advisory committee report. The instrument that will actually bind regulated entities across **11 categories of REs** (covering statistical, ML, GenAI, foundation, and third-party vendor models — including client-side kill-switch accountability) is the **RBI Draft Model Risk Management (MRM) Guidance** — see [Deep Dive 06: RBI Draft MRM Playbook](./docs/deep-dive/06-rbi-mrm-draft-2026-engineering-guide.md):
 
 - **24 June 2026:** Issued for public consultation
 - **24 July 2026:** Industry comments closed
@@ -675,7 +715,7 @@ Under the EU AI Act, you can accidentally move your customer from **deployer** t
 | You install your configured agent under **your name**; they operate it | **Still a Deployer** | Duties stay largely with **you (the vendor)** |
 | You **fine-tune** the model on their data, or ship it under **their brand** | **Now a Provider** | Substantially modified / placed into service under own name — **heavier duties shift to the client** |
 
-> That difference belongs in the **SOW** — a scoping conversation, not a post-mortem.
+> That difference belongs in the **SOW** — a scoping conversation, not a post-mortem. See the full [Deployer vs. Provider SOW Scoping Guide](./docs/SOW-DEPLOYER-VS-PROVIDER.md) for the Art. 25 decision flowchart and 5 sample contract clauses.
 
 ---
 
@@ -686,7 +726,7 @@ Under the EU AI Act, you can accidentally move your customer from **deployer** t
 ```text
 .
 ├── index.html                           # 22-slide ClearRoute-styled interactive web deck
-├── assets/                              # 7 lightweight brand assets (234 KB total)
+├── assets/                              # 9 lightweight brand & QR assets (~260 KB total)
 ├── build-for-rbi-ppt.pptx               # 22-slide ClearRoute 2026 PowerPoint deck (20" × 11.25")
 ├── build-for-rbi-handout.pdf            # Print-ready 22-slide PDF handout
 ├── code/                                # All governance modules & snippets as runnable, tested code
@@ -717,7 +757,7 @@ Under the EU AI Act, you can accidentally move your customer from **deployer** t
 │   ├── screenshots/                     # Slide preview renders embedded in README
 │   └── open-problems/                   # Architecture RFCs (`RFC-001` Kill Switch, `RFC-002` Retention)
 ├── crosswalk/                           # Machine-readable JSON & CSV regulatory cross-walks
-├── labs/                                # Standalone Python lab mirrors
+├── labs/                                # Thin runpy wrappers delegating to code/python/
 ├── .github/                             # CI workflow (`verify.yml`) + RFC issue template
 ├── LICENSE, CONTRIBUTING.md, SECURITY.md
 ├── Makefile                             # make demo | make test | make serve
@@ -731,7 +771,7 @@ git clone https://github.com/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act.g
 cd Build-For-RBI-Inherit-The-EU-AI-Act
 open index.html
 # Or serve locally:
-python3 -m http.server 8000
+make serve   # runs python3 -m http.server 8000
 ```
 
 ### Keyboard Shortcuts
