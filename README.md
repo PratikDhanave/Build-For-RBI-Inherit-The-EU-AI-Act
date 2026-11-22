@@ -77,6 +77,8 @@ The slide deck at [build-for-rbi-talk.vercel.app](https://build-for-rbi-talk.ver
 | **[02 · All 26 RBI FREE-AI Recommendations](./docs/deep-dive/02-rbi-free-ai-26-breakdown.md)** | Complete 7 Sutras, 6 Pillars, and all 26 recommendations mapped row-by-row into the exact **9 Regulator/SRO** vs. **17 Regulated Entity** split |
 | **[03 · Dual Evidence Packs (RBI + EU AI Act)](./docs/deep-dive/03-eu-ai-act-crosswalk-evidence-packs.md)** | Extraterritorial EU AI Act scope for Indian engineering teams, regulatory timeline, dual evidence-pack directory layout, and article-by-article mapping |
 | **[04 · Production Hardening, Drift & Audit Anchoring](./docs/deep-dive/04-production-hardening-and-audit-trail.md)** | External RFC 3161 / WORM timestamp anchoring, Ed25519 manifest signing, scaling partitioned hash chains, and CI chaos drills |
+| **[05 · Multi-Jurisdiction Open Banking Residency](./docs/deep-dive/05-open-banking-multi-jurisdiction-residency.md)** | Enforcing per-message residency across India (RBI/DPDP), ADGM, DIFC & SAMA from one codebase without forking deployments |
+| **[06 · RBI Draft MRM Guidance (June 2026) Playbook](./docs/deep-dive/06-rbi-mrm-draft-2026-engineering-guide.md)** | Full readiness breakdown of the binding MRM draft + a 90-day engineering roadmap to close `RFC-001` & `RFC-002` |
 | **[Complete 17-Rec Traceability Matrix](./docs/RBI-FREE-AI-17-MATRIX.md)** | Every Regulated Entity recommendation (`2, 4, 6, 8, 14–26`) linked to runnable code & tests |
 | **[5-Minute AI Vendor Procurement Checklist](./docs/VENDOR-CHECKLIST.md)** | Printable 12-point RFP scorecard (*"A control nobody can run is a claim"*) |
 | **[Deployer vs. Provider SOW Scoping Guide](./docs/SOW-DEPLOYER-VS-PROVIDER.md)** | EU AI Act Art. 25 decision flowchart + 5 concrete contract clauses before signing an SOW |
@@ -688,6 +690,7 @@ Under the EU AI Act, you can accidentally move your customer from **deployer** t
 ├── code/                                # All governance modules & snippets as runnable, tested code
 │   ├── go.mod                           # Zero-dependency Go module
 │   ├── cmd/demo/main.go                 # One-command offline CLI pipeline (`go run ./cmd/demo`)
+│   ├── cmd/evidencepack/main.go         # Dual RBI + EU AI Act evidence-pack exporter (`go run ./cmd/evidencepack`)
 │   ├── config/                          # Board-approved `policy.yaml` + zero-dep Go YAML loader (Rec 14 / Art 17)
 │   ├── consent/                         # Append-only Consent Ledger with Tuesday revocation proof (Rec 15)
 │   ├── disclosure/                      # First-event AI disclosure tracker (Rec 18, 25 / Art 50)
@@ -696,7 +699,7 @@ Under the EU AI Act, you can accidentally move your customer from **deployer** t
 │   ├── incident/                        # RBI Annexure VI / EU AI Act Art 73 generator (Go)
 │   ├── registry/                        # Zero-drift live agent registry exporter (Rec 23 / Annex IV)
 │   ├── redteam/                         # 16-case adversarial red-team corpus run on every PR (Rec 20 / Art 15)
-│   ├── python/                          # Canonical Python labs (`gate_demo.py`, `approval.py`, `audit.py`)
+│   ├── python/                          # Canonical Python labs (`gate_demo.py`, `approval.py`, `audit.py`, `consent_ledger.py`)
 │   └── scripts/offline_verify.sh        # One-command zero-network verification script
 ├── examples/
 │   ├── policy.yaml                      # Board-approved policy YAML

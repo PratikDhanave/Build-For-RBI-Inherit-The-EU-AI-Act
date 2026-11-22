@@ -9,6 +9,7 @@ test: validate-crosswalk
 	python3 code/python/gate_demo.py --test
 	python3 code/python/approval.py --test
 	python3 code/python/audit.py --test
+	python3 code/python/consent_ledger.py --test
 	python3 labs/gate_demo.py --test
 	python3 labs/approval.py --test
 	python3 labs/audit.py --test

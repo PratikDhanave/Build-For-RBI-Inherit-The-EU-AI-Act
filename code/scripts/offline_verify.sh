@@ -24,4 +24,12 @@ echo "=== 5. Python Lab 02: Tamper-Evident Hash Chain (audit.py) ==="
 python3 "$ROOT_DIR/code/python/audit.py" --test
 
 echo ""
+echo "=== 6. Python Lab 03: Append-Only Consent Ledger (consent_ledger.py) ==="
+python3 "$ROOT_DIR/code/python/consent_ledger.py" --test
+
+echo ""
+echo "=== 7. Go Dual Evidence Pack Generator (go run ./cmd/evidencepack) ==="
+(cd "$ROOT_DIR/code" && go run ./cmd/evidencepack --out /tmp/rbi-eu-evidence-pack)
+
+echo ""
 echo "[OK] Offline verification complete — zero network required."
