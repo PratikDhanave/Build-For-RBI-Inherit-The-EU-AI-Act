@@ -49,6 +49,26 @@ jobs:
           print("[OK] examples/policy.yaml verified.")
           '
 
+      - name: Validate Mermaid diagrams (single-line JSON init & sequence syntax)
+        run: |
+          python3 -c '
+          import glob, json, re
+          files = ["README.md"] + glob.glob("docs/**/*.md", recursive=True)
+          total = 0
+          for f in files:
+              txt = open(f).read()
+              for mb in re.findall(r"```mermaid\n(.*?)```", txt, re.S):
+                  total += 1
+                  m = re.match(r"%%\{init:\s*(\{[^\n]+\})\s*\}%%", mb)
+                  assert m, f"Expected single-line init JSON in {f}"
+                  json.loads(m.group(1))
+                  if "sequenceDiagram" in mb:
+                      for line in mb.splitlines():
+                          if not line.strip().startswith("%%"):
+                              assert ";" not in line, f"Semicolon breaks sequenceDiagram in {f}: {line}"
+          print(f"[OK] {total} Mermaid diagrams validated across Markdown docs.")
+          '
+
       - name: Validate index.html JS syntax & asset references
         run: |
           node -e '

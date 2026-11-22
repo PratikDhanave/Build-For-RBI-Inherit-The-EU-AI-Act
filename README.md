@@ -19,7 +19,7 @@
 | **Tamper-Evident Hash Chain (Slide 12)** | **RBI ↔ EU AI Act Cross-Walk (Slide 16)** |
 | [![Hash Chain](docs/screenshots/12-hash-chain.png)](https://build-for-rbi-talk.vercel.app/#12) | [![Cross-Walk](docs/screenshots/16-crosswalk.png)](https://build-for-rbi-talk.vercel.app/#16) |
 
-**Downloads & Playbooks:** [`build-for-rbi-ppt.pptx`](./build-for-rbi-ppt.pptx) · [`build-for-rbi-handout.pdf`](./build-for-rbi-handout.pdf) · [`17-Rec Traceability Matrix`](./docs/RBI-FREE-AI-17-MATRIX.md) · [`5-Min Vendor Checklist`](./docs/VENDOR-CHECKLIST.md) · [`SOW Deployer vs. Provider Guide`](./docs/SOW-DEPLOYER-VS-PROVIDER.md) · [`rbi-eu-ai-act.json`](./crosswalk/rbi-eu-ai-act.json) · [`rbi-eu-ai-act.csv`](./crosswalk/rbi-eu-ai-act.csv)
+**Downloads & Playbooks:** [`build-for-rbi-ppt.pptx`](./build-for-rbi-ppt.pptx) · [`build-for-rbi-handout.pdf`](./build-for-rbi-handout.pdf) · [**Official RBI FREE-AI Report (PDF)**](https://rbidocs.rbi.org.in/rdocs/PublicationReport/Pdfs/FREEAIR130820250A24FF2D4578453F824C72ED9F5D5851.PDF) · [`17-Rec Traceability Matrix`](./docs/RBI-FREE-AI-17-MATRIX.md) · [`5-Min Vendor Checklist`](./docs/VENDOR-CHECKLIST.md) · [`SOW Deployer vs. Provider Guide`](./docs/SOW-DEPLOYER-VS-PROVIDER.md) · [`rbi-eu-ai-act.json`](./crosswalk/rbi-eu-ai-act.json) · [`rbi-eu-ai-act.csv`](./crosswalk/rbi-eu-ai-act.csv)
 
 ---
 
@@ -69,24 +69,12 @@ These constraints came from regulated **Open Banking delivery across ADGM, DIFC,
 
 ## 2. The 9 / 17 Split: Scoping RBI FREE-AI Correctly
 
-RBI published the **FREE-AI** (*Framework for Responsible and Ethical Enablement of AI*) committee report on **13 August 2025**: **7 Sutras · 6 Pillars · 26 Recommendations**.
+RBI published the [**FREE-AI** (*Framework for Responsible and Ethical Enablement of AI*) committee report (Official PDF)](https://rbidocs.rbi.org.in/rdocs/PublicationReport/Pdfs/FREEAIR130820250A24FF2D4578453F824C72ED9F5D5851.PDF) on **13 August 2025**: **7 Sutras · 6 Pillars · 26 Recommendations**.
 
 Before quoting or scoping a regulated AI engagement, separate what the regulator owns from what the Regulated Entity must build:
 
 ```mermaid
-%%{init: {
-  "theme": "base",
-  "themeVariables": {
-    "fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif",
-    "fontSize": "14px",
-    "primaryColor": "#E8F0FE",
-    "primaryTextColor": "#202124",
-    "primaryBorderColor": "#4285F4",
-    "lineColor": "#5F6368",
-    "secondaryColor": "#E6F4EA",
-    "tertiaryColor": "#FEF7E0"
-  }
-}}%%
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif", "fontSize": "14px", "primaryColor": "#E8F0FE", "primaryTextColor": "#202124", "primaryBorderColor": "#4285F4", "lineColor": "#5F6368", "secondaryColor": "#E6F4EA", "tertiaryColor": "#FEF7E0"}}}%%
 flowchart LR
     FREEAI["RBI FREE-AI Framework<br/>7 Sutras · 6 Pillars · 26 Recommendations"]
 
@@ -121,38 +109,26 @@ flowchart LR
 Instead of scattering compliance checks across 62 individual agents, **every message traverses one Composite Policy Gate before dispatch**. Ten policies run deterministically before any agent ever sees the payload.
 
 ```mermaid
-%%{init: {
-  "theme": "base",
-  "themeVariables": {
-    "fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif",
-    "fontSize": "14px",
-    "primaryColor": "#E8F0FE",
-    "primaryTextColor": "#202124",
-    "primaryBorderColor": "#4285F4",
-    "lineColor": "#5F6368",
-    "clusterBkg": "#F8F9FA",
-    "clusterBorder": "#DADCE0"
-  }
-}}%%
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif", "fontSize": "14px", "primaryColor": "#E8F0FE", "primaryTextColor": "#202124", "primaryBorderColor": "#4285F4", "lineColor": "#5F6368", "clusterBkg": "#F8F9FA", "clusterBorder": "#DADCE0"}}}%%
 flowchart LR
     subgraph IN["Incoming Messages"]
         M1["1. ordinary question"]
-        M2["2. PAN -> US model"]
+        M2["2. PAN to US model"]
         M3["3. advice with no reason"]
         M4["4. PII, consent revoked"]
         M5["5. balance lookup"]
     end
 
-    GATE{{"COMPOSITE POLICY GATE<br/>10 Policies · Pre-Dispatch<br/>Residency · Consent · Explainability<br/>RBAC · Risk Drift · Audit"}}
+    GATE["COMPOSITE POLICY GATE<br/>10 Policies · Pre-Dispatch<br/>Residency · Consent · Explainability<br/>RBAC · Risk Drift · Audit"]
 
     subgraph DENY["Blocked Before Dispatch"]
-        D2["DENY [residency]<br/>pii bound for region us"]
-        D3["DENY [explainability]<br/>no rationale attached"]
-        D4["DENY [consent]<br/>no live consent in ledger"]
+        D2["DENY residency<br/>pii bound for region us"]
+        D3["DENY explainability<br/>no rationale attached"]
+        D4["DENY consent<br/>no live consent in ledger"]
     end
 
     subgraph AGENTS["62 Registered Agents"]
-        A1["Payment / Portfolio / KYC / Educator<br/>(Only compliant traffic reaches agents)"]
+        A1["Payment / Portfolio / KYC / Educator<br/>Only compliant traffic reaches agents"]
     end
 
     M1 --> GATE
@@ -187,39 +163,18 @@ flowchart LR
 ### 4.1 Pre-Dispatch Composite Policy Enforcement
 
 ```mermaid
-%%{init: {
-  "theme": "base",
-  "themeVariables": {
-    "fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif",
-    "actorFontFamily": "Google Sans, Roboto, sans-serif",
-    "noteFontFamily": "Google Sans, Roboto, sans-serif",
-    "messageFontFamily": "Roboto Mono, ui-monospace, monospace",
-    "messageFontSize": "13px",
-    "actorBkg": "#E8F0FE",
-    "actorBorder": "#4285F4",
-    "actorTextColor": "#174EA6",
-    "actorLineColor": "#DADCE0",
-    "signalColor": "#5F6368",
-    "signalTextColor": "#202124",
-    "noteBkgColor": "#FEF7E0",
-    "noteBorderColor": "#F9AB00",
-    "noteTextColor": "#202124",
-    "activationBkgColor": "#E6F4EA",
-    "activationBorderColor": "#34A853",
-    "sequenceNumberColor": "#FFFFFF"
-  }
-}}%%
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif", "actorFontFamily": "Google Sans, Roboto, sans-serif", "noteFontFamily": "Google Sans, Roboto, sans-serif", "messageFontFamily": "Roboto Mono, ui-monospace, monospace", "messageFontSize": "13px", "actorBkg": "#E8F0FE", "actorBorder": "#4285F4", "actorTextColor": "#174EA6", "actorLineColor": "#DADCE0", "signalColor": "#5F6368", "signalTextColor": "#202124", "noteBkgColor": "#FEF7E0", "noteBorderColor": "#F9AB00", "noteTextColor": "#202124", "activationBkgColor": "#E6F4EA", "activationBorderColor": "#34A853", "sequenceNumberColor": "#FFFFFF"}}}%%
 sequenceDiagram
     autonumber
-    actor Caller as Client / Upstream Service
+    actor Caller as Client Service
     participant Bus as Message Bus
-    participant Gate as Composite Policy Gate (10 Policies)
-    participant Consent as Consent Ledger (Append-Only)
+    participant Gate as Composite Policy Gate
+    participant Consent as Consent Ledger
     participant Audit as SHA-256 Audit Log
-    participant Agent as Target Agent (1 of 62)
+    participant Agent as Target Agent
 
     rect rgb(230, 244, 234)
-    Note over Caller,Agent: Case A — Compliant Request (Allowed)
+    Note over Caller,Agent: Case A - Compliant Request (Allowed)
     Caller->>Bus: send("ordinary question", actor="user-1", region="in")
     Bus->>Gate: Evaluate(msg)
     Gate->>Consent: HasLiveConsent("user-1", scope)
@@ -231,22 +186,22 @@ sequenceDiagram
     end
 
     rect rgb(252, 232, 230)
-    Note over Caller,Agent: Case B — Cross-Border PII Violation (Blocked Pre-Dispatch)
-    Caller->>Bus: send("PAN -> US model", pii=true, region="us")
+    Note over Caller,Agent: Case B - Cross-Border PII Violation (Blocked Pre-Dispatch)
+    Caller->>Bus: send("PAN to US model", pii=true, region="us")
     Bus->>Gate: Evaluate(msg)
     Gate->>Audit: Append(DENY, policy="residency", reason="pii bound for region us")
-    Gate-->>Bus: DENY [residency]
+    Gate-->>Bus: DENY residency
     Bus-->>Caller: 403 Refused (agent never invoked)
     end
 
     rect rgb(254, 247, 224)
-    Note over Caller,Agent: Case C — Consent Revoked Mid-Flight (Blocked Pre-Dispatch)
+    Note over Caller,Agent: Case C - Consent Revoked Mid-Flight (Blocked Pre-Dispatch)
     Caller->>Bus: send("PII lookup", actor="user-1", pii=true)
     Bus->>Gate: Evaluate(msg)
     Gate->>Consent: HasLiveConsent("user-1", "pii")
     Consent-->>Gate: false (revoked Tuesday)
     Gate->>Audit: Append(DENY, policy="consent", reason="no live consent")
-    Gate-->>Bus: DENY [consent]
+    Gate-->>Bus: DENY consent
     Bus-->>Caller: 403 Refused (provable refusal in audit log)
     end
 ```
@@ -258,44 +213,26 @@ sequenceDiagram
 An approval describes a system **as it was on the day it was signed**. When `var_calculator` is refactored from `medium` to `high` risk, nobody rejected or withdrew it — the approval register simply went stale. The gate catches that drift at dispatch time:
 
 ```mermaid
-%%{init: {
-  "theme": "base",
-  "themeVariables": {
-    "fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif",
-    "actorFontFamily": "Google Sans, Roboto, sans-serif",
-    "noteFontFamily": "Google Sans, Roboto, sans-serif",
-    "messageFontFamily": "Roboto Mono, ui-monospace, monospace",
-    "messageFontSize": "13px",
-    "actorBkg": "#E8F0FE",
-    "actorBorder": "#4285F4",
-    "actorTextColor": "#174EA6",
-    "actorLineColor": "#DADCE0",
-    "signalColor": "#5F6368",
-    "signalTextColor": "#202124",
-    "noteBkgColor": "#FEF7E0",
-    "noteBorderColor": "#F9AB00",
-    "noteTextColor": "#202124"
-  }
-}}%%
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif", "actorFontFamily": "Google Sans, Roboto, sans-serif", "noteFontFamily": "Google Sans, Roboto, sans-serif", "messageFontFamily": "Roboto Mono, ui-monospace, monospace", "messageFontSize": "13px", "actorBkg": "#E8F0FE", "actorBorder": "#4285F4", "actorTextColor": "#174EA6", "actorLineColor": "#DADCE0", "signalColor": "#5F6368", "signalTextColor": "#202124", "noteBkgColor": "#FEF7E0", "noteBorderColor": "#F9AB00", "noteTextColor": "#202124"}}}%%
 sequenceDiagram
     autonumber
-    participant CRO as CRO / Approval Register
-    participant Dev as Refactor / Release
+    participant CRO as Approval Register
+    participant Dev as Release Refactor
     participant Agent as var_calculator
-    participant Gate as Approval Drift Guard (Rec 17)
+    participant Gate as Approval Drift Guard
     participant Audit as Audit Log
 
     CRO->>CRO: Sign off var_calculator (status="approved", risk="medium")
-    Dev->>Agent: Refactor expands autonomy -> declares risk="high"
+    Dev->>Agent: Refactor expands autonomy (now declares risk="high")
 
     rect rgb(252, 232, 230)
-    Note over Agent,Gate: Dispatch Request Arrives — Drift Caught Pre-Dispatch
+    Note over Agent,Gate: Dispatch Request Arrives - Drift Caught Pre-Dispatch
     Agent->>Gate: RequestDispatch(agent_id="var_calculator", declares_now="high")
     Gate->>CRO: Lookup("var_calculator")
-    CRO-->>Gate: {status: "approved", risk: "medium"}
-    Gate->>Gate: rec.RiskClass ("medium") != declares_now ("high")
+    CRO-->>Gate: record(status="approved", risk="medium")
+    Gate->>Gate: Check rec.RiskClass ("medium") != declares_now ("high")
     Gate->>Audit: Append(STOP, "var_calculator", "ErrRiskChanged")
-    Gate-->>Agent: STOP — ErrRiskChanged (approved as medium, now declares high)
+    Gate-->>Agent: STOP - ErrRiskChanged (approved as medium, now declares high)
     end
 ```
 
@@ -306,36 +243,18 @@ sequenceDiagram
 A control that cannot catch its own operator is not a control. Each audit entry binds `prev_hash` into its SHA-256 digest, and the signed export manifest **always reports whether verification held — including when it did not**.
 
 ```mermaid
-%%{init: {
-  "theme": "base",
-  "themeVariables": {
-    "fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif",
-    "actorFontFamily": "Google Sans, Roboto, sans-serif",
-    "noteFontFamily": "Google Sans, Roboto, sans-serif",
-    "messageFontFamily": "Roboto Mono, ui-monospace, monospace",
-    "messageFontSize": "13px",
-    "actorBkg": "#E8F0FE",
-    "actorBorder": "#4285F4",
-    "actorTextColor": "#174EA6",
-    "actorLineColor": "#DADCE0",
-    "signalColor": "#5F6368",
-    "signalTextColor": "#202124",
-    "noteBkgColor": "#FCE8E6",
-    "noteBorderColor": "#EA4335",
-    "noteTextColor": "#A50E0E"
-  }
-}}%%
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif", "actorFontFamily": "Google Sans, Roboto, sans-serif", "noteFontFamily": "Google Sans, Roboto, sans-serif", "messageFontFamily": "Roboto Mono, ui-monospace, monospace", "messageFontSize": "13px", "actorBkg": "#E8F0FE", "actorBorder": "#4285F4", "actorTextColor": "#174EA6", "actorLineColor": "#DADCE0", "signalColor": "#5F6368", "signalTextColor": "#202124", "noteBkgColor": "#FCE8E6", "noteBorderColor": "#EA4335", "noteTextColor": "#A50E0E"}}}%%
 sequenceDiagram
     autonumber
     participant System as Policy Gate
-    participant Log as Append-Only Hash Chain
-    participant Operator as Privileged Operator (Tamper)
-    participant Verifier as Export Verifier / Auditor
+    participant Log as Hash-Chained Log
+    participant Operator as Privileged Operator
+    participant Verifier as Export Verifier
 
     rect rgb(230, 244, 234)
-    System->>Log: append(seq=1, prev="genesis", action="consent.grant") -> h1
-    System->>Log: append(seq=2, prev=h1, action="portfolio.read", actor="advisor-7") -> h2
-    System->>Log: append(seq=3, prev=h2, action="refund.issue") -> h3
+    System->>Log: append(seq=1, prev="genesis", action="consent.grant") => h1
+    System->>Log: append(seq=2, prev=h1, action="portfolio.read", actor="advisor-7") => h2
+    System->>Log: append(seq=3, prev=h2, action="refund.issue") => h3
     Verifier->>Log: verify(log)
     Log-->>Verifier: OK (all row_hash and prev_hash links match)
     end
@@ -343,9 +262,9 @@ sequenceDiagram
     rect rgb(252, 232, 230)
     Note over Operator,Log: Quiet History Edit Attempt
     Operator->>Log: UPDATE seq=2 SET actor="advisor-99"
-    Verifier->>Log: verify(log) & export_manifest()
-    Log-->>Verifier: BROKEN at seq 2 (row_hash != stored h2; h3 link severed)
-    Verifier-->>Verifier: manifest {count: 3, chain_verified: false, sha256: "9f3c4dc6..."}
+    Verifier->>Log: verify(log) and export_manifest()
+    Log-->>Verifier: BROKEN at seq 2 (row_hash != stored h2, h3 link severed)
+    Verifier-->>Verifier: manifest(count=3, chain_verified=false, sha256="9f3c4dc6...")
     end
 ```
 
@@ -615,19 +534,7 @@ policies:
 The EU AI Act reaches you **the moment your output is used in Europe** — regardless of where the system was engineered. Regulators converge because there are only so many ways to make an automated system accountable.
 
 ```mermaid
-%%{init: {
-  "theme": "base",
-  "themeVariables": {
-    "fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif",
-    "fontSize": "14px",
-    "primaryColor": "#E8F0FE",
-    "primaryTextColor": "#202124",
-    "primaryBorderColor": "#4285F4",
-    "lineColor": "#5F6368",
-    "clusterBkg": "#F8F9FA",
-    "clusterBorder": "#DADCE0"
-  }
-}}%%
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif", "fontSize": "14px", "primaryColor": "#E8F0FE", "primaryTextColor": "#202124", "primaryBorderColor": "#4285F4", "lineColor": "#5F6368", "clusterBkg": "#F8F9FA", "clusterBorder": "#DADCE0"}}}%%
 flowchart LR
     subgraph RBI["RBI FREE-AI"]
         R22["Rec 22"]
@@ -840,6 +747,7 @@ python3 -m http.server 8000
 
 - **Pratik Dhanave** — AI Architect, ClearRoute
 - **Live Talk Deck:** https://build-for-rbi-talk.vercel.app
+- **Official RBI FREE-AI Report (13 Aug 2025):** [Download PDF](https://rbidocs.rbi.org.in/rdocs/PublicationReport/Pdfs/FREEAIR130820250A24FF2D4578453F824C72ED9F5D5851.PDF)
 - **Website:** https://pratikdhanave.com
 - **LinkedIn:** https://linkedin.com/in/pratikdhanave
 - **GitHub:** https://github.com/PratikDhanave

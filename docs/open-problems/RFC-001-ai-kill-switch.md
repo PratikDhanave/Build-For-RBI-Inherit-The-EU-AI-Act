@@ -27,25 +27,7 @@ In a 62-agent system behind a Composite Policy Gate:
 ## 3. Proposed Architecture Direction (Draft for Discussion)
 
 ```mermaid
-%%{init: {
-  "theme": "base",
-  "themeVariables": {
-    "fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif",
-    "actorFontFamily": "Google Sans, Roboto, sans-serif",
-    "noteFontFamily": "Google Sans, Roboto, sans-serif",
-    "messageFontFamily": "Roboto Mono, ui-monospace, monospace",
-    "messageFontSize": "13px",
-    "actorBkg": "#E8F0FE",
-    "actorBorder": "#4285F4",
-    "actorTextColor": "#174EA6",
-    "actorLineColor": "#DADCE0",
-    "signalColor": "#5F6368",
-    "signalTextColor": "#202124",
-    "noteBkgColor": "#FCE8E6",
-    "noteBorderColor": "#EA4335",
-    "noteTextColor": "#A50E0E"
-  }
-}}%%
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif", "actorFontFamily": "Google Sans, Roboto, sans-serif", "noteFontFamily": "Google Sans, Roboto, sans-serif", "messageFontFamily": "Roboto Mono, ui-monospace, monospace", "messageFontSize": "13px", "actorBkg": "#E8F0FE", "actorBorder": "#4285F4", "actorTextColor": "#174EA6", "actorLineColor": "#DADCE0", "signalColor": "#5F6368", "signalTextColor": "#202124", "noteBkgColor": "#FCE8E6", "noteBorderColor": "#EA4335", "noteTextColor": "#A50E0E"}}}%%
 sequenceDiagram
     autonumber
     actor Op as Authorized Operator
@@ -70,4 +52,4 @@ sequenceDiagram
 - What is the safest re-arm / resume workflow (e.g., dual-custody sign-off + fresh risk-class verification)?
 - How do you test the kill switch continuously in production (chaos drills) without causing customer impact?
 
-> Have a working pattern or critique? [Open a proposal issue](../../issues/new?template=open-problem-proposal.md) referencing `RFC-001`.
+> Have a working pattern or critique? [Open a proposal issue](https://github.com/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act/issues/new?template=open-problem-proposal.md) referencing `RFC-001`.

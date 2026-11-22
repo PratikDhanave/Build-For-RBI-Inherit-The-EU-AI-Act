@@ -1,6 +1,6 @@
 # RBI FREE-AI — Complete 17-Recommendation Traceability Matrix
 
-RBI's FREE-AI Framework (13 August 2025) contains **26 recommendations**:
+RBI's [**FREE-AI Framework** (13 August 2025 — Official RBI PDF)](https://rbidocs.rbi.org.in/rdocs/PublicationReport/Pdfs/FREEAIR130820250A24FF2D4578453F824C72ED9F5D5851.PDF) contains **26 recommendations**:
 - **9 belong to the Regulator & SRO:** `Recs 1, 3, 5, 7, 9, 10, 11, 12, 13`
 - **17 belong to the Regulated Entity (your engineering scope):** `Recs 2, 4, 6, 8, 14–26`
 

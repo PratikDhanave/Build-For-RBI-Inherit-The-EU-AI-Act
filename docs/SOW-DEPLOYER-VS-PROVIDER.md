@@ -8,17 +8,7 @@
 ## 1. Decision Flow (Google Cloud Styled)
 
 ```mermaid
-%%{init: {
-  "theme": "base",
-  "themeVariables": {
-    "fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif",
-    "fontSize": "14px",
-    "primaryColor": "#E8F0FE",
-    "primaryTextColor": "#202124",
-    "primaryBorderColor": "#4285F4",
-    "lineColor": "#5F6368"
-  }
-}}%%
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif", "fontSize": "14px", "primaryColor": "#E8F0FE", "primaryTextColor": "#202124", "primaryBorderColor": "#4285F4", "lineColor": "#5F6368"}}}%%
 flowchart TD
     START["Bank / Regulated Entity Adopts AI System"] --> Q1{"Shipped under<br/>customer's own brand<br/>or trademark?"}
     Q1 -->|"Yes"| PROV["CUSTOMER BECOMES PROVIDER<br/>Heavy duties shift to client<br/>(Conformity, Annex IV, QMS, Post-Market)"]

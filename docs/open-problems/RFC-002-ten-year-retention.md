@@ -32,4 +32,4 @@ This is not a backlog ticket; it is a genuine tension between two competing inva
 2. **Tamper-evident history:** Decommissioned entries must be cryptographically bound (consistent with Lab 02's SHA-256 hash chain).
 3. **Offline verifiability:** An auditor must still be able to run a 5-minute offline check across both live and decommissioned records.
 
-> If you have solved this cleanly in a regulated bank or financial platform, [open a proposal issue](../../issues/new?template=open-problem-proposal.md) referencing `RFC-002`.
+> If you have solved this cleanly in a regulated bank or financial platform, [open a proposal issue](https://github.com/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act/issues/new?template=open-problem-proposal.md) referencing `RFC-002`.

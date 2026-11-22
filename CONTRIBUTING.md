@@ -6,7 +6,7 @@ Contributions, regulatory cross-walk refinements, adversarial red-team test case
 1. **Open Problem Proposals:**
    - [`RFC-001` — Mandatory Operator-Triggered AI Kill Switch](./docs/open-problems/RFC-001-ai-kill-switch.md)
    - [`RFC-002` — 10-Year Decommissioned Model Retention vs. Zero-Drift Live Inventory](./docs/open-problems/RFC-002-ten-year-retention.md)
-   - Use the [Open Problem Proposal Issue Template](../../issues/new?template=open-problem-proposal.md).
+   - Use the [Open Problem Proposal Issue Template](https://github.com/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act/issues/new?template=open-problem-proposal.md).
 2. **Red-Team Corpus Expansion:**
    - Add new adversarial edge cases to [`code/redteam/corpus.json`](./code/redteam/corpus.json) and verify `go test ./...` passes.
 3. **Additional Regulatory Instruments:**
