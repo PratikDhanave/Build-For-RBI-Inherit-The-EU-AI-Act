@@ -1728,19 +1728,18 @@ print("The export does not hide the break. It reports it.")</textarea>
 
   var RECORDED = {
     drift:
-"RUN   payment_orchestrator  live\n" +
-"STOP  kyc_orchestrator      ErrExpired\n" +
-"STOP  aml_monitor           ErrNotApproved (rejected)\n" +
-"STOP  var_calculator        ErrRiskChanged (approved as medium, now declares high)\n" +
-"RUN   educator              low/medium — no approval required\n" +
+"RUN   payment_orchestrator   live\n" +
+"STOP  kyc_orchestrator       ErrExpired\n" +
+"STOP  aml_monitor            ErrNotApproved (rejected)\n" +
+"STOP  var_calculator         ErrRiskChanged (approved as medium, now declares high)\n" +
+"RUN   educator               low/medium — no approval required\n" +
 "\n" +
-"var_calculator is the interesting one. Nobody rejected it.\n" +
-"It outran the decision that cleared it.",
+"var_calculator is the one I would have missed.",
     chain:
 "fresh chain           OK\n" +
 "after one edited row  BROKEN at seq 2 (row_hash)\n" +
 "\n" +
-"export manifest       {'count': 3, 'chain_verified': False, 'sha256': '7f3c1a9d4b2e8056c1df93a7…'}\n" +
+"export manifest       {'count': 3, 'chain_verified': False, 'sha256': '9f3c4dc6a8ff560f326e014a…'}\n" +
 "\n" +
 "The export does not hide the break. It reports it."
   };
@@ -1752,6 +1751,8 @@ print("The export does not hide the break. It reports it.")</textarea>
     loading = new Promise(function(res, rej){
       var s = document.createElement('script');
       s.src = PYODIDE;
+      s.crossOrigin = "anonymous";
+      s.referrerPolicy = "no-referrer";
       s.onload = function(){
         window.loadPyodide({indexURL:"https://cdn.jsdelivr.net/pyodide/v0.26.4/full/"})
           .then(function(py){ pyodide = py; res(py); }, rej);
@@ -1763,11 +1764,17 @@ print("The export does not hide the break. It reports it.")</textarea>
     return loading;
   }
 
-  function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
-
   function paint(out, text, cls){
     out.classList.add('on');
-    out.innerHTML = cls ? '<span class="'+cls+'">'+esc(text)+'</span>' : esc(text);
+    out.textContent = '';
+    if (cls) {
+      var sp = document.createElement('span');
+      sp.className = cls;
+      sp.textContent = text;
+      out.appendChild(sp);
+    } else {
+      out.textContent = text;
+    }
   }
 
   function run(cell){
@@ -1780,12 +1787,15 @@ print("The export does not hide the break. It reports it.")</textarea>
     paint(out, 'starting Python…', 'dim');
 
     loadPyodide_().then(function(py){
-      var src =
-        "import sys, io\n_b = io.StringIO()\n_o = sys.stdout\nsys.stdout = _b\ntry:\n" +
-        ta.value.split('\n').map(function(l){ return "    " + l; }).join('\n') +
-        "\nfinally:\n    sys.stdout = _o\n_b.getvalue()";
+      py.globals.set("_user_code", ta.value);
+      var runner =
+        "import io, contextlib\n" +
+        "_buf = io.StringIO()\n" +
+        "with contextlib.redirect_stdout(_buf):\n" +
+        "    exec(compile(_user_code, '<lab>', 'exec'), {})\n" +
+        "_buf.getvalue()";
       var res;
-      try { res = py.runPython(src); }
+      try { res = py.runPython(runner); }
       catch(err){ paint(out, String(err.message || err).split('\n').slice(-12).join('\n'), 'no');
                   btn.disabled=false; btn.textContent='▶ Run'; return; }
       paint(out, res || '(no output)');

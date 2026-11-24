@@ -4,7 +4,8 @@ demo:
 	bash code/scripts/offline_verify.sh
 
 test: validate-crosswalk
-	(cd code && go test -v ./...)
+	diff -u code/config/policy.yaml examples/policy.yaml
+	(cd code && go vet ./... && go test -race -count=1 -v ./...)
 	(cd code && go run ./cmd/demo >/dev/null)
 	python3 code/python/gate_demo.py --test
 	python3 code/python/approval.py --test

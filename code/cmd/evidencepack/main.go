@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/ed25519"
 	"crypto/rand"
+	"encoding/hex"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -30,15 +31,17 @@ func (a packAgent) ID() string           { return a.id }
 func (a packAgent) DeclaredRisk() string { return a.risk }
 
 // GeneratePack builds a complete, self-contained dual evidence pack for both
-// RBI FREE-AI and the EU AI Act directly from live offline execution.
-func GeneratePack(outDir, policyPath string, now time.Time) error {
+// RBI FREE-AI and the EU AI Act directly from live offline execution, returning
+// the Ed25519 public key used to sign the manifest (ephemeral in offline demo mode;
+// pin a KMS/HSM public key in production).
+func GeneratePack(outDir, policyPath string, now time.Time) (ed25519.PublicKey, error) {
 	cfg, err := config.LoadPolicyYAML(policyPath)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	policyBytes, err := os.ReadFile(policyPath)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	dirs := []string{
@@ -51,13 +54,13 @@ func GeneratePack(outDir, policyPath string, now time.Time) error {
 	}
 	for _, d := range dirs {
 		if err := os.MkdirAll(filepath.Join(outDir, d), 0o755); err != nil {
-			return err
+			return nil, err
 		}
 	}
 
 	// 01-policy (RBI Rec 14 / EU AI Act Art 17)
 	if err := os.WriteFile(filepath.Join(outDir, "01-policy", "policy.yaml"), policyBytes, 0o644); err != nil {
-		return err
+		return nil, err
 	}
 
 	// 02-inventory (RBI Rec 23 / EU AI Act Annex IV)
@@ -67,10 +70,10 @@ func GeneratePack(outDir, policyPath string, now time.Time) error {
 	reg.Register(registry.AgentDescriptor{ID: "educator", Domain: "retail", DeclaredRisk: "low", Owner: "cx@bank", VendorModel: "local-slm", DataCategories: []string{"faq"}, DisclosureMode: "first-event"})
 	invJSON, err := reg.Export(now).ToJSON()
 	if err != nil {
-		return err
+		return nil, err
 	}
 	if err := os.WriteFile(filepath.Join(outDir, "02-inventory", "inventory-export.json"), invJSON, 0o644); err != nil {
-		return err
+		return nil, err
 	}
 
 	// 03-approvals (RBI Rec 16, 17 / EU AI Act Art 9, 14)
@@ -104,24 +107,35 @@ func GeneratePack(outDir, policyPath string, now time.Time) error {
 			driftReport = append(driftReport, driftRow{a.ID(), a.DeclaredRisk(), "STOP", err.Error()})
 		}
 	}
-	driftJSON, _ := json.MarshalIndent(driftReport, "", "  ")
+	driftJSON, err := json.MarshalIndent(driftReport, "", "  ")
+	if err != nil {
+		return nil, err
+	}
 	if err := os.WriteFile(filepath.Join(outDir, "03-approvals", "approval-drift-report.json"), driftJSON, 0o644); err != nil {
-		return err
+		return nil, err
 	}
 
 	// 04-disclosure + 05-audit (RBI Rec 15, 18, 22, 25 / EU AI Act Art 12, 50)
 	ledger := consent.NewLedger()
-	ledger.Grant("adv-7", "pii", "onboarding opt-in", now.Add(-5*24*time.Hour))
-	ledger.Grant("user-revoked", "pii", "Monday grant", now.Add(-4*24*time.Hour))
-	ledger.Revoke("user-revoked", "pii", "customer revoked on Tuesday", now.Add(-3*24*time.Hour))
+	if _, err := ledger.Grant("cust-active", "pii", "onboarding opt-in", now.Add(-5*24*time.Hour)); err != nil {
+		return nil, err
+	}
+	if _, err := ledger.Grant("cust-revoked", "pii", "Monday grant", now.Add(-4*24*time.Hour)); err != nil {
+		return nil, err
+	}
+	if _, err := ledger.Revoke("cust-revoked", "pii", "customer revoked on Tuesday", now.Add(-3*24*time.Hour)); err != nil {
+		return nil, err
+	}
 
 	auditLog := audit.NewLog()
 	auditLog.Now = func() time.Time { return now }
 	policyGate := &gate.CompositeGate{
 		Policies: []gate.Policy{
-			gate.ResidencyPolicy{AllowedPIIRegions: cfg.PIIAllowedRegions},
-			gate.ExplainabilityPolicy{},
+			gate.RegistryPolicy{IsRegistered: reg.Has},
 			gate.RBACPolicy{HighRiskRoles: cfg.HighRiskRoles},
+			gate.ApprovalDriftPolicy{Register: approvals, Now: func() time.Time { return now }},
+			gate.ResidencyPolicy{AllowedPIIRegions: cfg.PIIAllowedRegions, DenyRegions: cfg.DenyRegions},
+			gate.ExplainabilityPolicy{},
 			gate.ConsentPolicy{LedgerCheck: func(subjectID, category string) (bool, string) {
 				live, ev, ok := ledger.IsLive(subjectID, category)
 				if !ok {
@@ -136,37 +150,51 @@ func GeneratePack(outDir, policyPath string, now time.Time) error {
 	disc := disclosure.NewTracker()
 	var envelopes []disclosure.Envelope
 	for _, msg := range []gate.Message{
-		{ActorID: "u-1", ActorRole: "user", AgentID: "educator", Region: "in", DeclaredRisk: "low"},
-		{ActorID: "adv-7", ActorRole: "advisor", AgentID: "var_calculator", Region: "us", ContainsPII: true, DeclaredRisk: "medium"},
-		{ActorID: "user-revoked", ActorRole: "advisor", AgentID: "var_calculator", Region: "in", ContainsPII: true, DeclaredRisk: "medium"},
-		{ActorID: "u-1", ActorRole: "user", AgentID: "educator", Region: "in", DeclaredRisk: "low"},
+		{ActorID: "u-1", SubjectID: "u-1", ActorRole: "user", AgentID: "educator", Region: "in", DeclaredRisk: "low"},
+		{ActorID: "adv-7", SubjectID: "cust-active", ActorRole: "advisor", AgentID: "var_calculator", Region: "in", DeclaredRisk: "high"},
+		{ActorID: "adv-7", SubjectID: "cust-active", ActorRole: "advisor", AgentID: "educator", Region: "us", ContainsPII: true, DeclaredRisk: "medium"},
+		{ActorID: "adv-7", SubjectID: "cust-revoked", ActorRole: "advisor", AgentID: "educator", Region: "in", ContainsPII: true, DeclaredRisk: "medium"},
+		{ActorID: "u-1", SubjectID: "u-1", ActorRole: "user", AgentID: "educator", Region: "in", DeclaredRisk: "low"},
 	} {
 		if err := policyGate.Allow(context.Background(), msg); err == nil {
 			envelopes = append(envelopes, disc.Wrap(msg.ActorID, "dispatched"))
 		}
 	}
-	discJSON, _ := json.MarshalIndent(envelopes, "", "  ")
+	discJSON, err := json.MarshalIndent(envelopes, "", "  ")
+	if err != nil {
+		return nil, err
+	}
 	if err := os.WriteFile(filepath.Join(outDir, "04-disclosure", "art50-verification.json"), discJSON, 0o644); err != nil {
-		return err
+		return nil, err
 	}
 
-	var jsonl []string
-	for _, e := range auditLog.Entries {
-		b, _ := json.Marshal(e)
+	entries := auditLog.Snapshot()
+	jsonl := make([]string, 0, len(entries))
+	for _, e := range entries {
+		b, err := json.Marshal(e)
+		if err != nil {
+			return nil, err
+		}
 		jsonl = append(jsonl, string(b))
 	}
 	if err := os.WriteFile(filepath.Join(outDir, "05-audit", "audit-chain.jsonl"), []byte(strings.Join(jsonl, "\n")+"\n"), 0o644); err != nil {
-		return err
+		return nil, err
 	}
 
-	_, priv, err := ed25519.GenerateKey(rand.Reader)
+	pub, priv, err := ed25519.GenerateKey(rand.Reader)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	signed := auditLog.ExportSignedManifest(priv, "rfc3161://tsa.bank.internal/"+now.UTC().Format(time.RFC3339))
-	signedJSON, _ := json.MarshalIndent(signed, "", "  ")
+	signed, err := auditLog.ExportSignedManifest(priv, "rfc3161://tsa.bank.internal/"+now.UTC().Format(time.RFC3339))
+	if err != nil {
+		return nil, err
+	}
+	signedJSON, err := json.MarshalIndent(signed, "", "  ")
+	if err != nil {
+		return nil, err
+	}
 	if err := os.WriteFile(filepath.Join(outDir, "05-audit", "signed-manifest.json"), signedJSON, 0o644); err != nil {
-		return err
+		return nil, err
 	}
 
 	// 06-incidents (RBI Rec 22 Annexure VI / EU AI Act Art 73)
@@ -179,21 +207,26 @@ func GeneratePack(outDir, policyPath string, now time.Time) error {
 		"HIGH",
 		"var_calculator approved as medium risk; refactor elevated runtime declaration to high without renewed CRO sign-off.",
 		"ApprovalDriftGuard (RBI Rec 17)",
+		"None — blocked pre-dispatch by Composite Policy Gate",
 		"Blocked pre-dispatch; re-approval workflow opened.",
 		signed.Manifest.ChainVerified,
 		signed.Manifest.PayloadSHA256[:24],
 		now,
 	)
-	incJSON, _ := rep.ToJSON()
+	incJSON, err := rep.ToJSON()
+	if err != nil {
+		return nil, err
+	}
 	if err := os.WriteFile(filepath.Join(outDir, "06-incidents", "annexure-vi-sample.json"), incJSON, 0o644); err != nil {
-		return err
+		return nil, err
 	}
 
 	indexMD := fmt.Sprintf(`# Dual Regulatory Evidence Pack (RBI FREE-AI + EU AI Act)
 
 - **Generated At:** %s
 - **Board Policy Version:** %s (approved by %s)
-- **Audit Chain Verified:** %v (Ed25519 signature valid: %v)
+- **Audit Chain Verified:** %v (Ed25519 pinned-key signature valid: %v)
+- **Ephemeral Demo Signing Public Key (replace with KMS/HSM in production):** `+"`%s`"+`
 
 | Folder | Artefact | RBI FREE-AI | EU AI Act |
 | --- | --- | --- | --- |
@@ -203,9 +236,12 @@ func GeneratePack(outDir, policyPath string, now time.Time) error {
 | 04-disclosure | art50-verification.json | Rec 18, 25 | Article 50 |
 | 05-audit | audit-chain.jsonl + signed-manifest.json | Rec 22 | Article 12 |
 | 06-incidents | annexure-vi-sample.json | Rec 22 (Annexure VI) | Article 73 |
-`, now.UTC().Format(time.RFC3339), cfg.Version, cfg.ApprovedBy, signed.Manifest.ChainVerified, audit.VerifySignedManifest(signed))
+`, now.UTC().Format(time.RFC3339), cfg.Version, cfg.ApprovedBy, signed.Manifest.ChainVerified, audit.VerifySignedManifest(signed, pub), hex.EncodeToString(pub))
 
-	return os.WriteFile(filepath.Join(outDir, "INDEX.md"), []byte(indexMD), 0o644)
+	if err := os.WriteFile(filepath.Join(outDir, "INDEX.md"), []byte(indexMD), 0o644); err != nil {
+		return nil, err
+	}
+	return pub, nil
 }
 
 func main() {
@@ -214,7 +250,7 @@ func main() {
 	flag.Parse()
 
 	now := time.Date(2026, 11, 28, 10, 0, 0, 0, time.UTC)
-	if err := GeneratePack(*out, *policy, now); err != nil {
+	if _, err := GeneratePack(*out, *policy, now); err != nil {
 		fmt.Fprintf(os.Stderr, "evidencepack error: %v\n", err)
 		os.Exit(1)
 	}

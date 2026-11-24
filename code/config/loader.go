@@ -13,6 +13,7 @@ type PolicyConfig struct {
 	ApprovedBy                 string
 	EffectiveDate              string
 	PIIAllowedRegions          map[string]bool
+	DenyRegions                map[string]bool
 	HighRiskRoles              map[string]bool
 	RequireRationaleFor        []string
 	EmitDisclosureOnFirstEvent bool
@@ -20,7 +21,8 @@ type PolicyConfig struct {
 }
 
 // LoadPolicyYAML parses our board-approved policy.yaml using zero external dependencies
-// so the entire governance suite stays 100% offline-runnable.
+// so the entire governance suite stays 100% offline-runnable while strictly validating
+// governance invariants (quote-aware comments, explicit deny precedence, no tab indentation).
 func LoadPolicyYAML(path string) (PolicyConfig, error) {
 	raw, err := os.ReadFile(path)
 	if err != nil {
@@ -28,16 +30,17 @@ func LoadPolicyYAML(path string) (PolicyConfig, error) {
 	}
 	cfg := PolicyConfig{
 		PIIAllowedRegions: make(map[string]bool),
+		DenyRegions:       make(map[string]bool),
 		HighRiskRoles:     make(map[string]bool),
 	}
 
 	section := ""
 	listKey := ""
-	for _, line := range strings.Split(string(raw), "\n") {
-		// Strip inline comments outside quotes
-		if idx := strings.Index(line, "#"); idx >= 0 {
-			line = line[:idx]
+	for lineNum, origLine := range strings.Split(string(raw), "\n") {
+		if strings.HasPrefix(origLine, "\t") || strings.Contains(leadingWhitespace(origLine), "\t") {
+			return PolicyConfig{}, fmt.Errorf("policy yaml %s:%d uses tab indentation (use spaces)", path, lineNum+1)
 		}
+		line := stripCommentOutsideQuotes(origLine)
 		trimmed := strings.TrimSpace(line)
 		if trimmed == "" {
 			continue
@@ -45,14 +48,24 @@ func LoadPolicyYAML(path string) (PolicyConfig, error) {
 		indent := len(line) - len(strings.TrimLeft(line, " "))
 
 		if strings.HasPrefix(trimmed, "- ") {
-			val := unquote(strings.TrimSpace(strings.TrimPrefix(trimmed, "- ")))
+			val := strings.ToLower(unquote(strings.TrimSpace(strings.TrimPrefix(trimmed, "- "))))
 			switch listKey {
 			case "pii_allowed_regions":
-				cfg.PIIAllowedRegions[val] = true
+				if val != "" {
+					cfg.PIIAllowedRegions[val] = true
+				}
+			case "deny_regions":
+				if val != "" {
+					cfg.DenyRegions[val] = true
+				}
 			case "high_risk_allowed_roles":
-				cfg.HighRiskRoles[val] = true
+				if val != "" {
+					cfg.HighRiskRoles[val] = true
+				}
 			case "require_rationale_for":
-				cfg.RequireRationaleFor = append(cfg.RequireRationaleFor, val)
+				if val != "" {
+					cfg.RequireRationaleFor = append(cfg.RequireRationaleFor, val)
+				}
 			}
 			continue
 		}
@@ -91,16 +104,52 @@ func LoadPolicyYAML(path string) (PolicyConfig, error) {
 		listKey = ""
 		switch {
 		case section == "disclosure" && key == "emit_on_first_event":
-			cfg.EmitDisclosureOnFirstEvent = (val == "true")
+			cfg.EmitDisclosureOnFirstEvent = (strings.ToLower(val) == "true")
 		case section == "audit" && key == "hash_algorithm":
-			cfg.AuditHashAlgorithm = val
+			cfg.AuditHashAlgorithm = strings.ToLower(val)
 		}
 	}
 
+	// Explicit deny_regions always takes precedence over pii_allowed_regions.
+	for denied := range cfg.DenyRegions {
+		delete(cfg.PIIAllowedRegions, denied)
+	}
+
 	if cfg.ApprovedBy == "" || len(cfg.PIIAllowedRegions) == 0 {
-		return PolicyConfig{}, fmt.Errorf("policy yaml %s missing required governance fields", path)
+		return PolicyConfig{}, fmt.Errorf("policy yaml %s missing required governance fields (approved_by / pii_allowed_regions)", path)
+	}
+	if len(cfg.HighRiskRoles) == 0 {
+		return PolicyConfig{}, fmt.Errorf("policy yaml %s missing high_risk_allowed_roles", path)
+	}
+	if cfg.AuditHashAlgorithm != "sha256" {
+		return PolicyConfig{}, fmt.Errorf("policy yaml %s unsupported audit hash_algorithm %q (must be sha256)", path, cfg.AuditHashAlgorithm)
 	}
 	return cfg, nil
+}
+
+func leadingWhitespace(s string) string {
+	for i := 0; i < len(s); i++ {
+		if s[i] != ' ' && s[i] != '\t' {
+			return s[:i]
+		}
+	}
+	return s
+}
+
+func stripCommentOutsideQuotes(line string) string {
+	inSingle := false
+	inDouble := false
+	for i := 0; i < len(line); i++ {
+		c := line[i]
+		if c == '\'' && !inDouble {
+			inSingle = !inSingle
+		} else if c == '"' && !inSingle {
+			inDouble = !inDouble
+		} else if c == '#' && !inSingle && !inDouble {
+			return line[:i]
+		}
+	}
+	return line
 }
 
 func unquote(s string) string {

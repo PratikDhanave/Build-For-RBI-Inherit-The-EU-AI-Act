@@ -15,7 +15,8 @@ func TestGenerateDualEvidencePack(t *testing.T) {
 	policyPath := filepath.Join("..", "..", "config", "policy.yaml")
 	now := time.Date(2026, 11, 28, 10, 0, 0, 0, time.UTC)
 
-	if err := GeneratePack(out, policyPath, now); err != nil {
+	trustedPub, err := GeneratePack(out, policyPath, now)
+	if err != nil {
 		t.Fatalf("GeneratePack failed: %v", err)
 	}
 
@@ -43,7 +44,7 @@ func TestGenerateDualEvidencePack(t *testing.T) {
 	if err := json.Unmarshal(raw, &sm); err != nil {
 		t.Fatalf("unmarshal signed-manifest.json: %v", err)
 	}
-	if !sm.Manifest.ChainVerified || !audit.VerifySignedManifest(sm) {
-		t.Fatalf("expected valid chain and Ed25519 signature in evidence pack: %+v", sm)
+	if !sm.Manifest.ChainVerified || !audit.VerifySignedManifest(sm, trustedPub) {
+		t.Fatalf("expected valid chain and pinned-key Ed25519 signature in evidence pack: %+v", sm)
 	}
 }

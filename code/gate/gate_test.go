@@ -3,6 +3,7 @@ package gate
 import (
 	"context"
 	"errors"
+	"strings"
 	"testing"
 	"time"
 )
@@ -16,11 +17,15 @@ func (a simpleAgent) ID() string           { return a.id }
 func (a simpleAgent) DeclaredRisk() string { return a.risk }
 
 type memoryAudit struct {
-	allows int
-	denies []string
+	allows    int
+	denies    []string
+	failAllow bool
 }
 
 func (m *memoryAudit) RecordAllow(_ Message) error {
+	if m.failAllow {
+		return errors.New("audit disk full")
+	}
 	m.allows++
 	return nil
 }
@@ -30,29 +35,59 @@ func (m *memoryAudit) RecordDeny(_ Message, policy, _ string) error {
 	return nil
 }
 
-func TestCompositeGate(t *testing.T) {
-	audit := &memoryAudit{}
+func TestCompositeGateAndSecurityHardening(t *testing.T) {
+	now := time.Date(2026, 11, 28, 10, 0, 0, 0, time.UTC)
+	validExp := now.Add(60 * 24 * time.Hour)
+	registered := map[string]bool{
+		"educator":             true,
+		"payment_orchestrator": true,
+		"var_calculator":       true,
+	}
+	approvals := map[string]*ApprovalRecord{
+		"payment_orchestrator": {Status: "approved", RiskClass: "high", ExpiresAt: &validExp},
+		"var_calculator":       {Status: "approved", RiskClass: "medium"}, // silent drift
+	}
+	consents := map[string]bool{
+		"cust-live":    true,
+		"cust-revoked": false,
+	}
+
+	auditSink := &memoryAudit{}
 	g := &CompositeGate{
 		Policies: []Policy{
-			ResidencyPolicy{AllowedPIIRegions: map[string]bool{"in": true, "adgm": true, "difc": true, "sama": true}},
-			ExplainabilityPolicy{},
+			RegistryPolicy{IsRegistered: func(id string) bool { return registered[id] }},
 			RBACPolicy{HighRiskRoles: map[string]bool{"advisor": true, "operator": true}},
-			ConsentPolicy{},
+			ApprovalDriftPolicy{Register: approvals, Now: func() time.Time { return now }},
+			ResidencyPolicy{
+				AllowedPIIRegions: map[string]bool{"in": true, "adgm": true, "difc": true, "sama": true},
+				DenyRegions:       map[string]bool{"us": true},
+			},
+			ExplainabilityPolicy{},
+			ConsentPolicy{LedgerCheck: func(subjectID, _ string) (bool, string) {
+				if consents[subjectID] {
+					return true, ""
+				}
+				return false, "revoked on Tuesday"
+			}},
 		},
-		Audit: audit,
+		Audit: auditSink,
 	}
 
 	cases := []struct {
-		name      string
-		msg       Message
-		wantAllow bool
+		name       string
+		msg        Message
+		wantAllow  bool
+		wantPolicy string
 	}{
-		{"ordinary question", Message{ActorRole: "user", DeclaredRisk: "low", Region: "in", ConsentLive: true}, true},
-		{"PAN to US model", Message{ActorRole: "advisor", DeclaredRisk: "medium", ContainsPII: true, Region: "us", ConsentLive: true}, false},
-		{"advice without rationale", Message{ActorRole: "advisor", DeclaredRisk: "medium", IsAdvice: true, Rationale: "", ConsentLive: true}, false},
-		{"user hits high agent", Message{ActorRole: "user", DeclaredRisk: "high", Region: "in", ConsentLive: true}, false},
-		{"PII with revoked consent", Message{ActorRole: "advisor", DeclaredRisk: "medium", ContainsPII: true, Region: "in", ConsentLive: false}, false},
-		{"balance lookup", Message{ActorRole: "user", DeclaredRisk: "low", Region: "in", ConsentLive: true}, true},
+		{"ordinary question", Message{ActorID: "u-1", SubjectID: "u-1", ActorRole: "user", AgentID: "educator", DeclaredRisk: "low", Region: "in"}, true, ""},
+		{"shadow unregistered agent blocked", Message{ActorID: "adv-7", SubjectID: "cust-live", ActorRole: "advisor", AgentID: "shadow_agent", DeclaredRisk: "low", Region: "in"}, false, "registry"},
+		{"uppercase HIGH risk blocked for user", Message{ActorID: "u-1", ActorRole: "user", AgentID: "payment_orchestrator", DeclaredRisk: " HIGH ", Region: "in"}, false, "rbac"},
+		{"unknown risk tier fails closed", Message{ActorID: "adv-7", ActorRole: "advisor", AgentID: "educator", DeclaredRisk: "critical", Region: "in"}, false, "rbac"},
+		{"drifted var_calculator blocked at gate", Message{ActorID: "adv-7", ActorRole: "advisor", AgentID: "var_calculator", DeclaredRisk: "high", Region: "in"}, false, "approval_drift"},
+		{"PAN to US model denied", Message{ActorID: "adv-7", SubjectID: "cust-live", ActorRole: "advisor", AgentID: "educator", DeclaredRisk: "medium", ContainsPII: true, Region: "US"}, false, "residency"},
+		{"whitespace-only rationale blocked", Message{ActorID: "adv-7", ActorRole: "advisor", AgentID: "educator", DeclaredRisk: "medium", IsAdvice: true, Rationale: "   \t\n ", Region: "in"}, false, "explainability"},
+		{"advisor blocked when customer SubjectID revoked", Message{ActorID: "adv-7", SubjectID: "cust-revoked", ActorRole: "advisor", AgentID: "educator", DeclaredRisk: "medium", ContainsPII: true, Region: "in"}, false, "consent"},
+		{"authorized high-risk dispatch allowed", Message{ActorID: "op-1", SubjectID: "cust-live", ActorRole: "operator", AgentID: "payment_orchestrator", DeclaredRisk: "high", ContainsPII: true, Region: "IN"}, true, ""},
 	}
 
 	for _, tc := range cases {
@@ -60,17 +95,29 @@ func TestCompositeGate(t *testing.T) {
 		if tc.wantAllow && err != nil {
 			t.Fatalf("%s: expected ALLOW, got %v", tc.name, err)
 		}
-		if !tc.wantAllow && err == nil {
-			t.Fatalf("%s: expected DENY, got ALLOW", tc.name)
+		if !tc.wantAllow {
+			if err == nil {
+				t.Fatalf("%s: expected DENY [%s], got ALLOW", tc.name, tc.wantPolicy)
+			}
+			if !strings.Contains(err.Error(), "["+tc.wantPolicy+"]") {
+				t.Fatalf("%s: expected policy [%s], got %v", tc.name, tc.wantPolicy, err)
+			}
 		}
 	}
 
-	if audit.allows != 2 || len(audit.denies) != 4 {
-		t.Fatalf("unexpected audit totals: allows=%d denies=%d", audit.allows, len(audit.denies))
+	if auditSink.allows != 2 || len(auditSink.denies) != 7 {
+		t.Fatalf("unexpected audit totals: allows=%d denies=%d", auditSink.allows, len(auditSink.denies))
+	}
+
+	// Failing audit sink MUST fail closed on ALLOW
+	auditSink.failAllow = true
+	err := g.Allow(context.Background(), Message{ActorID: "u-1", ActorRole: "user", AgentID: "educator", DeclaredRisk: "low", Region: "in"})
+	if err == nil || !strings.Contains(err.Error(), "[audit]") {
+		t.Fatalf("expected fail-closed [audit] error when audit sink fails, got %v", err)
 	}
 }
 
-func TestCheckApprovalDrift(t *testing.T) {
+func TestCheckApprovalDriftAndNormalization(t *testing.T) {
 	now := time.Date(2026, 11, 28, 10, 0, 0, 0, time.UTC)
 	validExp := now.Add(60 * 24 * time.Hour)
 	expired := now.Add(-24 * time.Hour)
@@ -83,8 +130,8 @@ func TestCheckApprovalDrift(t *testing.T) {
 		"educator":             nil,
 	}
 
-	if err := CheckApproval(register, simpleAgent{"payment_orchestrator", "high"}, now); err != nil {
-		t.Fatalf("expected payment_orchestrator allowed, got %v", err)
+	if err := CheckApproval(register, simpleAgent{"payment_orchestrator", "HIGH"}, now); err != nil {
+		t.Fatalf("expected payment_orchestrator allowed after case normalization, got %v", err)
 	}
 	if err := CheckApproval(register, simpleAgent{"kyc_orchestrator", "high"}, now); !errors.Is(err, ErrExpired) {
 		t.Fatalf("expected ErrExpired, got %v", err)
@@ -92,8 +139,11 @@ func TestCheckApprovalDrift(t *testing.T) {
 	if err := CheckApproval(register, simpleAgent{"aml_monitor", "high"}, now); !errors.Is(err, ErrNotApproved) {
 		t.Fatalf("expected ErrNotApproved, got %v", err)
 	}
-	if err := CheckApproval(register, simpleAgent{"var_calculator", "high"}, now); !errors.Is(err, ErrRiskChanged) {
-		t.Fatalf("expected ErrRiskChanged for var_calculator, got %v", err)
+	if err := CheckApproval(register, simpleAgent{"var_calculator", " HIGH "}, now); !errors.Is(err, ErrRiskChanged) {
+		t.Fatalf("expected ErrRiskChanged for var_calculator even with padded uppercase HIGH, got %v", err)
+	}
+	if err := CheckApproval(register, simpleAgent{"educator", "unknown-tier"}, now); !errors.Is(err, ErrUnknownRisk) {
+		t.Fatalf("expected ErrUnknownRisk on unknown tier, got %v", err)
 	}
 	if err := CheckApproval(register, simpleAgent{"educator", "low"}, now); err != nil {
 		t.Fatalf("expected low-risk educator allowed, got %v", err)

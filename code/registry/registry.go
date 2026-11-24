@@ -3,6 +3,7 @@ package registry
 import (
 	"encoding/json"
 	"sort"
+	"sync"
 	"time"
 )
 
@@ -28,7 +29,9 @@ type InventoryExport struct {
 	Agents             []AgentDescriptor `json:"agents"`
 }
 
+// LiveRegistry is a concurrency-safe runtime agent registry.
 type LiveRegistry struct {
+	mu     sync.RWMutex
 	agents map[string]AgentDescriptor
 }
 
@@ -37,10 +40,23 @@ func NewLiveRegistry() *LiveRegistry {
 }
 
 func (r *LiveRegistry) Register(a AgentDescriptor) {
+	r.mu.Lock()
+	defer r.mu.Unlock()
 	r.agents[a.ID] = a
 }
 
+// Has reports whether agentID is actively registered (used by gate.RegistryPolicy).
+func (r *LiveRegistry) Has(agentID string) bool {
+	r.mu.RLock()
+	defer r.mu.RUnlock()
+	_, ok := r.agents[agentID]
+	return ok
+}
+
 func (r *LiveRegistry) Export(now time.Time) InventoryExport {
+	r.mu.RLock()
+	defer r.mu.RUnlock()
+
 	ids := make([]string, 0, len(r.agents))
 	for id := range r.agents {
 		ids = append(ids, id)

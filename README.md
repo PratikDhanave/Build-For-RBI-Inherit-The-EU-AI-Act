@@ -56,7 +56,7 @@
 
 | Metric | Count | Meaning |
 | --- | :---: | --- |
-| **RBI FREE-AI (Regulated Entity)** | **17 / 17** | All 17 recommendations owned by a Regulated Entity — implemented in working code |
+| **RBI FREE-AI (Regulated Entity)** | **17 / 17** | All 17 RE recommendations addressed — executable technical core in [`code/`](./code) (9 Go packages + 4 Python labs) & organizational/process controls in [`docs/`](./docs) (full 127-package benchmark referenced in talk) |
 | **EU AI Act Controls Inherited** | **7** | Controls built for RBI that directly answer EU AI Act Articles 9, 12, 14, 15, 17, 50, 73 & Annex IV |
 | **RBI Draft MRM Gaps** | **2** | Named transparently against the 24 June 2026 Draft MRM guidance — not closed, not hidden |
 | **Network Dependency** | **0** | Runs offline on a laptop — no cloud account, no API key, no network required |
@@ -333,6 +333,7 @@ import (
 type Message struct {
 	ActorID      string
 	ActorRole    string
+	SubjectID    string // Customer / data subject for PII consent checks
 	AgentID      string
 	Region       string
 	ContainsPII  bool
@@ -362,7 +363,9 @@ func (g *CompositeGate) Allow(ctx context.Context, msg Message) error {
 		}
 	}
 	if g.Audit != nil {
-		_ = g.Audit.RecordAllow(msg)
+		if err := g.Audit.RecordAllow(msg); err != nil {
+			return fmt.Errorf("DENY [audit]: failed recording allow decision: %w", err)
+		}
 	}
 	return nil
 }

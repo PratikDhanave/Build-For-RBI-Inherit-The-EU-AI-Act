@@ -3,6 +3,7 @@ package incident
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -26,7 +27,13 @@ type AnnexureVIReport struct {
 }
 
 // NewAnnexureVI constructs a structured incident report ready for RBI & EU AI Act evidence packs.
-func NewAnnexureVI(id, entity, agentID, riskTier, category, severity, summary, control, containment string, chainOK bool, sha string, now time.Time) AnnexureVIReport {
+// customerImpact is caller-supplied (never hardcoded to "None") so post-dispatch incidents
+// accurately disclose actual impact under RBI Annexure VI and EU AI Act Article 73.
+func NewAnnexureVI(id, entity, agentID, riskTier, category, severity, summary, control, customerImpact, containment string, chainOK bool, sha string, now time.Time) AnnexureVIReport {
+	impact := strings.TrimSpace(customerImpact)
+	if impact == "" {
+		impact = "Under investigation — impact assessment pending"
+	}
 	return AnnexureVIReport{
 		IncidentID:          id,
 		ReportedAt:          now.UTC().Format(time.RFC3339),
@@ -38,7 +45,7 @@ func NewAnnexureVI(id, entity, agentID, riskTier, category, severity, summary, c
 		Severity:            severity,
 		Summary:             summary,
 		ControlTriggered:    control,
-		CustomerImpact:      "None — blocked pre-dispatch by Composite Policy Gate",
+		CustomerImpact:      impact,
 		ContainmentAction:   containment,
 		AuditChainVerified:  chainOK,
 		AuditManifestSHA256: sha,
@@ -59,12 +66,13 @@ func (r AnnexureVIReport) ToMarkdown() string {
 			"- **Agent / Model ID:** `%s` (Risk Tier: `%s`)\n"+
 			"- **Category / Severity:** %s / %s\n"+
 			"- **Control Triggered:** %s\n"+
+			"- **Customer Impact:** %s\n"+
 			"- **Summary:** %s\n"+
 			"- **Containment:** %s\n"+
 			"- **Audit Chain Verified:** `%v` (`%s`)\n",
 		r.IncidentID, r.ReportedAt, r.RegulatedEntity,
 		r.AgentID, r.RiskTier, r.Category, r.Severity,
-		r.ControlTriggered, r.Summary, r.ContainmentAction,
+		r.ControlTriggered, r.CustomerImpact, r.Summary, r.ContainmentAction,
 		r.AuditChainVerified, r.AuditManifestSHA256,
 	)
 }

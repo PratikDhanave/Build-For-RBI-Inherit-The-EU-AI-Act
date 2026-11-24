@@ -86,6 +86,14 @@ Because the Composite Policy Gate sits **outside** every agent's reasoning loop 
 | **`ASI03` — Identity & Privilege Abuse** | Low-privilege user or guest session escalates into a high-risk agent (`payment_orchestrator`, `var_calculator`) | **RBACPolicy** enforces least-agency pre-dispatch (`RT-11`..`RT-12`) |
 | **`ASI08` — Resource Exhaustion** | Recursive multi-agent loops exhaust inference budgets or queue capacity | **Budget & Rate Cap** + circuit breakers *(with operator hard stop tracked in `RFC-001`)* |
 
+### Trust Boundary: Who Stamps the Message Envelope?
+
+> **Critical Security Boundary (`ASI01`):** A deterministic gate is only as trustworthy as its envelope metadata (`ContainsPII`, `SubjectID`, `Region`, `DeclaredRisk`). In production, **never** trust the LLM or untrusted client payload to declare those fields:
+> - **`DeclaredRisk` & `AgentID`** are resolved from the authenticated **Live Registry** (unregistered shadow agents are rejected by `RegistryPolicy`).
+> - **`ContainsPII` & `SubjectID`** are stamped upstream by deterministic **API-gateway authentication + DLP/regex classifiers** (e.g., PAN/Aadhaar/IBAN detectors) before the envelope enters `CompositeGate`.
+> - **`ActorRole`** comes from verified OIDC/JWT claims, separate from the customer's **`SubjectID`** used for append-only consent checks.
+> - **Fail-Closed Audit Invariant:** If the audit sink returns an error on `RecordAllow`, `CompositeGate.Allow()` **fails closed** rather than dispatching an unlogged call.
+
 ---
 
 ## 5. Open Boundary: Automated Guardrails vs. Operator Kill Switch

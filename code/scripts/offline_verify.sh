@@ -4,8 +4,8 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
-echo "=== 1. Go Governance Packages & 16-Case Red-Team Suite ==="
-(cd "$ROOT_DIR/code" && go test -v ./...)
+echo "=== 1. Go Vet, Race Detector & 16-Case Red-Team Suite ==="
+(cd "$ROOT_DIR/code" && go vet ./... && go test -race -count=1 -v ./...)
 
 echo ""
 echo "=== 2. Go End-to-End Offline CLI Pipeline (go run ./cmd/demo) ==="

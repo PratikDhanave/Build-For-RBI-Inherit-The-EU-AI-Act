@@ -1,8 +1,16 @@
 package consent
 
 import (
+	"errors"
+	"fmt"
+	"strings"
 	"sync"
 	"time"
+)
+
+var (
+	ErrInvalidSubject       = errors.New("subject_id and category must be non-empty")
+	ErrNonMonotonicTimeline = errors.New("consent event timestamp precedes latest event for subject/category")
 )
 
 // Event is an immutable grant or revocation entry in the append-only consent ledger.
@@ -27,37 +35,55 @@ func NewLedger() *Ledger {
 	return &Ledger{}
 }
 
-func (l *Ledger) Grant(subjectID, category, reason string, at time.Time) Event {
+func (l *Ledger) Grant(subjectID, category, reason string, at time.Time) (Event, error) {
 	return l.append(subjectID, category, "GRANT", reason, at)
 }
 
-func (l *Ledger) Revoke(subjectID, category, reason string, at time.Time) Event {
+func (l *Ledger) Revoke(subjectID, category, reason string, at time.Time) (Event, error) {
 	return l.append(subjectID, category, "REVOKE", reason, at)
 }
 
-func (l *Ledger) append(subjectID, category, action, reason string, at time.Time) Event {
+func (l *Ledger) append(subjectID, category, action, reason string, at time.Time) (Event, error) {
+	sub := strings.TrimSpace(subjectID)
+	cat := strings.ToLower(strings.TrimSpace(category))
+	if sub == "" || cat == "" {
+		return Event{}, ErrInvalidSubject
+	}
+	ts := at.UTC()
+
 	l.mu.Lock()
 	defer l.mu.Unlock()
+	for i := len(l.events) - 1; i >= 0; i-- {
+		prev := l.events[i]
+		if prev.SubjectID == sub && prev.Category == cat {
+			if ts.Before(prev.Timestamp) {
+				return Event{}, fmt.Errorf("%w: %s < %s", ErrNonMonotonicTimeline, ts.Format(time.RFC3339), prev.Timestamp.Format(time.RFC3339))
+			}
+			break
+		}
+	}
 	ev := Event{
 		Seq:       len(l.events) + 1,
-		Timestamp: at.UTC(),
-		SubjectID: subjectID,
-		Category:  category,
+		Timestamp: ts,
+		SubjectID: sub,
+		Category:  cat,
 		Action:    action,
 		Reason:    reason,
 	}
 	l.events = append(l.events, ev)
-	return ev
+	return ev, nil
 }
 
 // IsLive returns whether the subject currently holds active consent for category
 // along with the most recent ledger event for provable refusal reporting.
 func (l *Ledger) IsLive(subjectID, category string) (bool, Event, bool) {
+	sub := strings.TrimSpace(subjectID)
+	cat := strings.ToLower(strings.TrimSpace(category))
 	l.mu.RLock()
 	defer l.mu.RUnlock()
 	for i := len(l.events) - 1; i >= 0; i-- {
 		ev := l.events[i]
-		if ev.SubjectID == subjectID && ev.Category == category {
+		if ev.SubjectID == sub && ev.Category == cat {
 			return ev.Action == "GRANT", ev, true
 		}
 	}
@@ -66,11 +92,12 @@ func (l *Ledger) IsLive(subjectID, category string) (bool, Event, bool) {
 
 // History returns a copy of all immutable consent events for a subject.
 func (l *Ledger) History(subjectID string) []Event {
+	sub := strings.TrimSpace(subjectID)
 	l.mu.RLock()
 	defer l.mu.RUnlock()
 	var out []Event
 	for _, ev := range l.events {
-		if ev.SubjectID == subjectID {
+		if ev.SubjectID == sub {
 			out = append(out, ev)
 		}
 	}

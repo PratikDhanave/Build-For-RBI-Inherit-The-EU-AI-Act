@@ -3,8 +3,10 @@ package audit
 import (
 	"crypto/ed25519"
 	"crypto/sha256"
+	"crypto/subtle"
 	"encoding/hex"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"strings"
 	"sync"
@@ -28,7 +30,7 @@ type Entry struct {
 }
 
 // Manifest is emitted on export and always reports ChainVerified honestly —
-// including when tampering has broken the chain.
+// including when tampering or truncation has broken the chain.
 type Manifest struct {
 	Count         int    `json:"count"`
 	ChainVerified bool   `json:"chain_verified"`
@@ -38,10 +40,10 @@ type Manifest struct {
 	ExportedAt    string `json:"exported_at"`
 }
 
-// Log is an append-only, in-memory SHA-256 hash chain that also satisfies gate.AuditLogger.
+// Log is an append-only, concurrency-safe SHA-256 hash chain implementing gate.AuditLogger.
 type Log struct {
 	mu      sync.Mutex
-	Entries []Entry
+	entries []Entry
 	Now     func() time.Time
 }
 
@@ -51,31 +53,33 @@ func NewLog() *Log {
 	}
 }
 
-func computeRowHash(prev string, e Entry) string {
-	type hashBody struct {
-		Prev      string `json:"prev"`
-		Seq       int    `json:"seq"`
-		Timestamp string `json:"timestamp"`
-		Actor     string `json:"actor"`
+func computeRowHash(prev string, e Entry) (string, error) {
+	// Fields are declared in alphabetical JSON key order for canonical determinism.
+	type canonicalRow struct {
 		Action    string `json:"action"`
-		Target    string `json:"target"`
+		Actor     string `json:"actor"`
 		Outcome   string `json:"outcome"`
-		Reason    string `json:"reason,omitempty"`
 		PrevHash  string `json:"prev_hash"`
+		Reason    string `json:"reason,omitempty"`
+		Seq       int    `json:"seq"`
+		Target    string `json:"target"`
+		Timestamp string `json:"timestamp"`
 	}
-	b, _ := json.Marshal(hashBody{
-		Prev:      prev,
-		Seq:       e.Seq,
-		Timestamp: e.Timestamp,
-		Actor:     e.Actor,
+	b, err := json.Marshal(canonicalRow{
 		Action:    e.Action,
-		Target:    e.Target,
+		Actor:     e.Actor,
 		Outcome:   e.Outcome,
+		PrevHash:  prev,
 		Reason:    e.Reason,
-		PrevHash:  e.PrevHash,
+		Seq:       e.Seq,
+		Target:    e.Target,
+		Timestamp: e.Timestamp,
 	})
+	if err != nil {
+		return "", err
+	}
 	sum := sha256.Sum256(b)
-	return hex.EncodeToString(sum[:])
+	return hex.EncodeToString(sum[:]), nil
 }
 
 // Append adds a new hash-chained entry bound to the previous row's digest.
@@ -84,15 +88,15 @@ func (l *Log) Append(actor, action, target, outcome, reason string) Entry {
 	defer l.mu.Unlock()
 
 	prev := "genesis"
-	if len(l.Entries) > 0 {
-		prev = l.Entries[len(l.Entries)-1].RowHash
+	if len(l.entries) > 0 {
+		prev = l.entries[len(l.entries)-1].RowHash
 	}
 	nowFn := l.Now
 	if nowFn == nil {
 		nowFn = func() time.Time { return time.Now().UTC() }
 	}
 	e := Entry{
-		Seq:       len(l.Entries) + 1,
+		Seq:       len(l.entries) + 1,
 		Timestamp: nowFn().UTC().Format(time.RFC3339),
 		Actor:     actor,
 		Action:    action,
@@ -101,9 +105,34 @@ func (l *Log) Append(actor, action, target, outcome, reason string) Entry {
 		Reason:    reason,
 		PrevHash:  prev,
 	}
-	e.RowHash = computeRowHash(prev, e)
-	l.Entries = append(l.Entries, e)
+	h, err := computeRowHash(prev, e)
+	if err != nil {
+		panic(fmt.Sprintf("audit row hash marshal failed: %v", err))
+	}
+	e.RowHash = h
+	l.entries = append(l.entries, e)
 	return e
+}
+
+// Snapshot returns a thread-safe copy of all audit entries.
+func (l *Log) Snapshot() []Entry {
+	l.mu.Lock()
+	defer l.mu.Unlock()
+	out := make([]Entry, len(l.entries))
+	copy(out, l.entries)
+	return out
+}
+
+// TamperRow mutates a stored entry in place to simulate an insider editing history
+// in tests and demos while holding the mutex cleanly.
+func (l *Log) TamperRow(index int, mutate func(*Entry)) error {
+	l.mu.Lock()
+	defer l.mu.Unlock()
+	if index < 0 || index >= len(l.entries) {
+		return fmt.Errorf("tamper index %d out of range [0,%d)", index, len(l.entries))
+	}
+	mutate(&l.entries[index])
+	return nil
 }
 
 // RecordAllow implements gate.AuditLogger.
@@ -126,17 +155,21 @@ func (l *Log) RecordDeny(msg gate.Message, policy, reason string) error {
 	return nil
 }
 
-// Verify walks the entire chain from genesis and returns the first broken sequence/field if tampered.
-func (l *Log) Verify() (ok bool, brokenSeq int, brokenField string) {
-	l.mu.Lock()
-	defer l.mu.Unlock()
-
+func (l *Log) verifyLocked() (ok bool, brokenSeq int, brokenField string) {
+	if len(l.entries) == 0 {
+		return false, 0, "empty_log"
+	}
 	prev := "genesis"
-	for _, e := range l.Entries {
+	for i, e := range l.entries {
+		expectedSeq := i + 1
+		if e.Seq != expectedSeq {
+			return false, expectedSeq, "seq"
+		}
 		if e.PrevHash != prev {
 			return false, e.Seq, "prev_hash"
 		}
-		if computeRowHash(prev, e) != e.RowHash {
+		h, err := computeRowHash(prev, e)
+		if err != nil || h != e.RowHash {
 			return false, e.Seq, "row_hash"
 		}
 		prev = e.RowHash
@@ -144,16 +177,26 @@ func (l *Log) Verify() (ok bool, brokenSeq int, brokenField string) {
 	return true, 0, ""
 }
 
-// ExportManifest produces a signed-ready summary manifest that never hides a broken chain.
-func (l *Log) ExportManifest() Manifest {
-	ok, seq, field := l.Verify()
+// Verify walks the entire chain from genesis and returns the first broken sequence/field if tampered.
+func (l *Log) Verify() (ok bool, brokenSeq int, brokenField string) {
+	l.mu.Lock()
+	defer l.mu.Unlock()
+	return l.verifyLocked()
+}
 
+// ExportManifest atomically verifies the chain and hashes the exact verified snapshot
+// under one mutex hold (preventing TOCTOU races between verification and export).
+func (l *Log) ExportManifest() (Manifest, error) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
 
-	lines := make([]string, 0, len(l.Entries))
-	for _, e := range l.Entries {
-		b, _ := json.Marshal(e)
+	ok, seq, field := l.verifyLocked()
+	lines := make([]string, 0, len(l.entries))
+	for _, e := range l.entries {
+		b, err := json.Marshal(e)
+		if err != nil {
+			return Manifest{}, fmt.Errorf("marshal audit entry %d: %w", e.Seq, err)
+		}
 		lines = append(lines, string(b))
 	}
 	sum := sha256.Sum256([]byte(strings.Join(lines, "\n")))
@@ -162,18 +205,17 @@ func (l *Log) ExportManifest() Manifest {
 		nowFn = func() time.Time { return time.Now().UTC() }
 	}
 	return Manifest{
-		Count:         len(l.Entries),
+		Count:         len(l.entries),
 		ChainVerified: ok,
 		BrokenAtSeq:   seq,
 		BrokenField:   field,
 		PayloadSHA256: hex.EncodeToString(sum[:]),
 		ExportedAt:    nowFn().UTC().Format(time.RFC3339),
-	}
+	}, nil
 }
 
-// SignedManifest wraps Manifest with an Ed25519 signature and external timestamp
-// anchor reference so auditors can prove the export itself was not altered —
-// even when ChainVerified is false.
+// SignedManifest wraps Manifest + TimestampAnchor with an Ed25519 signature so auditors
+// can prove neither the manifest nor the anchor was altered — even when ChainVerified is false.
 type SignedManifest struct {
 	Manifest        Manifest `json:"manifest"`
 	TimestampAnchor string   `json:"timestamp_anchor"`
@@ -181,10 +223,27 @@ type SignedManifest struct {
 	SignatureHex    string   `json:"signature_hex"`
 }
 
-// ExportSignedManifest signs the canonical manifest JSON using Ed25519.
-func (l *Log) ExportSignedManifest(priv ed25519.PrivateKey, anchor string) SignedManifest {
-	m := l.ExportManifest()
-	canonical, _ := json.Marshal(m)
+type signedPayload struct {
+	Manifest        Manifest `json:"manifest"`
+	TimestampAnchor string   `json:"timestamp_anchor"`
+}
+
+// ExportSignedManifest signs both Manifest and TimestampAnchor using Ed25519.
+func (l *Log) ExportSignedManifest(priv ed25519.PrivateKey, anchor string) (SignedManifest, error) {
+	if len(priv) != ed25519.PrivateKeySize {
+		return SignedManifest{}, errors.New("invalid ed25519 private key length")
+	}
+	m, err := l.ExportManifest()
+	if err != nil {
+		return SignedManifest{}, err
+	}
+	canonical, err := json.Marshal(signedPayload{
+		Manifest:        m,
+		TimestampAnchor: anchor,
+	})
+	if err != nil {
+		return SignedManifest{}, fmt.Errorf("marshal signed payload: %w", err)
+	}
 	sig := ed25519.Sign(priv, canonical)
 	pub := priv.Public().(ed25519.PublicKey)
 	return SignedManifest{
@@ -192,22 +251,32 @@ func (l *Log) ExportSignedManifest(priv ed25519.PrivateKey, anchor string) Signe
 		TimestampAnchor: anchor,
 		PublicKeyHex:    hex.EncodeToString(pub),
 		SignatureHex:    hex.EncodeToString(sig),
-	}
+	}, nil
 }
 
-// VerifySignedManifest verifies the Ed25519 signature over the exported manifest.
-func VerifySignedManifest(sm SignedManifest) bool {
-	pub, err := hex.DecodeString(sm.PublicKeyHex)
-	if err != nil || len(pub) != ed25519.PublicKeySize {
+// VerifySignedManifest verifies the Ed25519 signature against a CALLER-PINNED trusted public key
+// (preventing self-signed key-substitution attacks) and authenticates both Manifest and TimestampAnchor.
+func VerifySignedManifest(sm SignedManifest, trustedPub ed25519.PublicKey) bool {
+	if len(trustedPub) != ed25519.PublicKeySize {
+		return false
+	}
+	embeddedPub, err := hex.DecodeString(sm.PublicKeyHex)
+	if err != nil || len(embeddedPub) != ed25519.PublicKeySize {
+		return false
+	}
+	if subtle.ConstantTimeCompare(embeddedPub, trustedPub) != 1 {
 		return false
 	}
 	sig, err := hex.DecodeString(sm.SignatureHex)
 	if err != nil || len(sig) != ed25519.SignatureSize {
 		return false
 	}
-	canonical, err := json.Marshal(sm.Manifest)
+	canonical, err := json.Marshal(signedPayload{
+		Manifest:        sm.Manifest,
+		TimestampAnchor: sm.TimestampAnchor,
+	})
 	if err != nil {
 		return false
 	}
-	return ed25519.Verify(ed25519.PublicKey(pub), canonical, sig)
+	return ed25519.Verify(trustedPub, canonical, sig)
 }
