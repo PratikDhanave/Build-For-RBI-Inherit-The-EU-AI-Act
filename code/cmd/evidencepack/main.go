@@ -10,7 +10,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 	"time"
 
 	"github.com/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act/code/audit"
@@ -168,16 +167,11 @@ func GeneratePack(outDir, policyPath string, now time.Time) (ed25519.PublicKey, 
 		return nil, err
 	}
 
-	entries := auditLog.Snapshot()
-	jsonl := make([]string, 0, len(entries))
-	for _, e := range entries {
-		b, err := json.Marshal(e)
-		if err != nil {
-			return nil, err
-		}
-		jsonl = append(jsonl, string(b))
+	jsonlBytes, err := auditLog.ExportJSONL()
+	if err != nil {
+		return nil, err
 	}
-	if err := os.WriteFile(filepath.Join(outDir, "05-audit", "audit-chain.jsonl"), []byte(strings.Join(jsonl, "\n")+"\n"), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join(outDir, "05-audit", "audit-chain.jsonl"), jsonlBytes, 0o644); err != nil {
 		return nil, err
 	}
 
@@ -210,7 +204,7 @@ func GeneratePack(outDir, policyPath string, now time.Time) (ed25519.PublicKey, 
 		"None — blocked pre-dispatch by Composite Policy Gate",
 		"Blocked pre-dispatch; re-approval workflow opened.",
 		signed.Manifest.ChainVerified,
-		signed.Manifest.PayloadSHA256[:24],
+		signed.Manifest.PayloadSHA256,
 		now,
 	)
 	incJSON, err := rep.ToJSON()

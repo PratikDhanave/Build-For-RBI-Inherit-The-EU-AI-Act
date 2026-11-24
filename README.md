@@ -743,7 +743,7 @@ Under the EU AI Act, you can accidentally move your customer from **deployer** t
 │   ├── audit/                           # SHA-256 hash chain + Ed25519 signed manifest export (Rec 22 / Art 12)
 │   ├── incident/                        # RBI Annexure VI / EU AI Act Art 73 generator (Go)
 │   ├── registry/                        # Zero-drift live agent registry exporter (Rec 23 / Annex IV)
-│   ├── redteam/                         # 16-case adversarial red-team corpus run on every PR (Rec 20 / Art 15)
+│   ├── redteam/                         # 20-case OWASP ASI adversarial red-team corpus run on every PR (Rec 20 / Art 15)
 │   ├── python/                          # Canonical Python labs (`gate_demo.py`, `approval.py`, `audit.py`, `consent_ledger.py`)
 │   └── scripts/offline_verify.sh        # One-command zero-network verification script
 ├── examples/

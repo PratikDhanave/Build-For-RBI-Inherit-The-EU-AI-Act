@@ -4,7 +4,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
-echo "=== 1. Go Vet, Race Detector & 16-Case Red-Team Suite ==="
+echo "=== 1. Go Vet, Race Detector & 20-Case OWASP ASI Red-Team Suite ==="
 (cd "$ROOT_DIR/code" && go vet ./... && go test -race -count=1 -v ./...)
 
 echo ""

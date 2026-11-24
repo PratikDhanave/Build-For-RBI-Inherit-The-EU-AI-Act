@@ -76,4 +76,11 @@ policies:
 	if _, err := LoadPolicyYAML(tabbed); err == nil {
 		t.Fatalf("expected tab-indented YAML rejected")
 	}
+
+	// 4. Reject disabling mandatory regulated policies (fail-closed)
+	disabled := filepath.Join(dir, "disabled.yaml")
+	_ = os.WriteFile(disabled, []byte("approved_by: \"b\"\npolicies:\n  residency:\n    enabled: false\n    pii_allowed_regions:\n      - \"in\"\n  rbac:\n    high_risk_allowed_roles:\n      - \"operator\"\n  audit:\n    hash_algorithm: \"sha256\"\n"), 0o644)
+	if _, err := LoadPolicyYAML(disabled); err == nil {
+		t.Fatalf("expected enabled: false on mandatory residency policy rejected")
+	}
 }

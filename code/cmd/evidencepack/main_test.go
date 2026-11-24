@@ -1,6 +1,8 @@
 package main
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 	"os"
 	"path/filepath"
@@ -46,5 +48,16 @@ func TestGenerateDualEvidencePack(t *testing.T) {
 	}
 	if !sm.Manifest.ChainVerified || !audit.VerifySignedManifest(sm, trustedPub) {
 		t.Fatalf("expected valid chain and pinned-key Ed25519 signature in evidence pack: %+v", sm)
+	}
+
+	// Independent auditor check: shasum -a 256 05-audit/audit-chain.jsonl MUST equal manifest.sha256
+	chainBytes, err := os.ReadFile(filepath.Join(out, "05-audit", "audit-chain.jsonl"))
+	if err != nil {
+		t.Fatalf("read audit-chain.jsonl: %v", err)
+	}
+	actualSum := sha256.Sum256(chainBytes)
+	actualHex := hex.EncodeToString(actualSum[:])
+	if actualHex != sm.Manifest.PayloadSHA256 {
+		t.Fatalf("audit-chain.jsonl SHA-256 mismatch: file=%s manifest=%s", actualHex, sm.Manifest.PayloadSHA256)
 	}
 }

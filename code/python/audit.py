@@ -31,8 +31,12 @@ def append(log: list[dict], actor: str, action: str, target: str) -> None:
 
 
 def verify(log: list[dict]) -> tuple[bool, int | None, str | None]:
+    if not log:
+        return False, 0, "empty_log"
     prev = "genesis"
-    for e in log:
+    for idx, e in enumerate(log, start=1):
+        if e.get("seq") != idx:
+            return False, idx, "seq"
         if e["prev_hash"] != prev:
             return False, e["seq"], "prev_hash"
         chk = {k: v for k, v in e.items() if k != "row_hash"}
@@ -76,6 +80,9 @@ def main() -> int:
         assert fresh_ok is True
         assert (tampered_ok, tampered_seq, tampered_field) == (False, 2, "row_hash")
         assert manifest["count"] == 3 and manifest["chain_verified"] is False
+        # Security regression checks: empty/truncated log & sequence tampering fail verify
+        assert verify([]) == (False, 0, "empty_log")
+        assert verify([{"seq": 99, "prev_hash": "genesis", "row_hash": "x"}]) == (False, 1, "seq")
         print("\n[OK] All hash-chain tamper assertions passed.")
 
     return 0

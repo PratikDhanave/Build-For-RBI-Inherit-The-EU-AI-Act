@@ -28,20 +28,29 @@ class Message:
 
 
 ALLOWED_PII_REGIONS = {"in", "adgm", "difc", "sama"}
+KNOWN_RISK_TIERS = {"low", "medium", "high"}
+HIGH_RISK_ROLES = {"advisor", "operator"}
 
 
 def evaluate_gate(msg: Message) -> tuple[bool, str]:
-    """Evaluate ordered policies before any agent sees the message."""
+    """Evaluate ordered policies before any agent sees the message (fail-closed)."""
+    risk = msg.target_risk.strip().lower()
+    role = msg.actor_role.strip().lower()
+    region = msg.target_region.strip().lower()
+
+    if risk not in KNOWN_RISK_TIERS:
+        return False, f"[rbac] unknown risk tier {msg.target_risk!r}"
+
     # Policy 1: Per-message data residency
-    if msg.contains_pii and msg.target_region not in ALLOWED_PII_REGIONS:
-        return False, f"[residency] pii bound for region {msg.target_region}"
+    if msg.contains_pii and region not in ALLOWED_PII_REGIONS:
+        return False, f"[residency] pii bound for region {region}"
 
     # Policy 2: Explainability requirement for advice/recommendations
     if msg.is_advice and not msg.has_rationale:
         return False, "[explainability] recommendation with no rationale"
 
     # Policy 3: Role-based access control for high-risk agents
-    if msg.target_risk == "high" and msg.actor_role not in {"advisor", "operator"}:
+    if risk == "high" and role not in HIGH_RISK_ROLES:
         return False, "[rbac] role may not address a high-risk agent"
 
     # Policy 4: Append-only live consent verification
@@ -107,6 +116,9 @@ def main() -> int:
         }
         for label, allowed, _ in results:
             assert allowed == expected[label], f"Unexpected verdict for {label}: {allowed}"
+        # Security regression checks: uppercase/padded and unknown risk tiers fail closed
+        assert evaluate_gate(Message("upper", actor_role="user", target_risk=" HIGH "))[0] is False
+        assert evaluate_gate(Message("unknown", actor_role="advisor", target_risk="critical"))[0] is False
         print("\n[OK] All composite policy gate assertions passed.")
 
     return 0

@@ -184,22 +184,41 @@ func (l *Log) Verify() (ok bool, brokenSeq int, brokenField string) {
 	return l.verifyLocked()
 }
 
-// ExportManifest atomically verifies the chain and hashes the exact verified snapshot
+func (l *Log) exportJSONLLocked() ([]byte, error) {
+	if len(l.entries) == 0 {
+		return []byte{}, nil
+	}
+	lines := make([]string, 0, len(l.entries))
+	for _, e := range l.entries {
+		b, err := json.Marshal(e)
+		if err != nil {
+			return nil, fmt.Errorf("marshal audit entry %d: %w", e.Seq, err)
+		}
+		lines = append(lines, string(b))
+	}
+	return []byte(strings.Join(lines, "\n") + "\n"), nil
+}
+
+// ExportJSONL returns the canonical newline-terminated JSONL bytes whose SHA-256
+// matches Manifest.PayloadSHA256 identically (verifiable via `shasum -a 256`).
+func (l *Log) ExportJSONL() ([]byte, error) {
+	l.mu.Lock()
+	defer l.mu.Unlock()
+	return l.exportJSONLLocked()
+}
+
+// ExportManifest atomically verifies the chain and hashes the exact canonical JSONL bytes
 // under one mutex hold (preventing TOCTOU races between verification and export).
 func (l *Log) ExportManifest() (Manifest, error) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
 
 	ok, seq, field := l.verifyLocked()
-	lines := make([]string, 0, len(l.entries))
-	for _, e := range l.entries {
-		b, err := json.Marshal(e)
-		if err != nil {
-			return Manifest{}, fmt.Errorf("marshal audit entry %d: %w", e.Seq, err)
-		}
-		lines = append(lines, string(b))
+	payload, err := l.exportJSONLLocked()
+	if err != nil {
+		return Manifest{}, err
 	}
-	sum := sha256.Sum256([]byte(strings.Join(lines, "\n")))
+	sum := sha256.Sum256(payload)
 	nowFn := l.Now
 	if nowFn == nil {
 		nowFn = func() time.Time { return time.Now().UTC() }

@@ -18,13 +18,13 @@ This matrix traces all **17 Regulated Entity recommendations** to concrete archi
 | **17** | Approval lifecycle & drift prevention | Runtime risk-drift guard (`ErrRiskChanged`, `ErrExpired`) | [`code/gate/approval_gate.go`](../code/gate/approval_gate.go) · [`code/python/approval.py`](../code/python/approval.py) | Articles 9, 14 |
 | **18** | Consumer transparency & disclosure | Mandatory AI disclosure emitted on first event | [`code/disclosure/disclosure.go`](../code/disclosure/disclosure.go) (`Tracker`) | **Article 50** *(law Aug 2026)* |
 | **19** | Explainability & rationale | Rationale required on all advice/credit/loan recommendations | [`code/gate/composite_gate.go`](../code/gate/composite_gate.go) (`ExplainabilityPolicy`) | Art 13, 86 |
-| **20** | Adversarial testing & red-teaming | 16-case red-team corpus executed automatically on every PR | [`code/redteam/corpus.json`](../code/redteam/corpus.json) · [`redteam_test.go`](../code/redteam/redteam_test.go) | **Article 15** |
+| **20** | Adversarial testing & red-teaming | 20-case OWASP ASI-tagged red-team corpus executed automatically on every PR | [`code/redteam/corpus.json`](../code/redteam/corpus.json) · [`redteam_test.go`](../code/redteam/redteam_test.go) | **Article 15** |
 | **21** | Third-party / vendor accountability | Vendor model metadata tracked in live registry + 5-min test | [`docs/VENDOR-CHECKLIST.md`](./VENDOR-CHECKLIST.md) · [`examples/inventory-export.json`](../examples/inventory-export.json) | Art 25 |
-| **22** | Auditability & incident reporting | SHA-256 hash chain + Ed25519 signed manifest + RBI Annexure VI | [`code/audit/chain.go`](../code/audit/chain.go) · [`code/incident/annexure_vi.go`](../code/incident/annexure_vi.go) | **Articles 12, 73** |
-| **23** | Full AI/model inventory | Live runtime registry exporter (zero-drift; see `RFC-002` for 10-yr gap) | [`code/registry/registry.go`](../code/registry/registry.go) · [`examples/inventory-export.json`](../examples/inventory-export.json) | **Annex IV** |
+| **22** | Auditability & incident reporting | SHA-256 hash chain + pinned-key Ed25519 signed manifest + RBI Annexure VI | [`code/audit/chain.go`](../code/audit/chain.go) · [`code/incident/annexure_vi.go`](../code/incident/annexure_vi.go) | **Articles 12, 73** |
+| **23** | Full AI/model inventory | Live runtime registry exporter + pre-dispatch `RegistryPolicy` (see `RFC-002` for 10-yr gap) | [`code/registry/registry.go`](../code/registry/registry.go) · [`examples/inventory-export.json`](../examples/inventory-export.json) | **Annex IV** |
 | **24** | Continuous monitoring & fallbacks | Circuit breakers, caps & fallbacks (see `RFC-001` for kill switch gap) | [`docs/open-problems/RFC-001-ai-kill-switch.md`](./open-problems/RFC-001-ai-kill-switch.md) | Art 72 |
 | **25** | Customer grievance & first-event notice | First-event disclosure + auditable refusal traces for disputes | [`code/audit/chain.go`](../code/audit/chain.go) | **Article 50** |
-| **26** | Independent assurance & evidence packs | Machine-readable cross-walk + offline runnable evidence suite | [`crosswalk/rbi-eu-ai-act.json`](../crosswalk/rbi-eu-ai-act.json) · `make test` | Art 11, 17 |
+| **26** | Independent assurance & evidence packs | Dual RBI + EU AI Act evidence pack generator + machine-readable cross-walk | [`code/cmd/evidencepack/main.go`](../code/cmd/evidencepack/main.go) · [`crosswalk/rbi-eu-ai-act.json`](../crosswalk/rbi-eu-ai-act.json) · `make test` | Art 11, 17 |
 
 ---
 

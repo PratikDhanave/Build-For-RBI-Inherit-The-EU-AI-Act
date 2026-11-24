@@ -49,20 +49,20 @@ func LoadPolicyYAML(path string) (PolicyConfig, error) {
 
 		if strings.HasPrefix(trimmed, "- ") {
 			val := strings.ToLower(unquote(strings.TrimSpace(strings.TrimPrefix(trimmed, "- "))))
-			switch listKey {
-			case "pii_allowed_regions":
+			switch {
+			case section == "residency" && listKey == "pii_allowed_regions":
 				if val != "" {
 					cfg.PIIAllowedRegions[val] = true
 				}
-			case "deny_regions":
+			case section == "residency" && listKey == "deny_regions":
 				if val != "" {
 					cfg.DenyRegions[val] = true
 				}
-			case "high_risk_allowed_roles":
+			case section == "rbac" && listKey == "high_risk_allowed_roles":
 				if val != "" {
 					cfg.HighRiskRoles[val] = true
 				}
-			case "require_rationale_for":
+			case section == "explainability" && listKey == "require_rationale_for":
 				if val != "" {
 					cfg.RequireRationaleFor = append(cfg.RequireRationaleFor, val)
 				}
@@ -102,6 +102,13 @@ func LoadPolicyYAML(path string) (PolicyConfig, error) {
 		}
 
 		listKey = ""
+		mandatorySections := map[string]bool{
+			"residency": true, "consent": true, "explainability": true,
+			"approval_drift": true, "rbac": true, "disclosure": true, "audit": true,
+		}
+		if key == "enabled" && mandatorySections[section] && strings.ToLower(val) == "false" {
+			return PolicyConfig{}, fmt.Errorf("policy yaml %s:%d cannot disable mandatory governance policy %q", path, lineNum+1, section)
+		}
 		switch {
 		case section == "disclosure" && key == "emit_on_first_event":
 			cfg.EmitDisclosureOnFirstEvent = (strings.ToLower(val) == "true")

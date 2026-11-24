@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Lab 03 — Append-Only Consent Ledger (Slide 03: "Revoke on Tuesday, fail in-flight").
+Lab 03 — Append-Only Consent Ledger (Slide 04: "Revoke on Tuesday, fail in-flight").
 
 Demonstrates an append-only consent ledger where a customer grants PII consent
 on Monday and revokes it on Tuesday. An in-flight PII request fails closed, and

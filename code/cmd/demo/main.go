@@ -171,7 +171,7 @@ func main() {
 		"None — blocked pre-dispatch by Composite Policy Gate",
 		"Blocked pre-dispatch; CRO re-approval workflow triggered.",
 		cleanSigned.Manifest.ChainVerified,
-		cleanSigned.Manifest.PayloadSHA256[:24],
+		cleanSigned.Manifest.PayloadSHA256,
 		now,
 	)
 	b, _ := json.MarshalIndent(rep, "    ", "  ")

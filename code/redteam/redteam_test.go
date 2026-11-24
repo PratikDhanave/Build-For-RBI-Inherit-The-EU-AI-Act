@@ -4,17 +4,22 @@ import (
 	"context"
 	"encoding/json"
 	"os"
+	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act/code/audit"
+	"github.com/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act/code/config"
 	"github.com/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act/code/gate"
+	"github.com/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act/code/registry"
 )
 
 type corpusCase struct {
 	ID           string `json:"id"`
 	Category     string `json:"category"`
 	OWASPASI     string `json:"owasp_asi"`
+	AgentID      string `json:"agent_id"`
 	Description  string `json:"description"`
 	ActorRole    string `json:"actor_role"`
 	DeclaredRisk string `json:"declared_risk"`
@@ -27,9 +32,14 @@ type corpusCase struct {
 	ExpectPolicy string `json:"expect_policy"`
 }
 
-// TestRedTeamCorpus executes the adversarial corpus on every PR
+// TestRedTeamCorpus executes the 20-case OWASP ASI-tagged adversarial corpus on every PR
+// against the REAL board-approved policy.yaml + RegistryPolicy + ApprovalDriftPolicy
 // (RBI FREE-AI Rec 20 / EU AI Act Article 15).
 func TestRedTeamCorpus(t *testing.T) {
+	cfg, err := config.LoadPolicyYAML(filepath.Join("..", "config", "policy.yaml"))
+	if err != nil {
+		t.Fatalf("LoadPolicyYAML: %v", err)
+	}
 	raw, err := os.ReadFile("corpus.json")
 	if err != nil {
 		t.Fatalf("read corpus.json: %v", err)
@@ -38,16 +48,31 @@ func TestRedTeamCorpus(t *testing.T) {
 	if err := json.Unmarshal(raw, &cases); err != nil {
 		t.Fatalf("unmarshal corpus.json: %v", err)
 	}
-	if len(cases) < 16 {
-		t.Fatalf("expected at least 16 red-team cases, got %d", len(cases))
+	if len(cases) < 20 {
+		t.Fatalf("expected at least 20 red-team cases, got %d", len(cases))
+	}
+
+	now := time.Date(2026, 11, 28, 10, 0, 0, 0, time.UTC)
+	validExp := now.Add(60 * 24 * time.Hour)
+
+	reg := registry.NewLiveRegistry()
+	reg.Register(registry.AgentDescriptor{ID: "educator", DeclaredRisk: "low"})
+	reg.Register(registry.AgentDescriptor{ID: "payment_orchestrator", DeclaredRisk: "high"})
+	reg.Register(registry.AgentDescriptor{ID: "var_calculator", DeclaredRisk: "high"})
+
+	approvals := map[string]*gate.ApprovalRecord{
+		"payment_orchestrator": {Status: "approved", RiskClass: "high", ExpiresAt: &validExp},
+		"var_calculator":       {Status: "approved", RiskClass: "medium"}, // silent drift
 	}
 
 	auditLog := audit.NewLog()
 	g := &gate.CompositeGate{
 		Policies: []gate.Policy{
-			gate.ResidencyPolicy{AllowedPIIRegions: map[string]bool{"in": true, "adgm": true, "difc": true, "sama": true}},
+			gate.RegistryPolicy{IsRegistered: reg.Has},
+			gate.RBACPolicy{HighRiskRoles: cfg.HighRiskRoles},
+			gate.ApprovalDriftPolicy{Register: approvals, Now: func() time.Time { return now }},
+			gate.ResidencyPolicy{AllowedPIIRegions: cfg.PIIAllowedRegions, DenyRegions: cfg.DenyRegions},
 			gate.ExplainabilityPolicy{},
-			gate.RBACPolicy{HighRiskRoles: map[string]bool{"advisor": true, "operator": true}},
 			gate.ConsentPolicy{},
 		},
 		Audit: auditLog,
@@ -55,10 +80,18 @@ func TestRedTeamCorpus(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.ID+"_"+tc.Category, func(t *testing.T) {
+			if tc.Category != "baseline" && !strings.HasPrefix(tc.OWASPASI, "ASI") {
+				t.Fatalf("%s missing valid OWASP ASI tag: %q", tc.ID, tc.OWASPASI)
+			}
+			agentID := tc.AgentID
+			if agentID == "" {
+				agentID = "educator"
+			}
 			msg := gate.Message{
 				ActorID:      "redteam-" + tc.ID,
+				SubjectID:    "subject-" + tc.ID,
 				ActorRole:    tc.ActorRole,
-				AgentID:      "target_agent",
+				AgentID:      agentID,
 				Region:       tc.Region,
 				ContainsPII:  tc.ContainsPII,
 				IsAdvice:     tc.IsAdvice,

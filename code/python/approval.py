@@ -15,6 +15,7 @@ from datetime import datetime, timedelta
 import sys
 
 NOW = datetime(2026, 11, 28, 10, 0)
+KNOWN_RISK_TIERS = {"low", "medium", "high"}
 
 REGISTER = {
     "payment_orchestrator": dict(
@@ -30,18 +31,21 @@ REGISTER = {
 
 
 def allow(agent_id: str, declares_now: str) -> tuple[bool, str]:
-    if declares_now != "high":
+    risk = declares_now.strip().lower()
+    if risk not in KNOWN_RISK_TIERS:
+        return False, f"ErrUnknownRisk ({declares_now!r})"
+    if risk != "high":
         return True, "low/medium — no approval required"
     rec = REGISTER.get(agent_id)
     if rec is None:
         return False, "ErrNoApproval"
-    if rec["status"] != "approved":
+    if rec["status"].strip().lower() != "approved":
         return False, f"ErrNotApproved ({rec['status']})"
     if rec.get("expires") and NOW > rec["expires"]:
         return False, "ErrExpired"
-    if rec["risk"] != declares_now:
+    if rec["risk"].strip().lower() != risk:
         return False, (
-            f"ErrRiskChanged (approved as {rec['risk']}, now declares {declares_now})"
+            f"ErrRiskChanged (approved as {rec['risk']}, now declares {risk})"
         )
     return True, "live"
 
@@ -71,6 +75,9 @@ def main() -> int:
         assert outcomes["aml_monitor"][0] is False and "ErrNotApproved" in outcomes["aml_monitor"][1]
         assert outcomes["var_calculator"][0] is False and "ErrRiskChanged" in outcomes["var_calculator"][1]
         assert outcomes["educator"][0] is True
+        # Security regression checks: padded uppercase and unknown risk tiers fail closed
+        assert allow("var_calculator", " HIGH ")[0] is False and "ErrRiskChanged" in allow("var_calculator", " HIGH ")[1]
+        assert allow("educator", "critical")[0] is False and "ErrUnknownRisk" in allow("educator", "critical")[1]
         print("\n[OK] All approval-drift assertions passed.")
 
     return 0
