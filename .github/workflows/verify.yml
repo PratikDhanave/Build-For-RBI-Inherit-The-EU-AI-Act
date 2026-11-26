@@ -45,6 +45,7 @@ jobs:
           python3 labs/gate_demo.py --test
           python3 labs/approval.py --test
           python3 labs/audit.py --test
+          python3 labs/consent_ledger.py --test
 
       - name: Validate machine-readable cross-walk (JSON & CSV)
         run: make validate-crosswalk

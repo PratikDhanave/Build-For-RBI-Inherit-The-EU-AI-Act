@@ -70,7 +70,7 @@ flowchart LR
 In [`code/config/policy.yaml`](../../code/config/policy.yaml) and [`code/config/loader.go`](../../code/config/loader.go), every policy parameter is declarative and versioned:
 
 - **Board Risk Committee approves the YAML** (`approved_by: board-risk-committee@bank`, `version: 2026.11`).
-- **CI validates every change** against the 16-case adversarial red-team corpus ([`code/redteam/corpus.json`](../../code/redteam/corpus.json)).
+- **CI validates every change** against the 20-case adversarial red-team corpus ([`code/redteam/corpus.json`](../../code/redteam/corpus.json)).
 - **New regulatory clauses become config PRs** — for example, adding a new residency jurisdiction (`"uk"`) or requiring rationales for a new advisory category requires zero changes to any of the 62 agents.
 
 ---
@@ -82,9 +82,9 @@ Because the Composite Policy Gate sits **outside** every agent's reasoning loop 
 | OWASP Agentic Risk | Threat in Regulated Finance | Enforced at the Composite Gate |
 | --- | --- | --- |
 | **`ASI01` — Agent Goal Hijack** | Indirect prompt injection in a customer PDF redirects an agent to exfiltrate PAN/KYC to an unapproved region | **ResidencyPolicy** + **ConsentPolicy** block disallowed regions/revoked PII before dispatch (`RT-01`..`RT-03`, `RT-14`..`RT-15`) |
-| **`ASI02` — Tool Misuse & Exploitation** | Hijacked or drifted agent invokes a high-risk advice/payment tool without required justification or active sign-off | **ExplainabilityPolicy** + **ApprovalDriftGuard (`ErrRiskChanged`)** fail closed (`RT-08`..`RT-09`) |
-| **`ASI03` — Identity & Privilege Abuse** | Low-privilege user or guest session escalates into a high-risk agent (`payment_orchestrator`, `var_calculator`) | **RBACPolicy** enforces least-agency pre-dispatch (`RT-11`..`RT-12`) |
-| **`ASI08` — Resource Exhaustion** | Recursive multi-agent loops exhaust inference budgets or queue capacity | **Budget & Rate Cap** + circuit breakers *(with operator hard stop tracked in `RFC-001`)* |
+| **`ASI02` — Tool Misuse & Exploitation** | Hijacked, unregistered, or drifted agent invokes a high-risk advice/payment tool without required justification or active sign-off | **RegistryPolicy** + **ExplainabilityPolicy** + **ApprovalDriftPolicy (`ErrRiskChanged`)** fail closed (`RT-08`..`RT-09`, `RT-17`..`RT-18`, `RT-20`) |
+| **`ASI03` — Identity & Privilege Abuse** | Low-privilege user or guest session escalates into a high-risk agent (`payment_orchestrator`, `var_calculator`) — including case/whitespace bypass tricks | **RBACPolicy** enforces least-agency pre-dispatch (`RT-11`..`RT-12`, `RT-19`) |
+| **`ASI08` — Cascading Failures** | A single localized fault, model drift, or runaway multi-agent loop propagates and amplifies across coupled financial workflows | **Circuit breakers, budget/rate caps & fail-closed gate** contain blast radius *(paired with operator hard stop for **`ASI10` — Rogue Agents** tracked in `RFC-001`)* |
 
 ### Trust Boundary: Who Stamps the Message Envelope?
 

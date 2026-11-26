@@ -68,8 +68,8 @@ Every control in this repo ships with a negative test proving it actually fails 
 
 | Failure Mode | Test Proving Detection | Command |
 | --- | --- | --- |
-| Agent silently drifts `medium` → `high` | `TestCheckApprovalDrift` (`ErrRiskChanged`) | `cd code && go test ./gate` |
+| Agent silently drifts `medium` → `high` | `TestCheckApprovalDriftAndNormalization` (`ErrRiskChanged`) | `cd code && go test ./gate` |
 | Customer revokes consent on Tuesday | `TestAppendOnlyConsentRevocationOnTuesday` | `cd code && go test ./consent` |
-| Privileged operator edits audit row 2 | `TestHashChainDetectsTamperAndSignsHonestManifest` | `cd code && go test ./audit` |
-| Attacker forges `chain_verified: true` in manifest | `VerifySignedManifest` returns `false` | `cd code && go test ./audit` |
-| 16 adversarial residency / RBAC / consent payloads | `TestRedTeamCorpus` (`RT-01`..`RT-16`) | `cd code && go test ./redteam` |
+| Privileged operator edits audit row 2 | `TestHashChainDetectsTamperAndEnforcesPinnedKeyCrypto` | `cd code && go test ./audit` |
+| Attacker forges `chain_verified: true` or substitutes key | `VerifySignedManifest` returns `false` | `cd code && go test ./audit` |
+| 20 adversarial residency / RBAC / consent / drift payloads | `TestRedTeamCorpus` (`RT-01`..`RT-20`) | `cd code && go test ./redteam` |

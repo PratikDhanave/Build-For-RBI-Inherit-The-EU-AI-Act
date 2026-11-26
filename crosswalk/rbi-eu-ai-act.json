@@ -9,42 +9,60 @@
       "rbi_free_ai": {
         "name": "RBI FREE-AI Framework",
         "published": "2025-08-13",
+        "chair": "Dr. Pushpak Bhattacharyya (IIT Bombay)",
         "source_url": "https://rbidocs.rbi.org.in/rdocs/PublicationReport/Pdfs/FREEAIR130820250A24FF2D4578453F824C72ED9F5D5851.PDF",
         "sutras": 7,
         "pillars": 6,
         "total_recommendations": 26,
         "regulator_sro_count": 9,
-        "regulated_entity_count": 17
+        "regulated_entity_count": 17,
+        "scoping_note": "The 17 RE technical-scope recs cover all 13 Risk Mitigation recs (14-26) plus RE technical readiness across Innovation Enablement recs 2, 4, 6, 8; Rec 10 (Capacity Building within REs) is organizational/HR training rather than a codebase control."
       },
       "eu_ai_act": {
-        "name": "EU Artificial Intelligence Act",
+        "name": "EU Artificial Intelligence Act (amended by Digital Omnibus Regulation (EU) 2026/1744)",
         "converged_controls": 7,
-        "article_50_effective": "2026-08-02"
+        "article_50_effective": "2026-08-02",
+        "article_50_legacy_watermarking_grace_end": "2026-12-02",
+        "annex_iii_high_risk_effective": "2027-12-02",
+        "annex_i_embedded_high_risk_effective": "2028-08-02"
       },
       "rbi_draft_mrm": {
-        "name": "RBI Draft Model Risk Management Guidance",
+        "name": "RBI Draft Guidance on Regulatory Principles for Model Risk Management, 2026",
         "published": "2026-06-24",
         "consultation_closed": "2026-07-24",
         "status": "final_circular_pending",
         "built": 4,
-        "open_gaps": 2
+        "open_gaps": 2,
+        "additional_draft_mandates": [
+          "Seamless one-click chatbot-to-human handoff and anti-automation-bias oversight",
+          "Independent model validation (3 lines of defense) including local validation of third-party vendor models and RMCB sign-off"
+        ]
+      },
+      "india_dpdp_rules_2025": {
+        "notified": "2025-11-13",
+        "consent_manager_live": "2026-11-13",
+        "full_enforcement": "2027-05-13"
+      },
+      "india_meity_it_amendment_rules_2026": {
+        "effective": "2026-02-20",
+        "scope": "Synthetically Generated Information (SGI) audio/visual labeling and provenance metadata"
       }
     }
   },
   "rbi_free_ai_recommendations": [
-    {"rec": 1,  "owner": "regulator_sro",    "scope": "Establish a National Centre of Excellence", "implemented_by_re": false},
+    {"rec": 1,  "owner": "regulator_sro",    "scope": "Financial Sector Data Infrastructure (DPI / AI Kosh integration)", "implemented_by_re": false},
     {"rec": 2,  "owner": "regulated_entity", "scope": "AI Innovation Sandbox (runnable offline pipeline with mocked I/O)", "implemented_by_re": true},
-    {"rec": 3,  "owner": "regulator_sro",    "scope": "Build Indigenous Datasets", "implemented_by_re": false},
-    {"rec": 4,  "owner": "regulated_entity", "scope": "Indigenous AI Models & per-message residency enforcement", "implemented_by_re": true},
-    {"rec": 5,  "owner": "regulator_sro",    "scope": "Capacity Building (sector-wide programs)", "implemented_by_re": false},
-    {"rec": 6,  "owner": "regulated_entity", "scope": "Adaptive Policies (declarative YAML & policy DSL)", "implemented_by_re": true},
-    {"rec": 7,  "owner": "regulator_sro",    "scope": "Inter-regulatory Coordination", "implemented_by_re": false},
-    {"rec": 8,  "owner": "regulated_entity", "scope": "Graded Liability (severity grading & auto-incident reporting)", "implemented_by_re": true},
-    {"rec": 9,  "owner": "regulator_sro",    "scope": "Sectoral AI Code of Conduct (SRO)", "implemented_by_re": false},
-    {"rec": 10, "owner": "regulator_sro",    "scope": "Embed AI in Annual Policy Reviews", "implemented_by_re": false},
-    {"rec": 11, "owner": "regulator_sro",    "scope": "AI in RBI Supervisory Toolkit", "implemented_by_re": false},
-    {"rec": 12, "owner": "regulator_sro",    "scope": "Industry-Regulator Forums", "implemented_by_re": false},
-    {"rec": 13, "owner": "regulator_sro",    "scope": "Reportable Incidents Framework (regulator definition)", "implemented_by_re": false},
+    {"rec": 3,  "owner": "regulator_sro",    "scope": "Incentives and Funding Support (shared compute & data fund)", "implemented_by_re": false},
+    {"rec": 4,  "owner": "regulated_entity", "scope": "Indigenous Financial Sector-Specific AI Models & per-message residency enforcement", "implemented_by_re": true},
+    {"rec": 5,  "owner": "regulator_sro",    "scope": "Integrating AI with Digital Public Infrastructure (DPI)", "implemented_by_re": false},
+    {"rec": 6,  "owner": "regulated_entity", "scope": "Adaptive and Enabling Policies (declarative YAML & policy DSL)", "implemented_by_re": true},
+    {"rec": 7,  "owner": "regulator_sro",    "scope": "Enabling AI-Based Affirmative Action (financial inclusion)", "implemented_by_re": false},
+    {"rec": 8,  "owner": "regulated_entity", "scope": "AI Liability Framework — Graded Liability (severity grading & auto-incident reporting)", "implemented_by_re": true},
+    {"rec": 9,  "owner": "regulator_sro",    "scope": "AI Institutional Framework (permanent RBI Standing AI Committee)", "implemented_by_re": false},
+    {"rec": 10, "owner": "regulator_sro",    "scope": "Capacity Building within REs (organizational Board/staff training — non-codebase scope)", "implemented_by_re": false},
+    {"rec": 11, "owner": "regulator_sro",    "scope": "Capacity Building for Regulators and Supervisors (dedicated AI institute)", "implemented_by_re": false},
+    {"rec": 12, "owner": "regulator_sro",    "scope": "Framework for Sharing Best Practices (SROs / IBA)", "implemented_by_re": false},
+    {"rec": 13, "owner": "regulator_sro",    "scope": "Recognise and Reward Responsible AI Innovation (regulators & industry)", "implemented_by_re": false},
     {"rec": 14, "owner": "regulated_entity", "scope": "Board-Approved AI Policy (Annexure V — declarative policy YAML)", "implemented_by_re": true},
     {"rec": 15, "owner": "regulated_entity", "scope": "Data Lifecycle Governance (encryption, retention, residency & append-only consent)", "implemented_by_re": true},
     {"rec": 16, "owner": "regulated_entity", "scope": "AI System Governance + Autonomous Systems (risk class, RBAC, caps, circuit breakers)", "implemented_by_re": true},
@@ -98,8 +116,8 @@
       "rbi_free_ai": "Rec 20",
       "eu_ai_act": "Article 15",
       "owasp_asi": ["ASI01", "ASI02", "ASI03"],
-      "evidence_artefact": "CI automated red-team test suite (code/redteam/corpus.json)",
-      "notes": "Accuracy, robustness, and cybersecurity regression gate mapped to OWASP Agentic Top 10"
+      "evidence_artefact": "CI automated red-team test suite (20 cases in code/redteam/corpus.json)",
+      "notes": "20-case accuracy, robustness, and cybersecurity regression gate mapped to OWASP Agentic Top 10 (ASI01-ASI03; ASI08 Cascading Failures & ASI10 Rogue Agents paired with circuit breakers & RFC-001)"
     },
     {
       "id": "ctrl-06",

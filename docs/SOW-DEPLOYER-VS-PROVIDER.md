@@ -37,7 +37,16 @@ flowchart TD
 
 ---
 
-## 3. Five Clauses to Lock Down Before Signing the SOW
+## 3. Critical Banking Caveat: What Still Stays With a Pure Deployer (Articles 26 & 27)
+
+Staying classified as a **Deployer** does **not** mean zero EU AI Act obligations for a financial institution:
+- **Article 27 — Mandatory Fundamental Rights Impact Assessment (FRIA):** Banks and insurers deploying **Annex III(5)(b)/(c)** high-risk AI (**creditworthiness / credit scoring, life & health insurance risk pricing**) **must conduct a FRIA before deployment** even when they remain pure Deployers (effective **2 December 2027** under `Regulation (EU) 2026/1744`, which allows cross-referencing existing GDPR Article 35 DPIAs into the FRIA).
+- **Article 26 — Deployer Operational Duties:** Human oversight assignment, input data relevance monitoring, retention of automatically generated logs (minimum 6 months under bank control), and informing affected individuals.
+- **Regional Contrast — DIFC Regulation 10:** Unlike the EU AI Act's 2-way *Deployer vs. Provider* split, **DIFC Reg 10** splits accountability **three ways** (*Deployer, Operator, Provider*) and mandates accredited-body certification for high-risk systems.
+
+---
+
+## 4. Five Clauses to Lock Down Before Signing the SOW
 
 1. **Role Allocation Statement:** Explicitly state which party acts as **Provider** vs. **Deployer** under EU AI Act definitions (and equivalent vendor-accountability duties under RBI Draft MRM Guidance).
 2. **Modification Boundary:** Define what changes are permitted configuration (YAML policies, prompt templates) versus restricted modifications (weight fine-tuning, new high-risk use cases) that require legal sign-off.

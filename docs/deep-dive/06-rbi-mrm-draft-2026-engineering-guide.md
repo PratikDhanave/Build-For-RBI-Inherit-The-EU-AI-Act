@@ -29,6 +29,11 @@ On **24 June 2026**, RBI issued the **Draft Guidance on Regulatory Principles fo
 | **5** | **Mandatory AI kill switch** | ⚠️ **Gap (`RFC-001`)** | Sub-second operator-triggered hard stop (scoped & global), in-flight cancellation, chaos-drill audit records |
 | **6** | **10-year retention including decommissioned models** | ⚠️ **Gap (`RFC-002`)** | Immutable historical inventory reconciled with zero-drift live registry, tamper-evident across a 10-year horizon |
 
+### Two Additional Operational Mandates to Plan For in the June 2026 Draft
+Beyond the 6-item architectural scorecard above, the June 2026 draft explicitly raises two operational requirements that engineering & product teams should bake into release checklists:
+1. **Seamless Chatbot-to-Human Handoff:** Customer-facing AI/chatbots must disclose AI interaction, state limitations, and offer a clear, unhindered (one-click, non-buried) path to reach a live human representative — paired with anti-automation-bias safeguards for human reviewers.
+2. **Independent Model Validation (3 Lines of Defense):** Objective pre-deployment and ongoing validation strictly separated from model developers — including independent local validation of third-party vendor "black-box" models (vendor attestations alone do not suffice) and explicit **Risk Management Committee of the Board (RMCB)** sign-off for high-risk models.
+
 ---
 
 ## 3. A Practical 90-Day Engineering Roadmap for Regulated Entities

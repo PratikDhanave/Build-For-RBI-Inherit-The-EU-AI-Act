@@ -314,8 +314,18 @@ classDiagram
         +RecordAllow(msg) error
         +RecordDeny(msg, policy, reason) error
     }
+    class RegistryPolicy {
+        +IsRegistered func(string) bool
+        +Check(ctx, msg) error
+    }
+    class ApprovalDriftPolicy {
+        +Register map~string,*ApprovalRecord~
+        +Now func() time.Time
+        +Check(ctx, msg) error
+    }
     class ResidencyPolicy {
         +AllowedPIIRegions map~string,bool~
+        +DenyRegions map~string,bool~
         +Check(ctx, msg) error
     }
     class ExplainabilityPolicy {
@@ -330,31 +340,37 @@ classDiagram
         +Check(ctx, msg) error
     }
     class AuditLog {
-        +Entries []Entry
+        -entries []Entry
         +Append(...) Entry
+        +Snapshot() []Entry
         +Verify() (bool, int, string)
-        +ExportSignedManifest(priv, anchor) SignedManifest
+        +ExportSignedManifest(priv, anchor) (SignedManifest, error)
     }
     class ConsentLedger {
-        +Grant(subject, cat, reason, at) Event
-        +Revoke(subject, cat, reason, at) Event
+        +Grant(subject, cat, reason, at) (Event, error)
+        +Revoke(subject, cat, reason, at) (Event, error)
         +IsLive(subject, cat) (bool, Event, bool)
     }
     class DisclosureTracker {
+        +MaxSessions int
         +Wrap(sessionID, payload) Envelope
     }
     class LiveRegistry {
         +Register(desc)
+        +Has(agentID) bool
         +Export(now) InventoryExport
     }
 
     CompositeGate --> Policy : evaluates in order
     CompositeGate --> AuditLogger : logs allow/deny
+    Policy <|.. RegistryPolicy
+    Policy <|.. ApprovalDriftPolicy
     Policy <|.. ResidencyPolicy
     Policy <|.. ExplainabilityPolicy
     Policy <|.. RBACPolicy
     Policy <|.. ConsentPolicy
     AuditLogger <|.. AuditLog
+    RegistryPolicy ..> LiveRegistry : checks active registration
     ConsentPolicy ..> ConsentLedger : queries live state
 ```
 
@@ -393,7 +409,7 @@ sequenceDiagram
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif", "fontSize": "14px", "primaryColor": "#E8F0FE", "primaryTextColor": "#202124", "primaryBorderColor": "#4285F4", "lineColor": "#5F6368"}}}%%
 flowchart LR
     PR["Pull Request Opened"] --> VET["go vet & go test<br/>All 9 Go Packages"]
-    VET --> RT["16-Case Red-Team Corpus<br/>RT-01..RT-16 (Rec 20 / Art 15)"]
+    VET --> RT["20-Case Red-Team Corpus<br/>RT-01..RT-20 (Rec 20 / Art 15)"]
     RT --> PY["4 Python Labs<br/>Gate · Drift · Audit · Consent"]
     PY --> XW["Cross-Walk & YAML Check<br/>JSON · CSV · policy.yaml"]
     XW --> MMD["Mermaid & Web Deck Lint<br/>index.html + Diagrams"]

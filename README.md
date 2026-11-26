@@ -106,9 +106,9 @@ flowchart LR
     FREEAI --> REG["Regulator & SRO Scope<br/>9 Recommendations (35%)<br/>Recs: 1, 3, 5, 7, 9-13"]
     FREEAI --> RE["Regulated Entity Scope<br/>17 Recommendations (65%)<br/>Recs: 2, 4, 6, 8, 14-26"]
 
-    REG --> R1["AI Centre of Excellence & Indigenous Datasets"]
-    REG --> R2["Capacity Building & Inter-Regulatory Coordination"]
-    REG --> R3["Sectoral Code of Conduct & Supervisory Toolkit"]
+    REG --> R1["Financial Sector Data Infra (AI Kosh) & Incentives"]
+    REG --> R2["DPI Integration, Affirmative Action & Standing AI Committee"]
+    REG --> R3["Capacity Building, Best-Practice Sharing & Innovation Awards"]
 
     RE --> E1["Board-Approved AI Policy & Risk Tiering"]
     RE --> E2["Pre-Dispatch Policy Gate & Live Registry"]
@@ -409,6 +409,7 @@ var_calculator is the one I would have missed.
 from datetime import datetime, timedelta
 
 NOW = datetime(2026, 11, 28, 10, 0)
+KNOWN_RISK_TIERS = {"low", "medium", "high"}
 
 REGISTER = {
     "payment_orchestrator": dict(
@@ -424,18 +425,21 @@ REGISTER = {
 
 
 def allow(agent_id, declares_now):
-    if declares_now != "high":
+    risk = declares_now.strip().lower()
+    if risk not in KNOWN_RISK_TIERS:
+        return False, f"ErrUnknownRisk ({declares_now!r})"
+    if risk != "high":
         return True, "low/medium — no approval required"
     rec = REGISTER.get(agent_id)
     if rec is None:
         return False, "ErrNoApproval"
-    if rec["status"] != "approved":
+    if rec["status"].strip().lower() != "approved":
         return False, f"ErrNotApproved ({rec['status']})"
     if rec.get("expires") and NOW > rec["expires"]:
         return False, "ErrExpired"
-    if rec["risk"] != declares_now:
+    if rec["risk"].strip().lower() != risk:
         return False, (
-            f"ErrRiskChanged (approved as {rec['risk']}, now declares {declares_now})"
+            f"ErrRiskChanged (approved as {rec['risk']}, now declares {risk})"
         )
     return True, "live"
 
@@ -497,8 +501,12 @@ def append(log, actor, action, target):
 
 
 def verify(log):
+    if not log:
+        return False, 0, "empty_log"
     prev = "genesis"
-    for e in log:
+    for idx, e in enumerate(log, start=1):
+        if e.get("seq") != idx:
+            return False, idx, "seq"
         if e["prev_hash"] != prev:
             return False, e["seq"], "prev_hash"
         chk = {k: v for k, v in e.items() if k != "row_hash"}
@@ -594,7 +602,7 @@ policies:
 
 The EU AI Act reaches you **the moment your output is used in Europe** — regardless of where the system was engineered. Regulators converge because there are only so many ways to make an automated system accountable.
 
-> **2026 Enforcement Note (`Regulation (EU) 2026/1744`, Digital Omnibus on AI):** **Article 50 transparency** is binding law since **2 August 2026** (legacy watermarking grace ends 2 Dec 2026), while standalone **Annex III High-Risk AI** deadlines (credit scoring, insurance pricing) shifted to **2 December 2027**. Full timeline in [Deep Dive 03](./docs/deep-dive/03-eu-ai-act-crosswalk-evidence-packs.md).
+> **2026 Enforcement Note (`Regulation (EU) 2026/1744`, Digital Omnibus on AI & India 2026 Overlays):** **EU Article 50 transparency** is binding law since **2 August 2026** (legacy watermarking grace ends **2 Dec 2026**), while standalone **Annex III High-Risk AI** & **Art. 27 FRIA** deadlines shifted to **2 December 2027**. In India, **DPDP Rules Rule 4 (Consent Managers)** went live **13 November 2026** (full enforcement **13 May 2027**), and **MeitY IT Amendment Rules, 2026** (effective **20 February 2026**) mandate audio/visual labels & provenance on Synthetically Generated Information (SGI). Full timeline in [Deep Dive 03](./docs/deep-dive/03-eu-ai-act-crosswalk-evidence-packs.md) & [Deep Dive 05](./docs/deep-dive/05-open-banking-multi-jurisdiction-residency.md).
 
 ```mermaid
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Google Sans, Roboto, Helvetica Neue, Arial, sans-serif", "fontSize": "14px", "primaryColor": "#E8F0FE", "primaryTextColor": "#202124", "primaryBorderColor": "#4285F4", "lineColor": "#5F6368", "clusterBkg": "#F8F9FA", "clusterBorder": "#DADCE0"}}}%%
