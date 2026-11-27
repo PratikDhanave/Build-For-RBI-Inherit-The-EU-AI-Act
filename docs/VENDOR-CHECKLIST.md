@@ -1,7 +1,7 @@
 # The Five-Minute AI Vendor Procurement Checklist
 
 > *"A control nobody can run is a claim. It is a fair test to put to any AI vendor, and a fairer one to put to yourself."*  
-> Reference: [Slide 07](https://build-for-rbi-talk.vercel.app/#7) · 5-Minute Offline Procurement Test
+> Reference: [Slide 10](https://build-for-rbi-talk.vercel.app/#10) · 5-Minute Offline Procurement Test
 
 Hand this 1-page checklist to any AI vendor (or internal platform team) before signing an SOW or moving to production in a regulated financial entity.
 

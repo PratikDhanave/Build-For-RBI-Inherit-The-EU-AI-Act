@@ -1,6 +1,6 @@
 # Deep Dive 05: Per-Message Data Residency Across ADGM, DIFC, SAMA & India
 
-> **Companion to [Slide 04](https://build-for-rbi-talk.vercel.app/#4), [`code/gate/composite_gate.go`](../../code/gate/composite_gate.go) & [`labs/consent_ledger/main.go`](../../labs/consent_ledger/main.go)**  
+> **Companion to [Slide 04](https://build-for-rbi-talk.vercel.app/#4), [Slide 05](https://build-for-rbi-talk.vercel.app/#5), [`code/gate/composite_gate.go`](../../code/gate/composite_gate.go) & [`labs/consent_ledger/main.go`](../../labs/consent_ledger/main.go)**  
 > *"Residency, per message. Not per deployment — you cannot fork the platform once per country."*
 
 ---

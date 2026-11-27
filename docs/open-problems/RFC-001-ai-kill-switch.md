@@ -2,7 +2,7 @@
 
 - **Status:** Open Engineering Problem (`GAP 01`)
 - **Regulatory Trigger:** RBI Draft Model Risk Management Guidance (24 June 2026) — Mandatory AI Kill Switch
-- **Related Slides:** [Slide 15](https://build-for-rbi-talk.vercel.app/#15), [Slide 16](https://build-for-rbi-talk.vercel.app/#16)
+- **Related Slides:** [Slide 21](https://build-for-rbi-talk.vercel.app/#21), [Slide 22](https://build-for-rbi-talk.vercel.app/#22), [Slide 23](https://build-for-rbi-talk.vercel.app/#23)
 
 ---
 

@@ -1010,166 +1010,159 @@
   </div>
 </section>
 
-<!-- ==================== SLIDE 4: WHERE IT CAME FROM ==================== -->
-<section class="slide bg-hero" data-t="Where it came from" data-note="1:20 — One line, no drama. The requirements came from regulated delivery, not from reading. ADGM, DIFC, SAMA — say them; people recognise them. Press M to flip to the real-life Border Bag Tag, Immutable Consent Notebook (Monday grant, Tuesday 2:00 PM revoke, 2:01 PM in-flight request fails closed), and Signed Chain-of-Custody Receipt diagram.">
+<!-- ==================== SLIDE 4: WHERE IT CAME FROM (TECHNICAL) ==================== -->
+<section class="slide bg-hero" data-t="Where it came from" data-note="1:20 — One line, no drama. The requirements came from regulated delivery, not from reading. ADGM, DIFC, SAMA — say them; people recognise them. Next slide walks through these three constraints as concrete real-life analogies.">
   <img class="ribbon right-edge" src="assets/ribbon-right.webp" alt="">
   <div class="wrap narrow-left">
-    <div class="slide-top">
-      <div class="kicker"><i class="dash"></i>Where the requirements came from</div>
-      <div class="mode-tabs" role="tablist" aria-label="View mode">
-        <button class="mode-btn on" data-mode="tech" role="tab" aria-selected="true">⚙ Technical</button>
-        <button class="mode-btn" data-mode="life" role="tab" aria-selected="false">🛂 Real-Life: Borders &amp; 2:00 PM Revoke</button>
-      </div>
-    </div>
+    <div class="kicker"><i class="dash"></i>Where the requirements came from</div>
     <h2>Open Banking delivery across<br><span class="mint">ADGM, DIFC and SAMA</span></h2>
-
-    <div class="view-panel on" data-view="tech">
-      <div class="stack">
-        <div class="row-card" data-step>
-          <span class="tag-pill">REG</span>
-          <div class="body">
-            <strong>Residency, per message.</strong>
-            <span>Not per deployment — you cannot fork the platform once per country.</span>
-          </div>
-        </div>
-        <div class="row-card lav" data-step>
-          <span class="tag-pill lav">RISK</span>
-          <div class="body">
-            <strong>Consent as an append-only ledger.</strong>
-            <span>A customer revokes on Tuesday; the request already in flight has to fail, and the record has to show it failed for that reason.</span>
-          </div>
-        </div>
-        <div class="row-card peach" data-step>
-          <span class="tag-pill peach">BANK</span>
-          <div class="body">
-            <strong>An answer on demand.</strong>
-            <span>Every partner bank is entitled to ask where their customer's data went — and &ldquo;encrypted at rest&rdquo; is not an answer.</span>
-          </div>
+    <div class="stack">
+      <div class="row-card" data-step>
+        <span class="tag-pill">REG</span>
+        <div class="body">
+          <strong>Residency, per message.</strong>
+          <span>Not per deployment — you cannot fork the platform once per country.</span>
         </div>
       </div>
-      <p class="note" data-step>Three different people asked for those. <span class="mint"><b>None of them could be satisfied by a slide.</b></span></p>
+      <div class="row-card lav" data-step>
+        <span class="tag-pill lav">RISK</span>
+        <div class="body">
+          <strong>Consent as an append-only ledger.</strong>
+          <span>A customer revokes on Tuesday; the request already in flight has to fail, and the record has to show it failed for that reason.</span>
+        </div>
+      </div>
+      <div class="row-card peach" data-step>
+        <span class="tag-pill peach">BANK</span>
+        <div class="body">
+          <strong>An answer on demand.</strong>
+          <span>Every partner bank is entitled to ask where their customer's data went — and &ldquo;encrypted at rest&rdquo; is not an answer.</span>
+        </div>
+      </div>
     </div>
+    <p class="note" data-step>Three different people asked for those. <span class="mint"><b>None of them could be satisfied by a slide.</b></span></p>
+  </div>
+</section>
 
-    <div class="view-panel" data-view="life">
-      <div class="dia-frame">
-        <div class="dia" data-dia="life-openbank" data-broke-ms="1400"><svg viewBox="0 0 1060 305" role="img"
-          aria-label="Real-life analogy: Customs bag tags enforce residency per parcel, an immutable consent notebook preserves Monday grant while appending Tuesday 2:00 PM revocation so a 2:01 PM in-flight call fails closed, and a signed Ed25519 chain-of-custody receipt answers partner banks.">
-          <!-- Panel 1: Customs Bag Tag -->
-          <g data-d>
-            <rect x="14" y="14" width="328" height="276" rx="12" fill="#161B26" stroke="#00E8AF" stroke-width="1.4"/>
-            <text class="sm bf" x="34" y="40">1 · CUSTOMS BAG TAG (REG)</text>
-            <text class="sm" x="34" y="58">One airline, stamped per bag</text>
-            <!-- conveyor rails -->
-            <line x1="34" y1="126" x2="320" y2="126" stroke="#323B52" stroke-width="2" class="dash-flow"/>
-            <line x1="34" y1="214" x2="320" y2="214" stroke="#323B52" stroke-width="2" class="dash-flow"/>
-            <!-- border gate -->
-            <rect x="172" y="84" width="12" height="162" rx="6" fill="#0C3A34" stroke="#00E8AF" stroke-width="2"/>
-            <!-- IN parcel passes -->
-            <g class="parcel-go" style="transition-delay:.35s">
-              <rect x="34" y="92" width="114" height="32" rx="7" fill="#1E2433" stroke="#00E8AF" stroke-width="1.5"/>
-              <text class="sm bf" x="46" y="112">🧳 TAG: IN</text>
-            </g>
-            <text class="sm okf why" x="232" y="146" style="transition-delay:1.2s">✓ STAYS IN IN</text>
-            <!-- US parcel bounces -->
-            <g class="parcel-stop" style="transition-delay:.6s">
-              <rect x="34" y="180" width="114" height="32" rx="7" fill="#1E2433" stroke="#FF6B6B" stroke-width="1.5"/>
-              <text class="sm pf" x="46" y="200">🧳 PAN → US</text>
-            </g>
-            <g class="why" style="transition-delay:1.45s">
-              <rect x="196" y="180" width="130" height="32" rx="7" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.2"/>
-              <text class="sm pf" x="261" y="200" text-anchor="middle">✕ BORDER STOP</text>
-            </g>
-            <text class="sm" x="34" y="272">Zero country-fork airlines</text>
+<!-- ==================== SLIDE 5: REAL-LIFE — BORDERS & 2:00 PM REVOKE ==================== -->
+<section class="slide bg-deep" data-t="Borders &amp; 2:00 PM Revoke" data-note="1:55 — Let the animation run (press R to replay). Three real-life equivalents of Slide 04: 1) Border Bag Tag — IN passes, PAN to US stops at the border without country forks; 2) Immutable Consent Notebook — Monday 09:00 GRANT stays intact, Tuesday 2:00 PM tap REVOKE appends seq 2, and the 2:01 PM in-flight call fails closed with proof it was revoked 1 minute prior; 3) Signed Ed25519 Chain-of-Custody Receipt answers partner banks in 3 seconds, not 3 weeks.">
+  <div class="wrap">
+    <div class="kicker"><i class="dash"></i>Real-life map · Open Banking constraints in action</div>
+    <h2>🛂 Borders &amp; <span class="mint">2:00 PM Revoke</span></h2>
+    <div class="dia-frame">
+      <div class="dia" data-dia="life-openbank" data-broke-ms="1400"><svg viewBox="0 0 1060 305" role="img"
+        aria-label="Real-life analogy: Customs bag tags enforce residency per parcel, an immutable consent notebook preserves Monday grant while appending Tuesday 2:00 PM revocation so a 2:01 PM in-flight call fails closed, and a signed Ed25519 chain-of-custody receipt answers partner banks.">
+        <!-- Panel 1: Customs Bag Tag -->
+        <g data-d>
+          <rect x="14" y="14" width="328" height="276" rx="12" fill="#161B26" stroke="#00E8AF" stroke-width="1.4"/>
+          <text class="sm bf" x="34" y="40">1 · CUSTOMS BAG TAG (REG)</text>
+          <text class="sm" x="34" y="58">One airline, stamped per bag</text>
+          <!-- conveyor rails -->
+          <line x1="34" y1="126" x2="320" y2="126" stroke="#323B52" stroke-width="2" class="dash-flow"/>
+          <line x1="34" y1="214" x2="320" y2="214" stroke="#323B52" stroke-width="2" class="dash-flow"/>
+          <!-- border gate -->
+          <rect x="172" y="84" width="12" height="162" rx="6" fill="#0C3A34" stroke="#00E8AF" stroke-width="2"/>
+          <!-- IN parcel passes -->
+          <g class="parcel-go" style="transition-delay:.35s">
+            <rect x="34" y="92" width="114" height="32" rx="7" fill="#1E2433" stroke="#00E8AF" stroke-width="1.5"/>
+            <text class="sm bf" x="46" y="112">🧳 TAG: IN</text>
+          </g>
+          <text class="sm okf why" x="232" y="146" style="transition-delay:1.2s">✓ STAYS IN IN</text>
+          <!-- US parcel bounces -->
+          <g class="parcel-stop" style="transition-delay:.6s">
+            <rect x="34" y="180" width="114" height="32" rx="7" fill="#1E2433" stroke="#FF6B6B" stroke-width="1.5"/>
+            <text class="sm pf" x="46" y="200">🧳 PAN → US</text>
+          </g>
+          <g class="why" style="transition-delay:1.45s">
+            <rect x="196" y="180" width="130" height="32" rx="7" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.2"/>
+            <text class="sm pf" x="261" y="200" text-anchor="middle">✕ BORDER STOP</text>
+          </g>
+          <text class="sm" x="34" y="272">Zero country-fork airlines</text>
+        </g>
+
+        <!-- Panel 2: Immutable Consent Notebook (Tue 2:00 PM Revoke -> 2:01 PM Blocked) -->
+        <g data-d style="transition-delay:.2s">
+          <rect x="366" y="14" width="332" height="276" rx="12" fill="#161B26" stroke="#C4A3FF" stroke-width="1.4"/>
+          <text class="sm lf" x="386" y="40">2 · IMMUTABLE CONSENT NOTEBOOK (RISK)</text>
+          <text class="sm" x="386" y="58">Never overwrite Monday — append Tuesday</text>
+          <!-- Passbook rows -->
+          <rect x="386" y="76" width="292" height="40" rx="8" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.4"/>
+          <text class="sm okf" x="400" y="95">SEQ 1 · MON 09:00</text>
+          <text class="sm" x="400" y="110" fill="#FFFFFF">GRANT — customer opted in ✓</text>
+
+          <g class="stamp-drop">
+            <rect x="386" y="128" width="292" height="44" rx="8" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.8"/>
+            <text class="sm nof" x="400" y="147">SEQ 2 · TUE 2:00 PM · TAPS REVOKE</text>
+            <text class="sm pf" x="400" y="164">REVOKE — appended to notebook ✕</text>
           </g>
 
-          <!-- Panel 2: Immutable Consent Notebook (Tue 2:00 PM Revoke -> 2:01 PM Blocked) -->
-          <g data-d style="transition-delay:.2s">
-            <rect x="366" y="14" width="332" height="276" rx="12" fill="#161B26" stroke="#C4A3FF" stroke-width="1.4"/>
-            <text class="sm lf" x="386" y="40">2 · IMMUTABLE CONSENT NOTEBOOK (RISK)</text>
-            <text class="sm" x="386" y="58">Never overwrite Monday — append Tuesday</text>
-            <!-- Passbook rows -->
-            <rect x="386" y="76" width="292" height="40" rx="8" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.4"/>
-            <text class="sm okf" x="400" y="95">SEQ 1 · MON 09:00</text>
-            <text class="sm" x="400" y="110" fill="#FFFFFF">GRANT — customer opted in ✓</text>
-
-            <g class="stamp-drop">
-              <rect x="386" y="128" width="292" height="44" rx="8" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.8"/>
-              <text class="sm nof" x="400" y="147">SEQ 2 · TUE 2:00 PM · TAPS REVOKE</text>
-              <text class="sm pf" x="400" y="164">REVOKE — appended to notebook ✕</text>
-            </g>
-
-            <g class="burst">
-              <rect x="386" y="188" width="292" height="58" rx="8" fill="#1E2433" stroke="#FF6B6B" stroke-width="1.4"/>
-              <text class="sm pf" x="400" y="211">✕ 2:01 PM IN-FLIGHT CALL FAILS CLOSED</text>
-              <text class="sm" x="400" y="232">Log proves: revoked 1 minute prior</text>
-            </g>
-            <text class="sm" x="386" y="272">Ready for DPDP Consent Mgr (Nov 2026)</text>
+          <g class="burst">
+            <rect x="386" y="188" width="292" height="58" rx="8" fill="#1E2433" stroke="#FF6B6B" stroke-width="1.4"/>
+            <text class="sm pf" x="400" y="211">✕ 2:01 PM IN-FLIGHT CALL FAILS CLOSED</text>
+            <text class="sm" x="400" y="232">Log proves: revoked 1 minute prior</text>
           </g>
+          <text class="sm" x="386" y="272">Ready for DPDP Consent Mgr (Nov 2026)</text>
+        </g>
 
-          <!-- Panel 3: Signed Courier Receipt -->
-          <g data-d style="transition-delay:.4s">
-            <rect x="722" y="14" width="324" height="276" rx="12" fill="#161B26" stroke="#FFB78E" stroke-width="1.4"/>
-            <text class="sm pf" x="742" y="40">3 · CHAIN-OF-CUSTODY RECEIPT (BANK)</text>
-            <text class="sm" x="742" y="58">&ldquo;Locked in a safe&rdquo; ≠ lineage proof</text>
-            <rect x="742" y="78" width="284" height="168" rx="10" fill="#111622" stroke="#FFB78E" stroke-width="1.4" stroke-dasharray="4 3"/>
-            <text class="sm bf" x="760" y="104">DELIVERY MANIFEST · SIGNED</text>
-            <line x1="760" y1="114" x2="1008" y2="114" stroke="#323B52" stroke-width="1"/>
-            <text class="sm" x="760" y="136">Customer : user-1 (Partner Bank A)</text>
-            <text class="sm" x="760" y="158">Route    : IN Pool only (0 exits)</text>
-            <text class="sm" x="760" y="180">Consent  : Verified at seq 1 / 2</text>
-            <g class="why" style="transition-delay:1.8s">
-              <rect x="760" y="196" width="248" height="34" rx="17" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.5"/>
-              <text class="sm okf" x="884" y="217" text-anchor="middle">✓ ED25519 NOTARY SEAL VALID</text>
-            </g>
-            <text class="sm" x="742" y="272">Answered in 3 seconds, not 3 weeks</text>
+        <!-- Panel 3: Signed Courier Receipt -->
+        <g data-d style="transition-delay:.4s">
+          <rect x="722" y="14" width="324" height="276" rx="12" fill="#161B26" stroke="#FFB78E" stroke-width="1.4"/>
+          <text class="sm pf" x="742" y="40">3 · CHAIN-OF-CUSTODY RECEIPT (BANK)</text>
+          <text class="sm" x="742" y="58">&ldquo;Locked in a safe&rdquo; ≠ lineage proof</text>
+          <rect x="742" y="78" width="284" height="168" rx="10" fill="#111622" stroke="#FFB78E" stroke-width="1.4" stroke-dasharray="4 3"/>
+          <text class="sm bf" x="760" y="104">DELIVERY MANIFEST · SIGNED</text>
+          <line x1="760" y1="114" x2="1008" y2="114" stroke="#323B52" stroke-width="1"/>
+          <text class="sm" x="760" y="136">Customer : user-1 (Partner Bank A)</text>
+          <text class="sm" x="760" y="158">Route    : IN Pool only (0 exits)</text>
+          <text class="sm" x="760" y="180">Consent  : Verified at seq 1 / 2</text>
+          <g class="why" style="transition-delay:1.8s">
+            <rect x="760" y="196" width="248" height="34" rx="17" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.5"/>
+            <text class="sm okf" x="884" y="217" text-anchor="middle">✓ ED25519 NOTARY SEAL VALID</text>
           </g>
-        </svg></div>
+          <text class="sm" x="742" y="272">Answered in 3 seconds, not 3 weeks</text>
+        </g>
+      </svg></div>
+    </div>
+    <div class="dia-foot">
+      <p class="note">Real-life map: <span class="mint"><b>Border Bag Tag</b></span> (Residency) · <span class="lav"><b>Immutable Notebook (2:00 → 2:01 PM)</b></span> · <span class="peach"><b>Signed Receipt</b></span> (Lineage).</p>
+      <button class="replay">↻ replay</button>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 6: READ IT RIGHT (9 / 17 SPLIT — TECHNICAL) ==================== -->
+<section class="slide bg-mint" data-t="Read it right" data-note="2:30 — RBI FREE-AI (13 Aug 2025, chaired by Dr. Pushpak Bhattacharyya, IIT Bombay: 7 Sutras, 6 Pillars, 26 Recs — advisory committee report; the binding instrument comes later). The most immediately useful slide for anyone scoping regulated work: 9 belong to the Regulator/SRO (1, 3, 5, 7, 9-13). Quote for 26 and you have priced the regulator's own roadmap. Q&amp;A nuance: Recs 14-26 are the 13 Risk Mitigation RE obligations, Recs 2/4/6/8 are regulator-enabled tracks where REs build internal technical readiness, and Rec 10 is workforce training.">
+  <div class="wrap">
+    <div class="kicker"><i class="dash"></i>RBI FREE-AI · 13 Aug 2025 · 7 Sutras · 6 Pillars · 26 Recs</div>
+    <h2>Nine of the twenty-six are <span class="mint">the regulator's, not yours.</span></h2>
+    <div class="split-bar">
+      <div class="split-seg lav">9 · Regulator &amp; SRO (35%)</div>
+      <div class="split-seg mint">17 · Regulated Entity Scope — Yours to build (65%)</div>
+    </div>
+    <div class="two">
+      <div class="card lav" data-step>
+        <h3>Regulator &amp; SRO</h3>
+        <div class="mono-big">Recommendations &nbsp;1 · 3 · 5 · 7 · 9 → 13</div>
+        <p>Financial sector data infrastructure (AI Kosh), funding incentives, DPI integration, affirmative action, RBI Standing AI Committee, sector capacity programs, best-practice sharing, and innovation awards.</p>
+        <p style="color:var(--lavender);font-weight:600;margin-top:auto">Quote for all 26 and you have priced the regulator's own roadmap.</p>
       </div>
-      <div class="dia-foot">
-        <p class="note">Real-life map: <span class="mint"><b>Border Bag Tag</b></span> (Residency) · <span class="lav"><b>Immutable Notebook (2:00 → 2:01 PM)</b></span> · <span class="peach"><b>Signed Receipt</b></span> (Lineage). Press <b>M</b> to toggle.</p>
-        <button class="replay">↻ replay</button>
+      <div class="card mint-hl" data-step>
+        <h3>Yours to build (Regulated Entity)</h3>
+        <div class="mono-big">Recommendations &nbsp;2 · 4 · 6 · 8 · 14 → 26</div>
+        <p><b class="mint">Seventeen.</b> That number is the real scope of a regulated AI engagement — and it is the first thing worth getting right before anyone signs an SOW.</p>
+        <div class="foot-pill"><span class="pill ok">✓ 17 / 17 Implemented</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ==================== SLIDE 5: READ IT RIGHT (9 / 17 SPLIT) ==================== -->
-<section class="slide bg-mint" data-t="Read it right" data-note="2:15 — RBI FREE-AI (13 Aug 2025, chaired by Dr. Pushpak Bhattacharyya, IIT Bombay: 7 Sutras, 6 Pillars, 26 Recs — advisory committee report; the binding instrument comes later). The most immediately useful slide for anyone scoping regulated work: 9 belong to the Regulator/SRO (1, 3, 5, 7, 9-13). Quote for 26 and you have priced the regulator's own roadmap. Real-life analogy (press M): Airport Authority builds the national runways and ATC tower (9 — you can't write Go code to fund national infra or train the country's workforce); your airline owns the 17 aircraft controls. Q&amp;A nuance: Recs 14-26 are the 13 Risk Mitigation RE obligations, Recs 2/4/6/8 are regulator-enabled tracks where REs build internal technical readiness, and Rec 10 is workforce training.">
+<!-- ==================== SLIDE 7: REAL-LIFE — AIRPORT VS AIRLINE ==================== -->
+<section class="slide bg-deep" data-t="Airport vs Airline" data-note="3:10 — Real-life analogy for the 9 / 17 split: Airport Authority builds the national runways, fuel depots, and ATC tower (9 — you can't write Go code to fund national infra or train the country's workforce); your airline owns the 17 aircraft controls (pre-flight checklist, orange black box, fleet roster &amp; cabin safety notice). Press R to replay.">
   <div class="wrap">
-    <div class="slide-top">
-      <div class="kicker"><i class="dash"></i>RBI FREE-AI · 13 Aug 2025 · 7 Sutras · 6 Pillars · 26 Recs</div>
-      <div class="mode-tabs" role="tablist" aria-label="View mode">
-        <button class="mode-btn on" data-mode="tech" role="tab" aria-selected="true">⚙ Technical</button>
-        <button class="mode-btn" data-mode="life" role="tab" aria-selected="false">✈ Real-Life: Airport vs Airline</button>
-      </div>
-    </div>
-    <h2>Nine of the twenty-six are <span class="mint">the regulator's, not yours.</span></h2>
-
-    <div class="view-panel on" data-view="tech">
-      <div class="split-bar">
-        <div class="split-seg lav">9 · Regulator &amp; SRO (35%)</div>
-        <div class="split-seg mint">17 · Regulated Entity Scope — Yours to build (65%)</div>
-      </div>
-      <div class="two">
-        <div class="card lav" data-step>
-          <h3>Regulator &amp; SRO</h3>
-          <div class="mono-big">Recommendations &nbsp;1 · 3 · 5 · 7 · 9 → 13</div>
-          <p>Financial sector data infrastructure (AI Kosh), funding incentives, DPI integration, affirmative action, RBI Standing AI Committee, sector capacity programs, best-practice sharing, and innovation awards.</p>
-          <p style="color:var(--lavender);font-weight:600;margin-top:auto">Quote for all 26 and you have priced the regulator's own roadmap.</p>
-        </div>
-        <div class="card mint-hl" data-step>
-          <h3>Yours to build (Regulated Entity)</h3>
-          <div class="mono-big">Recommendations &nbsp;2 · 4 · 6 · 8 · 14 → 26</div>
-          <p><b class="mint">Seventeen.</b> That number is the real scope of a regulated AI engagement — and it is the first thing worth getting right before anyone signs an SOW.</p>
-          <div class="foot-pill"><span class="pill ok">✓ 17 / 17 Implemented</span></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="view-panel" data-view="life">
-      <div class="dia-frame">
-        <div class="dia" data-dia="life-split"><svg viewBox="0 0 1060 315" role="img"
-          aria-label="Real-life analogy: Airport Authority builds runways and air traffic control (9 recommendations), while your airline builds pre-flight checks, fleet inventory, and black box (17 recommendations).">
+    <div class="kicker"><i class="dash"></i>Real-life map · Separating national infrastructure from your SOW</div>
+    <h2>✈ Airport Authority <span class="mint">vs. Your Airline</span></h2>
+    <div class="dia-frame">
+      <div class="dia" data-dia="life-split"><svg viewBox="0 0 1060 315" role="img"
+        aria-label="Real-life analogy: Airport Authority builds runways and air traffic control (9 recommendations), while your airline builds pre-flight checks, fleet inventory, and black box (17 recommendations).">
           <!-- Left: Airport Authority (9) -->
           <g data-d class="slide-in">
             <rect x="16" y="16" width="415" height="282" rx="14" fill="#1B1930" stroke="#C4A3FF" stroke-width="1.8"/>
@@ -1235,30 +1228,21 @@
         </svg></div>
       </div>
       <div class="dia-foot">
-        <p class="note">Promise all 26 and you promised to <span class="lav"><b>build the national airport &amp; train the country's workforce.</b></span> Build your <span class="mint"><b>17 airline controls</b></span>. Press <b>M</b> to toggle.</p>
+        <p class="note">Promise all 26 and you promised to <span class="lav"><b>build the national airport &amp; train the country's workforce.</b></span> Build your <span class="mint"><b>17 airline controls</b></span>.</p>
         <button class="replay">↻ replay</button>
       </div>
-    </div>
   </div>
 </section>
 
-<!-- ==================== SLIDE 7: THE GATE (DIAGRAM) ==================== -->
+<!-- ==================== SLIDE 8: THE GATE (TECHNICAL DIAGRAM) ==================== -->
 <section class="slide bg-deep" data-t="The gate"
-  data-note="4:30 — Let the animation run before you say anything. Five messages, one gate, 62 agents. Three bounce. Point at the residency and consent bounces and say: those are the Open Banking constraints from three minutes ago (plus India DPDP Consent Managers live since 13 Nov 2026), now enforced on every single message. Press M for the 62 Departing Airplanes / Airport Security X-Ray Checkpoint analogy (&lt;1 ms Go code at the terminal entrance, never 62 scanners inside 62 planes); press R to replay.">
+  data-note="3:50 — Let the animation run before you say anything (press R to replay). Five messages, one gate, 62 agents. Three bounce. Point at the residency and consent bounces and say: those are the Open Banking constraints from earlier (plus India DPDP Consent Managers live since 13 Nov 2026), now enforced on every single message.">
   <div class="wrap">
-    <div class="slide-top">
-      <div class="kicker"><i class="dash"></i>Composite policy enforcement</div>
-      <div class="mode-tabs" role="tablist" aria-label="View mode">
-        <button class="mode-btn on" data-mode="tech" role="tab" aria-selected="true">⚙ Technical</button>
-        <button class="mode-btn" data-mode="life" role="tab" aria-selected="false">✈ Real-Life: Airport Security</button>
-      </div>
-    </div>
+    <div class="kicker"><i class="dash"></i>Composite policy enforcement</div>
     <h2>One gate, every message — <span class="mint">before any agent sees it</span></h2>
-
-    <div class="view-panel on" data-view="tech">
-      <div class="dia-frame">
-        <div class="dia" data-dia="gate"><svg viewBox="0 0 1060 390" role="img"
-          aria-label="Five messages travel toward 62 agents; three are refused by the gate, two pass through.">
+    <div class="dia-frame">
+      <div class="dia" data-dia="gate"><svg viewBox="0 0 1060 390" role="img"
+        aria-label="Five messages travel toward 62 agents; three are refused by the gate, two pass through.">
           <!-- gate -->
           <rect class="gatebar" x="392" y="42" width="14" height="314" rx="7" fill="#0C3A34" stroke="#00E8AF" stroke-width="2.5"/>
           <text class="sm bf" x="399" y="26" text-anchor="middle" data-d style="transition-delay:.1s">COMPOSITE POLICY GATE</text>
@@ -1321,12 +1305,18 @@
         <p class="note">Ten policies, every message, before dispatch. <span class="mint"><b>One place to audit. One place to change.</b></span></p>
         <button class="replay">↻ replay</button>
       </div>
-    </div>
+  </div>
+</section>
 
-    <div class="view-panel" data-view="life">
-      <div class="dia-frame">
-        <div class="dia" data-dia="life-gate"><svg viewBox="0 0 1060 390" role="img"
-          aria-label="Real-life analogy: One airport security checkpoint scans five passengers before 62 boarding gates; three are stopped at the checkpoint and two board cleanly.">
+<!-- ==================== SLIDE 9: REAL-LIFE — AIRPORT SECURITY CHECKPOINT ==================== -->
+<section class="slide bg-deep" data-t="Airport Security"
+  data-note="4:30 — Real-life analogy for the Composite Gate: 62 departing airplanes at once? You never put a bulky X-ray machine inside 62 planes — you put ONE central airport security checkpoint at the terminal entrance (&lt;1 ms deterministic Go code). Press R to replay.">
+  <div class="wrap">
+    <div class="kicker"><i class="dash"></i>Real-life map · Why the gate sits outside all 62 agents</div>
+    <h2>✈ One Airport Security <span class="mint">Checkpoint</span></h2>
+    <div class="dia-frame">
+      <div class="dia" data-dia="life-gate"><svg viewBox="0 0 1060 390" role="img"
+        aria-label="Real-life analogy: One airport security checkpoint scans five passengers before 62 boarding gates; three are stopped at the checkpoint and two board cleanly.">
           <!-- Airport Security Arch + Animated Laser Scanner -->
           <text class="sm bf" x="398" y="24" text-anchor="middle" data-d style="transition-delay:.1s">AIRPORT SECURITY CHECKPOINT</text>
           <rect class="gatebar" x="380" y="40" width="36" height="316" rx="10" fill="#0C3A34" stroke="#00E8AF" stroke-width="2.5"/>
@@ -1397,10 +1387,9 @@
         </svg></div>
       </div>
       <div class="dia-foot">
-        <p class="note"><b>62 departing airplanes at once?</b> You don't put a bulky X-ray machine inside 62 planes — <span class="peach"><b>one central security checkpoint at the terminal entrance (&lt;1 ms Go code).</b></span> Press <b>M</b> to toggle.</p>
+        <p class="note"><b>62 departing airplanes at once?</b> You don't put a bulky X-ray machine inside 62 planes — <span class="peach"><b>one central security checkpoint at the terminal entrance (&lt;1 ms Go code).</b></span></p>
         <button class="replay">↻ replay</button>
       </div>
-    </div>
   </div>
 </section>
 
@@ -1425,23 +1414,15 @@
   </div>
 </section>
 
-<!-- ==================== SLIDE 8: FINDING ONE — DRIFT, DRAWN ==================== -->
+<!-- ==================== SLIDE 11: FINDING ONE — DRIFT (TECHNICAL) ==================== -->
 <section class="slide bg-deep" data-t="Finding 1 · Drift"
-  data-note="5:45 — Finding 1: governance artefacts go stale silently without anyone rejecting or withdrawing them. var_calculator was signed off at medium risk, then refactored to high — the approval simply stopped describing what it approved. Let the SVG animate. Press M for the Scooter vs. Commercial Truck License analogy (unexpired medium scooter license in your pocket while driving a high-risk heavy commercial truck -> ErrRiskChanged!). Press R to replay.">
+  data-note="5:45 — Finding 1: governance artefacts go stale silently without anyone rejecting or withdrawing them. var_calculator was signed off at medium risk, then refactored to high — the approval simply stopped describing what it approved. Let the SVG animate (press R to replay).">
   <div class="wrap">
-    <div class="slide-top">
-      <div class="kicker peach"><i class="dash"></i>Finding one · governance goes stale silently (RBI Rec 17)</div>
-      <div class="mode-tabs" role="tablist" aria-label="View mode">
-        <button class="mode-btn on" data-mode="tech" role="tab" aria-selected="true">⚙ Technical</button>
-        <button class="mode-btn" data-mode="life" role="tab" aria-selected="false">🛵→🚛 Real-Life: Scooter vs Truck</button>
-      </div>
-    </div>
+    <div class="kicker peach"><i class="dash"></i>Finding one · governance goes stale silently (RBI Rec 17)</div>
     <h2>What <span class="peach">drift</span> looks like</h2>
-
-    <div class="view-panel on" data-view="tech">
-      <div class="dia-frame">
-        <div class="dia" data-dia="drift"><svg viewBox="0 0 1060 305" role="img"
-          aria-label="An approval stamped at medium risk stays fixed while the agent's declared risk moves to high.">
+    <div class="dia-frame">
+      <div class="dia" data-dia="drift"><svg viewBox="0 0 1060 305" role="img"
+        aria-label="An approval stamped at medium risk stays fixed while the agent's declared risk moves to high.">
           <text class="sm" x="40" y="38" data-d>RISK SCALE</text>
           <line x1="140" y1="74" x2="900" y2="74" stroke="#323B52" stroke-width="3" data-d/>
           <g class="lbl" text-anchor="middle" data-d style="transition-delay:.1s">
@@ -1481,12 +1462,18 @@
         <p class="note">Nobody rejected it. Nobody withdrew anything. <span class="peach"><b>The approval simply stopped describing the thing it approved.</b></span></p>
         <button class="replay">↻ replay</button>
       </div>
-    </div>
+  </div>
+</section>
 
-    <div class="view-panel" data-view="life">
-      <div class="dia-frame">
-        <div class="dia" data-dia="life-vehicle" data-broke-ms="1850"><svg viewBox="0 0 1060 320" role="img"
-          aria-label="Real-life Scooter vs. Commercial Truck License analogy: A valid medium-risk scooter license stays anchored at MEDIUM while var_calculator drifts into a massive high-risk commercial truck, hitting the checkpoint barrier with ErrRiskChanged.">
+<!-- ==================== SLIDE 12: REAL-LIFE — SCOOTER VS HEAVY TRUCK ==================== -->
+<section class="slide bg-deep" data-t="Scooter vs Truck"
+  data-note="6:30 — Real-life analogy for ErrRiskChanged: you got a valid medium-risk scooter license, never broke a law, and it hasn't expired — then you hopped into a massive high-risk commercial truck while keeping that scooter license in your pocket! The checkpoint barrier drops automatically. Press R to replay.">
+  <div class="wrap">
+    <div class="kicker peach"><i class="dash"></i>Real-life map · Silent approval drift (ErrRiskChanged)</div>
+    <h2>🛵→🚛 Scooter License <span class="peach">vs. Heavy Truck</span></h2>
+    <div class="dia-frame">
+      <div class="dia" data-dia="life-vehicle" data-broke-ms="1850"><svg viewBox="0 0 1060 320" role="img"
+        aria-label="Real-life Scooter vs. Commercial Truck License analogy: A valid medium-risk scooter license stays anchored at MEDIUM while var_calculator drifts into a massive high-risk commercial truck, hitting the checkpoint barrier with ErrRiskChanged.">
           <!-- Road / License Class Scale -->
           <text class="sm" x="28" y="34" data-d>VEHICLE LICENSE CLASS</text>
           <rect x="90" y="54" width="840" height="22" rx="11" fill="#161B26" stroke="#323B52" stroke-width="1.5" data-d/>
@@ -1543,10 +1530,9 @@
         </svg></div>
       </div>
       <div class="dia-foot">
-        <p class="note"><b>Scooter vs. Commercial Truck License:</b> Your scooter license didn't expire — <span class="peach"><b>it just stopped matching the heavy truck you're driving.</b></span> Press <b>M</b> to toggle.</p>
+        <p class="note"><b>Scooter vs. Commercial Truck License:</b> Your scooter license didn't expire — <span class="peach"><b>it just stopped matching the heavy truck you're driving.</b></span></p>
         <button class="replay">↻ replay</button>
       </div>
-    </div>
   </div>
 </section>
 
@@ -1631,23 +1617,15 @@ func main() {
   </div>
 </section>
 
-<!-- ==================== SLIDE 13: CHAIN, DRAWN ==================== -->
+<!-- ==================== SLIDE 15: CHAIN, DRAWN (TECHNICAL) ==================== -->
 <section class="slide bg-deep" data-t="Chain, drawn"
-  data-note="11:20 — Four entries, each carrying the hash of the one before. Edit entry two and every link after it goes red. You cannot quietly change the past; you can only visibly break it. Press M for the Sealed Numbered Diary Pages analogy: every page is mathematically glued to the last, stamped with an unforgeable pinned-key Ed25519 Notary Stamp, and anchored every 60 seconds to an external WORM vault so even rewriting from Page 1 gets caught! Press R to replay.">
+  data-note="9:20 — Four entries, each carrying the hash of the one before. Edit entry two and every link after it goes red. You cannot quietly change the past; you can only visibly break it. Press R to replay.">
   <div class="wrap">
-    <div class="slide-top">
-      <div class="kicker peach"><i class="dash"></i>Finding two · Tamper detection</div>
-      <div class="mode-tabs" role="tablist" aria-label="View mode">
-        <button class="mode-btn on" data-mode="tech" role="tab" aria-selected="true">⚙ Technical</button>
-        <button class="mode-btn" data-mode="life" role="tab" aria-selected="false">📓 Real-Life: Sealed Diary Pages</button>
-      </div>
-    </div>
+    <div class="kicker peach"><i class="dash"></i>Finding two · Tamper detection</div>
     <h2>Edit one row, <span class="peach">every link after it breaks</span></h2>
-
-    <div class="view-panel on" data-view="tech">
-      <div class="dia-frame">
-        <div class="dia" data-dia="chain" data-broke-ms="1500"><svg viewBox="0 0 1060 250" role="img"
-          aria-label="Four hash-chained entries; editing the second breaks every link after it.">
+    <div class="dia-frame">
+      <div class="dia" data-dia="chain" data-broke-ms="1500"><svg viewBox="0 0 1060 250" role="img"
+        aria-label="Four hash-chained entries; editing the second breaks every link after it.">
           <g data-d>
             <rect x="20" y="76" width="208" height="86" rx="10" fill="#1E2433" stroke="#00E8AF" stroke-width="2" class="blk"/>
             <text class="sm bf" x="40" y="103">seq 1 · genesis</text>
@@ -1696,12 +1674,18 @@ func main() {
         <p class="note">Not a blockchain. A SHA-256 chain anchored to an external timestamp. <span class="mint"><b>The boring thing that actually works.</b></span></p>
         <button class="replay">↻ replay</button>
       </div>
-    </div>
+  </div>
+</section>
 
-    <div class="view-panel" data-view="life">
-      <div class="dia-frame">
-        <div class="dia" data-dia="life-notebook" data-broke-ms="1500"><svg viewBox="0 0 1060 288" role="img"
-          aria-label="Real-life sealed numbered diary pages analogy: Each page copies the cryptographic seal of the prior page; rewriting Page 2 shatters Pages 3 and 4, clashes with the 60-second external WORM vault snapshot, and triggers the unforgeable Ed25519 Notary Stamp reporting DIARY BROKEN AT PAGE 2.">
+<!-- ==================== SLIDE 16: REAL-LIFE — SEALED DIARY PAGES ==================== -->
+<section class="slide bg-deep" data-t="Sealed Diary Pages"
+  data-note="10:00 — Real-life analogy for the SHA-256 hash chain: every numbered diary page is mathematically glued to the last, stamped with an unforgeable pinned-key Ed25519 Notary Stamp, and anchored every 60 seconds to an external WORM vault — so editing Page 2 shatters Pages 3–4, and even rewriting the whole diary from Page 1 clashes with the 60s external vault! Press R to replay.">
+  <div class="wrap">
+    <div class="kicker peach"><i class="dash"></i>Real-life map · Why insiders cannot rewrite history</div>
+    <h2>📓 Sealed Numbered <span class="peach">Diary Pages</span></h2>
+    <div class="dia-frame">
+      <div class="dia" data-dia="life-notebook" data-broke-ms="1500"><svg viewBox="0 0 1060 288" role="img"
+        aria-label="Real-life sealed numbered diary pages analogy: Each page copies the cryptographic seal of the prior page; rewriting Page 2 shatters Pages 3 and 4, clashes with the 60-second external WORM vault snapshot, and triggers the unforgeable Ed25519 Notary Stamp reporting DIARY BROKEN AT PAGE 2.">
           <!-- Top subtitle -->
           <text class="sm" x="24" y="24" data-d>SEALED NUMBERED DIARY PAGES · MATHEMATICALLY GLUED + UNFORGEABLE NOTARY STAMP + 60s EXTERNAL WORM SNAPSHOT</text>
 
@@ -1786,10 +1770,9 @@ func main() {
         </svg></div>
       </div>
       <div class="dia-foot">
-        <p class="note"><b>Sealed Diary Pages + 60s External Snapshot:</b> Edit Page 2 and Pages 3–4 shatter; <span class="peach"><b>even rewriting the whole diary from Page 1 clashes with the 60s WORM vault.</b></span> Press <b>M</b> to toggle.</p>
+        <p class="note"><b>Sealed Diary Pages + 60s External Snapshot:</b> Edit Page 2 and Pages 3–4 shatter; <span class="peach"><b>even rewriting the whole diary from Page 1 clashes with the 60s WORM vault.</b></span></p>
         <button class="replay">↻ replay</button>
       </div>
-    </div>
   </div>
 </section>
 
@@ -1881,23 +1864,15 @@ func statusText(ok bool, seq int, field string) string {
   </div>
 </section>
 
-<!-- ==================== SLIDE 13: CONVERGENCE, DRAWN ==================== -->
+<!-- ==================== SLIDE 18: CONVERGENCE, DRAWN (TECHNICAL) ==================== -->
 <section class="slide bg-deep" data-t="Convergence"
-  data-note="12:00 — Extraterritorial hook (EU AI Act Art. 2(1)(c)): applies the moment your output is used in Europe, regardless of where it was built. I expected a second compliance project; instead, 7 RBI controls already answered Europe. Say the line about convergence while the SVG resolves. Press M for the real-life One Aircraft Safety Core analogy — math is a universal language; Mumbai or Brussels, there are only so many ways to securely lock a door (one black box inspected by both India DGCA/RBI and Europe EASA/EU); press R to replay.">
+  data-note="12:00 — Extraterritorial hook (EU AI Act Art. 2(1)(c)): applies the moment your output is used in Europe, regardless of where it was built. I expected a second compliance project; instead, 7 RBI controls already answered Europe. Say the line about convergence while the SVG resolves (press R to replay).">
   <div class="wrap">
-    <div class="slide-top">
-      <div class="kicker lav"><i class="dash"></i>EU AI Act Art. 2(1)(c) reaches you the moment your output is used in Europe</div>
-      <div class="mode-tabs" role="tablist" aria-label="View mode">
-        <button class="mode-btn on" data-mode="tech" role="tab" aria-selected="true">⚙ Technical</button>
-        <button class="mode-btn" data-mode="life" role="tab" aria-selected="false">✈ Real-Life: One Black Box</button>
-      </div>
-    </div>
+    <div class="kicker lav"><i class="dash"></i>EU AI Act Art. 2(1)(c) reaches you the moment your output is used in Europe</div>
     <h2>Two regulators, <span class="lav">one control set</span></h2>
-
-    <div class="view-panel on" data-view="tech">
-      <div class="dia-frame">
-        <div class="dia" data-dia="conv"><svg viewBox="0 0 1060 326" role="img"
-          aria-label="RBI recommendations and EU AI Act articles converge on the same four controls.">
+    <div class="dia-frame">
+      <div class="dia" data-dia="conv"><svg viewBox="0 0 1060 326" role="img"
+        aria-label="RBI recommendations and EU AI Act articles converge on the same four controls.">
           <text class="sm bf" x="115" y="26" text-anchor="middle" data-d>RBI FREE-AI</text>
           <text class="sm" x="530" y="26" text-anchor="middle" data-d fill="#FFFFFF">WHAT WE BUILT ONCE</text>
           <text class="sm lf" x="945" y="26" text-anchor="middle" data-d>EU AI ACT</text>
@@ -1947,12 +1922,18 @@ func statusText(ok bool, seq int, field string) string {
         <p class="note">Regulators converge because <span class="lav"><b>there are only so many ways to make a system accountable.</b></span></p>
         <button class="replay">↻ replay</button>
       </div>
-    </div>
+  </div>
+</section>
 
-    <div class="view-panel" data-view="life">
-      <div class="dia-frame">
-        <div class="dia" data-dia="life-blackbox"><svg viewBox="0 0 1060 326" role="img"
-          aria-label="Real-life aviation analogy: One airliner flying Hyderabad to Frankfurt uses a single set of flight-safety instruments — black box, pre-takeoff check, tail-number fleet log, and cabin safety briefing — inspected by both India DGCA/RBI and Europe EASA/EU.">
+<!-- ==================== SLIDE 19: REAL-LIFE — ONE BLACK BOX ==================== -->
+<section class="slide bg-deep" data-t="One Black Box"
+  data-note="12:45 — Real-life aviation analogy for regulatory convergence: an aircraft flying Hyderabad to Frankfurt doesn't bolt on a second black box over Europe. Math is a universal language — Mumbai or Brussels, there are only so many ways to securely lock a door. One safety core, inspected by both India DGCA/RBI and Europe EASA/EU. Press R to replay.">
+  <div class="wrap">
+    <div class="kicker lav"><i class="dash"></i>Real-life map · Hyderabad → Frankfurt (DGCA/RBI ↔ EASA/EU)</div>
+    <h2>✈ One Aircraft <span class="lav">Black Box</span></h2>
+    <div class="dia-frame">
+      <div class="dia" data-dia="life-blackbox"><svg viewBox="0 0 1060 326" role="img"
+        aria-label="Real-life aviation analogy: One airliner flying Hyderabad to Frankfurt uses a single set of flight-safety instruments — black box, pre-takeoff check, tail-number fleet log, and cabin safety briefing — inspected by both India DGCA/RBI and Europe EASA/EU.">
           <text class="sm bf" x="120" y="24" text-anchor="middle" data-d>🇮🇳 HYDERABAD · DGCA / RBI</text>
           <text class="sm pf" x="530" y="24" text-anchor="middle" data-d>✈ ONE AIRCRAFT SAFETY CORE</text>
           <text class="sm lf" x="940" y="24" text-anchor="middle" data-d>🇪🇺 FRANKFURT · EASA / EU</text>
@@ -2007,10 +1988,9 @@ func statusText(ok bool, seq int, field string) string {
         </svg></div>
       </div>
       <div class="dia-foot">
-        <p class="note"><b>Math is a universal language:</b> Mumbai or Brussels, <span class="lav"><b>there are only so many ways to securely lock a door.</b></span> One black box, two inspections. Press <b>M</b> to toggle.</p>
+        <p class="note"><b>Math is a universal language:</b> Mumbai or Brussels, <span class="lav"><b>there are only so many ways to securely lock a door.</b></span> One black box, two inspections.</p>
         <button class="replay">↻ replay</button>
       </div>
-    </div>
   </div>
 </section>
 
@@ -2063,42 +2043,39 @@ func statusText(ok bool, seq int, field string) string {
   </div>
 </section>
 
-<!-- ==================== SLIDE 20: TWO OPEN PROBLEMS ==================== -->
-<section class="slide bg-peach" data-t="Open problems" data-note="17:50 — Present as open engineering problems, not apologies. On Gap 01, point to CrowdStrike Falcon Guardian's AI Kill Switch (announced 3 Nov 2026) and the Blown Fuse vs. 3-Tier Containment Ladder (T1 Dimmer Switch, T2 Strip IAM Badge, T3 Manual Pull-the-Plug Hard Stop). Gap 02 is a genuine architectural conflict — pristine live state vs. managing a 10-year graveyard of retired models — invite people to argue with it afterwards. Press M for the Pull the Plug &amp; 10-Year Model Graveyard diagram.">
+<!-- ==================== SLIDE 22: TWO OPEN PROBLEMS (TECHNICAL) ==================== -->
+<section class="slide bg-peach" data-t="Open problems" data-note="15:30 — Present as open engineering problems, not apologies. On Gap 01, point to CrowdStrike Falcon Guardian's AI Kill Switch (announced 3 Nov 2026). Gap 02 is a genuine architectural conflict — invite people to argue with it afterwards. Next slide shows both as concrete real-life analogies.">
   <div class="wrap">
-    <div class="slide-top">
-      <div class="kicker peach"><i class="dash"></i>Two open problems, if you want something to chew on</div>
-      <div class="mode-tabs" role="tablist" aria-label="View mode">
-        <button class="mode-btn on" data-mode="tech" role="tab" aria-selected="true">⚙ Technical</button>
-        <button class="mode-btn" data-mode="life" role="tab" aria-selected="false">🔌 Real-Life: Pull Plug &amp; Graveyard</button>
-      </div>
-    </div>
+    <div class="kicker peach"><i class="dash"></i>Two open problems, if you want something to chew on</div>
     <h2>Gaps named, <span class="peach">not closed</span></h2>
-
-    <div class="view-panel on" data-view="tech">
-      <div class="two">
-        <div class="card coral" data-step>
-          <span class="tag-pill coral" style="align-self:flex-start">GAP 01</span>
-          <h3>Mandatory AI kill switch</h3>
-          <p>We have circuit breakers, deadlines, budget caps and deterministic fallbacks.</p>
-          <p>A mandated kill switch is an <b class="peach">operator-triggered hard stop</b>. Adjacent — not the same thing.</p>
-        </div>
-        <div class="card coral" data-step>
-          <span class="tag-pill coral" style="align-self:flex-start">GAP 02</span>
-          <h3>Ten-year retention</h3>
-          <p>The inventory reads the live registry, so it <b class="mint">cannot drift</b> from what is running. The draft wants decommissioned models kept a decade.</p>
-          <p><b class="peach">A live inventory cannot drift, and cannot remember.</b></p>
-        </div>
+    <div class="two">
+      <div class="card coral" data-step>
+        <span class="tag-pill coral" style="align-self:flex-start">GAP 01</span>
+        <h3>Mandatory AI kill switch</h3>
+        <p>We have circuit breakers, deadlines, budget caps and deterministic fallbacks.</p>
+        <p>A mandated kill switch is an <b class="peach">operator-triggered hard stop</b>. Adjacent — not the same thing.</p>
       </div>
-      <div class="banner peach" data-step>
-        <b>The second is an architectural conflict, not a backlog item.</b> <span class="peach">If you have solved it, I want to hear how.</span>
+      <div class="card coral" data-step>
+        <span class="tag-pill coral" style="align-self:flex-start">GAP 02</span>
+        <h3>Ten-year retention</h3>
+        <p>The inventory reads the live registry, so it <b class="mint">cannot drift</b> from what is running. The draft wants decommissioned models kept a decade.</p>
+        <p><b class="peach">A live inventory cannot drift, and cannot remember.</b></p>
       </div>
     </div>
+    <div class="banner peach" data-step>
+      <b>The second is an architectural conflict, not a backlog item.</b> <span class="peach">If you have solved it, I want to hear how.</span>
+    </div>
+  </div>
+</section>
 
-    <div class="view-panel" data-view="life">
-      <div class="dia-frame">
-        <div class="dia" data-dia="life-gaps" data-broke-ms="1350"><svg viewBox="0 0 1060 310" role="img"
-          aria-label="Real-life analogies for both MRM gaps: Left shows an automatic blown fuse versus a human-triggered 3-tier containment ladder (dimmer switch, strip IAM badge, manual pull the plug) that cuts off a rogue agent while keeping core rails green; right shows a zero-drift pristine live state conflicting with a 10-year retired model graveyard.">
+<!-- ==================== SLIDE 23: REAL-LIFE — PULL PLUG & 10-YR GRAVEYARD ==================== -->
+<section class="slide bg-deep" data-t="Pull Plug &amp; Graveyard" data-note="16:15 — Real-life view of both MRM gaps: Left) an automatic blown fuse is NOT a human pulling the plug (3-tier ladder: T1 Dimmer Switch, T2 Strip IAM Badge, T3 Manual Hard Stop that kills rogue agents while keeping core payment rails green); Right) keeping a pristine live zero-drift board vs. managing a 10-year graveyard of retired models (2026–2036). Press R to replay.">
+  <div class="wrap">
+    <div class="kicker peach"><i class="dash"></i>Real-life map · RFC-001 (Kill Switch) &amp; RFC-002 (10-Yr Retention)</div>
+    <h2>🔌 Pull the Plug &amp; <span class="peach">10-Yr Graveyard</span></h2>
+    <div class="dia-frame">
+      <div class="dia" data-dia="life-gaps" data-broke-ms="1350"><svg viewBox="0 0 1060 310" role="img"
+        aria-label="Real-life analogies for both MRM gaps: Left shows an automatic blown fuse versus a human-triggered 3-tier containment ladder (dimmer switch, strip IAM badge, manual pull the plug) that cuts off a rogue agent while keeping core rails green; right shows a zero-drift pristine live state conflicting with a 10-year retired model graveyard.">
           <!-- LEFT PANEL: GAP 01 — Blown Fuse vs 3-Tier Containment Ladder (Manual Plug Pull) -->
           <g data-d>
             <rect x="14" y="14" width="504" height="282" rx="14" fill="#161B26" stroke="#FF6B6B" stroke-width="1.6"/>
@@ -2172,48 +2149,44 @@ func statusText(ok bool, seq int, field string) string {
         </svg></div>
       </div>
       <div class="dia-foot">
-        <p class="note">Real-life map: <span class="peach"><b>Auto-fuse ≠ 3-Tier Dimmer / Manual Plug Pull</b></span> · <span class="lav"><b>Pristine Live State ≠ 10-Year Model Graveyard</b></span>. Press <b>M</b> to toggle.</p>
+        <p class="note">Real-life map: <span class="peach"><b>Auto-fuse ≠ 3-Tier Dimmer / Manual Plug Pull</b></span> · <span class="lav"><b>Pristine Live State ≠ 10-Year Model Graveyard</b></span>.</p>
         <button class="replay">↻ replay</button>
       </div>
-    </div>
   </div>
 </section>
 
-<!-- ==================== SLIDE 21: DEPLOYER -> PROVIDER ==================== -->
-<section class="slide bg-lavender" data-t="Costs you" data-note="18:40 — The most valuable minute for this room whatever regulator binds them. Deployer becomes provider. This belongs in a scoping conversation. Real-life analogy (press M): The Invisible Legal Tripwire (Art. 25) — installing a vendor AI tool under the vendor logo + policy.yaml keeps you in the Deployer Safe Zone, whereas slapping the bank's logo on it or fine-tuning on internal customer emails crosses the tripwire and inherits the vendor's full Provider liability. Banking Q&amp;A armor: even as a pure Deployer, EU AI Act Article 27 STILL requires a mandatory Fundamental Rights Impact Assessment (FRIA) for Annex III credit scoring and life/health insurance pricing (due 2 Dec 2027, cross-referenceable with GDPR DPIA under Reg. 2026/1744) — and DIFC Reg 10 splits roles three ways: Deployer, Operator, Provider.">
+<!-- ==================== SLIDE 24: DEPLOYER -> PROVIDER (TECHNICAL) ==================== -->
+<section class="slide bg-lavender" data-t="Costs you" data-note="17:15 — The most valuable minute for this room whatever regulator binds them. Deployer becomes provider. This belongs in a scoping conversation. Banking Q&amp;A armor: even as a pure Deployer, EU AI Act Article 27 STILL requires a mandatory Fundamental Rights Impact Assessment (FRIA) for Annex III credit scoring and life/health insurance pricing (due 2 Dec 2027, cross-referenceable with GDPR DPIA under Reg. 2026/1744) — and DIFC Reg 10 splits roles three ways: Deployer, Operator, Provider.">
   <div class="wrap">
-    <div class="slide-top">
-      <div class="kicker peach"><i class="dash"></i>One thing that costs your customer, not you</div>
-      <div class="mode-tabs" role="tablist" aria-label="View mode">
-        <button class="mode-btn on" data-mode="tech" role="tab" aria-selected="true">⚙ Technical</button>
-        <button class="mode-btn" data-mode="life" role="tab" aria-selected="false">⚡ Real-Life: Legal Tripwire</button>
-      </div>
-    </div>
+    <div class="kicker peach"><i class="dash"></i>One thing that costs your customer, not you</div>
     <h2>Move a customer from <span class="peach">deployer to provider</span><br>without telling them.</h2>
-
-    <div class="view-panel on" data-view="tech">
-      <p class="sub">A company using AI under its own authority is a <span class="mint">deployer</span>. One that puts a system into service under its own name, or substantially modifies one, becomes a <span class="peach">provider</span> — carrying a far heavier set of legal duties.</p>
-      <div class="two">
-        <div class="card mint-hl" data-step>
-          <h3>Still a deployer</h3>
-          <p>You install your agent, configured, under your name. Your customer operates it.</p>
-          <p>The heavy provider duties stay largely with you.</p>
-          <div class="foot-pill"><span class="pill ok">Duties stay with vendor</span></div>
-        </div>
-        <div class="card coral" data-step>
-          <h3 style="color:var(--peach)">Now a provider</h3>
-          <p>You fine-tune the model on their data, or ship it under their brand.</p>
-          <p>They have substantially modified a system — <b class="peach">and the heavier duties are now theirs.</b></p>
-          <div class="foot-pill"><span class="pill gap">Heavier duties shift to client</span></div>
-        </div>
+    <p class="sub">A company using AI under its own authority is a <span class="mint">deployer</span>. One that puts a system into service under its own name, or substantially modifies one, becomes a <span class="peach">provider</span> — carrying a far heavier set of legal duties.</p>
+    <div class="two">
+      <div class="card mint-hl" data-step>
+        <h3>Still a deployer</h3>
+        <p>You install your agent, configured, under your name. Your customer operates it.</p>
+        <p>The heavy provider duties stay largely with you.</p>
+        <div class="foot-pill"><span class="pill ok">Duties stay with vendor</span></div>
       </div>
-      <p class="note" data-step>That difference belongs in the SOW. <span class="peach"><b>Scoping conversation, not post-mortem.</b></span></p>
+      <div class="card coral" data-step>
+        <h3 style="color:var(--peach)">Now a provider</h3>
+        <p>You fine-tune the model on their data, or ship it under their brand.</p>
+        <p>They have substantially modified a system — <b class="peach">and the heavier duties are now theirs.</b></p>
+        <div class="foot-pill"><span class="pill gap">Heavier duties shift to client</span></div>
+      </div>
     </div>
+    <p class="note" data-step>That difference belongs in the SOW. <span class="peach"><b>Scoping conversation, not post-mortem.</b></span></p>
+  </div>
+</section>
 
-    <div class="view-panel" data-view="life">
-      <div class="dia-frame">
-        <div class="dia" data-dia="life-sow" data-broke-ms="1450"><svg viewBox="0 0 1060 318" role="img"
-          aria-label="Real-life SOW Tripwire analogy for EU AI Act Article 25: Installing a vendor AI tool under the vendor logo stays in the Deployer Safe Zone (with Art. 27 FRIA for credit/insurance), whereas slapping the bank's logo on it or fine-tuning on internal customer emails crosses an invisible legal tripwire and inherits Provider liability.">
+<!-- ==================== SLIDE 25: REAL-LIFE — THE INVISIBLE LEGAL TRIPWIRE ==================== -->
+<section class="slide bg-deep" data-t="Legal Tripwire" data-note="18:00 — Real-life visual for EU AI Act Article 25: installing a vendor AI tool under the vendor logo + policy.yaml keeps the bank in the Deployer Safe Zone (with Art. 27 FRIA for credit/insurance), whereas slapping the bank's logo on it or fine-tuning on internal customer emails crosses the invisible legal tripwire and inherits the vendor's full Provider liability! Press R to replay.">
+  <div class="wrap">
+    <div class="kicker peach"><i class="dash"></i>Real-life map · EU AI Act Article 25 SOW trap</div>
+    <h2>⚡ The Invisible <span class="peach">Legal Tripwire</span></h2>
+    <div class="dia-frame">
+      <div class="dia" data-dia="life-sow" data-broke-ms="1450"><svg viewBox="0 0 1060 318" role="img"
+        aria-label="Real-life SOW Tripwire analogy for EU AI Act Article 25: Installing a vendor AI tool under the vendor logo stays in the Deployer Safe Zone (with Art. 27 FRIA for credit/insurance), whereas slapping the bank's logo on it or fine-tuning on internal customer emails crosses an invisible legal tripwire and inherits Provider liability.">
           <!-- Left: Vendor AI Tool -->
           <g data-d>
             <rect x="18" y="96" width="214" height="118" rx="14" fill="#1E2433" stroke="#C4A3FF" stroke-width="1.8"/>
@@ -2265,15 +2238,14 @@ func statusText(ok bool, seq int, field string) string {
         </svg></div>
       </div>
       <div class="dia-foot">
-        <p class="note"><b>The Invisible Legal Tripwire:</b> Slap your bank's logo on it or fine-tune on customer emails → <span class="peach"><b>you inherit the vendor's full Provider liability.</b></span> Press <b>M</b> to toggle.</p>
+        <p class="note"><b>The Invisible Legal Tripwire:</b> Slap your bank's logo on it or fine-tune on customer emails → <span class="peach"><b>you inherit the vendor's full Provider liability.</b></span></p>
         <button class="replay">↻ replay</button>
       </div>
-    </div>
   </div>
 </section>
 
-<!-- ==================== SLIDE 18: THANK YOU / QUESTIONS ==================== -->
-<section class="slide bg-hero" data-t="End" data-note="18:45 — Close cleanly right after the Deployer->Provider mic-drop. Point them to the two big QR codes (Live Deck &amp; 100% Go Companion Repo — 9 Go packages, 4 Go labs, 25 diagrams, 6 deep-dive guides &amp; vendor checklist) and take questions (Q&amp;A Backups on slides 19-21).">
+<!-- ==================== SLIDE 26: THANK YOU / QUESTIONS ==================== -->
+<section class="slide bg-hero" data-t="End" data-note="18:45 — Close cleanly right after the Legal Tripwire mic-drop. Point them to the two big QR codes (Live Deck &amp; 100% Go Companion Repo — 9 Go packages, 4 Go labs, 25 diagrams, 6 deep-dive guides &amp; vendor checklist) and take questions (Q&amp;A Backups on slides 27-29).">
   <img class="ribbon hero" src="assets/ribbon-hero.webp" alt="">
   <img class="cr-hero-logo" src="assets/clearroute-logo.png" alt="ClearRoute">
   <div class="wrap narrow-left">
@@ -2377,11 +2349,11 @@ func statusText(ok bool, seq int, field string) string {
 <div id="chrome-line"></div>
 <div id="hints">
   <span class="brand">CLEARROUTE</span>
-  <span class="keys"><b>← →</b> navigate · <b>m</b> real-life · <b>r</b> run/replay · <b>o</b> overview · <b>s</b> notes · <b>h</b> hints · <b>f</b> fullscreen · <b>t</b> theme</span>
+  <span class="keys"><b>← →</b> navigate · <b>r</b> run/replay · <b>o</b> overview · <b>s</b> notes · <b>h</b> hints · <b>f</b> fullscreen · <b>t</b> theme</span>
 </div>
 <div id="pager">
   <button id="prev" aria-label="Previous slide">‹</button>
-  <span class="ct"><b id="cur">01</b> / <span id="tot">21</span></span>
+  <span class="ct"><b id="cur">01</b> / <span id="tot">29</span></span>
   <button id="next" aria-label="Next slide">›</button>
 </div>
 
