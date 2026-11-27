@@ -562,12 +562,12 @@
   .cell .run[disabled] { opacity: .55; cursor: default; transform: none; }
   .cell textarea {
     font-family: var(--mono);
-    font-size: clamp(11.5px, .98vw, 14px);
-    line-height: 1.58;
+    font-size: clamp(12px, 1.02vw, 14.5px);
+    line-height: 1.48;
     border: 0; outline: 0; resize: vertical; width: 100%;
-    padding: 16px 18px;
+    padding: 14px 18px;
     background: #111622; color: #EEF2FA;
-    min-height: min(320px, 38vh);
+    min-height: min(370px, 44vh);
     tab-size: 4;
   }
   .cell .out {
@@ -900,6 +900,7 @@
   }
   #hints b { color: var(--fg); font-weight: 700; }
   @media (max-width: 780px) { #hints .keys { display: none; } }
+  :fullscreen #hints, :-webkit-full-screen #hints, body.hide-hints #hints { display: none; }
 
   #pager {
     position: fixed; right: clamp(20px, 4vw, 56px); bottom: 10px; z-index: 25;
@@ -987,24 +988,24 @@
       <div class="kpi">
         <span class="n mint">17</span>
         <i class="rule mint"></i>
-        <span class="k">RE Recommendations</span>
-        <p>All 17 RBI FREE-AI recommendations owned by a Regulated Entity — implemented in working Go code.</p>
+        <span class="k">RBI FREE-AI Controls</span>
+        <p>Every Regulated Entity recommendation — built in Go.</p>
       </div>
       <div class="kpi lav">
         <span class="n lav">7</span>
         <i class="rule lav"></i>
-        <span class="k">EU AI Act Controls</span>
-        <p>Controls built for RBI that directly answer EU AI Act Articles 9, 12, 14, 15, 17, 50, 73 &amp; Annex IV.</p>
+        <span class="k">EU AI Act Inherited</span>
+        <p>Answered automatically by the same control set.</p>
       </div>
       <div class="kpi peach">
         <span class="n peach">2</span>
         <i class="rule peach"></i>
-        <span class="k">Open Gaps</span>
-        <p>Named honestly against RBI's June 2026 Draft MRM guidance — not quietly hidden or hand-waved.</p>
+        <span class="k">Open MRM Gaps</span>
+        <p>Named honestly — not quietly hidden or hand-waved.</p>
       </div>
     </div>
     <div class="banner">
-      <b>Every claim on these slides points at a file,</b> and the whole thing runs on a laptop with no network. <span class="mint"><b>You should not have to believe any of it.</b></span>
+      <b>Every claim points at runnable Go code, offline on a laptop.</b> <span class="mint"><b>You should not have to believe any of it.</b></span>
     </div>
   </div>
 </section>
@@ -1132,27 +1133,11 @@
   </div>
 </section>
 
-<!-- ==================== SLIDE 5: THE MAP (FREE-AI) ==================== -->
-<section class="slide bg-mint" data-t="The map" data-note="2:00 — FREE-AI as the map. 13 August 2025 (chaired by Dr. Pushpak Bhattacharyya, IIT Bombay). Do not oversell it — it is a committee report, and I will say later that the binding instrument is separate.">
-  <img class="ribbon left-mint" src="assets/ribbon-mint.webp" alt="">
-  <div class="wrap split-right">
-    <div class="kicker"><i class="dash"></i>The map · RBI, 13 August 2025</div>
-    <h1>FREE-AI</h1>
-    <p class="kicker" style="letter-spacing:.06em">Framework for Responsible &amp; Ethical Enablement of AI</p>
-    <p class="sub">The most concrete AI guidance any major central bank has published — structured as a practical blueprint spanning governance, risk, and accountability. <a href="https://rbidocs.rbi.org.in/rdocs/PublicationReport/Pdfs/FREEAIR130820250A24FF2D4578453F824C72ED9F5D5851.PDF" target="_blank" rel="noopener" style="color:var(--mint);text-decoration:underline;font-weight:600">Read official RBI PDF ↗</a></p>
-    <div class="kpi-compact">
-      <div class="kpi"><span class="n mint">7</span><span class="k">Sutras</span></div>
-      <div class="kpi lav"><span class="n lav">6</span><span class="k">Pillars</span></div>
-      <div class="kpi peach"><span class="n peach">26</span><span class="k">Recs</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- ==================== SLIDE 6: READ IT RIGHT (9 / 17 SPLIT) ==================== -->
-<section class="slide bg-mint" data-t="Read it right" data-note="2:40 — The most immediately useful slide for anyone scoping regulated work. Nine are ecosystem/regulator/non-codebase tracks (1, 3, 5, 7, 9-13). Quote for 26 and you have priced the regulator's own roadmap. Real-life analogy (press M): Airport Authority builds the national runways and ATC tower (9 — you can't write Go code to fund national infra or train the country's workforce); your airline owns the 17 aircraft controls. Q&amp;A nuance: Recs 14-26 are the 13 Risk Mitigation RE obligations, Recs 2/4/6/8 are regulator-enabled tracks where REs build internal technical readiness, and Rec 10 (RE workforce capacity building) is HR/training rather than a codebase control.">
+<!-- ==================== SLIDE 5: READ IT RIGHT (9 / 17 SPLIT) ==================== -->
+<section class="slide bg-mint" data-t="Read it right" data-note="2:15 — RBI FREE-AI (13 Aug 2025, chaired by Dr. Pushpak Bhattacharyya, IIT Bombay: 7 Sutras, 6 Pillars, 26 Recs — advisory committee report; the binding instrument comes later). The most immediately useful slide for anyone scoping regulated work: 9 belong to the Regulator/SRO (1, 3, 5, 7, 9-13). Quote for 26 and you have priced the regulator's own roadmap. Real-life analogy (press M): Airport Authority builds the national runways and ATC tower (9 — you can't write Go code to fund national infra or train the country's workforce); your airline owns the 17 aircraft controls. Q&amp;A nuance: Recs 14-26 are the 13 Risk Mitigation RE obligations, Recs 2/4/6/8 are regulator-enabled tracks where REs build internal technical readiness, and Rec 10 is workforce training.">
   <div class="wrap">
     <div class="slide-top">
-      <div class="kicker"><i class="dash"></i>How to read it before you quote for it</div>
+      <div class="kicker"><i class="dash"></i>RBI FREE-AI · 13 Aug 2025 · 7 Sutras · 6 Pillars · 26 Recs</div>
       <div class="mode-tabs" role="tablist" aria-label="View mode">
         <button class="mode-btn on" data-mode="tech" role="tab" aria-selected="true">⚙ Technical</button>
         <button class="mode-btn" data-mode="life" role="tab" aria-selected="false">✈ Real-Life: Airport vs Airline</button>
@@ -1419,62 +1404,33 @@
   </div>
 </section>
 
-<!-- ==================== SLIDE 8: RUN IT YOURSELF ==================== -->
-<section class="slide bg-mint" data-t="Run it yourself" data-note="6:40 — The procurement test. Offer it to the room to use on their vendors and on themselves. This is the single most portable thing in the talk.">
+<!-- ==================== SLIDE 7: RUN IT YOURSELF ==================== -->
+<section class="slide bg-mint" data-t="Run it yourself" data-note="4:45 — The procurement test. Offer it to the room to use on their vendors and on themselves. Mention verbally that the full internal genie system runs 127 Go packages offline, and this public companion repo runs the entire governance core in under 10 seconds with zero network, zero cloud accounts, and zero API keys.">
   <div class="wrap">
-    <div class="kicker"><i class="dash"></i>And you do not have to take my word for any of it</div>
+    <div class="kicker"><i class="dash"></i>The procurement test · zero cloud · zero API keys · zero network</div>
     <h2>Clone it, run it, <span class="mint">offline, in five minutes.</span></h2>
     <div class="term">
       <div class="term-bar">
         <div class="term-left">
           <div class="dots"><i></i><i></i><i></i></div>
-          <span class="term-fn">zsh — genie (zero-network local verification)</span>
+          <span class="term-fn">zsh — 100% pure Go · air-gapped verification</span>
         </div>
       </div>
-      <pre class="code-body"><span class="c"># no cloud account. no API key. no network.</span>
-<span class="p">$</span> git clone … &amp;&amp; cd genie
-<span class="p">$</span> go test ./...        <span class="s">→  127 packages ok</span>
-<span class="p">$</span> go run ./cmd/genie   <span class="k">→  full pipeline, sample CSV, ~30s</span>
-
-<span class="c"># public companion repo (QR on slide 23) — runnable tonight:</span>
-<span class="p">$</span> make demo            <span class="s">→  9 Go pkgs · 20 OWASP red-team tests · evidencepack (&lt;10s)</span></pre>
+      <pre class="code-body"><span class="c"># no cloud account. no API key. no network. runnable tonight (QR at end):</span>
+<span class="p">$</span> git clone github.com/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act
+<span class="p">$</span> make demo   <span class="s">→  9 Go pkgs · 20 OWASP red-team tests · 4 Go labs · evidencepack (&lt;10s)</span>
+<span class="p">$</span> make test   <span class="k">→  go vet + go test -race + Go WASM + cross-walk parity</span></pre>
     </div>
-    <div class="mini-badges">
-      <div class="mini-badge"><strong class="mint">Zero Cloud Account</strong><span>Runs identically on an air-gapped laptop</span></div>
-      <div class="mini-badge lav"><strong class="lav">Zero API Keys</strong><span>Deterministic local execution, no vendor lock-in</span></div>
-      <div class="mini-badge peach"><strong class="peach">127 + 9 Test Packages</strong><span>Executable evidence, not compliance slides</span></div>
-    </div>
-    <p class="note"><b>A control nobody can run is a claim.</b> <span class="mint">It is a fair test to put to any AI vendor, and a fairer one to put to yourself.</span></p>
+    <p class="note"><b>A control nobody can run is a claim.</b> <span class="mint">It is a fair test to put to any AI vendor — and a fairer one to put to yourself.</span></p>
   </div>
 </section>
 
-<!-- ==================== SLIDE 9: FINDING ONE ==================== -->
-<section class="slide bg-peach" data-t="Finding one" data-note="7:30 — Frame as a finding, not a confession. Governance artefacts go stale silently. This is the non-obvious part of Rec 17 and most implementations miss it.">
-  <div class="wrap">
-    <div class="kicker peach"><i class="dash"></i>Finding one · governance goes stale without telling you</div>
-    <h2>An approval describes the system<br><span class="peach">as it was on the day it was signed.</span></h2>
-    <p class="sub"><code>var_calculator</code> was approved at <span class="mint">medium risk</span>. A refactor made it <span class="coral">high</span>. Nobody rejected anything, nobody withdrew anything — the register simply stopped describing the thing it had approved.</p>
-    <div class="term peach">
-      <div class="term-bar">
-        <div class="term-left">
-          <div class="dots"><i></i><i></i><i></i></div>
-          <span class="term-fn">approval_gate.go — runtime risk-drift guard (RBI Rec 17)</span>
-        </div>
-      </div>
-      <pre class="code-body"><span class="k">if</span> rec.RiskClass != risk {
-    <span class="k">return</span> fmt.Errorf(<span class="s">"%w: %s approved as %s, now declares %s"</span>,
-        <span class="e">ErrRiskChanged</span>, a.ID(), rec.RiskClass, risk)
-}</pre>
-    </div>
-  </div>
-</section>
-
-<!-- ==================== SLIDE 10: DRIFT, DRAWN ==================== -->
-<section class="slide bg-deep" data-t="Drift, drawn"
-  data-note="9:20 — Let it animate. The approval stamp stays where it was signed. The agent walks away from it. The gap between the two marks is the whole of Rec 17. Press M for the Scooter vs. Commercial Truck License analogy: you got a valid medium-risk scooter license, then started driving a massive high-risk commercial truck while keeping the unexpired scooter license in your pocket! Press R to replay.">
+<!-- ==================== SLIDE 8: FINDING ONE — DRIFT, DRAWN ==================== -->
+<section class="slide bg-deep" data-t="Finding 1 · Drift"
+  data-note="5:45 — Finding 1: governance artefacts go stale silently without anyone rejecting or withdrawing them. var_calculator was signed off at medium risk, then refactored to high — the approval simply stopped describing what it approved. Let the SVG animate. Press M for the Scooter vs. Commercial Truck License analogy (unexpired medium scooter license in your pocket while driving a high-risk heavy commercial truck -> ErrRiskChanged!). Press R to replay.">
   <div class="wrap">
     <div class="slide-top">
-      <div class="kicker peach"><i class="dash"></i>Finding one · visualised</div>
+      <div class="kicker peach"><i class="dash"></i>Finding one · governance goes stale silently (RBI Rec 17)</div>
       <div class="mode-tabs" role="tablist" aria-label="View mode">
         <button class="mode-btn on" data-mode="tech" role="tab" aria-selected="true">⚙ Technical</button>
         <button class="mode-btn" data-mode="life" role="tab" aria-selected="false">🛵→🚛 Real-Life: Scooter vs Truck</button>
@@ -1594,17 +1550,17 @@
   </div>
 </section>
 
-<!-- ==================== SLIDE 11: LAB 01 — DRIFT ==================== -->
-<section class="slide bg-deep" data-t="Lab · drift"
-  data-note="9:50 — DEMO 1. Press R. Runs real compiled Go WebAssembly locally with zero network. Five agents, four of them obvious, var_calculator is the one nobody would catch by eye. Live stage trick: change var_calculator's Risk from &quot;medium&quot; to &quot;high&quot; and press Cmd/Ctrl+Enter to watch Go WASM re-evaluate live!">
+<!-- ==================== SLIDE 9: LAB 01 — DRIFT ==================== -->
+<section class="slide bg-deep" data-t="Lab 01 · drift"
+  data-note="7:00 — DEMO 1. Press R. Runs real compiled Go WebAssembly locally with zero network. Five agents, four of them obvious, var_calculator is the one nobody would catch by eye. Live stage trick: change var_calculator's Risk from &quot;medium&quot; to &quot;high&quot; and press Cmd/Ctrl+Enter to watch Go WASM re-evaluate live!">
   <div class="wrap">
-    <div class="kicker peach"><i class="dash"></i>Lab 01 · Run it (press R · Go WebAssembly)</div>
+    <div class="kicker peach"><i class="dash"></i>Lab 01 · Run live (press R · Go WebAssembly)</div>
     <h2>Five agents, <span class="peach">one bad approval</span></h2>
     <div class="cell" data-lab="drift">
       <div class="bar">
         <div class="term-left">
           <div class="dots"><i></i><i></i><i></i></div>
-          <span class="term-fn">approval.go — the drift check (Go WASM · offline)</span>
+          <span class="term-fn">approval.go — edit live &amp; press Cmd/Ctrl+Enter</span>
         </div>
         <button class="run">▶ Run Go</button>
       </div>
@@ -1616,12 +1572,6 @@ import (
 	"time"
 )
 
-type Record struct {
-	Status  string
-	Risk    string
-	Expires *time.Time
-}
-
 var (
 	now            = time.Date(2026, 11, 28, 10, 0, 0, 0, time.UTC)
 	knownRiskTiers = map[string]bool{"low": true, "medium": true, "high": true}
@@ -1632,47 +1582,33 @@ var (
 		"payment_orchestrator": {Status: "approved", Risk: "high", Expires: &in60Days},
 		"kyc_orchestrator":     {Status: "approved", Risk: "high", Expires: &yesterday},
 		"aml_monitor":          {Status: "rejected", Risk: "high"},
-		"var_calculator":       {Status: "approved", Risk: "medium"}, // signed off at medium
+		"var_calculator":       {Status: "approved", Risk: "medium"}, // ← signed off at medium!
 		"educator":             nil,                                  // never reviewed
 	}
 )
 
 func allow(agentID, declaresNow string) (bool, string) {
 	risk := strings.ToLower(strings.TrimSpace(declaresNow))
-	if !knownRiskTiers[risk] {
-		return false, fmt.Sprintf("ErrUnknownRisk (%q)", declaresNow)
-	}
-	if risk != "high" {
-		return true, "low/medium — no approval required"
-	}
+	if !knownRiskTiers[risk] { return false, fmt.Sprintf("ErrUnknownRisk (%q)", declaresNow) }
+	if risk != "high"        { return true, "low/medium — no approval required" }
 	rec := register[agentID]
-	if rec == nil {
-		return false, "ErrNoApproval"
-	}
-	if strings.ToLower(strings.TrimSpace(rec.Status)) != "approved" {
-		return false, fmt.Sprintf("ErrNotApproved (%s)", rec.Status)
-	}
-	if rec.Expires != nil && now.After(*rec.Expires) {
-		return false, "ErrExpired"
-	}
-	if strings.ToLower(strings.TrimSpace(rec.Risk)) != risk {
-		return false, fmt.Sprintf("ErrRiskChanged (approved as %s, now declares %s)", rec.Risk, risk)
-	}
+	if rec == nil                                             { return false, "ErrNoApproval" }
+	if strings.ToLower(strings.TrimSpace(rec.Status)) != "approved" { return false, fmt.Sprintf("ErrNotApproved (%s)", rec.Status) }
+	if rec.Expires != nil && now.After(*rec.Expires)          { return false, "ErrExpired" }
+	if strings.ToLower(strings.TrimSpace(rec.Risk)) != risk   { return false, fmt.Sprintf("ErrRiskChanged (approved as %s, now declares %s)", rec.Risk, risk) }
 	return true, "live"
 }
 
+type Record struct { Status, Risk string; Expires *time.Time }
+
 func main() {
 	today := []struct{ id, risk string }{
-		{"payment_orchestrator", "high"},
-		{"kyc_orchestrator", "high"},
-		{"aml_monitor", "high"},
-		{"var_calculator", "high"},
-		{"educator", "low"},
+		{"payment_orchestrator", "high"}, {"kyc_orchestrator", "high"},
+		{"aml_monitor", "high"}, {"var_calculator", "high"}, {"educator", "low"},
 	}
 	for _, a := range today {
 		ok, why := allow(a.id, a.risk)
-		status := "STOP"
-		if ok { status = "RUN " }
+		status := "STOP"; if ok { status = "RUN " }
 		fmt.Printf("%s  %-22s %s\n", status, a.id, why)
 	}
 	fmt.Println("\nvar_calculator is the one I would have missed.")
@@ -1682,18 +1618,16 @@ func main() {
   </div>
 </section>
 
-<!-- ==================== SLIDE 12: FINDING TWO (DIAMOND MANIFESTO) ==================== -->
-<section class="slide bg-mint" data-t="Finding two" data-note="10:40 — Second finding, stated as a principle. A control that cannot catch its owner is not a control. Sets up the chain diagram.">
+<!-- ==================== SLIDE 10: FINDING TWO (DIAMOND MANIFESTO) ==================== -->
+<section class="slide bg-mint" data-t="Finding two" data-note="8:45 — Second finding, stated as a principle. Pause two seconds in silence after reading the 12 words aloud. An audit trail you can quietly edit protects you, not the customer. Sets up the hash-chain diagram.">
   <img class="ribbon diamond" src="assets/ribbon-diamond.webp" alt="">
   <div class="wrap center-diamond">
     <div class="kicker peach"><i class="dash"></i>Finding two · Tamper-evident audit logs</div>
-    <h1 style="font-size:clamp(28px,3.6vw,50px);line-height:1.15">
+    <h1 style="font-size:clamp(34px,4.4vw,60px);line-height:1.14">
       A control that cannot catch<br>
       <span class="peach">its own operator</span><br>
       <span class="mint">is not a control.</span>
     </h1>
-    <p class="sub" style="text-align:center">An audit trail you can quietly edit protects you, not the customer. If a refund goes wrong and the log says the approval was there, the only question that matters is whether anyone could have added it afterwards.</p>
-    <p class="note" style="text-align:center;color:var(--offwhite)">So the log is SHA-256 hash-chained, and the signed export states whether the chain held — <span class="mint"><b>including when it did not.</b></span></p>
   </div>
 </section>
 
@@ -1859,17 +1793,17 @@ func main() {
   </div>
 </section>
 
-<!-- ==================== SLIDE 14: LAB 02 — TAMPER ==================== -->
-<section class="slide bg-deep" data-t="Lab · tamper"
-  data-note="11:40 — DEMO 2. Press R. Runs real compiled Go WebAssembly locally with zero network. Three entries, verify OK, edit row 2 actor, verify breaks at seq 2. The manifest reports chain_verified: false rather than hiding it. Comment out log[1].Actor = &quot;advisor-99&quot; and press Cmd/Ctrl+Enter to watch Go WASM verify true live!">
+<!-- ==================== SLIDE 12: LAB 02 — TAMPER ==================== -->
+<section class="slide bg-deep" data-t="Lab 02 · tamper"
+  data-note="10:00 — DEMO 2. Press R. Runs real compiled Go WebAssembly locally with zero network. Three entries, verify OK, edit row 2 actor, verify breaks at seq 2. The manifest reports chain_verified: false rather than hiding it. Comment out log[1].Actor = &quot;advisor-99&quot; and press Cmd/Ctrl+Enter to watch Go WASM verify true live! Note: code/audit/chain.go + go run ./cmd/evidencepack also sign the manifest with caller-pinned Ed25519 and emit RBI Annexure VI &amp; EU Art. 73/Annex IV JSON.">
   <div class="wrap">
-    <div class="kicker peach"><i class="dash"></i>Lab 02 · Run it (press R · Go WebAssembly)</div>
+    <div class="kicker peach"><i class="dash"></i>Lab 02 · Run live (press R · Go WebAssembly)</div>
     <h2>Rewrite one row, <span class="peach">watch it fail</span></h2>
     <div class="cell" data-lab="chain">
       <div class="bar">
         <div class="term-left">
           <div class="dots"><i></i><i></i><i></i></div>
-          <span class="term-fn">audit.go — SHA-256 hash chain + export manifest (Go WASM · offline)</span>
+          <span class="term-fn">audit.go — edit live &amp; press Cmd/Ctrl+Enter</span>
         </div>
         <button class="run">▶ Run Go</button>
       </div>
@@ -1883,45 +1817,6 @@ import (
 	"strings"
 )
 
-type Entry struct {
-	Seq      int    `json:"seq"`
-	Actor    string `json:"actor"`
-	Action   string `json:"action"`
-	Target   string `json:"target"`
-	PrevHash string `json:"prev_hash"`
-	RowHash  string `json:"row_hash,omitempty"`
-}
-
-func rowHash(prev string, e Entry) string {
-	e.RowHash = ""
-	body, _ := json.Marshal(struct {
-		Prev string `json:"prev"`
-		Entry
-	}{Prev: prev, Entry: e})
-	sum := sha256.Sum256(body)
-	return hex.EncodeToString(sum[:])
-}
-
-func appendLog(log *[]Entry, actor, action, target string) {
-	prev := "genesis"
-	if n := len(*log); n > 0 { prev = (*log)[n-1].RowHash }
-	e := Entry{Seq: len(*log) + 1, Actor: actor, Action: action, Target: target, PrevHash: prev}
-	e.RowHash = rowHash(prev, e)
-	*log = append(*log, e)
-}
-
-func verify(log []Entry) (bool, int, string) {
-	if len(log) == 0 { return false, 0, "empty_log" }
-	prev := "genesis"
-	for i, e := range log {
-		if e.Seq != i+1             { return false, i + 1, "seq" }
-		if e.PrevHash != prev       { return false, e.Seq, "prev_hash" }
-		if rowHash(prev, e) != e.RowHash { return false, e.Seq, "row_hash" }
-		prev = e.RowHash
-	}
-	return true, 0, ""
-}
-
 func main() {
 	var log []Entry
 	appendLog(&log, "system",       "consent.grant",  "user-1")
@@ -1931,7 +1826,7 @@ func main() {
 	ok, seq, field := verify(log)
 	fmt.Println("fresh chain          ", statusText(ok, seq, field))
 
-	log[1].Actor = "advisor-99" // someone edits history
+	log[1].Actor = "advisor-99" // ← insider edits history (comment out to verify true!)
 	ok, seq, field = verify(log)
 	fmt.Println("after one edited row ", statusText(ok, seq, field))
 
@@ -1946,39 +1841,52 @@ func main() {
 	fmt.Printf("\nexport manifest       %s\n\nThe export does not hide the break. It reports it.\n", manifest)
 }
 
+type Entry struct {
+	Seq int `json:"seq"`; Actor string `json:"actor"`; Action string `json:"action"`
+	Target string `json:"target"`; PrevHash string `json:"prev_hash"`; RowHash string `json:"row_hash,omitempty"`
+}
+
+func rowHash(prev string, e Entry) string {
+	e.RowHash = ""
+	body, _ := json.Marshal(struct { Prev string `json:"prev"`; Entry }{prev, e})
+	sum := sha256.Sum256(body)
+	return hex.EncodeToString(sum[:])
+}
+
+func appendLog(log *[]Entry, actor, action, target string) {
+	prev := "genesis"; if n := len(*log); n > 0 { prev = (*log)[n-1].RowHash }
+	e := Entry{Seq: len(*log) + 1, Actor: actor, Action: action, Target: target, PrevHash: prev}
+	e.RowHash = rowHash(prev, e)
+	*log = append(*log, e)
+}
+
+func verify(log []Entry) (bool, int, string) {
+	if len(log) == 0 { return false, 0, "empty_log" }
+	prev := "genesis"
+	for i, e := range log {
+		if e.Seq != i+1                  { return false, i + 1, "seq" }
+		if e.PrevHash != prev            { return false, e.Seq, "prev_hash" }
+		if rowHash(prev, e) != e.RowHash { return false, e.Seq, "row_hash" }
+		prev = e.RowHash
+	}
+	return true, 0, ""
+}
+
 func statusText(ok bool, seq int, field string) string {
 	if ok { return "OK" }
 	return fmt.Sprintf("BROKEN at seq %d (%s)", seq, field)
 }</textarea>
       <div class="out"></div>
     </div>
-    <p class="muted" style="font-family:var(--mono);font-size:.78rem;margin-top:4px"><span class="mint">Go companion repo:</span> <code>labs/audit/main.go</code> · <code>code/audit/chain.go</code> + <code>go run ./cmd/evidencepack</code> sign the manifest with <b>Ed25519</b> and emit RBI Annexure VI &amp; EU Art. 73/Annex IV JSON.</p>
   </div>
 </section>
 
-<!-- ==================== SLIDE 15: SECOND INSTRUMENT (EU AI ACT) ==================== -->
-<section class="slide bg-lavender" data-t="Second instrument" data-note="13:40 — Transition to the reuse payoff. The scope rule matters for this room: most people here build for foreign parents. Output used in the EU is enough.">
-  <img class="ribbon left-lav" src="assets/ribbon-lavender.webp" alt="">
-  <div class="wrap split-right">
-    <div class="kicker lav"><i class="dash"></i>Then I measured the same codebase against a second instrument</div>
-    <h1 style="font-size:clamp(28px,3.6vw,48px)">
-      The EU AI Act reaches you<br>
-      <span class="lav">the moment your output</span><br>
-      is used in Europe.
-    </h1>
-    <p class="sub">Where you built it does not matter. I expected a second compliance project. Instead, I found regulatory convergence.</p>
-    <div class="banner">
-      <span class="mint"><b>Seven of the controls I had already built for RBI</b></span> directly answered EU AI Act requirements.
-    </div>
-  </div>
-</section>
-
-<!-- ==================== SLIDE 16: CONVERGENCE, DRAWN ==================== -->
-<section class="slide bg-deep" data-t="Convergence, drawn"
-  data-note="14:30 — The thesis of the whole talk, as a picture. Two regulators, arriving from opposite sides, landing on the same four controls. Say the line about convergence while it resolves. Press M for the real-life One Aircraft Safety Core analogy — math is a universal language; Mumbai or Brussels, there are only so many ways to securely lock a door (one black box inspected by both India DGCA/RBI and Europe EASA/EU); press R to replay.">
+<!-- ==================== SLIDE 13: CONVERGENCE, DRAWN ==================== -->
+<section class="slide bg-deep" data-t="Convergence"
+  data-note="12:00 — Extraterritorial hook (EU AI Act Art. 2(1)(c)): applies the moment your output is used in Europe, regardless of where it was built. I expected a second compliance project; instead, 7 RBI controls already answered Europe. Say the line about convergence while the SVG resolves. Press M for the real-life One Aircraft Safety Core analogy — math is a universal language; Mumbai or Brussels, there are only so many ways to securely lock a door (one black box inspected by both India DGCA/RBI and Europe EASA/EU); press R to replay.">
   <div class="wrap">
     <div class="slide-top">
-      <div class="kicker lav"><i class="dash"></i>Regulatory convergence</div>
+      <div class="kicker lav"><i class="dash"></i>EU AI Act Art. 2(1)(c) reaches you the moment your output is used in Europe</div>
       <div class="mode-tabs" role="tablist" aria-label="View mode">
         <button class="mode-btn on" data-mode="tech" role="tab" aria-selected="true">⚙ Technical</button>
         <button class="mode-btn" data-mode="life" role="tab" aria-selected="false">✈ Real-Life: One Black Box</button>
@@ -2106,10 +2014,10 @@ func statusText(ok bool, seq int, field string) string {
   </div>
 </section>
 
-<!-- ==================== SLIDE 17: CROSS-WALK TABLE ==================== -->
-<section class="slide bg-lavender" data-t="Cross-walk" data-note="15:10 — The reusable artefact. Tell them to photograph this one. Walk two rows, not seven. Article 50 has been law since 2 August 2026 (legacy provider watermarking grace ends 2 Dec 2026 — 4 days from today!) and the disclosure was built eleven months earlier for a different regulator. Q&amp;A armor: under Regulation (EU) 2026/1744 (Digital Omnibus on AI, in force 27 July 2026), standalone Annex III High-Risk shifted to 2 Dec 2027, Art. 4 AI Literacy shifted to organizational measures (not guaranteeing individual thresholds), and in India MeitY's IT Amendment Rules 2026 (effective 20 Feb 2026) mandate visible/audible labels &amp; provenance on synthetic audio/visual media.">
+<!-- ==================== SLIDE 14: CROSS-WALK TABLE ==================== -->
+<section class="slide bg-lavender" data-t="Cross-walk" data-note="13:15 — The reusable artefact. Tell them to photograph this one. Walk two rows, not seven. Article 50 has been law since 2 August 2026 (legacy provider watermarking grace ends 2 Dec 2026 — 4 days from today!) and the disclosure was built eleven months earlier for a different regulator. Q&amp;A armor: under Regulation (EU) 2026/1744 (Digital Omnibus on AI, in force 27 July 2026), standalone Annex III High-Risk shifted to 2 Dec 2027, Art. 4 AI Literacy shifted to organizational measures, and in India MeitY's IT Amendment Rules 2026 (effective 20 Feb 2026) mandate visible/audible labels &amp; provenance on synthetic audio/visual media.">
   <div class="wrap">
-    <div class="kicker lav"><i class="dash"></i>Take this one · Reusable cross-walk</div>
+    <div class="kicker lav"><i class="dash"></i>Photograph this one · Reusable cross-walk</div>
     <h2>One implementation, <span class="lav">two evidence packs</span></h2>
     <div class="tw">
       <table>
@@ -2118,7 +2026,7 @@ func statusText(ok bool, seq int, field string) string {
         </thead>
         <tbody>
           <tr><td>Hash-chained audit log</td><td class="b">Rec 22</td><td class="r">Article 12</td></tr>
-          <tr><td>Annexure VI incident form <span style="color:var(--mut);font-size:.88em">— RBI's prescribed AI-incident report</span></td><td class="b">Rec 22</td><td class="r">Article 73</td></tr>
+          <tr><td>Annexure VI incident form</td><td class="b">Rec 22</td><td class="r">Article 73</td></tr>
           <tr><td>Risk class checked before dispatch</td><td class="b">Rec 16</td><td class="r">Articles 9, 14</td></tr>
           <tr><td>Inventory from the live registry</td><td class="b">Rec 23</td><td class="r">Annex IV</td></tr>
           <tr><td>Red-team corpus on every PR</td><td class="b">Rec 20</td><td class="r">Article 15</td></tr>
@@ -2127,38 +2035,14 @@ func statusText(ok bool, seq int, field string) string {
         </tbody>
       </table>
     </div>
-    <p class="note" style="font-size:.86rem;margin-top:6px"><span class="lav"><b>Digital Omnibus — Reg. (EU) 2026/1744:</b></span> Art. 50 live since 2 Aug 2026 · Annex III High-Risk shifted to 2 Dec 2027 &nbsp;|&nbsp; <code style="color:var(--mint)">go run ./cmd/evidencepack</code> emits both packs (Ed25519 signed).</p>
+    <p class="note"><code style="color:var(--mint)">go run ./cmd/evidencepack</code> emits both evidence packs — <span class="lav"><b>Ed25519 signed, offline.</b></span></p>
   </div>
 </section>
 
-<!-- ==================== SLIDE 18: BINDING INSTRUMENT (MRM DRAFT) ==================== -->
-<section class="slide bg-peach" data-t="The instrument" data-note="16:10 — Important correction to what most of the room believes. FREE-AI is advisory. The binding instrument is the draft model risk guidance (24 June 2026), consultation closed 24 July 2026, final circular still pending. Applies across 11 categories of RBI-regulated entities and covers statistical, ML, GenAI, foundation, and third-party vendor models.">
-  <img class="ribbon left-peach" src="assets/ribbon-peach.webp" alt="">
-  <div class="wrap split-right">
-    <div class="kicker peach"><i class="dash"></i>The one that will actually bind you is not FREE-AI</div>
-    <h2>RBI Draft Model Risk<br><span class="peach">Management Guidance</span></h2>
-    <p class="sub">Published on <b>24 June 2026</b> — moving AI governance from advisory framework to binding supervision.</p>
-    <div class="stack">
-      <div class="row-card" data-step>
-        <span class="date mint">24 JUN 2026</span>
-        <div class="body"><span>Issued for public consultation</span></div>
-      </div>
-      <div class="row-card lav" data-step>
-        <span class="date lav">24 JUL 2026</span>
-        <div class="body"><span>Industry comments closed</span></div>
-      </div>
-      <div class="row-card peach" data-step>
-        <span class="date peach">PENDING</span>
-        <div class="body"><strong>Final circular. FREE-AI was advice; this will not be.</strong></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ==================== SLIDE 19: SCORED AGAINST IT, HONESTLY ==================== -->
-<section class="slide bg-peach" data-t="The score" data-note="17:00 — Score the codebase against the draft. Four already present because the advisory report asked first. Two absent. Do not soften the two — the honesty is what makes the four believable. Q&amp;A armor: the June 2026 draft also requires seamless one-click chatbot-to-human handoff, independent model validation (3 lines of defense — local validation of third-party vendor models + RMCB sign-off for high-risk), and client-side override / kill-switch capability on vendor models.">
+<!-- ==================== SLIDE 15: SCORED AGAINST DRAFT MRM, HONESTLY ==================== -->
+<section class="slide bg-peach" data-t="MRM Score" data-note="14:30 — Important correction: FREE-AI is advisory; the binding instrument is RBI's Draft Model Risk Management Guidance (24 June 2026, consultation closed 24 July 2026, final circular pending — applies across 11 RE categories to statistical, ML, GenAI, foundation, and vendor models). Four controls already present because the advisory report asked first. Two absent — do not soften the two; the honesty is what makes the four believable. Q&amp;A armor: draft also requires 1-click chatbot-to-human handoff, independent 3-LoD local validation of vendor models + RMCB sign-off, and client-side kill-switch capability on vendor models.">
   <div class="wrap">
-    <div class="kicker peach"><i class="dash"></i>RBI Model Risk Management (Draft) · 24 June 2026</div>
+    <div class="kicker peach"><i class="dash"></i>RBI Draft MRM Guidance · 24 Jun 2026 · Advisory FREE-AI → Binding</div>
     <h2>Scored against it, <span class="peach">honestly</span></h2>
     <div class="tw peach">
       <table>
@@ -2198,7 +2082,6 @@ func statusText(ok bool, seq int, field string) string {
           <h3>Mandatory AI kill switch</h3>
           <p>We have circuit breakers, deadlines, budget caps and deterministic fallbacks.</p>
           <p>A mandated kill switch is an <b class="peach">operator-triggered hard stop</b>. Adjacent — not the same thing.</p>
-          <p class="muted" style="font-size:.82rem;margin-top:6px">Industry ref: <a href="https://www.crowdstrike.com/en-us/blog/crowdstrike-introduces-ai-kill-switch/" target="_blank" rel="noopener" style="color:var(--peach);text-decoration:underline;text-underline-offset:3px">CrowdStrike AI Kill Switch (Nov 2026) ↗</a></p>
         </div>
         <div class="card coral" data-step>
           <span class="tag-pill coral" style="align-self:flex-start">GAP 02</span>
@@ -2389,59 +2272,24 @@ func statusText(ok bool, seq int, field string) string {
   </div>
 </section>
 
-<!-- ==================== SLIDE 22: TAKE THESE FOUR THINGS ==================== -->
-<section class="slide bg-mint" data-t="Take it" data-note="19:20 — Hand over. Four things they can use on Monday. Then stop talking and take questions; the provider/deployer point usually produces them.">
-  <div class="wrap">
-    <div class="kicker"><i class="dash"></i>What you can use on Monday</div>
-    <h2>Take these <span class="mint">four things</span></h2>
-    <div class="two">
-      <div class="num-card" data-step>
-        <span class="num">01</span>
-        <div><h4>The 9 / 17 split</h4><p>Separate regulator deliverables from Regulated Entity scope before you quote or size a regulated AI engagement.</p></div>
-      </div>
-      <div class="num-card lav" data-step>
-        <span class="num">02</span>
-        <div><h4>One gate on the bus</h4><p>Enforce composite policy before dispatch so the next regulatory clause is configuration — not a platform rewrite.</p></div>
-      </div>
-      <div class="num-card" data-step>
-        <span class="num">03</span>
-        <div><h4>The cross-walk</h4><p>Build the governance control once, and hand over evidence packs for both RBI FREE-AI and the EU AI Act.</p></div>
-      </div>
-      <div class="num-card peach" data-step>
-        <span class="num">04</span>
-        <div><h4>The five-minute test</h4><p>Offline, zero-network runnable verification — a fair procurement bar for your vendors and for yourself.</p></div>
-      </div>
-    </div>
-    <div class="banner mint-fill">
-      <span class="mint"><b>AND NAME YOUR GAPS.</b></span> &nbsp;It buys more credibility in a review than claiming coverage ever has.
-    </div>
-  </div>
-</section>
-
-<!-- ==================== SLIDE 23: THANK YOU / QUESTIONS ==================== -->
-<section class="slide bg-hero" data-t="End" data-note="19:50 — Close. Repo, mapping, contact. Leave the room with something runnable — point them to the QR codes for the live web deck and full GitHub companion repo (9 Go packages, 25 diagrams, 6 deep-dive guides &amp; vendor checklist).">
+<!-- ==================== SLIDE 18: THANK YOU / QUESTIONS ==================== -->
+<section class="slide bg-hero" data-t="End" data-note="18:45 — Close cleanly right after the Deployer->Provider mic-drop. Point them to the two big QR codes (Live Deck &amp; 100% Go Companion Repo — 9 Go packages, 4 Go labs, 25 diagrams, 6 deep-dive guides &amp; vendor checklist) and take questions (Q&amp;A Backups on slides 19-21).">
   <img class="ribbon hero" src="assets/ribbon-hero.webp" alt="">
   <img class="cr-hero-logo" src="assets/clearroute-logo.png" alt="ClearRoute">
   <div class="wrap narrow-left">
     <div class="kicker"><i class="dash"></i>Questions?</div>
     <h1>Thank you.</h1>
-    <p class="sub">The mapping, the code, and every claim on these slides — runnable offline.</p>
-    <p class="note" style="font-size:.92rem;margin-top:-6px"><span class="mint"><b>Companion repo:</b></span> 9 Go packages · 25 diagrams · 6 deep-dive guides · vendor checklist</p>
+    <p class="sub">100% pure Go · runnable offline · name your gaps.</p>
     <div class="hr"></div>
     <p class="note"><b>PRATIK DHANAVE</b> &nbsp;·&nbsp; <span class="mint">Staff Engineer, ClearRoute</span></p>
-    <div class="meta">
-      <a class="mint" href="https://pratikdhanave.com" target="_blank" rel="noopener">pratikdhanave.com</a>
-      <a class="lav"  href="https://linkedin.com/in/pratikdhanave" target="_blank" rel="noopener">linkedin.com/in/pratikdhanave</a>
-      <a class="peach" href="https://github.com/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act" target="_blank" rel="noopener">github.com/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act</a>
-    </div>
-    <div style="display:flex;gap:18px;margin-top:8px;flex-wrap:wrap">
-      <div style="background:var(--card);border:1.5px solid var(--mint);border-radius:10px;padding:10px;text-align:center;width:132px">
-        <img src="assets/qr-live-deck.png" alt="QR: Live Web Deck" style="width:108px;height:108px;border-radius:6px;display:block;margin:0 auto">
-        <div style="font-family:var(--display);font-size:10px;font-weight:800;letter-spacing:.08em;color:var(--mint);margin-top:6px">LIVE WEB DECK</div>
+    <div style="display:flex;gap:24px;margin-top:14px;flex-wrap:wrap">
+      <div style="background:var(--card);border:1.8px solid var(--mint);border-radius:12px;padding:12px;text-align:center;width:168px">
+        <img src="assets/qr-live-deck.png" alt="QR: Live Web Deck" style="width:144px;height:144px;border-radius:6px;display:block;margin:0 auto">
+        <div style="font-family:var(--display);font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--mint);margin-top:8px">LIVE WEB DECK</div>
       </div>
-      <div style="background:var(--card);border:1.5px solid var(--lavender);border-radius:10px;padding:10px;text-align:center;width:132px">
-        <img src="assets/qr-repo.png" alt="QR: GitHub Repo" style="width:108px;height:108px;border-radius:6px;display:block;margin:0 auto">
-        <div style="font-family:var(--display);font-size:10px;font-weight:800;letter-spacing:.08em;color:var(--lavender);margin-top:6px">GITHUB REPO</div>
+      <div style="background:var(--card);border:1.8px solid var(--lavender);border-radius:12px;padding:12px;text-align:center;width:168px">
+        <img src="assets/qr-repo.png" alt="QR: GitHub Repo" style="width:144px;height:144px;border-radius:6px;display:block;margin:0 auto">
+        <div style="font-family:var(--display);font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--lavender);margin-top:8px">GITHUB REPO</div>
       </div>
     </div>
   </div>
@@ -2529,11 +2377,11 @@ func statusText(ok bool, seq int, field string) string {
 <div id="chrome-line"></div>
 <div id="hints">
   <span class="brand">CLEARROUTE</span>
-  <span class="keys"><b>← →</b> navigate · <b>m</b> real-life · <b>r</b> run/replay · <b>o</b> overview · <b>s</b> notes · <b>a</b> steps · <b>f</b> fullscreen · <b>t</b> theme</span>
+  <span class="keys"><b>← →</b> navigate · <b>m</b> real-life · <b>r</b> run/replay · <b>o</b> overview · <b>s</b> notes · <b>h</b> hints · <b>f</b> fullscreen · <b>t</b> theme</span>
 </div>
 <div id="pager">
   <button id="prev" aria-label="Previous slide">‹</button>
-  <span class="ct"><b id="cur">01</b> / <span id="tot">26</span></span>
+  <span class="ct"><b id="cur">01</b> / <span id="tot">21</span></span>
   <button id="next" aria-label="Next slide">›</button>
 </div>
 
@@ -2633,6 +2481,7 @@ func statusText(ok bool, seq int, field string) string {
       document.body.classList.toggle('notes-on', n.classList.contains('on'));
     }
     else if (k==='f'||k==='F'){ document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen(); }
+    else if (k==='h'||k==='H'){ document.body.classList.toggle('hide-hints'); }
     else if (k==='t'||k==='T'){
       var r=document.documentElement;
       var now = r.getAttribute('data-theme') || 'dark';

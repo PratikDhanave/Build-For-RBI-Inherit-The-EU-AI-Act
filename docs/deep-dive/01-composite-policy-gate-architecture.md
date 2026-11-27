@@ -1,6 +1,6 @@
 # Deep Dive 01: Designing a Pre-Dispatch Composite Policy Gate for 62+ Agents
 
-> **Companion to [Slide 07](https://build-for-rbi-talk.vercel.app/#7) & [`code/gate/composite_gate.go`](../../code/gate/composite_gate.go)**  
+> **Companion to [Slide 06](https://build-for-rbi-talk.vercel.app/#6) & [`code/gate/composite_gate.go`](../../code/gate/composite_gate.go)**  
 > In a 20-minute talk we show 5 messages hitting one gate. This guide walks through the full production architecture behind enforcing 10 deterministic policies pre-dispatch across a multi-agent financial platform.
 
 ---

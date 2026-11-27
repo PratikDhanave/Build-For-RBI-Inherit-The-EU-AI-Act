@@ -1,7 +1,7 @@
 # Deployer vs. Provider — SOW Scoping Guide
 
 > *"You can move your customer from deployer to provider without telling them. That difference belongs in the SOW — scoping conversation, not post-mortem."*  
-> Reference: [Slide 21](https://build-for-rbi-talk.vercel.app/#21) · EU AI Act Article 25
+> Reference: [Slide 17](https://build-for-rbi-talk.vercel.app/#17) · EU AI Act Article 25
 
 ---
 
