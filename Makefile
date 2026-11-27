@@ -1,23 +1,26 @@
-.PHONY: demo test serve validate-crosswalk
+.PHONY: demo test validate-crosswalk wasm serve
 
 demo:
 	bash code/scripts/offline_verify.sh
 
 test: validate-crosswalk
-	diff -u code/config/policy.yaml examples/policy.yaml
 	(cd code && go vet ./... && go test -race -count=1 -v ./...)
 	(cd code && go run ./cmd/demo >/dev/null)
-	python3 code/python/gate_demo.py --test
-	python3 code/python/approval.py --test
-	python3 code/python/audit.py --test
-	python3 code/python/consent_ledger.py --test
-	python3 labs/gate_demo.py --test
-	python3 labs/approval.py --test
-	python3 labs/audit.py --test
-	python3 labs/consent_ledger.py --test
+	(cd labs && go vet ./... && go test -race -count=1 -v ./...)
+	go run labs/gate_demo/main.go --test
+	go run labs/approval/main.go --test
+	go run labs/audit/main.go --test
+	go run labs/consent_ledger/main.go --test
 
 validate-crosswalk:
-	python3 -c 'import json, csv; d=json.load(open("crosswalk/rbi-eu-ai-act.json")); assert len(d["rbi_free_ai_recommendations"])==26; assert sum(1 for r in d["rbi_free_ai_recommendations"] if r["owner"]=="regulated_entity")==17; assert len(d["rbi_to_eu_crosswalk"])==7; assert len(d["rbi_draft_mrm_scorecard"])==6; rows=list(csv.DictReader(open("crosswalk/rbi-eu-ai-act.csv"))); assert len(rows)==7; json.load(open("examples/annexure-vi-sample.json")); json.load(open("examples/inventory-export.json")); json.load(open("code/redteam/corpus.json")); print("[OK] Cross-walk, sample exports & red-team JSON verified.")'
+	(cd code && go run ./cmd/verify --root ..)
+
+wasm:
+	(cd labs && GOOS=js GOARCH=wasm go build -buildvcs=false -ldflags="-s -w" -o ../assets/labs.wasm ./wasm)
+	@GOROOT="$$(go env GOROOT)"; \
+	if [ -f "$$GOROOT/lib/wasm/wasm_exec.js" ]; then cp "$$GOROOT/lib/wasm/wasm_exec.js" assets/wasm_exec.js; \
+	else cp "$$GOROOT/misc/wasm/wasm_exec.js" assets/wasm_exec.js; fi
+	@echo "[OK] Built assets/labs.wasm and synced assets/wasm_exec.js"
 
 serve:
-	python3 -m http.server 8000
+	(cd code && go run ./cmd/serve --dir .. --addr :8000)

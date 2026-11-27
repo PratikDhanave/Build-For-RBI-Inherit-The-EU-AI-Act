@@ -1,4 +1,4 @@
-name: Verify Labs, Cross-Walk & Web Deck
+name: Verify Go Modules, Labs, WASM & Web Deck
 
 on:
   push:
@@ -19,71 +19,49 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: "1.22"
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
+          go-version: "1.26"
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      - name: Run Go vet & race-enabled test suite
+      - name: Run Go vet & race-enabled test suite (code & labs)
         run: |
-          cd code
-          go vet ./...
-          go test -race -count=1 -v ./...
+          (cd code && go vet ./... && go test -race -count=1 -v ./...)
+          (cd labs && go vet ./... && go test -race -count=1 -v ./...)
 
-      - name: Run Go & Python offline verification suite
+      - name: Run pure-Go offline verification suite
         run: bash code/scripts/offline_verify.sh
 
-      - name: Run standalone lab assertions
+      - name: Verify Go WebAssembly compilation (GOOS=js GOARCH=wasm)
         run: |
-          python3 labs/gate_demo.py --test
-          python3 labs/approval.py --test
-          python3 labs/audit.py --test
-          python3 labs/consent_ledger.py --test
+          (cd labs && GOOS=js GOARCH=wasm go build -buildvcs=false -ldflags="-s -w" -o /tmp/labs-ci.wasm ./wasm)
 
-      - name: Validate machine-readable cross-walk (JSON & CSV)
-        run: make validate-crosswalk
-
-      - name: Verify board policy YAML parity (code/config vs examples)
-        run: diff -u code/config/policy.yaml examples/policy.yaml
-
-      - name: Validate Mermaid diagrams (single-line JSON init & sequence syntax)
-        run: |
-          python3 -c '
-          import glob, json, re
-          files = ["README.md"] + glob.glob("docs/**/*.md", recursive=True)
-          total = 0
-          for f in files:
-              txt = open(f).read()
-              for mb in re.findall(r"```mermaid\n(.*?)```", txt, re.S):
-                  total += 1
-                  m = re.match(r"%%\{init:\s*(\{[^\n]+\})\s*\}%%", mb)
-                  assert m, f"Expected single-line init JSON in {f}"
-                  json.loads(m.group(1))
-                  if "sequenceDiagram" in mb:
-                      for line in mb.splitlines():
-                          if not line.strip().startswith("%%"):
-                              assert ";" not in line, f"Semicolon breaks sequenceDiagram in {f}: {line}"
-          print(f"[OK] {total} Mermaid diagrams validated across Markdown docs.")
-          '
-
-      - name: Validate index.html JS syntax & asset references
+      - name: Validate index.html JS syntax, asset refs & live Go WASM runtime
         run: |
           node -e '
           const fs = require("fs");
           const html = fs.readFileSync("index.html", "utf8");
           const m = html.match(/<script>([\s\S]*?)<\/script>/);
-          if (!m) throw new Error("No script block found");
+          if (!m) throw new Error("No inline script block found");
           new Function(m[1]);
-          const refs = [...html.matchAll(/src="(assets\/[^"]+)"/g)].map(x => x[1]);
+          const refs = [...html.matchAll(/(?:src|href)="(assets\/[^"]+)"/g)].map(x => x[1]);
           for (const r of refs) {
             if (!fs.existsSync(r)) throw new Error("Missing asset: " + r);
           }
-          console.log(`[OK] index.html JS syntax valid; ${refs.length} asset refs verified.`);
+          require("./assets/wasm_exec.js");
+          const go = new Go();
+          const bytes = fs.readFileSync("assets/labs.wasm");
+          WebAssembly.instantiate(bytes, go.importObject).then(({ instance }) => {
+            global.__onGoWasmReady = () => {
+              const r1 = global.goRunLab("drift", fs.readFileSync("labs/approval/main.go", "utf8"));
+              const r2 = global.goRunLab("chain", fs.readFileSync("labs/audit/main.go", "utf8"));
+              if (!r1.ok || !r1.out.includes("ErrRiskChanged")) throw new Error("WASM drift failed");
+              if (!r2.ok || !r2.out.includes("BROKEN at seq 2 (row_hash)")) throw new Error("WASM audit failed");
+              console.log(`[OK] index.html JS valid; ${refs.length} assets verified; Go WASM live checks passed.`);
+              process.exit(0);
+            };
+            go.run(instance);
+          }).catch(err => { console.error(err); process.exit(1); });
           '

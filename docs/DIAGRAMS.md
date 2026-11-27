@@ -410,8 +410,8 @@ sequenceDiagram
 flowchart LR
     PR["Pull Request Opened"] --> VET["go vet & go test<br/>All 9 Go Packages"]
     VET --> RT["20-Case Red-Team Corpus<br/>RT-01..RT-20 (Rec 20 / Art 15)"]
-    RT --> PY["4 Python Labs<br/>Gate · Drift · Audit · Consent"]
-    PY --> XW["Cross-Walk & YAML Check<br/>JSON · CSV · policy.yaml"]
+    RT --> LABS["4 Go Labs + Go WASM<br/>Gate · Drift · Audit · Consent"]
+    LABS --> XW["Cross-Walk & YAML Check<br/>JSON · CSV · policy.yaml"]
     XW --> MMD["Mermaid & Web Deck Lint<br/>index.html + Diagrams"]
     MMD --> PASS["CI Green Badge<br/>Auto-Deploy to Vercel"]
 
@@ -420,7 +420,7 @@ flowchart LR
     style PR fill:#F8F9FA,stroke:#5F6368,color:#202124
     style VET fill:#E8F0FE,stroke:#4285F4,color:#174EA6
     style RT fill:#FEF7E0,stroke:#F9AB00,stroke-width:2px,color:#B06000
-    style PY fill:#E8F0FE,stroke:#4285F4,color:#174EA6
+    style LABS fill:#E8F0FE,stroke:#4285F4,color:#174EA6
     style XW fill:#E8F0FE,stroke:#4285F4,color:#174EA6
     style MMD fill:#E8F0FE,stroke:#4285F4,color:#174EA6
     style PASS fill:#34A853,stroke:#137333,color:#FFFFFF

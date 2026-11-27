@@ -532,7 +532,7 @@
   }
   .mini-badge span { font-size: 14px; color: var(--mut); }
 
-  /* Runnable Python Cell */
+  /* Runnable Go WebAssembly Cell */
   .cell {
     background: var(--code);
     border: 1px solid var(--line2);
@@ -690,8 +690,165 @@
     transition: border-color .15s, background .15s;
   }
   .replay:hover { border-color: var(--mint); background: var(--mint-dim); }
+
+  /* ================= REAL-LIFE ANALOGY SWITCHER & ANIMATIONS ================= */
+  .slide-top {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 14px; flex-wrap: wrap;
+  }
+  .mode-tabs {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--code);
+    border: 1px solid var(--line2);
+    border-radius: 999px;
+    padding: 3px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.25);
+  }
+  .mode-btn {
+    border: 0; background: transparent; color: var(--mut);
+    font-family: var(--display); font-size: 11px; font-weight: 800;
+    letter-spacing: .06em; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 999px; cursor: pointer;
+    transition: background .18s, color .18s, box-shadow .18s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .mode-btn:hover { color: var(--fg); }
+  .mode-btn.on[data-mode="tech"] {
+    background: var(--mint-dim); color: var(--mint);
+    box-shadow: inset 0 0 0 1.2px var(--mint);
+  }
+  .mode-btn.on[data-mode="life"] {
+    background: var(--peach-dim); color: var(--peach);
+    box-shadow: inset 0 0 0 1.2px var(--peach);
+  }
+  .view-panel { display: none; flex-direction: column; gap: clamp(12px, 1.5vw, 18px); }
+  .view-panel.on { display: flex; animation: panelIn .24s ease-out; }
+  @keyframes panelIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  .analogy-map {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  }
+  .analogy-map.two-col { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 820px) { .analogy-map, .analogy-map.two-col { grid-template-columns: 1fr; } }
+  .amap-chip {
+    background: var(--card); border: 1px solid var(--line2);
+    border-left: 3.5px solid var(--peach); border-radius: 8px;
+    padding: 9px 13px; font-size: clamp(12px, .98vw, 14px); line-height: 1.4;
+    color: var(--mut);
+  }
+  .amap-chip.mint { border-left-color: var(--mint); }
+  .amap-chip.lav { border-left-color: var(--lavender); }
+  .amap-chip b { color: var(--fg); font-weight: 700; }
+
+  /* Real-life animated SVG choreography */
+  .dia .scan-beam {
+    opacity: 0;
+  }
+  .dia.go .scan-beam {
+    opacity: .9;
+    animation: scanSweep 2.4s ease-in-out infinite;
+  }
+  @keyframes scanSweep {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(275px); }
+  }
+  .dia .radar-arc {
+    transform-origin: 132px 104px;
+    opacity: 0;
+  }
+  .dia.go .radar-arc {
+    opacity: .85;
+    animation: radarPulse 2.2s ease-out infinite;
+  }
+  @keyframes radarPulse {
+    0% { transform: scale(.55); opacity: .95; }
+    100% { transform: scale(1.45); opacity: 0; }
+  }
+  .dia .dash-flow {
+    stroke-dasharray: 7 6;
+  }
+  .dia.go .dash-flow {
+    animation: dashRun 1.4s linear infinite;
+  }
+  @keyframes dashRun {
+    from { stroke-dashoffset: 26; }
+    to { stroke-dashoffset: 0; }
+  }
+  .dia .vehicle-drift {
+    transition: transform 1.15s cubic-bezier(.28,.75,.3,1);
+  }
+  .dia.go .vehicle-drift {
+    transform: translateX(280px);
+  }
+  .dia .exhaust-puff {
+    opacity: 0;
+    transition: opacity .35s ease;
+  }
+  .dia.go .exhaust-puff {
+    opacity: 1;
+    animation: flameFlicker .35s ease-in-out infinite alternate;
+  }
+  .dia .tripwire-beam {
+    stroke: #FFB78E; stroke-width: 2.2; stroke-dasharray: 6 5;
+    transition: stroke .35s ease;
+  }
+  .dia.broke .tripwire-beam {
+    stroke: #FF6B6B; stroke-width: 3; stroke-dasharray: none;
+  }
+  @keyframes flameFlicker {
+    from { transform: scaleX(.85); opacity: .7; }
+    to { transform: scaleX(1.15); opacity: 1; }
+  }
+  .dia .barrier-arm {
+    transform-origin: 924px 168px;
+    transform: rotate(-72deg);
+    opacity: 0;
+    transition: transform .55s cubic-bezier(.22,.85,.35,1), opacity .3s ease;
+  }
+  .dia.broke .barrier-arm {
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+  .dia .stitch {
+    stroke: #00E8AF; stroke-width: 3; stroke-linecap: round;
+    transition: stroke .4s ease, transform .4s ease;
+  }
+  .dia.broke .stitch.after {
+    stroke: #FF6B6B; stroke-dasharray: 4 5;
+  }
+  .dia .page-box { transition: stroke .4s ease, fill .4s ease; }
+  .dia.broke .page-box.edited { stroke: #FF6B6B; fill: #331922; }
+  .dia.broke .page-box.after { stroke: #FF6B6B; }
+  .dia .parcel-go { transition: transform 1.05s cubic-bezier(.3,.7,.3,1); }
+  .dia.go .parcel-go { transform: translateX(175px); }
+  .dia .parcel-stop { transition: transform .95s cubic-bezier(.3,.7,.3,1); }
+  .dia.go .parcel-stop { transform: translateX(20px); }
+  .dia .stamp-drop {
+    opacity: 0; transform: scale(1.35) rotate(-8deg); transform-box: fill-box; transform-origin: center;
+    transition: opacity .35s ease, transform .4s cubic-bezier(.2,.9,.3,1);
+  }
+  .dia.broke .stamp-drop { opacity: 1; transform: scale(1) rotate(-4deg); }
+  .dia .cutoff-lever {
+    transform-origin: 258px 164px; transform: rotate(-28deg);
+    transition: transform .45s cubic-bezier(.25,.9,.3,1);
+  }
+  .dia.broke .cutoff-lever { transform: rotate(34deg); }
+  .dia .rogue-wire { stroke: #FFB78E; transition: stroke .4s ease, opacity .4s ease; }
+  .dia.broke .rogue-wire { stroke: #FF6B6B; stroke-dasharray: 5 6; opacity: .45; }
+  .dia .sow-top { transition: transform 1.1s cubic-bezier(.3,.7,.3,1); }
+  .dia.go .sow-top { transform: translateX(265px); }
+  .dia .sow-bot { transition: transform 1.1s cubic-bezier(.3,.7,.3,1); }
+  .dia.go .sow-bot { transform: translateX(265px); }
+  .dia .hangar-plane { transition: transform 1.1s cubic-bezier(.3,.7,.3,1); }
+  .dia.broke .hangar-plane { transform: translateX(256px); }
+
   @media (prefers-reduced-motion: reduce) {
-    .dia [data-d], .dia .msg, .dia .marker, .dia .gatebar { transition: none !important; }
+    .dia [data-d], .dia .msg, .dia .marker, .dia .gatebar,
+    .dia .vehicle-drift, .dia .barrier-arm, .dia .parcel-go, .dia .parcel-stop,
+    .dia .stamp-drop, .dia .cutoff-lever, .dia .sow-top, .dia .sow-bot, .dia .hangar-plane {
+      transition: none !important; animation: none !important;
+    }
+    .dia .scan-beam, .dia .radar-arc, .dia .dash-flow, .dia .exhaust-puff { animation: none !important; }
   }
 
   /* Build steps */
@@ -853,35 +1010,125 @@
 </section>
 
 <!-- ==================== SLIDE 4: WHERE IT CAME FROM ==================== -->
-<section class="slide bg-hero" data-t="Where it came from" data-note="1:20 — One line, no drama. The requirements came from regulated delivery, not from reading. ADGM, DIFC, SAMA — say them; people recognise them.">
+<section class="slide bg-hero" data-t="Where it came from" data-note="1:20 — One line, no drama. The requirements came from regulated delivery, not from reading. ADGM, DIFC, SAMA — say them; people recognise them. Press M to flip to the real-life Border Bag Tag, Immutable Consent Notebook (Monday grant, Tuesday 2:00 PM revoke, 2:01 PM in-flight request fails closed), and Signed Chain-of-Custody Receipt diagram.">
   <img class="ribbon right-edge" src="assets/ribbon-right.webp" alt="">
   <div class="wrap narrow-left">
-    <div class="kicker"><i class="dash"></i>Where the requirements came from</div>
-    <h2>Open Banking delivery across<br><span class="mint">ADGM, DIFC and SAMA</span></h2>
-    <div class="stack">
-      <div class="row-card" data-step>
-        <span class="tag-pill">REG</span>
-        <div class="body">
-          <strong>Residency, per message.</strong>
-          <span>Not per deployment — you cannot fork the platform once per country.</span>
-        </div>
-      </div>
-      <div class="row-card lav" data-step>
-        <span class="tag-pill lav">RISK</span>
-        <div class="body">
-          <strong>Consent as an append-only ledger.</strong>
-          <span>A customer revokes on Tuesday; the request already in flight has to fail, and the record has to show it failed for that reason.</span>
-        </div>
-      </div>
-      <div class="row-card peach" data-step>
-        <span class="tag-pill peach">BANK</span>
-        <div class="body">
-          <strong>An answer on demand.</strong>
-          <span>Every partner bank is entitled to ask where their customer's data went — and &ldquo;encrypted at rest&rdquo; is not an answer.</span>
-        </div>
+    <div class="slide-top">
+      <div class="kicker"><i class="dash"></i>Where the requirements came from</div>
+      <div class="mode-tabs" role="tablist" aria-label="View mode">
+        <button class="mode-btn on" data-mode="tech" role="tab" aria-selected="true">⚙ Technical</button>
+        <button class="mode-btn" data-mode="life" role="tab" aria-selected="false">🛂 Real-Life: Borders &amp; 2:00 PM Revoke</button>
       </div>
     </div>
-    <p class="note" data-step>Three different people asked for those. <span class="mint"><b>None of them could be satisfied by a slide.</b></span></p>
+    <h2>Open Banking delivery across<br><span class="mint">ADGM, DIFC and SAMA</span></h2>
+
+    <div class="view-panel on" data-view="tech">
+      <div class="stack">
+        <div class="row-card" data-step>
+          <span class="tag-pill">REG</span>
+          <div class="body">
+            <strong>Residency, per message.</strong>
+            <span>Not per deployment — you cannot fork the platform once per country.</span>
+          </div>
+        </div>
+        <div class="row-card lav" data-step>
+          <span class="tag-pill lav">RISK</span>
+          <div class="body">
+            <strong>Consent as an append-only ledger.</strong>
+            <span>A customer revokes on Tuesday; the request already in flight has to fail, and the record has to show it failed for that reason.</span>
+          </div>
+        </div>
+        <div class="row-card peach" data-step>
+          <span class="tag-pill peach">BANK</span>
+          <div class="body">
+            <strong>An answer on demand.</strong>
+            <span>Every partner bank is entitled to ask where their customer's data went — and &ldquo;encrypted at rest&rdquo; is not an answer.</span>
+          </div>
+        </div>
+      </div>
+      <p class="note" data-step>Three different people asked for those. <span class="mint"><b>None of them could be satisfied by a slide.</b></span></p>
+    </div>
+
+    <div class="view-panel" data-view="life">
+      <div class="dia-frame">
+        <div class="dia" data-dia="life-openbank" data-broke-ms="1400"><svg viewBox="0 0 1060 305" role="img"
+          aria-label="Real-life analogy: Customs bag tags enforce residency per parcel, an immutable consent notebook preserves Monday grant while appending Tuesday 2:00 PM revocation so a 2:01 PM in-flight call fails closed, and a signed Ed25519 chain-of-custody receipt answers partner banks.">
+          <!-- Panel 1: Customs Bag Tag -->
+          <g data-d>
+            <rect x="14" y="14" width="328" height="276" rx="12" fill="#161B26" stroke="#00E8AF" stroke-width="1.4"/>
+            <text class="sm bf" x="34" y="40">1 · CUSTOMS BAG TAG (REG)</text>
+            <text class="sm" x="34" y="58">One airline, stamped per bag</text>
+            <!-- conveyor rails -->
+            <line x1="34" y1="126" x2="320" y2="126" stroke="#323B52" stroke-width="2" class="dash-flow"/>
+            <line x1="34" y1="214" x2="320" y2="214" stroke="#323B52" stroke-width="2" class="dash-flow"/>
+            <!-- border gate -->
+            <rect x="172" y="84" width="12" height="162" rx="6" fill="#0C3A34" stroke="#00E8AF" stroke-width="2"/>
+            <!-- IN parcel passes -->
+            <g class="parcel-go" style="transition-delay:.35s">
+              <rect x="34" y="92" width="114" height="32" rx="7" fill="#1E2433" stroke="#00E8AF" stroke-width="1.5"/>
+              <text class="sm bf" x="46" y="112">🧳 TAG: IN</text>
+            </g>
+            <text class="sm okf why" x="232" y="146" style="transition-delay:1.2s">✓ STAYS IN IN</text>
+            <!-- US parcel bounces -->
+            <g class="parcel-stop" style="transition-delay:.6s">
+              <rect x="34" y="180" width="114" height="32" rx="7" fill="#1E2433" stroke="#FF6B6B" stroke-width="1.5"/>
+              <text class="sm pf" x="46" y="200">🧳 PAN → US</text>
+            </g>
+            <g class="why" style="transition-delay:1.45s">
+              <rect x="196" y="180" width="130" height="32" rx="7" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.2"/>
+              <text class="sm pf" x="261" y="200" text-anchor="middle">✕ BORDER STOP</text>
+            </g>
+            <text class="sm" x="34" y="272">Zero country-fork airlines</text>
+          </g>
+
+          <!-- Panel 2: Immutable Consent Notebook (Tue 2:00 PM Revoke -> 2:01 PM Blocked) -->
+          <g data-d style="transition-delay:.2s">
+            <rect x="366" y="14" width="332" height="276" rx="12" fill="#161B26" stroke="#C4A3FF" stroke-width="1.4"/>
+            <text class="sm lf" x="386" y="40">2 · IMMUTABLE CONSENT NOTEBOOK (RISK)</text>
+            <text class="sm" x="386" y="58">Never overwrite Monday — append Tuesday</text>
+            <!-- Passbook rows -->
+            <rect x="386" y="76" width="292" height="40" rx="8" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.4"/>
+            <text class="sm okf" x="400" y="95">SEQ 1 · MON 09:00</text>
+            <text class="sm" x="400" y="110" fill="#FFFFFF">GRANT — customer opted in ✓</text>
+
+            <g class="stamp-drop">
+              <rect x="386" y="128" width="292" height="44" rx="8" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.8"/>
+              <text class="sm nof" x="400" y="147">SEQ 2 · TUE 2:00 PM · TAPS REVOKE</text>
+              <text class="sm pf" x="400" y="164">REVOKE — appended to notebook ✕</text>
+            </g>
+
+            <g class="burst">
+              <rect x="386" y="188" width="292" height="58" rx="8" fill="#1E2433" stroke="#FF6B6B" stroke-width="1.4"/>
+              <text class="sm pf" x="400" y="211">✕ 2:01 PM IN-FLIGHT CALL FAILS CLOSED</text>
+              <text class="sm" x="400" y="232">Log proves: revoked 1 minute prior</text>
+            </g>
+            <text class="sm" x="386" y="272">Ready for DPDP Consent Mgr (Nov 2026)</text>
+          </g>
+
+          <!-- Panel 3: Signed Courier Receipt -->
+          <g data-d style="transition-delay:.4s">
+            <rect x="722" y="14" width="324" height="276" rx="12" fill="#161B26" stroke="#FFB78E" stroke-width="1.4"/>
+            <text class="sm pf" x="742" y="40">3 · CHAIN-OF-CUSTODY RECEIPT (BANK)</text>
+            <text class="sm" x="742" y="58">&ldquo;Locked in a safe&rdquo; ≠ lineage proof</text>
+            <rect x="742" y="78" width="284" height="168" rx="10" fill="#111622" stroke="#FFB78E" stroke-width="1.4" stroke-dasharray="4 3"/>
+            <text class="sm bf" x="760" y="104">DELIVERY MANIFEST · SIGNED</text>
+            <line x1="760" y1="114" x2="1008" y2="114" stroke="#323B52" stroke-width="1"/>
+            <text class="sm" x="760" y="136">Customer : user-1 (Partner Bank A)</text>
+            <text class="sm" x="760" y="158">Route    : IN Pool only (0 exits)</text>
+            <text class="sm" x="760" y="180">Consent  : Verified at seq 1 / 2</text>
+            <g class="why" style="transition-delay:1.8s">
+              <rect x="760" y="196" width="248" height="34" rx="17" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.5"/>
+              <text class="sm okf" x="884" y="217" text-anchor="middle">✓ ED25519 NOTARY SEAL VALID</text>
+            </g>
+            <text class="sm" x="742" y="272">Answered in 3 seconds, not 3 weeks</text>
+          </g>
+        </svg></div>
+      </div>
+      <div class="dia-foot">
+        <p class="note">Real-life map: <span class="mint"><b>Border Bag Tag</b></span> (Residency) · <span class="lav"><b>Immutable Notebook (2:00 → 2:01 PM)</b></span> · <span class="peach"><b>Signed Receipt</b></span> (Lineage). Press <b>M</b> to toggle.</p>
+        <button class="replay">↻ replay</button>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -902,26 +1149,109 @@
 </section>
 
 <!-- ==================== SLIDE 6: READ IT RIGHT (9 / 17 SPLIT) ==================== -->
-<section class="slide bg-mint" data-t="Read it right" data-note="2:40 — The most immediately useful slide for anyone scoping regulated work. Nine are ecosystem/regulator/non-codebase tracks (1, 3, 5, 7, 9-13). Quote for 26 and you have priced the regulator's own roadmap. Q&amp;A nuance: Recs 14-26 are the 13 Risk Mitigation RE obligations, Recs 2/4/6/8 are regulator-enabled tracks where REs build internal technical readiness, and Rec 10 (RE workforce capacity building) is HR/training rather than a codebase control.">
+<section class="slide bg-mint" data-t="Read it right" data-note="2:40 — The most immediately useful slide for anyone scoping regulated work. Nine are ecosystem/regulator/non-codebase tracks (1, 3, 5, 7, 9-13). Quote for 26 and you have priced the regulator's own roadmap. Real-life analogy (press M): Airport Authority builds the national runways and ATC tower (9 — you can't write Go code to fund national infra or train the country's workforce); your airline owns the 17 aircraft controls. Q&amp;A nuance: Recs 14-26 are the 13 Risk Mitigation RE obligations, Recs 2/4/6/8 are regulator-enabled tracks where REs build internal technical readiness, and Rec 10 (RE workforce capacity building) is HR/training rather than a codebase control.">
   <div class="wrap">
-    <div class="kicker"><i class="dash"></i>How to read it before you quote for it</div>
-    <h2>Nine of the twenty-six are <span class="mint">the regulator's, not yours.</span></h2>
-    <div class="split-bar">
-      <div class="split-seg lav">9 · Regulator &amp; SRO (35%)</div>
-      <div class="split-seg mint">17 · Regulated Entity Scope — Yours to build (65%)</div>
-    </div>
-    <div class="two">
-      <div class="card lav" data-step>
-        <h3>Regulator &amp; SRO</h3>
-        <div class="mono-big">Recommendations &nbsp;1 · 3 · 5 · 7 · 9 → 13</div>
-        <p>Financial sector data infrastructure (AI Kosh), funding incentives, DPI integration, affirmative action, RBI Standing AI Committee, sector capacity programs, best-practice sharing, and innovation awards.</p>
-        <p style="color:var(--lavender);font-weight:600;margin-top:auto">Quote for all 26 and you have priced the regulator's own roadmap.</p>
+    <div class="slide-top">
+      <div class="kicker"><i class="dash"></i>How to read it before you quote for it</div>
+      <div class="mode-tabs" role="tablist" aria-label="View mode">
+        <button class="mode-btn on" data-mode="tech" role="tab" aria-selected="true">⚙ Technical</button>
+        <button class="mode-btn" data-mode="life" role="tab" aria-selected="false">✈ Real-Life: Airport vs Airline</button>
       </div>
-      <div class="card mint-hl" data-step>
-        <h3>Yours to build (Regulated Entity)</h3>
-        <div class="mono-big">Recommendations &nbsp;2 · 4 · 6 · 8 · 14 → 26</div>
-        <p><b class="mint">Seventeen.</b> That number is the real scope of a regulated AI engagement — and it is the first thing worth getting right before anyone signs an SOW.</p>
-        <div class="foot-pill"><span class="pill ok">✓ 17 / 17 Implemented</span></div>
+    </div>
+    <h2>Nine of the twenty-six are <span class="mint">the regulator's, not yours.</span></h2>
+
+    <div class="view-panel on" data-view="tech">
+      <div class="split-bar">
+        <div class="split-seg lav">9 · Regulator &amp; SRO (35%)</div>
+        <div class="split-seg mint">17 · Regulated Entity Scope — Yours to build (65%)</div>
+      </div>
+      <div class="two">
+        <div class="card lav" data-step>
+          <h3>Regulator &amp; SRO</h3>
+          <div class="mono-big">Recommendations &nbsp;1 · 3 · 5 · 7 · 9 → 13</div>
+          <p>Financial sector data infrastructure (AI Kosh), funding incentives, DPI integration, affirmative action, RBI Standing AI Committee, sector capacity programs, best-practice sharing, and innovation awards.</p>
+          <p style="color:var(--lavender);font-weight:600;margin-top:auto">Quote for all 26 and you have priced the regulator's own roadmap.</p>
+        </div>
+        <div class="card mint-hl" data-step>
+          <h3>Yours to build (Regulated Entity)</h3>
+          <div class="mono-big">Recommendations &nbsp;2 · 4 · 6 · 8 · 14 → 26</div>
+          <p><b class="mint">Seventeen.</b> That number is the real scope of a regulated AI engagement — and it is the first thing worth getting right before anyone signs an SOW.</p>
+          <div class="foot-pill"><span class="pill ok">✓ 17 / 17 Implemented</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="view-panel" data-view="life">
+      <div class="dia-frame">
+        <div class="dia" data-dia="life-split"><svg viewBox="0 0 1060 315" role="img"
+          aria-label="Real-life analogy: Airport Authority builds runways and air traffic control (9 recommendations), while your airline builds pre-flight checks, fleet inventory, and black box (17 recommendations).">
+          <!-- Left: Airport Authority (9) -->
+          <g data-d class="slide-in">
+            <rect x="16" y="16" width="415" height="282" rx="14" fill="#1B1930" stroke="#C4A3FF" stroke-width="1.8"/>
+            <text class="sm lf" x="38" y="44">9 · AIRPORT AUTHORITY (REGULATOR &amp; SRO)</text>
+            <!-- ATC Tower -->
+            <path d="M112 198 L122 126 L142 126 L152 198 Z" fill="#2B2342" stroke="#C4A3FF" stroke-width="1.8"/>
+            <polygon points="100,126 164,126 154,104 110,104" fill="#3B315A" stroke="#C4A3FF" stroke-width="1.8"/>
+            <line x1="132" y1="104" x2="132" y2="82" stroke="#C4A3FF" stroke-width="2"/>
+            <circle cx="132" cy="80" r="4" fill="#C4A3FF"/>
+            <!-- Animated radar pulses -->
+            <circle class="radar-arc" cx="132" cy="104" r="34" fill="none" stroke="#C4A3FF" stroke-width="1.6"/>
+            <circle class="radar-arc" cx="132" cy="104" r="52" fill="none" stroke="#C4A3FF" stroke-width="1.2" style="animation-delay:.7s"/>
+            <!-- Runway -->
+            <rect x="38" y="206" width="370" height="22" rx="4" fill="#111622" stroke="#323B52"/>
+            <line x1="56" y1="217" x2="390" y2="217" stroke="#C4A3FF" stroke-width="2" class="dash-flow"/>
+            <!-- Labels -->
+            <text class="lbl" x="196" y="106" fill="#FFFFFF">ATC Tower &amp; Radar</text>
+            <text class="sm" x="196" y="126">RBI Standing AI Committee</text>
+            <text class="lbl" x="196" y="162" fill="#FFFFFF">Shared Runways &amp; Fuel</text>
+            <text class="sm" x="196" y="182">AI Kosh · DPI · Funding</text>
+            <rect x="38" y="244" width="370" height="36" rx="18" fill="#2B2342" stroke="#C4A3FF" stroke-width="1.2"/>
+            <text class="sm lf" x="223" y="267" text-anchor="middle">✕ Can't write Go code to fund national infra</text>
+          </g>
+
+          <!-- Center divider -->
+          <g data-d style="transition-delay:.3s">
+            <line x1="454" y1="24" x2="454" y2="292" stroke="#FFB78E" stroke-width="2" stroke-dasharray="6 5"/>
+            <rect x="424" y="138" width="60" height="36" rx="18" fill="#111622" stroke="#FFB78E" stroke-width="1.5"/>
+            <text class="sm pf" x="454" y="161" text-anchor="middle">SOW</text>
+          </g>
+
+          <!-- Right: Your Airline (17) -->
+          <g data-d class="slide-in-r" style="transition-delay:.35s">
+            <rect x="480" y="16" width="564" height="282" rx="14" fill="#0E2427" stroke="#00E8AF" stroke-width="2"/>
+            <text class="sm bf" x="504" y="44">17 · YOUR AIRLINE (REGULATED ENTITY — YOURS TO BUILD)</text>
+            <!-- Stylized Airliner gliding in -->
+            <g data-d class="slide-in" style="transition-delay:.7s">
+              <path d="M518 122 L620 122 L644 134 L620 144 L518 144 L502 128 Z" fill="#1E2433" stroke="#00E8AF" stroke-width="2"/>
+              <path d="M558 122 L584 94 L598 94 L584 122 Z" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.5"/>
+              <path d="M558 144 L584 172 L598 172 L584 144 Z" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.5"/>
+              <path d="M506 122 L516 102 L528 102 L522 122 Z" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.5"/>
+              <circle cx="622" cy="133" r="3" fill="#00E8AF"/>
+            </g>
+            <!-- 3 airline control chips -->
+            <g data-d class="rise" style="transition-delay:.85s">
+              <rect x="670" y="70" width="352" height="46" rx="9" fill="#161B26" stroke="#00E8AF" stroke-width="1.4"/>
+              <text class="lbl okf" x="688" y="92">✓ Pre-Flight Checklist</text>
+              <text class="sm" x="688" y="109">Policy Gate · Approval Drift (Rec 14–17)</text>
+            </g>
+            <g data-d class="rise" style="transition-delay:1.05s">
+              <rect x="670" y="128" width="352" height="46" rx="9" fill="#161B26" stroke="#00E8AF" stroke-width="1.4"/>
+              <text class="lbl okf" x="688" y="150">✓ Orange Flight Black Box</text>
+              <text class="sm" x="688" y="167">SHA-256 Chain · Annexure VI (Rec 22, 24)</text>
+            </g>
+            <g data-d class="rise" style="transition-delay:1.25s">
+              <rect x="670" y="186" width="352" height="46" rx="9" fill="#161B26" stroke="#00E8AF" stroke-width="1.4"/>
+              <text class="lbl okf" x="688" y="208">✓ Fleet Roster &amp; Cabin Notice</text>
+              <text class="sm" x="688" y="225">Live Registry · Art. 50 Disclosure (Rec 18, 23)</text>
+            </g>
+            <rect x="504" y="246" width="518" height="36" rx="18" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.5"/>
+            <text class="sm okf" x="763" y="269" text-anchor="middle">✓ REAL SOW SCOPE: 17 AIRLINE CONTROLS — ALL 17 IMPLEMENTED</text>
+          </g>
+        </svg></div>
+      </div>
+      <div class="dia-foot">
+        <p class="note">Promise all 26 and you promised to <span class="lav"><b>build the national airport &amp; train the country's workforce.</b></span> Build your <span class="mint"><b>17 airline controls</b></span>. Press <b>M</b> to toggle.</p>
+        <button class="replay">↻ replay</button>
       </div>
     </div>
   </div>
@@ -929,74 +1259,162 @@
 
 <!-- ==================== SLIDE 7: THE GATE (DIAGRAM) ==================== -->
 <section class="slide bg-deep" data-t="The gate"
-  data-note="4:30 — Let the animation run before you say anything. Five messages, one gate, 62 agents. Three bounce. Point at the residency and consent bounces and say: those are the Open Banking constraints from three minutes ago (plus India DPDP Consent Managers live since 13 Nov 2026), now enforced on every single message. Press R to replay.">
+  data-note="4:30 — Let the animation run before you say anything. Five messages, one gate, 62 agents. Three bounce. Point at the residency and consent bounces and say: those are the Open Banking constraints from three minutes ago (plus India DPDP Consent Managers live since 13 Nov 2026), now enforced on every single message. Press M for the 62 Departing Airplanes / Airport Security X-Ray Checkpoint analogy (&lt;1 ms Go code at the terminal entrance, never 62 scanners inside 62 planes); press R to replay.">
   <div class="wrap">
-    <div class="kicker"><i class="dash"></i>Composite policy enforcement</div>
-    <h2>One gate, every message — <span class="mint">before any agent sees it</span></h2>
-    <div class="dia-frame">
-      <div class="dia" data-dia="gate"><svg viewBox="0 0 1060 390" role="img"
-        aria-label="Five messages travel toward 62 agents; three are refused by the gate, two pass through.">
-        <!-- gate -->
-        <rect class="gatebar" x="392" y="42" width="14" height="314" rx="7" fill="#0C3A34" stroke="#00E8AF" stroke-width="2.5"/>
-        <text class="sm bf" x="399" y="26" text-anchor="middle" data-d style="transition-delay:.1s">COMPOSITE POLICY GATE</text>
-
-        <!-- agents cluster -->
-        <g data-d class="slide-in-r" style="transition-delay:.25s">
-          <text class="sm lf" x="904" y="26" text-anchor="middle">62 AGENTS CLUSTER</text>
-          <rect x="802" y="44" width="204" height="310" rx="12" fill="#1E2433" stroke="#C4A3FF" stroke-width="1.5"/>
-          <g fill="#465270" stroke="#323B52" stroke-width="1">
-            <circle cx="832" cy="82"  r="8" fill="#00E8AF" stroke="#00E8AF"/><circle cx="868" cy="82"  r="8"/><circle cx="904" cy="82"  r="8"/><circle cx="940" cy="82"  r="8" stroke="#C4A3FF"/><circle cx="976" cy="82"  r="8"/>
-            <circle cx="832" cy="124" r="8"/><circle cx="868" cy="124" r="8"/><circle cx="904" cy="124" r="8" stroke="#C4A3FF"/><circle cx="940" cy="124" r="8"/><circle cx="976" cy="124" r="8"/>
-            <circle cx="832" cy="166" r="8"/><circle cx="868" cy="166" r="8" stroke="#C4A3FF"/><circle cx="904" cy="166" r="8"/><circle cx="940" cy="166" r="8"/><circle cx="976" cy="166" r="8" stroke="#C4A3FF"/>
-            <circle cx="832" cy="208" r="8" stroke="#C4A3FF"/><circle cx="868" cy="208" r="8"/><circle cx="904" cy="208" r="8"/><circle cx="940" cy="208" r="8" stroke="#C4A3FF"/><circle cx="976" cy="208" r="8"/>
-            <circle cx="832" cy="250" r="8"/><circle cx="868" cy="250" r="8"/><circle cx="904" cy="250" r="8" stroke="#C4A3FF"/><circle cx="940" cy="250" r="8"/><circle cx="976" cy="250" r="8"/>
-            <circle cx="832" cy="292" r="8" fill="#00E8AF" stroke="#00E8AF"/><circle cx="868" cy="292" r="8" stroke="#C4A3FF"/><circle cx="904" cy="292" r="8"/><circle cx="940" cy="292" r="8"/><circle cx="976" cy="292" r="8" stroke="#C4A3FF"/>
-          </g>
-          <text class="sm lf" x="904" y="336" text-anchor="middle">62 registered agents</text>
-        </g>
-
-        <!-- messages -->
-        <g class="msg pass" style="transition-delay:.45s">
-          <rect x="28" y="56" width="246" height="38" rx="8" fill="#1E2433" stroke="#00E8AF" stroke-width="1.5"/>
-          <text class="lbl" x="46" y="80" fill="#FFFFFF">ordinary question</text>
-        </g>
-        <g class="msg bounce" style="transition-delay:.7s">
-          <rect x="28" y="118" width="246" height="38" rx="8" fill="#1E2433" stroke="#FF6B6B" stroke-width="1.5"/>
-          <text class="lbl" x="46" y="142" fill="#FFFFFF">PAN → a US model</text>
-        </g>
-        <g class="msg bounce" style="transition-delay:.95s">
-          <rect x="28" y="180" width="246" height="38" rx="8" fill="#1E2433" stroke="#FF6B6B" stroke-width="1.5"/>
-          <text class="lbl" x="46" y="204" fill="#FFFFFF">advice with no reason</text>
-        </g>
-        <g class="msg bounce" style="transition-delay:1.2s">
-          <rect x="28" y="242" width="246" height="38" rx="8" fill="#1E2433" stroke="#FF6B6B" stroke-width="1.5"/>
-          <text class="lbl" x="46" y="266" fill="#FFFFFF">PII, consent revoked</text>
-        </g>
-        <g class="msg pass" style="transition-delay:1.45s">
-          <rect x="28" y="304" width="246" height="38" rx="8" fill="#1E2433" stroke="#00E8AF" stroke-width="1.5"/>
-          <text class="lbl" x="46" y="328" fill="#FFFFFF">balance lookup</text>
-        </g>
-
-        <!-- refusal reasons -->
-        <g class="why" style="transition-delay:1.75s">
-          <rect x="424" y="118" width="352" height="38" rx="8" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.2"/>
-          <text class="lbl pf" x="442" y="142">✕  residency — pii bound for region us</text>
-        </g>
-        <g class="why" style="transition-delay:1.95s">
-          <rect x="424" y="180" width="352" height="38" rx="8" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.2"/>
-          <text class="lbl pf" x="442" y="204">✕  explainability — no rationale</text>
-        </g>
-        <g class="why" style="transition-delay:2.15s">
-          <rect x="424" y="242" width="352" height="38" rx="8" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.2"/>
-          <text class="lbl pf" x="442" y="266">✕  consent — no live consent</text>
-        </g>
-        <text class="lbl okf why" x="762" y="80"  style="transition-delay:2.35s">✓</text>
-        <text class="lbl okf why" x="762" y="328" style="transition-delay:2.55s">✓</text>
-      </svg></div>
+    <div class="slide-top">
+      <div class="kicker"><i class="dash"></i>Composite policy enforcement</div>
+      <div class="mode-tabs" role="tablist" aria-label="View mode">
+        <button class="mode-btn on" data-mode="tech" role="tab" aria-selected="true">⚙ Technical</button>
+        <button class="mode-btn" data-mode="life" role="tab" aria-selected="false">✈ Real-Life: Airport Security</button>
+      </div>
     </div>
-    <div class="dia-foot">
-      <p class="note">Ten policies, every message, before dispatch. <span class="mint"><b>One place to audit. One place to change.</b></span></p>
-      <button class="replay">↻ replay</button>
+    <h2>One gate, every message — <span class="mint">before any agent sees it</span></h2>
+
+    <div class="view-panel on" data-view="tech">
+      <div class="dia-frame">
+        <div class="dia" data-dia="gate"><svg viewBox="0 0 1060 390" role="img"
+          aria-label="Five messages travel toward 62 agents; three are refused by the gate, two pass through.">
+          <!-- gate -->
+          <rect class="gatebar" x="392" y="42" width="14" height="314" rx="7" fill="#0C3A34" stroke="#00E8AF" stroke-width="2.5"/>
+          <text class="sm bf" x="399" y="26" text-anchor="middle" data-d style="transition-delay:.1s">COMPOSITE POLICY GATE</text>
+
+          <!-- agents cluster -->
+          <g data-d class="slide-in-r" style="transition-delay:.25s">
+            <text class="sm lf" x="904" y="26" text-anchor="middle">62 AGENTS CLUSTER</text>
+            <rect x="802" y="44" width="204" height="310" rx="12" fill="#1E2433" stroke="#C4A3FF" stroke-width="1.5"/>
+            <g fill="#465270" stroke="#323B52" stroke-width="1">
+              <circle cx="832" cy="82"  r="8" fill="#00E8AF" stroke="#00E8AF"/><circle cx="868" cy="82"  r="8"/><circle cx="904" cy="82"  r="8"/><circle cx="940" cy="82"  r="8" stroke="#C4A3FF"/><circle cx="976" cy="82"  r="8"/>
+              <circle cx="832" cy="124" r="8"/><circle cx="868" cy="124" r="8"/><circle cx="904" cy="124" r="8" stroke="#C4A3FF"/><circle cx="940" cy="124" r="8"/><circle cx="976" cy="124" r="8"/>
+              <circle cx="832" cy="166" r="8"/><circle cx="868" cy="166" r="8" stroke="#C4A3FF"/><circle cx="904" cy="166" r="8"/><circle cx="940" cy="166" r="8"/><circle cx="976" cy="166" r="8" stroke="#C4A3FF"/>
+              <circle cx="832" cy="208" r="8" stroke="#C4A3FF"/><circle cx="868" cy="208" r="8"/><circle cx="904" cy="208" r="8"/><circle cx="940" cy="208" r="8" stroke="#C4A3FF"/><circle cx="976" cy="208" r="8"/>
+              <circle cx="832" cy="250" r="8"/><circle cx="868" cy="250" r="8"/><circle cx="904" cy="250" r="8" stroke="#C4A3FF"/><circle cx="940" cy="250" r="8"/><circle cx="976" cy="250" r="8"/>
+              <circle cx="832" cy="292" r="8" fill="#00E8AF" stroke="#00E8AF"/><circle cx="868" cy="292" r="8" stroke="#C4A3FF"/><circle cx="904" cy="292" r="8"/><circle cx="940" cy="292" r="8"/><circle cx="976" cy="292" r="8" stroke="#C4A3FF"/>
+            </g>
+            <text class="sm lf" x="904" y="336" text-anchor="middle">62 registered agents</text>
+          </g>
+
+          <!-- messages -->
+          <g class="msg pass" style="transition-delay:.45s">
+            <rect x="28" y="56" width="246" height="38" rx="8" fill="#1E2433" stroke="#00E8AF" stroke-width="1.5"/>
+            <text class="lbl" x="46" y="80" fill="#FFFFFF">ordinary question</text>
+          </g>
+          <g class="msg bounce" style="transition-delay:.7s">
+            <rect x="28" y="118" width="246" height="38" rx="8" fill="#1E2433" stroke="#FF6B6B" stroke-width="1.5"/>
+            <text class="lbl" x="46" y="142" fill="#FFFFFF">PAN → a US model</text>
+          </g>
+          <g class="msg bounce" style="transition-delay:.95s">
+            <rect x="28" y="180" width="246" height="38" rx="8" fill="#1E2433" stroke="#FF6B6B" stroke-width="1.5"/>
+            <text class="lbl" x="46" y="204" fill="#FFFFFF">advice with no reason</text>
+          </g>
+          <g class="msg bounce" style="transition-delay:1.2s">
+            <rect x="28" y="242" width="246" height="38" rx="8" fill="#1E2433" stroke="#FF6B6B" stroke-width="1.5"/>
+            <text class="lbl" x="46" y="266" fill="#FFFFFF">PII, consent revoked</text>
+          </g>
+          <g class="msg pass" style="transition-delay:1.45s">
+            <rect x="28" y="304" width="246" height="38" rx="8" fill="#1E2433" stroke="#00E8AF" stroke-width="1.5"/>
+            <text class="lbl" x="46" y="328" fill="#FFFFFF">balance lookup</text>
+          </g>
+
+          <!-- refusal reasons -->
+          <g class="why" style="transition-delay:1.75s">
+            <rect x="424" y="118" width="352" height="38" rx="8" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.2"/>
+            <text class="lbl pf" x="442" y="142">✕  residency — pii bound for region us</text>
+          </g>
+          <g class="why" style="transition-delay:1.95s">
+            <rect x="424" y="180" width="352" height="38" rx="8" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.2"/>
+            <text class="lbl pf" x="442" y="204">✕  explainability — no rationale</text>
+          </g>
+          <g class="why" style="transition-delay:2.15s">
+            <rect x="424" y="242" width="352" height="38" rx="8" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.2"/>
+            <text class="lbl pf" x="442" y="266">✕  consent — no live consent</text>
+          </g>
+          <text class="lbl okf why" x="762" y="80"  style="transition-delay:2.35s">✓</text>
+          <text class="lbl okf why" x="762" y="328" style="transition-delay:2.55s">✓</text>
+        </svg></div>
+      </div>
+      <div class="dia-foot">
+        <p class="note">Ten policies, every message, before dispatch. <span class="mint"><b>One place to audit. One place to change.</b></span></p>
+        <button class="replay">↻ replay</button>
+      </div>
+    </div>
+
+    <div class="view-panel" data-view="life">
+      <div class="dia-frame">
+        <div class="dia" data-dia="life-gate"><svg viewBox="0 0 1060 390" role="img"
+          aria-label="Real-life analogy: One airport security checkpoint scans five passengers before 62 boarding gates; three are stopped at the checkpoint and two board cleanly.">
+          <!-- Airport Security Arch + Animated Laser Scanner -->
+          <text class="sm bf" x="398" y="24" text-anchor="middle" data-d style="transition-delay:.1s">AIRPORT SECURITY CHECKPOINT</text>
+          <rect class="gatebar" x="380" y="40" width="36" height="316" rx="10" fill="#0C3A34" stroke="#00E8AF" stroke-width="2.5"/>
+          <rect class="scan-beam" x="383" y="54" width="30" height="8" rx="4" fill="#00E8AF"/>
+
+          <!-- 62 Boarding Gates Terminal -->
+          <g data-d class="slide-in-r" style="transition-delay:.25s">
+            <text class="sm lf" x="908" y="24" text-anchor="middle">TERMINAL · 62 BOARDING GATES</text>
+            <rect x="804" y="42" width="210" height="314" rx="12" fill="#1E2433" stroke="#C4A3FF" stroke-width="1.5"/>
+            <g font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">
+              <rect x="818" y="60"  width="54" height="28" rx="6" fill="#0C3A34" stroke="#00E8AF"/><text x="845" y="78" fill="#00E8AF">G01</text>
+              <rect x="882" y="60"  width="54" height="28" rx="6" fill="#161B26" stroke="#323B52"/><text x="909" y="78" fill="#8E99B3">G02</text>
+              <rect x="946" y="60"  width="54" height="28" rx="6" fill="#161B26" stroke="#323B52"/><text x="973" y="78" fill="#8E99B3">G03</text>
+              <rect x="818" y="106" width="54" height="28" rx="6" fill="#161B26" stroke="#323B52"/><text x="845" y="124" fill="#8E99B3">G14</text>
+              <rect x="882" y="106" width="54" height="28" rx="6" fill="#161B26" stroke="#C4A3FF"/><text x="909" y="124" fill="#C4A3FF">G15</text>
+              <rect x="946" y="106" width="54" height="28" rx="6" fill="#161B26" stroke="#323B52"/><text x="973" y="124" fill="#8E99B3">G16</text>
+              <rect x="818" y="152" width="54" height="28" rx="6" fill="#161B26" stroke="#323B52"/><text x="845" y="170" fill="#8E99B3">G27</text>
+              <rect x="882" y="152" width="54" height="28" rx="6" fill="#161B26" stroke="#323B52"/><text x="909" y="170" fill="#8E99B3">G28</text>
+              <rect x="946" y="152" width="54" height="28" rx="6" fill="#161B26" stroke="#C4A3FF"/><text x="973" y="170" fill="#C4A3FF">G29</text>
+              <rect x="818" y="198" width="54" height="28" rx="6" fill="#161B26" stroke="#C4A3FF"/><text x="845" y="216" fill="#C4A3FF">G41</text>
+              <rect x="882" y="198" width="54" height="28" rx="6" fill="#161B26" stroke="#323B52"/><text x="909" y="216" fill="#8E99B3">G42</text>
+              <rect x="946" y="198" width="54" height="28" rx="6" fill="#161B26" stroke="#323B52"/><text x="973" y="216" fill="#8E99B3">G43</text>
+              <rect x="818" y="244" width="54" height="28" rx="6" fill="#161B26" stroke="#323B52"/><text x="845" y="262" fill="#8E99B3">G55</text>
+              <rect x="882" y="244" width="54" height="28" rx="6" fill="#161B26" stroke="#323B52"/><text x="909" y="262" fill="#8E99B3">G56</text>
+              <rect x="946" y="244" width="54" height="28" rx="6" fill="#161B26" stroke="#C4A3FF"/><text x="973" y="262" fill="#C4A3FF">G57</text>
+              <rect x="818" y="296" width="54" height="28" rx="6" fill="#0C3A34" stroke="#00E8AF"/><text x="845" y="314" fill="#00E8AF">G62</text>
+              <text class="sm lf" x="938" y="314">✈ 62 planes</text>
+            </g>
+          </g>
+
+          <!-- 5 Real-Life Travelers -->
+          <g class="msg pass" style="transition-delay:.45s">
+            <rect x="18" y="55" width="268" height="38" rx="8" fill="#1E2433" stroke="#00E8AF" stroke-width="1.5"/>
+            <text class="lbl" x="34" y="79" fill="#FFFFFF">🧳 Carry-on FAQ bag</text>
+          </g>
+          <g class="msg bounce" style="transition-delay:.7s">
+            <rect x="18" y="117" width="268" height="38" rx="8" fill="#1E2433" stroke="#FF6B6B" stroke-width="1.5"/>
+            <text class="lbl" x="34" y="141" fill="#FFFFFF">🛂 IN Passport → US gate</text>
+          </g>
+          <g class="msg bounce" style="transition-delay:.95s">
+            <rect x="18" y="179" width="268" height="38" rx="8" fill="#1E2433" stroke="#FF6B6B" stroke-width="1.5"/>
+            <text class="lbl" x="34" y="203" fill="#FFFFFF">💊 Unlabelled Rx advice</text>
+          </g>
+          <g class="msg bounce" style="transition-delay:1.2s">
+            <rect x="18" y="241" width="268" height="38" rx="8" fill="#1E2433" stroke="#FF6B6B" stroke-width="1.5"/>
+            <text class="lbl" x="34" y="265" fill="#FFFFFF">🎫 Cancelled boarding pass</text>
+          </g>
+          <g class="msg pass" style="transition-delay:1.45s">
+            <rect x="18" y="303" width="268" height="38" rx="8" fill="#1E2433" stroke="#00E8AF" stroke-width="1.5"/>
+            <text class="lbl" x="34" y="327" fill="#FFFFFF">🧳 Domestic balance check</text>
+          </g>
+
+          <!-- Checkpoint rejections -->
+          <g class="why" style="transition-delay:1.75s">
+            <rect x="434" y="117" width="350" height="38" rx="8" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.2"/>
+            <text class="lbl pf" x="450" y="141">✕ Customs — IN PII blocked from US</text>
+          </g>
+          <g class="why" style="transition-delay:1.95s">
+            <rect x="434" y="179" width="350" height="38" rx="8" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.2"/>
+            <text class="lbl pf" x="450" y="203">✕ Bag check — no prescription reason</text>
+          </g>
+          <g class="why" style="transition-delay:2.15s">
+            <rect x="434" y="241" width="350" height="38" rx="8" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.2"/>
+            <text class="lbl pf" x="450" y="265">✕ Turnstile — revoked on Tuesday</text>
+          </g>
+          <text class="lbl okf why" x="772" y="79"  style="transition-delay:2.35s">✓</text>
+          <text class="lbl okf why" x="772" y="327" style="transition-delay:2.55s">✓</text>
+        </svg></div>
+      </div>
+      <div class="dia-foot">
+        <p class="note"><b>62 departing airplanes at once?</b> You don't put a bulky X-ray machine inside 62 planes — <span class="peach"><b>one central security checkpoint at the terminal entrance (&lt;1 ms Go code).</b></span> Press <b>M</b> to toggle.</p>
+        <button class="replay">↻ replay</button>
+      </div>
     </div>
   </div>
 </section>
@@ -1053,107 +1471,212 @@
 
 <!-- ==================== SLIDE 10: DRIFT, DRAWN ==================== -->
 <section class="slide bg-deep" data-t="Drift, drawn"
-  data-note="9:20 — Let it animate. The approval stamp stays where it was signed. The agent walks away from it. The gap between the two marks is the whole of Rec 17. Press R to replay.">
+  data-note="9:20 — Let it animate. The approval stamp stays where it was signed. The agent walks away from it. The gap between the two marks is the whole of Rec 17. Press M for the Scooter vs. Commercial Truck License analogy: you got a valid medium-risk scooter license, then started driving a massive high-risk commercial truck while keeping the unexpired scooter license in your pocket! Press R to replay.">
   <div class="wrap">
-    <div class="kicker peach"><i class="dash"></i>Finding one · visualised</div>
-    <h2>What <span class="peach">drift</span> looks like</h2>
-    <div class="dia-frame">
-      <div class="dia" data-dia="drift"><svg viewBox="0 0 1060 305" role="img"
-        aria-label="An approval stamped at medium risk stays fixed while the agent's declared risk moves to high.">
-        <text class="sm" x="40" y="38" data-d>RISK SCALE</text>
-        <line x1="140" y1="74" x2="900" y2="74" stroke="#323B52" stroke-width="3" data-d/>
-        <g class="lbl" text-anchor="middle" data-d style="transition-delay:.1s">
-          <text x="140" y="106" fill="#00E8AF">LOW</text>
-          <text x="520" y="106" fill="#C4A3FF">MEDIUM</text>
-          <text x="900" y="106" fill="#FF6B6B">HIGH</text>
-        </g>
-        <circle cx="140" cy="74" r="8" fill="#00E8AF" stroke="#FFFFFF" stroke-width="1.5" data-d/>
-        <circle cx="520" cy="74" r="8" fill="#C4A3FF" stroke="#FFFFFF" stroke-width="1.5" data-d/>
-        <circle cx="900" cy="74" r="8" fill="#FF6B6B" stroke="#FFFFFF" stroke-width="1.5" data-d/>
-
-        <!-- approval stamp: fixed at medium -->
-        <g data-d class="rise" style="transition-delay:.45s">
-          <rect x="390" y="138" width="260" height="62" rx="10" fill="#0C3A34" stroke="#00E8AF" stroke-width="2"/>
-          <text class="lbl okf" x="520" y="164" text-anchor="middle">✓ APPROVED</text>
-          <text class="sm" x="520" y="185" text-anchor="middle" fill="#D5DCEB">cro@bank · signed off as medium</text>
-          <line x1="520" y1="138" x2="520" y2="82" stroke="#00E8AF" stroke-width="2" stroke-dasharray="5 4"/>
-        </g>
-
-        <!-- the agent: starts at medium, moves to high -->
-        <g class="marker moved" style="transition-delay:1.25s">
-          <g data-d style="transition-delay:.95s">
-            <rect x="424" y="226" width="192" height="58" rx="10" fill="#3D1C24" stroke="#FF6B6B" stroke-width="2"/>
-            <text class="lbl" x="520" y="251" text-anchor="middle" fill="#FFFFFF">var_calculator</text>
-            <text class="sm pf" x="520" y="271" text-anchor="middle">declares now: HIGH</text>
-            <line x1="520" y1="226" x2="520" y2="82" stroke="#FF6B6B" stroke-width="2" stroke-dasharray="5 4"/>
-          </g>
-        </g>
-
-        <g class="why" style="transition-delay:2.2s">
-          <rect x="275" y="4" width="510" height="34" rx="17" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.3"/>
-          <text class="lbl pf" x="530" y="26" text-anchor="middle">✕  ErrRiskChanged — approved as medium, now declares high</text>
-        </g>
-      </svg></div>
+    <div class="slide-top">
+      <div class="kicker peach"><i class="dash"></i>Finding one · visualised</div>
+      <div class="mode-tabs" role="tablist" aria-label="View mode">
+        <button class="mode-btn on" data-mode="tech" role="tab" aria-selected="true">⚙ Technical</button>
+        <button class="mode-btn" data-mode="life" role="tab" aria-selected="false">🛵→🚛 Real-Life: Scooter vs Truck</button>
+      </div>
     </div>
-    <div class="dia-foot">
-      <p class="note">Nobody rejected it. Nobody withdrew anything. <span class="peach"><b>The approval simply stopped describing the thing it approved.</b></span></p>
-      <button class="replay">↻ replay</button>
+    <h2>What <span class="peach">drift</span> looks like</h2>
+
+    <div class="view-panel on" data-view="tech">
+      <div class="dia-frame">
+        <div class="dia" data-dia="drift"><svg viewBox="0 0 1060 305" role="img"
+          aria-label="An approval stamped at medium risk stays fixed while the agent's declared risk moves to high.">
+          <text class="sm" x="40" y="38" data-d>RISK SCALE</text>
+          <line x1="140" y1="74" x2="900" y2="74" stroke="#323B52" stroke-width="3" data-d/>
+          <g class="lbl" text-anchor="middle" data-d style="transition-delay:.1s">
+            <text x="140" y="106" fill="#00E8AF">LOW</text>
+            <text x="520" y="106" fill="#C4A3FF">MEDIUM</text>
+            <text x="900" y="106" fill="#FF6B6B">HIGH</text>
+          </g>
+          <circle cx="140" cy="74" r="8" fill="#00E8AF" stroke="#FFFFFF" stroke-width="1.5" data-d/>
+          <circle cx="520" cy="74" r="8" fill="#C4A3FF" stroke="#FFFFFF" stroke-width="1.5" data-d/>
+          <circle cx="900" cy="74" r="8" fill="#FF6B6B" stroke="#FFFFFF" stroke-width="1.5" data-d/>
+
+          <!-- approval stamp: fixed at medium -->
+          <g data-d class="rise" style="transition-delay:.45s">
+            <rect x="390" y="138" width="260" height="62" rx="10" fill="#0C3A34" stroke="#00E8AF" stroke-width="2"/>
+            <text class="lbl okf" x="520" y="164" text-anchor="middle">✓ APPROVED</text>
+            <text class="sm" x="520" y="185" text-anchor="middle" fill="#D5DCEB">cro@bank · signed off as medium</text>
+            <line x1="520" y1="138" x2="520" y2="82" stroke="#00E8AF" stroke-width="2" stroke-dasharray="5 4"/>
+          </g>
+
+          <!-- the agent: starts at medium, moves to high -->
+          <g class="marker moved" style="transition-delay:1.25s">
+            <g data-d style="transition-delay:.95s">
+              <rect x="424" y="226" width="192" height="58" rx="10" fill="#3D1C24" stroke="#FF6B6B" stroke-width="2"/>
+              <text class="lbl" x="520" y="251" text-anchor="middle" fill="#FFFFFF">var_calculator</text>
+              <text class="sm pf" x="520" y="271" text-anchor="middle">declares now: HIGH</text>
+              <line x1="520" y1="226" x2="520" y2="82" stroke="#FF6B6B" stroke-width="2" stroke-dasharray="5 4"/>
+            </g>
+          </g>
+
+          <g class="why" style="transition-delay:2.2s">
+            <rect x="275" y="4" width="510" height="34" rx="17" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.3"/>
+            <text class="lbl pf" x="530" y="26" text-anchor="middle">✕  ErrRiskChanged — approved as medium, now declares high</text>
+          </g>
+        </svg></div>
+      </div>
+      <div class="dia-foot">
+        <p class="note">Nobody rejected it. Nobody withdrew anything. <span class="peach"><b>The approval simply stopped describing the thing it approved.</b></span></p>
+        <button class="replay">↻ replay</button>
+      </div>
+    </div>
+
+    <div class="view-panel" data-view="life">
+      <div class="dia-frame">
+        <div class="dia" data-dia="life-vehicle" data-broke-ms="1850"><svg viewBox="0 0 1060 320" role="img"
+          aria-label="Real-life Scooter vs. Commercial Truck License analogy: A valid medium-risk scooter license stays anchored at MEDIUM while var_calculator drifts into a massive high-risk commercial truck, hitting the checkpoint barrier with ErrRiskChanged.">
+          <!-- Road / License Class Scale -->
+          <text class="sm" x="28" y="34" data-d>VEHICLE LICENSE CLASS</text>
+          <rect x="90" y="54" width="840" height="22" rx="11" fill="#161B26" stroke="#323B52" stroke-width="1.5" data-d/>
+          <line x1="115" y1="65" x2="905" y2="65" stroke="#465270" stroke-width="2" class="dash-flow"/>
+          <circle cx="150" cy="65" r="8" fill="#00E8AF" stroke="#FFFFFF" stroke-width="1.5" data-d/>
+          <circle cx="480" cy="65" r="8" fill="#C4A3FF" stroke="#FFFFFF" stroke-width="1.5" data-d/>
+          <circle cx="760" cy="65" r="8" fill="#FF6B6B" stroke="#FFFFFF" stroke-width="1.5" data-d/>
+          <g class="sm" text-anchor="middle" data-d style="transition-delay:.12s">
+            <text x="150" y="96" fill="#00E8AF">🚲 BICYCLE (LOW)</text>
+            <text x="480" y="96" fill="#C4A3FF">🛵 SCOOTER (MEDIUM)</text>
+            <text x="760" y="96" fill="#FF6B6B">🚛 HEAVY TRUCK (HIGH)</text>
+          </g>
+
+          <!-- Static Valid Scooter License in Pocket anchored at MEDIUM -->
+          <g data-d class="rise" style="transition-delay:.35s">
+            <line x1="480" y1="74" x2="480" y2="118" stroke="#00E8AF" stroke-width="2" stroke-dasharray="4 4"/>
+            <rect x="305" y="118" width="350" height="68" rx="10" fill="#0C3A34" stroke="#00E8AF" stroke-width="2"/>
+            <text class="lbl okf" x="480" y="145" text-anchor="middle">✓ SCOOTER LICENSE · VALID</text>
+            <text class="sm" x="480" y="167" text-anchor="middle" fill="#D5DCEB">Unexpired · Never revoked · Approved: MEDIUM</text>
+          </g>
+
+          <!-- Animated Vehicle rolling from MEDIUM (480) -> HIGH (760) as a Heavy Commercial Truck -->
+          <g class="vehicle-drift" style="transition-delay:.85s">
+            <g data-d style="transition-delay:.6s">
+              <line x1="480" y1="74" x2="480" y2="210" stroke="#FF6B6B" stroke-width="2" stroke-dasharray="4 4"/>
+              <!-- Exhaust puffs -->
+              <circle class="exhaust-puff" cx="326" cy="232" r="7" fill="#FFB78E"/>
+              <circle class="exhaust-puff" cx="312" cy="224" r="5" fill="#FF6B6B"/>
+              <!-- Heavy Truck silhouette + label card (340..620 -> lands 620..900 before barrier at 924) -->
+              <rect x="340" y="210" width="280" height="72" rx="12" fill="#3D1C24" stroke="#FF6B6B" stroke-width="2"/>
+              <!-- Truck icon -->
+              <rect x="354" y="228" width="44" height="28" rx="4" fill="#FFB78E"/>
+              <path d="M400 234 L418 234 L424 244 L424 256 L400 256 Z" fill="#FFFFFF"/>
+              <circle cx="366" cy="260" r="6" fill="#111622" stroke="#FFFFFF" stroke-width="2"/>
+              <circle cx="388" cy="260" r="6" fill="#111622" stroke="#FFFFFF" stroke-width="2"/>
+              <circle cx="412" cy="260" r="6" fill="#111622" stroke="#FFFFFF" stroke-width="2"/>
+              <text class="lbl" x="436" y="236" fill="#FFFFFF">var_calculator</text>
+              <text class="sm pf" x="436" y="256">now a HEAVY TRUCK (HIGH)</text>
+              <text class="sm" x="436" y="273" fill="#D5DCEB">scooter permit in pocket!</text>
+            </g>
+          </g>
+
+          <!-- Animated Checkpoint Stop Barrier dropping right in front of truck at x=924 -->
+          <g class="barrier-arm">
+            <rect x="920" y="168" width="12" height="122" rx="6" fill="#FF6B6B" stroke="#FFFFFF" stroke-width="1.2"/>
+            <rect x="904" y="282" width="44" height="14" rx="4" fill="#3D1C24" stroke="#FF6B6B"/>
+          </g>
+
+          <!-- Drift alert banner -->
+          <g class="burst">
+            <rect x="180" y="4" width="700" height="36" rx="18" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.6"/>
+            <text class="lbl pf" x="530" y="27" text-anchor="middle">✕  GATE HALT (ErrRiskChanged) — Scooter license cannot drive a Heavy Truck!</text>
+          </g>
+        </svg></div>
+      </div>
+      <div class="dia-foot">
+        <p class="note"><b>Scooter vs. Commercial Truck License:</b> Your scooter license didn't expire — <span class="peach"><b>it just stopped matching the heavy truck you're driving.</b></span> Press <b>M</b> to toggle.</p>
+        <button class="replay">↻ replay</button>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ==================== SLIDE 11: LAB 01 — DRIFT ==================== -->
 <section class="slide bg-deep" data-t="Lab · drift"
-  data-note="9:50 — DEMO 1. Press R. Five agents, four of them obvious, var_calculator is the one nobody would catch by eye. If the wifi is down it falls back to a recording in 6s and says so.">
+  data-note="9:50 — DEMO 1. Press R. Runs real compiled Go WebAssembly locally with zero network. Five agents, four of them obvious, var_calculator is the one nobody would catch by eye. Live stage trick: change var_calculator's Risk from &quot;medium&quot; to &quot;high&quot; and press Cmd/Ctrl+Enter to watch Go WASM re-evaluate live!">
   <div class="wrap">
-    <div class="kicker peach"><i class="dash"></i>Lab 01 · Run it (press R)</div>
+    <div class="kicker peach"><i class="dash"></i>Lab 01 · Run it (press R · Go WebAssembly)</div>
     <h2>Five agents, <span class="peach">one bad approval</span></h2>
     <div class="cell" data-lab="drift">
       <div class="bar">
         <div class="term-left">
           <div class="dots"><i></i><i></i><i></i></div>
-          <span class="term-fn">approval.py — the drift check</span>
+          <span class="term-fn">approval.go — the drift check (Go WASM · offline)</span>
         </div>
-        <button class="run">▶ Run</button>
+        <button class="run">▶ Run Go</button>
       </div>
-      <textarea spellcheck="false">from datetime import datetime, timedelta
+      <textarea spellcheck="false">package main
 
-NOW = datetime(2026, 11, 28, 10, 0)
-KNOWN_RISK_TIERS = {"low", "medium", "high"}
+import (
+	"fmt"
+	"strings"
+	"time"
+)
 
-REGISTER = {
-  "payment_orchestrator": dict(status="approved", risk="high",
-                               expires=NOW + timedelta(days=60)),
-  "kyc_orchestrator":     dict(status="approved", risk="high",
-                               expires=NOW - timedelta(days=1)),
-  "aml_monitor":          dict(status="rejected", risk="high"),
-  "var_calculator":       dict(status="approved", risk="medium"),  # signed off at medium
-  "educator":             None,                                    # never reviewed
+type Record struct {
+	Status  string
+	Risk    string
+	Expires *time.Time
 }
 
-def allow(agent_id, declares_now):
-    risk = declares_now.strip().lower()
-    if risk not in KNOWN_RISK_TIERS:       return False, f"ErrUnknownRisk ({declares_now!r})"
-    if risk != "high":                     return True,  "low/medium — no approval required"
-    rec = REGISTER.get(agent_id)
-    if rec is None:                        return False, "ErrNoApproval"
-    if rec["status"].strip().lower() != "approved":
-                                           return False, f"ErrNotApproved ({rec['status']})"
-    if rec.get("expires") and NOW > rec["expires"]:
-                                           return False, "ErrExpired"
-    if rec["risk"].strip().lower() != risk: return False, (
-        f"ErrRiskChanged (approved as {rec['risk']}, now declares {risk})")
-    return True, "live"
+var (
+	now            = time.Date(2026, 11, 28, 10, 0, 0, 0, time.UTC)
+	knownRiskTiers = map[string]bool{"low": true, "medium": true, "high": true}
+	in60Days       = now.AddDate(0, 0, 60)
+	yesterday      = now.AddDate(0, 0, -1)
 
-today = [("payment_orchestrator","high"), ("kyc_orchestrator","high"),
-         ("aml_monitor","high"), ("var_calculator","high"), ("educator","low")]
+	register = map[string]*Record{
+		"payment_orchestrator": {Status: "approved", Risk: "high", Expires: &in60Days},
+		"kyc_orchestrator":     {Status: "approved", Risk: "high", Expires: &yesterday},
+		"aml_monitor":          {Status: "rejected", Risk: "high"},
+		"var_calculator":       {Status: "approved", Risk: "medium"}, // signed off at medium
+		"educator":             nil,                                  // never reviewed
+	}
+)
 
-for agent_id, risk in today:
-    ok, why = allow(agent_id, risk)
-    print(f"{'RUN ' if ok else 'STOP'}  {agent_id:<22} {why}")
+func allow(agentID, declaresNow string) (bool, string) {
+	risk := strings.ToLower(strings.TrimSpace(declaresNow))
+	if !knownRiskTiers[risk] {
+		return false, fmt.Sprintf("ErrUnknownRisk (%q)", declaresNow)
+	}
+	if risk != "high" {
+		return true, "low/medium — no approval required"
+	}
+	rec := register[agentID]
+	if rec == nil {
+		return false, "ErrNoApproval"
+	}
+	if strings.ToLower(strings.TrimSpace(rec.Status)) != "approved" {
+		return false, fmt.Sprintf("ErrNotApproved (%s)", rec.Status)
+	}
+	if rec.Expires != nil && now.After(*rec.Expires) {
+		return false, "ErrExpired"
+	}
+	if strings.ToLower(strings.TrimSpace(rec.Risk)) != risk {
+		return false, fmt.Sprintf("ErrRiskChanged (approved as %s, now declares %s)", rec.Risk, risk)
+	}
+	return true, "live"
+}
 
-print()
-print("var_calculator is the one I would have missed.")</textarea>
+func main() {
+	today := []struct{ id, risk string }{
+		{"payment_orchestrator", "high"},
+		{"kyc_orchestrator", "high"},
+		{"aml_monitor", "high"},
+		{"var_calculator", "high"},
+		{"educator", "low"},
+	}
+	for _, a := range today {
+		ok, why := allow(a.id, a.risk)
+		status := "STOP"
+		if ok { status = "RUN " }
+		fmt.Printf("%s  %-22s %s\n", status, a.id, why)
+	}
+	fmt.Println("\nvar_calculator is the one I would have missed.")
+}</textarea>
       <div class="out"></div>
     </div>
   </div>
@@ -1176,124 +1699,260 @@ print("var_calculator is the one I would have missed.")</textarea>
 
 <!-- ==================== SLIDE 13: CHAIN, DRAWN ==================== -->
 <section class="slide bg-deep" data-t="Chain, drawn"
-  data-note="11:20 — Four entries, each carrying the hash of the one before. Edit entry two and every link after it goes red. You cannot quietly change the past; you can only visibly break it. Press R to replay.">
+  data-note="11:20 — Four entries, each carrying the hash of the one before. Edit entry two and every link after it goes red. You cannot quietly change the past; you can only visibly break it. Press M for the Sealed Numbered Diary Pages analogy: every page is mathematically glued to the last, stamped with an unforgeable pinned-key Ed25519 Notary Stamp, and anchored every 60 seconds to an external WORM vault so even rewriting from Page 1 gets caught! Press R to replay.">
   <div class="wrap">
-    <div class="kicker peach"><i class="dash"></i>Finding two · Tamper detection</div>
-    <h2>Edit one row, <span class="peach">every link after it breaks</span></h2>
-    <div class="dia-frame">
-      <div class="dia" data-dia="chain"><svg viewBox="0 0 1060 250" role="img"
-        aria-label="Four hash-chained entries; editing the second breaks every link after it.">
-        <g data-d>
-          <rect x="20" y="76" width="208" height="86" rx="10" fill="#1E2433" stroke="#00E8AF" stroke-width="2" class="blk"/>
-          <text class="sm bf" x="40" y="103">seq 1 · genesis</text>
-          <text class="lbl" x="40" y="129" fill="#FFFFFF">consent.grant</text>
-          <text class="sm" x="40" y="149">hash: a1b2c3</text>
-        </g>
-        <line class="link" x1="228" y1="119" x2="286" y2="119" data-d style="transition-delay:.15s"/>
-
-        <g data-d style="transition-delay:.3s">
-          <rect x="286" y="76" width="208" height="86" rx="10" fill="#1E2433" stroke="#00E8AF" stroke-width="2" class="blk edited"/>
-          <text class="sm pf" x="306" y="103">seq 2</text>
-          <text class="lbl" x="306" y="129" fill="#FFFFFF">portfolio.read</text>
-          <text class="sm" x="306" y="149">actor → advisor-99</text>
-        </g>
-        <line class="link after" x1="494" y1="119" x2="552" y2="119" data-d style="transition-delay:.45s"/>
-
-        <g data-d style="transition-delay:.6s">
-          <rect x="552" y="76" width="208" height="86" rx="10" fill="#1E2433" stroke="#00E8AF" stroke-width="2" class="blk after"/>
-          <text class="sm pf" x="572" y="103">seq 3</text>
-          <text class="lbl" x="572" y="129" fill="#FFFFFF">refund.issue</text>
-          <text class="sm" x="572" y="149">prev ≠ hash2</text>
-        </g>
-        <line class="link after" x1="760" y1="119" x2="818" y2="119" data-d style="transition-delay:.75s"/>
-
-        <g data-d style="transition-delay:.9s">
-          <rect x="818" y="76" width="214" height="86" rx="10" fill="#1E2433" stroke="#00E8AF" stroke-width="2" class="blk after"/>
-          <text class="sm pf" x="838" y="103">seq 4</text>
-          <text class="lbl" x="838" y="129" fill="#FFFFFF">export.sign</text>
-          <text class="sm" x="838" y="149">prev ≠ hash3</text>
-        </g>
-
-        <g class="burst">
-          <rect x="266" y="18" width="248" height="32" rx="16" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.3"/>
-          <text class="lbl pf" x="390" y="39" text-anchor="middle">✎ someone rewrites this row</text>
-          <line x1="390" y1="50" x2="390" y2="74" stroke="#FF6B6B" stroke-width="2"/>
-
-          <text class="lbl nof" x="523" y="106" text-anchor="middle">✕</text>
-          <text class="lbl nof" x="789" y="106" text-anchor="middle">✕</text>
-
-          <rect x="330" y="196" width="440" height="36" rx="18" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.4"/>
-          <text class="lbl pf" x="550" y="219" text-anchor="middle">✕  chain_verified: false — BROKEN at seq 2</text>
-        </g>
-      </svg></div>
+    <div class="slide-top">
+      <div class="kicker peach"><i class="dash"></i>Finding two · Tamper detection</div>
+      <div class="mode-tabs" role="tablist" aria-label="View mode">
+        <button class="mode-btn on" data-mode="tech" role="tab" aria-selected="true">⚙ Technical</button>
+        <button class="mode-btn" data-mode="life" role="tab" aria-selected="false">📓 Real-Life: Sealed Diary Pages</button>
+      </div>
     </div>
-    <div class="dia-foot">
-      <p class="note">Not a blockchain. A SHA-256 chain anchored to an external timestamp. <span class="mint"><b>The boring thing that actually works.</b></span></p>
-      <button class="replay">↻ replay</button>
+    <h2>Edit one row, <span class="peach">every link after it breaks</span></h2>
+
+    <div class="view-panel on" data-view="tech">
+      <div class="dia-frame">
+        <div class="dia" data-dia="chain" data-broke-ms="1500"><svg viewBox="0 0 1060 250" role="img"
+          aria-label="Four hash-chained entries; editing the second breaks every link after it.">
+          <g data-d>
+            <rect x="20" y="76" width="208" height="86" rx="10" fill="#1E2433" stroke="#00E8AF" stroke-width="2" class="blk"/>
+            <text class="sm bf" x="40" y="103">seq 1 · genesis</text>
+            <text class="lbl" x="40" y="129" fill="#FFFFFF">consent.grant</text>
+            <text class="sm" x="40" y="149">hash: a1b2c3</text>
+          </g>
+          <line class="link" x1="228" y1="119" x2="286" y2="119" data-d style="transition-delay:.15s"/>
+
+          <g data-d style="transition-delay:.3s">
+            <rect x="286" y="76" width="208" height="86" rx="10" fill="#1E2433" stroke="#00E8AF" stroke-width="2" class="blk edited"/>
+            <text class="sm pf" x="306" y="103">seq 2</text>
+            <text class="lbl" x="306" y="129" fill="#FFFFFF">portfolio.read</text>
+            <text class="sm" x="306" y="149">actor → advisor-99</text>
+          </g>
+          <line class="link after" x1="494" y1="119" x2="552" y2="119" data-d style="transition-delay:.45s"/>
+
+          <g data-d style="transition-delay:.6s">
+            <rect x="552" y="76" width="208" height="86" rx="10" fill="#1E2433" stroke="#00E8AF" stroke-width="2" class="blk after"/>
+            <text class="sm pf" x="572" y="103">seq 3</text>
+            <text class="lbl" x="572" y="129" fill="#FFFFFF">refund.issue</text>
+            <text class="sm" x="572" y="149">prev ≠ hash2</text>
+          </g>
+          <line class="link after" x1="760" y1="119" x2="818" y2="119" data-d style="transition-delay:.75s"/>
+
+          <g data-d style="transition-delay:.9s">
+            <rect x="818" y="76" width="214" height="86" rx="10" fill="#1E2433" stroke="#00E8AF" stroke-width="2" class="blk after"/>
+            <text class="sm pf" x="838" y="103">seq 4</text>
+            <text class="lbl" x="838" y="129" fill="#FFFFFF">export.sign</text>
+            <text class="sm" x="838" y="149">prev ≠ hash3</text>
+          </g>
+
+          <g class="burst">
+            <rect x="266" y="18" width="248" height="32" rx="16" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.3"/>
+            <text class="lbl pf" x="390" y="39" text-anchor="middle">✎ someone rewrites this row</text>
+            <line x1="390" y1="50" x2="390" y2="74" stroke="#FF6B6B" stroke-width="2"/>
+
+            <text class="lbl nof" x="523" y="106" text-anchor="middle">✕</text>
+            <text class="lbl nof" x="789" y="106" text-anchor="middle">✕</text>
+
+            <rect x="330" y="196" width="440" height="36" rx="18" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.4"/>
+            <text class="lbl pf" x="550" y="219" text-anchor="middle">✕  chain_verified: false — BROKEN at seq 2</text>
+          </g>
+        </svg></div>
+      </div>
+      <div class="dia-foot">
+        <p class="note">Not a blockchain. A SHA-256 chain anchored to an external timestamp. <span class="mint"><b>The boring thing that actually works.</b></span></p>
+        <button class="replay">↻ replay</button>
+      </div>
+    </div>
+
+    <div class="view-panel" data-view="life">
+      <div class="dia-frame">
+        <div class="dia" data-dia="life-notebook" data-broke-ms="1500"><svg viewBox="0 0 1060 288" role="img"
+          aria-label="Real-life sealed numbered diary pages analogy: Each page copies the cryptographic seal of the prior page; rewriting Page 2 shatters Pages 3 and 4, clashes with the 60-second external WORM vault snapshot, and triggers the unforgeable Ed25519 Notary Stamp reporting DIARY BROKEN AT PAGE 2.">
+          <!-- Top subtitle -->
+          <text class="sm" x="24" y="24" data-d>SEALED NUMBERED DIARY PAGES · MATHEMATICALLY GLUED + UNFORGEABLE NOTARY STAMP + 60s EXTERNAL WORM SNAPSHOT</text>
+
+          <!-- Page 1 (Intact) -->
+          <g data-d style="transition-delay:.05s">
+            <rect x="20" y="66" width="214" height="132" rx="8" fill="#1E2433" stroke="#00E8AF" stroke-width="2" class="page-box"/>
+            <rect x="20" y="66" width="214" height="28" rx="6" fill="#0C3A34"/>
+            <text class="sm bf" x="34" y="85">PAGE 1 · COVER SEAL</text>
+            <text class="sm" x="34" y="113">header: genesis</text>
+            <text class="lbl" x="34" y="138" fill="#FFFFFF">consent.grant</text>
+            <line x1="34" y1="150" x2="218" y2="150" stroke="#323B52" stroke-width="1"/>
+            <circle cx="46" cy="174" r="9" fill="#00E8AF"/>
+            <text class="sm bf" x="62" y="178">wax seal: #a1b2</text>
+          </g>
+
+          <!-- Intact Stitches 1->2 -->
+          <g data-d style="transition-delay:.2s">
+            <line class="stitch" x1="234" y1="98"  x2="286" y2="98"/>
+            <line class="stitch" x1="234" y1="132" x2="286" y2="132"/>
+            <line class="stitch" x1="234" y1="166" x2="286" y2="166"/>
+          </g>
+
+          <!-- Page 2 (Tampered!) -->
+          <g data-d style="transition-delay:.32s">
+            <rect x="286" y="66" width="214" height="132" rx="8" fill="#1E2433" stroke="#00E8AF" stroke-width="2" class="page-box edited"/>
+            <rect x="286" y="66" width="214" height="28" rx="6" fill="#2A2438"/>
+            <text class="sm pf" x="300" y="85">PAGE 2 · EDITED!</text>
+            <text class="sm" x="300" y="113">copied: #a1b2 ✓</text>
+            <text class="lbl" x="300" y="138" fill="#FFFFFF">advisor-7 → #99</text>
+            <line x1="300" y1="150" x2="484" y2="150" stroke="#323B52" stroke-width="1"/>
+            <circle cx="312" cy="174" r="9" fill="#FFB78E"/>
+            <text class="sm pf" x="328" y="178">new seal ≠ #f9d0</text>
+          </g>
+
+          <!-- Frayed Stitches 2->3 -->
+          <g data-d style="transition-delay:.48s">
+            <line class="stitch after" x1="500" y1="98"  x2="552" y2="98"/>
+            <line class="stitch after" x1="500" y1="132" x2="552" y2="132"/>
+            <line class="stitch after" x1="500" y1="166" x2="552" y2="166"/>
+          </g>
+
+          <!-- Page 3 (Broken) -->
+          <g data-d style="transition-delay:.62s">
+            <rect x="552" y="66" width="214" height="132" rx="8" fill="#1E2433" stroke="#00E8AF" stroke-width="2" class="page-box after"/>
+            <rect x="552" y="66" width="214" height="28" rx="6" fill="#2A2438"/>
+            <text class="sm pf" x="566" y="85">PAGE 3 · TORN</text>
+            <text class="sm nof" x="566" y="113">header: #f9d0 ✕</text>
+            <text class="lbl" x="566" y="138" fill="#FFFFFF">refund.issue</text>
+            <line x1="566" y1="150" x2="750" y2="150" stroke="#323B52" stroke-width="1"/>
+            <circle cx="578" cy="174" r="9" fill="#FF6B6B"/>
+            <text class="sm nof" x="594" y="178">mismatch! #77e4</text>
+          </g>
+
+          <!-- Frayed Stitches 3->4 -->
+          <g data-d style="transition-delay:.78s">
+            <line class="stitch after" x1="766" y1="98"  x2="818" y2="98"/>
+            <line class="stitch after" x1="766" y1="132" x2="818" y2="132"/>
+            <line class="stitch after" x1="766" y1="166" x2="818" y2="166"/>
+          </g>
+
+          <!-- Page 4 (Notary + 60s External WORM Anchor) -->
+          <g data-d style="transition-delay:.92s">
+            <rect x="818" y="66" width="222" height="132" rx="8" fill="#1E2433" stroke="#00E8AF" stroke-width="2" class="page-box after"/>
+            <rect x="818" y="66" width="222" height="28" rx="6" fill="#2A2438"/>
+            <text class="sm pf" x="832" y="85">60s EXTERNAL WORM VAULT</text>
+            <text class="sm nof" x="832" y="113">header: #77e4 ✕</text>
+            <text class="lbl" x="832" y="138" fill="#FFFFFF">blocks full rewrite</text>
+            <line x1="832" y1="150" x2="1024" y2="150" stroke="#323B52" stroke-width="1"/>
+            <circle cx="844" cy="174" r="9" fill="#C4A3FF"/>
+            <text class="sm lf" x="860" y="178">pinned Ed25519 notary</text>
+          </g>
+
+          <!-- Tear & Notary Refusal Burst -->
+          <g class="burst">
+            <rect x="272" y="34" width="242" height="26" rx="13" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.3"/>
+            <text class="sm pf" x="393" y="51" text-anchor="middle">✎ INSIDER EDITS PAGE 2</text>
+            <text class="lbl nof" x="526" y="124" text-anchor="middle">✂</text>
+            <text class="lbl nof" x="792" y="124" text-anchor="middle">✂</text>
+            <rect x="170" y="222" width="720" height="44" rx="22" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.6"/>
+            <text class="lbl pf" x="530" y="249" text-anchor="middle">✕  UNFORGEABLE NOTARY STAMP: DIARY BROKEN AT PAGE 2 (chain_verified: false)</text>
+          </g>
+        </svg></div>
+      </div>
+      <div class="dia-foot">
+        <p class="note"><b>Sealed Diary Pages + 60s External Snapshot:</b> Edit Page 2 and Pages 3–4 shatter; <span class="peach"><b>even rewriting the whole diary from Page 1 clashes with the 60s WORM vault.</b></span> Press <b>M</b> to toggle.</p>
+        <button class="replay">↻ replay</button>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ==================== SLIDE 14: LAB 02 — TAMPER ==================== -->
 <section class="slide bg-deep" data-t="Lab · tamper"
-  data-note="11:40 — DEMO 2. Press R. Three entries, verify OK, edit one actor, verify breaks at seq 2. The manifest reports chain_verified false rather than hiding it. That honesty is the point.">
+  data-note="11:40 — DEMO 2. Press R. Runs real compiled Go WebAssembly locally with zero network. Three entries, verify OK, edit row 2 actor, verify breaks at seq 2. The manifest reports chain_verified: false rather than hiding it. Comment out log[1].Actor = &quot;advisor-99&quot; and press Cmd/Ctrl+Enter to watch Go WASM verify true live!">
   <div class="wrap">
-    <div class="kicker peach"><i class="dash"></i>Lab 02 · Run it (press R)</div>
+    <div class="kicker peach"><i class="dash"></i>Lab 02 · Run it (press R · Go WebAssembly)</div>
     <h2>Rewrite one row, <span class="peach">watch it fail</span></h2>
     <div class="cell" data-lab="chain">
       <div class="bar">
         <div class="term-left">
           <div class="dots"><i></i><i></i><i></i></div>
-          <span class="term-fn">audit.py — SHA-256 hash chain + export manifest</span>
+          <span class="term-fn">audit.go — SHA-256 hash chain + export manifest (Go WASM · offline)</span>
         </div>
-        <button class="run">▶ Run</button>
+        <button class="run">▶ Run Go</button>
       </div>
-      <textarea spellcheck="false">import hashlib, json
+      <textarea spellcheck="false">package main
 
-def row_hash(prev, entry):
-    body = json.dumps({"prev": prev, **entry}, sort_keys=True).encode()
-    return hashlib.sha256(body).hexdigest()
+import (
+	"crypto/sha256"
+	"encoding/hex"
+	"encoding/json"
+	"fmt"
+	"strings"
+)
 
-def append(log, actor, action, target):
-    prev = log[-1]["row_hash"] if log else "genesis"
-    e = {"seq": len(log) + 1, "actor": actor, "action": action, "target": target}
-    e["prev_hash"] = prev
-    e["row_hash"]  = row_hash(prev, e)
-    log.append(e)
+type Entry struct {
+	Seq      int    `json:"seq"`
+	Actor    string `json:"actor"`
+	Action   string `json:"action"`
+	Target   string `json:"target"`
+	PrevHash string `json:"prev_hash"`
+	RowHash  string `json:"row_hash,omitempty"`
+}
 
-def verify(log):
-    if not log: return False, 0, "empty_log"
-    prev = "genesis"
-    for idx, e in enumerate(log, start=1):
-        if e.get("seq") != idx:                  return False, idx, "seq"
-        if e["prev_hash"] != prev:               return False, e["seq"], "prev_hash"
-        chk = {k: v for k, v in e.items() if k != "row_hash"}
-        if row_hash(prev, chk) != e["row_hash"]: return False, e["seq"], "row_hash"
-        prev = e["row_hash"]
-    return True, None, None
+func rowHash(prev string, e Entry) string {
+	e.RowHash = ""
+	body, _ := json.Marshal(struct {
+		Prev string `json:"prev"`
+		Entry
+	}{Prev: prev, Entry: e})
+	sum := sha256.Sum256(body)
+	return hex.EncodeToString(sum[:])
+}
 
-log = []
-append(log, "system",       "consent.grant",  "user-1")
-append(log, "advisor-7",    "portfolio.read", "user-1")
-append(log, "payment_orch", "refund.issue",   "txn-9931")
+func appendLog(log *[]Entry, actor, action, target string) {
+	prev := "genesis"
+	if n := len(*log); n > 0 { prev = (*log)[n-1].RowHash }
+	e := Entry{Seq: len(*log) + 1, Actor: actor, Action: action, Target: target, PrevHash: prev}
+	e.RowHash = rowHash(prev, e)
+	*log = append(*log, e)
+}
 
-ok, seq, field = verify(log)
-print("fresh chain          ", "OK" if ok else f"BROKEN at seq {seq} ({field})")
+func verify(log []Entry) (bool, int, string) {
+	if len(log) == 0 { return false, 0, "empty_log" }
+	prev := "genesis"
+	for i, e := range log {
+		if e.Seq != i+1             { return false, i + 1, "seq" }
+		if e.PrevHash != prev       { return false, e.Seq, "prev_hash" }
+		if rowHash(prev, e) != e.RowHash { return false, e.Seq, "row_hash" }
+		prev = e.RowHash
+	}
+	return true, 0, ""
+}
 
-log[1]["actor"] = "advisor-99"          # someone edits history
-ok, seq, field = verify(log)
-print("after one edited row ", "OK" if ok else f"BROKEN at seq {seq} ({field})")
+func main() {
+	var log []Entry
+	appendLog(&log, "system",       "consent.grant",  "user-1")
+	appendLog(&log, "advisor-7",    "portfolio.read", "user-1")
+	appendLog(&log, "payment_orch", "refund.issue",   "txn-9931")
 
-payload  = "\n".join(json.dumps(e, sort_keys=True) for e in log).encode()
-manifest = {"count": len(log), "chain_verified": ok,
-            "sha256": hashlib.sha256(payload).hexdigest()[:24] + "…"}
-print()
-print("export manifest      ", manifest)
-print()
-print("The export does not hide the break. It reports it.")</textarea>
+	ok, seq, field := verify(log)
+	fmt.Println("fresh chain          ", statusText(ok, seq, field))
+
+	log[1].Actor = "advisor-99" // someone edits history
+	ok, seq, field = verify(log)
+	fmt.Println("after one edited row ", statusText(ok, seq, field))
+
+	lines := make([]string, len(log))
+	for i, e := range log { b, _ := json.Marshal(e); lines[i] = string(b) }
+	sum := sha256.Sum256([]byte(strings.Join(lines, "\n")))
+	manifest, _ := json.Marshal(struct {
+		Count         int    `json:"count"`
+		ChainVerified bool   `json:"chain_verified"`
+		SHA256        string `json:"sha256"`
+	}{len(log), ok, hex.EncodeToString(sum[:])[:24] + "…"})
+	fmt.Printf("\nexport manifest       %s\n\nThe export does not hide the break. It reports it.\n", manifest)
+}
+
+func statusText(ok bool, seq int, field string) string {
+	if ok { return "OK" }
+	return fmt.Sprintf("BROKEN at seq %d (%s)", seq, field)
+}</textarea>
       <div class="out"></div>
     </div>
-    <p class="muted" style="font-family:var(--mono);font-size:.78rem;margin-top:4px"><span class="mint">Go companion repo:</span> <code>code/audit/chain.go</code> + <code>go run ./cmd/evidencepack</code> sign the manifest with <b>Ed25519</b> and emit RBI Annexure VI &amp; EU Art. 73/Annex IV JSON.</p>
+    <p class="muted" style="font-family:var(--mono);font-size:.78rem;margin-top:4px"><span class="mint">Go companion repo:</span> <code>labs/audit/main.go</code> · <code>code/audit/chain.go</code> + <code>go run ./cmd/evidencepack</code> sign the manifest with <b>Ed25519</b> and emit RBI Annexure VI &amp; EU Art. 73/Annex IV JSON.</p>
   </div>
 </section>
 
@@ -1316,61 +1975,133 @@ print("The export does not hide the break. It reports it.")</textarea>
 
 <!-- ==================== SLIDE 16: CONVERGENCE, DRAWN ==================== -->
 <section class="slide bg-deep" data-t="Convergence, drawn"
-  data-note="14:30 — The thesis of the whole talk, as a picture. Two regulators, arriving from opposite sides, landing on the same four controls. Say the line about convergence while it resolves. Press R to replay.">
+  data-note="14:30 — The thesis of the whole talk, as a picture. Two regulators, arriving from opposite sides, landing on the same four controls. Say the line about convergence while it resolves. Press M for the real-life One Aircraft Safety Core analogy — math is a universal language; Mumbai or Brussels, there are only so many ways to securely lock a door (one black box inspected by both India DGCA/RBI and Europe EASA/EU); press R to replay.">
   <div class="wrap">
-    <div class="kicker lav"><i class="dash"></i>Regulatory convergence</div>
-    <h2>Two regulators, <span class="lav">one control set</span></h2>
-    <div class="dia-frame">
-      <div class="dia" data-dia="conv"><svg viewBox="0 0 1060 326" role="img"
-        aria-label="RBI recommendations and EU AI Act articles converge on the same four controls.">
-        <text class="sm bf" x="115" y="26" text-anchor="middle" data-d>RBI FREE-AI</text>
-        <text class="sm" x="530" y="26" text-anchor="middle" data-d fill="#FFFFFF">WHAT WE BUILT ONCE</text>
-        <text class="sm lf" x="945" y="26" text-anchor="middle" data-d>EU AI ACT</text>
-
-        <!-- centre controls -->
-        <g data-d class="rise" style="transition-delay:.2s">
-          <rect x="375" y="54"  width="310" height="48" rx="9" fill="#1E2433" stroke="#FFFFFF" stroke-width="1.3"/>
-          <text class="lbl" x="530" y="83" text-anchor="middle" fill="#FFFFFF">hash-chained audit log</text>
-          <rect x="375" y="120" width="310" height="48" rx="9" fill="#1E2433" stroke="#FFFFFF" stroke-width="1.3"/>
-          <text class="lbl" x="530" y="149" text-anchor="middle" fill="#FFFFFF">risk class before dispatch</text>
-          <rect x="375" y="186" width="310" height="48" rx="9" fill="#1E2433" stroke="#FFFFFF" stroke-width="1.3"/>
-          <text class="lbl" x="530" y="215" text-anchor="middle" fill="#FFFFFF">inventory from live registry</text>
-          <rect x="375" y="252" width="310" height="48" rx="9" fill="#1E2433" stroke="#FFFFFF" stroke-width="1.3"/>
-          <text class="lbl" x="530" y="281" text-anchor="middle" fill="#FFFFFF">disclosure on first event</text>
-        </g>
-
-        <!-- RBI chips fly in from left -->
-        <g class="lbl bf" text-anchor="middle">
-          <g data-d class="slide-in" style="transition-delay:.7s"><rect x="35" y="60"  width="160" height="36" rx="18" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.5"/><text x="115" y="83">Rec 22</text></g>
-          <g data-d class="slide-in" style="transition-delay:.9s"><rect x="35" y="126" width="160" height="36" rx="18" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.5"/><text x="115" y="149">Rec 16</text></g>
-          <g data-d class="slide-in" style="transition-delay:1.1s"><rect x="35" y="192" width="160" height="36" rx="18" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.5"/><text x="115" y="215">Rec 23</text></g>
-          <g data-d class="slide-in" style="transition-delay:1.3s"><rect x="35" y="258" width="160" height="36" rx="18" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.5"/><text x="115" y="281">Rec 18</text></g>
-        </g>
-        <g stroke="#00E8AF" stroke-width="2" stroke-dasharray="5 4">
-          <line x1="195" y1="78"  x2="375" y2="78"  data-d style="transition-delay:1.4s"/>
-          <line x1="195" y1="144" x2="375" y2="144" data-d style="transition-delay:1.5s"/>
-          <line x1="195" y1="210" x2="375" y2="210" data-d style="transition-delay:1.6s"/>
-          <line x1="195" y1="276" x2="375" y2="276" data-d style="transition-delay:1.7s"/>
-        </g>
-
-        <!-- EU chips fly in from right -->
-        <g class="lbl lf" text-anchor="middle">
-          <g data-d class="slide-in-r" style="transition-delay:1.85s"><rect x="865" y="60"  width="160" height="36" rx="18" fill="#2B2342" stroke="#C4A3FF" stroke-width="1.5"/><text x="945" y="83">Article 12</text></g>
-          <g data-d class="slide-in-r" style="transition-delay:2.05s"><rect x="865" y="126" width="160" height="36" rx="18" fill="#2B2342" stroke="#C4A3FF" stroke-width="1.5"/><text x="945" y="149">Art 9 · 14</text></g>
-          <g data-d class="slide-in-r" style="transition-delay:2.25s"><rect x="865" y="192" width="160" height="36" rx="18" fill="#2B2342" stroke="#C4A3FF" stroke-width="1.5"/><text x="945" y="215">Annex IV</text></g>
-          <g data-d class="slide-in-r" style="transition-delay:2.45s"><rect x="865" y="258" width="160" height="36" rx="18" fill="#2B2342" stroke="#C4A3FF" stroke-width="1.5"/><text x="945" y="281">Article 50</text></g>
-        </g>
-        <g stroke="#C4A3FF" stroke-width="2" stroke-dasharray="5 4">
-          <line x1="685" y1="78"  x2="865" y2="78"  data-d style="transition-delay:2.55s"/>
-          <line x1="685" y1="144" x2="865" y2="144" data-d style="transition-delay:2.65s"/>
-          <line x1="685" y1="210" x2="865" y2="210" data-d style="transition-delay:2.75s"/>
-          <line x1="685" y1="276" x2="865" y2="276" data-d style="transition-delay:2.85s"/>
-        </g>
-      </svg></div>
+    <div class="slide-top">
+      <div class="kicker lav"><i class="dash"></i>Regulatory convergence</div>
+      <div class="mode-tabs" role="tablist" aria-label="View mode">
+        <button class="mode-btn on" data-mode="tech" role="tab" aria-selected="true">⚙ Technical</button>
+        <button class="mode-btn" data-mode="life" role="tab" aria-selected="false">✈ Real-Life: One Black Box</button>
+      </div>
     </div>
-    <div class="dia-foot">
-      <p class="note">Regulators converge because <span class="lav"><b>there are only so many ways to make a system accountable.</b></span></p>
-      <button class="replay">↻ replay</button>
+    <h2>Two regulators, <span class="lav">one control set</span></h2>
+
+    <div class="view-panel on" data-view="tech">
+      <div class="dia-frame">
+        <div class="dia" data-dia="conv"><svg viewBox="0 0 1060 326" role="img"
+          aria-label="RBI recommendations and EU AI Act articles converge on the same four controls.">
+          <text class="sm bf" x="115" y="26" text-anchor="middle" data-d>RBI FREE-AI</text>
+          <text class="sm" x="530" y="26" text-anchor="middle" data-d fill="#FFFFFF">WHAT WE BUILT ONCE</text>
+          <text class="sm lf" x="945" y="26" text-anchor="middle" data-d>EU AI ACT</text>
+
+          <!-- centre controls -->
+          <g data-d class="rise" style="transition-delay:.2s">
+            <rect x="375" y="54"  width="310" height="48" rx="9" fill="#1E2433" stroke="#FFFFFF" stroke-width="1.3"/>
+            <text class="lbl" x="530" y="83" text-anchor="middle" fill="#FFFFFF">hash-chained audit log</text>
+            <rect x="375" y="120" width="310" height="48" rx="9" fill="#1E2433" stroke="#FFFFFF" stroke-width="1.3"/>
+            <text class="lbl" x="530" y="149" text-anchor="middle" fill="#FFFFFF">risk class before dispatch</text>
+            <rect x="375" y="186" width="310" height="48" rx="9" fill="#1E2433" stroke="#FFFFFF" stroke-width="1.3"/>
+            <text class="lbl" x="530" y="215" text-anchor="middle" fill="#FFFFFF">inventory from live registry</text>
+            <rect x="375" y="252" width="310" height="48" rx="9" fill="#1E2433" stroke="#FFFFFF" stroke-width="1.3"/>
+            <text class="lbl" x="530" y="281" text-anchor="middle" fill="#FFFFFF">disclosure on first event</text>
+          </g>
+
+          <!-- RBI chips fly in from left -->
+          <g class="lbl bf" text-anchor="middle">
+            <g data-d class="slide-in" style="transition-delay:.7s"><rect x="35" y="60"  width="160" height="36" rx="18" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.5"/><text x="115" y="83">Rec 22</text></g>
+            <g data-d class="slide-in" style="transition-delay:.9s"><rect x="35" y="126" width="160" height="36" rx="18" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.5"/><text x="115" y="149">Rec 16</text></g>
+            <g data-d class="slide-in" style="transition-delay:1.1s"><rect x="35" y="192" width="160" height="36" rx="18" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.5"/><text x="115" y="215">Rec 23</text></g>
+            <g data-d class="slide-in" style="transition-delay:1.3s"><rect x="35" y="258" width="160" height="36" rx="18" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.5"/><text x="115" y="281">Rec 18</text></g>
+          </g>
+          <g stroke="#00E8AF" stroke-width="2" stroke-dasharray="5 4">
+            <line x1="195" y1="78"  x2="375" y2="78"  data-d style="transition-delay:1.4s"/>
+            <line x1="195" y1="144" x2="375" y2="144" data-d style="transition-delay:1.5s"/>
+            <line x1="195" y1="210" x2="375" y2="210" data-d style="transition-delay:1.6s"/>
+            <line x1="195" y1="276" x2="375" y2="276" data-d style="transition-delay:1.7s"/>
+          </g>
+
+          <!-- EU chips fly in from right -->
+          <g class="lbl lf" text-anchor="middle">
+            <g data-d class="slide-in-r" style="transition-delay:1.85s"><rect x="865" y="60"  width="160" height="36" rx="18" fill="#2B2342" stroke="#C4A3FF" stroke-width="1.5"/><text x="945" y="83">Article 12</text></g>
+            <g data-d class="slide-in-r" style="transition-delay:2.05s"><rect x="865" y="126" width="160" height="36" rx="18" fill="#2B2342" stroke="#C4A3FF" stroke-width="1.5"/><text x="945" y="149">Art 9 · 14</text></g>
+            <g data-d class="slide-in-r" style="transition-delay:2.25s"><rect x="865" y="192" width="160" height="36" rx="18" fill="#2B2342" stroke="#C4A3FF" stroke-width="1.5"/><text x="945" y="215">Annex IV</text></g>
+            <g data-d class="slide-in-r" style="transition-delay:2.45s"><rect x="865" y="258" width="160" height="36" rx="18" fill="#2B2342" stroke="#C4A3FF" stroke-width="1.5"/><text x="945" y="281">Article 50</text></g>
+          </g>
+          <g stroke="#C4A3FF" stroke-width="2" stroke-dasharray="5 4">
+            <line x1="685" y1="78"  x2="865" y2="78"  data-d style="transition-delay:2.55s"/>
+            <line x1="685" y1="144" x2="865" y2="144" data-d style="transition-delay:2.65s"/>
+            <line x1="685" y1="210" x2="865" y2="210" data-d style="transition-delay:2.75s"/>
+            <line x1="685" y1="276" x2="865" y2="276" data-d style="transition-delay:2.85s"/>
+          </g>
+        </svg></div>
+      </div>
+      <div class="dia-foot">
+        <p class="note">Regulators converge because <span class="lav"><b>there are only so many ways to make a system accountable.</b></span></p>
+        <button class="replay">↻ replay</button>
+      </div>
+    </div>
+
+    <div class="view-panel" data-view="life">
+      <div class="dia-frame">
+        <div class="dia" data-dia="life-blackbox"><svg viewBox="0 0 1060 326" role="img"
+          aria-label="Real-life aviation analogy: One airliner flying Hyderabad to Frankfurt uses a single set of flight-safety instruments — black box, pre-takeoff check, tail-number fleet log, and cabin safety briefing — inspected by both India DGCA/RBI and Europe EASA/EU.">
+          <text class="sm bf" x="120" y="24" text-anchor="middle" data-d>🇮🇳 HYDERABAD · DGCA / RBI</text>
+          <text class="sm pf" x="530" y="24" text-anchor="middle" data-d>✈ ONE AIRCRAFT SAFETY CORE</text>
+          <text class="sm lf" x="940" y="24" text-anchor="middle" data-d>🇪🇺 FRANKFURT · EASA / EU</text>
+
+          <!-- Center Aircraft Fuselage Container -->
+          <g data-d class="rise" style="transition-delay:.2s">
+            <rect x="342" y="42" width="376" height="270" rx="28" fill="#161B26" stroke="#FFB78E" stroke-width="1.8"/>
+            <rect x="364" y="58"  width="332" height="48" rx="9" fill="#1E2433" stroke="#00E8AF" stroke-width="1.3"/>
+            <text class="lbl" x="530" y="80" text-anchor="middle" fill="#FFFFFF">🟧 Flight Black Box</text>
+            <text class="sm" x="530" y="98" text-anchor="middle">SHA-256 chain + Annexure VI</text>
+
+            <rect x="364" y="120" width="332" height="48" rx="9" fill="#1E2433" stroke="#FFB78E" stroke-width="1.3"/>
+            <text class="lbl" x="530" y="142" text-anchor="middle" fill="#FFFFFF">📋 Pre-Takeoff Permit Check</text>
+            <text class="sm" x="530" y="160" text-anchor="middle">Risk tier + ErrRiskChanged</text>
+
+            <rect x="364" y="182" width="332" height="48" rx="9" fill="#1E2433" stroke="#C4A3FF" stroke-width="1.3"/>
+            <text class="lbl" x="530" y="204" text-anchor="middle" fill="#FFFFFF">🛩 Live Tail-Number Roster</text>
+            <text class="sm" x="530" y="222" text-anchor="middle">Zero-drift live registry</text>
+
+            <rect x="364" y="244" width="332" height="48" rx="9" fill="#1E2433" stroke="#00E8AF" stroke-width="1.3"/>
+            <text class="lbl" x="530" y="266" text-anchor="middle" fill="#FFFFFF">📢 Cabin Safety Briefing</text>
+            <text class="sm" x="530" y="284" text-anchor="middle">First-event AI disclosure</text>
+          </g>
+
+          <!-- Left: India Inspector stamps -->
+          <g class="sm bf" text-anchor="middle">
+            <g data-d class="slide-in" style="transition-delay:.65s"><rect x="24" y="64"  width="192" height="36" rx="18" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.5"/><text x="120" y="86">✓ RBI Rec 22</text></g>
+            <g data-d class="slide-in" style="transition-delay:.85s"><rect x="24" y="126" width="192" height="36" rx="18" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.5"/><text x="120" y="148">✓ RBI Rec 16 · 17</text></g>
+            <g data-d class="slide-in" style="transition-delay:1.05s"><rect x="24" y="188" width="192" height="36" rx="18" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.5"/><text x="120" y="210">✓ RBI Rec 23</text></g>
+            <g data-d class="slide-in" style="transition-delay:1.25s"><rect x="24" y="250" width="192" height="36" rx="18" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.5"/><text x="120" y="272">✓ RBI Rec 18 · 25</text></g>
+          </g>
+          <g stroke="#00E8AF" stroke-width="2" class="dash-flow">
+            <line x1="216" y1="82"  x2="342" y2="82"  data-d style="transition-delay:1.3s"/>
+            <line x1="216" y1="144" x2="342" y2="144" data-d style="transition-delay:1.4s"/>
+            <line x1="216" y1="206" x2="342" y2="206" data-d style="transition-delay:1.5s"/>
+            <line x1="216" y1="268" x2="342" y2="268" data-d style="transition-delay:1.6s"/>
+          </g>
+
+          <!-- Right: EU Inspector stamps -->
+          <g class="sm lf" text-anchor="middle">
+            <g data-d class="slide-in-r" style="transition-delay:1.75s"><rect x="844" y="64"  width="192" height="36" rx="18" fill="#2B2342" stroke="#C4A3FF" stroke-width="1.5"/><text x="940" y="86">✓ EU Art 12 · 73</text></g>
+            <g data-d class="slide-in-r" style="transition-delay:1.95s"><rect x="844" y="126" width="192" height="36" rx="18" fill="#2B2342" stroke="#C4A3FF" stroke-width="1.5"/><text x="940" y="148">✓ EU Art 9 · 14</text></g>
+            <g data-d class="slide-in-r" style="transition-delay:2.15s"><rect x="844" y="188" width="192" height="36" rx="18" fill="#2B2342" stroke="#C4A3FF" stroke-width="1.5"/><text x="940" y="210">✓ EU Annex IV</text></g>
+            <g data-d class="slide-in-r" style="transition-delay:2.35s"><rect x="844" y="250" width="192" height="36" rx="18" fill="#2B2342" stroke="#FFB78E" stroke-width="1.6"/><text x="940" y="272" fill="#FFB78E">✓ EU Art 50 (LIVE)</text></g>
+          </g>
+          <g stroke="#C4A3FF" stroke-width="2" class="dash-flow">
+            <line x1="718" y1="82"  x2="844" y2="82"  data-d style="transition-delay:2.4s"/>
+            <line x1="718" y1="144" x2="844" y2="144" data-d style="transition-delay:2.5s"/>
+            <line x1="718" y1="206" x2="844" y2="206" data-d style="transition-delay:2.6s"/>
+            <line x1="718" y1="268" x2="844" y2="268" data-d style="transition-delay:2.7s"/>
+          </g>
+        </svg></div>
+      </div>
+      <div class="dia-foot">
+        <p class="note"><b>Math is a universal language:</b> Mumbai or Brussels, <span class="lav"><b>there are only so many ways to securely lock a door.</b></span> One black box, two inspections. Press <b>M</b> to toggle.</p>
+        <button class="replay">↻ replay</button>
+      </div>
     </div>
   </div>
 </section>
@@ -1449,52 +2180,212 @@ print("The export does not hide the break. It reports it.")</textarea>
 </section>
 
 <!-- ==================== SLIDE 20: TWO OPEN PROBLEMS ==================== -->
-<section class="slide bg-peach" data-t="Open problems" data-note="17:50 — Present as open engineering problems, not apologies. On Gap 01, point to CrowdStrike Falcon Guardian's AI Kill Switch (announced 3 Nov 2026: AI gateway cut-off, root process kill, relaunch block, network isolation) and the Hard Stop vs. Dimmer Switch pattern (degrade to read-only / revoke OAuth tokens before freezing payment queues). Gap 02 is a genuine architectural conflict — invite people to argue with it afterwards.">
+<section class="slide bg-peach" data-t="Open problems" data-note="17:50 — Present as open engineering problems, not apologies. On Gap 01, point to CrowdStrike Falcon Guardian's AI Kill Switch (announced 3 Nov 2026) and the Blown Fuse vs. 3-Tier Containment Ladder (T1 Dimmer Switch, T2 Strip IAM Badge, T3 Manual Pull-the-Plug Hard Stop). Gap 02 is a genuine architectural conflict — pristine live state vs. managing a 10-year graveyard of retired models — invite people to argue with it afterwards. Press M for the Pull the Plug &amp; 10-Year Model Graveyard diagram.">
   <div class="wrap">
-    <div class="kicker peach"><i class="dash"></i>Two open problems, if you want something to chew on</div>
-    <h2>Gaps named, <span class="peach">not closed</span></h2>
-    <div class="two">
-      <div class="card coral" data-step>
-        <span class="tag-pill coral" style="align-self:flex-start">GAP 01</span>
-        <h3>Mandatory AI kill switch</h3>
-        <p>We have circuit breakers, deadlines, budget caps and deterministic fallbacks.</p>
-        <p>A mandated kill switch is an <b class="peach">operator-triggered hard stop</b>. Adjacent — not the same thing.</p>
-        <p class="muted" style="font-size:.82rem;margin-top:6px">Industry ref: <a href="https://www.crowdstrike.com/en-us/blog/crowdstrike-introduces-ai-kill-switch/" target="_blank" rel="noopener" style="color:var(--peach);text-decoration:underline;text-underline-offset:3px">CrowdStrike AI Kill Switch (Nov 2026) ↗</a></p>
-      </div>
-      <div class="card coral" data-step>
-        <span class="tag-pill coral" style="align-self:flex-start">GAP 02</span>
-        <h3>Ten-year retention</h3>
-        <p>The inventory reads the live registry, so it <b class="mint">cannot drift</b> from what is running. The draft wants decommissioned models kept a decade.</p>
-        <p><b class="peach">A live inventory cannot drift, and cannot remember.</b></p>
+    <div class="slide-top">
+      <div class="kicker peach"><i class="dash"></i>Two open problems, if you want something to chew on</div>
+      <div class="mode-tabs" role="tablist" aria-label="View mode">
+        <button class="mode-btn on" data-mode="tech" role="tab" aria-selected="true">⚙ Technical</button>
+        <button class="mode-btn" data-mode="life" role="tab" aria-selected="false">🔌 Real-Life: Pull Plug &amp; Graveyard</button>
       </div>
     </div>
-    <div class="banner peach" data-step>
-      <b>The second is an architectural conflict, not a backlog item.</b> <span class="peach">If you have solved it, I want to hear how.</span>
+    <h2>Gaps named, <span class="peach">not closed</span></h2>
+
+    <div class="view-panel on" data-view="tech">
+      <div class="two">
+        <div class="card coral" data-step>
+          <span class="tag-pill coral" style="align-self:flex-start">GAP 01</span>
+          <h3>Mandatory AI kill switch</h3>
+          <p>We have circuit breakers, deadlines, budget caps and deterministic fallbacks.</p>
+          <p>A mandated kill switch is an <b class="peach">operator-triggered hard stop</b>. Adjacent — not the same thing.</p>
+          <p class="muted" style="font-size:.82rem;margin-top:6px">Industry ref: <a href="https://www.crowdstrike.com/en-us/blog/crowdstrike-introduces-ai-kill-switch/" target="_blank" rel="noopener" style="color:var(--peach);text-decoration:underline;text-underline-offset:3px">CrowdStrike AI Kill Switch (Nov 2026) ↗</a></p>
+        </div>
+        <div class="card coral" data-step>
+          <span class="tag-pill coral" style="align-self:flex-start">GAP 02</span>
+          <h3>Ten-year retention</h3>
+          <p>The inventory reads the live registry, so it <b class="mint">cannot drift</b> from what is running. The draft wants decommissioned models kept a decade.</p>
+          <p><b class="peach">A live inventory cannot drift, and cannot remember.</b></p>
+        </div>
+      </div>
+      <div class="banner peach" data-step>
+        <b>The second is an architectural conflict, not a backlog item.</b> <span class="peach">If you have solved it, I want to hear how.</span>
+      </div>
+    </div>
+
+    <div class="view-panel" data-view="life">
+      <div class="dia-frame">
+        <div class="dia" data-dia="life-gaps" data-broke-ms="1350"><svg viewBox="0 0 1060 310" role="img"
+          aria-label="Real-life analogies for both MRM gaps: Left shows an automatic blown fuse versus a human-triggered 3-tier containment ladder (dimmer switch, strip IAM badge, manual pull the plug) that cuts off a rogue agent while keeping core rails green; right shows a zero-drift pristine live state conflicting with a 10-year retired model graveyard.">
+          <!-- LEFT PANEL: GAP 01 — Blown Fuse vs 3-Tier Containment Ladder (Manual Plug Pull) -->
+          <g data-d>
+            <rect x="14" y="14" width="504" height="282" rx="14" fill="#161B26" stroke="#FF6B6B" stroke-width="1.6"/>
+            <text class="sm pf" x="36" y="42">GAP 01 · BLOWN FUSE VS. PULLING THE PLUG</text>
+            <!-- Auto breaker (already built) -->
+            <rect x="36" y="58" width="460" height="44" rx="8" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.3"/>
+            <text class="sm okf" x="52" y="79">✓ BUILT: AUTO FUSE (CIRCUIT BREAKERS)</text>
+            <text class="sm" x="52" y="94" fill="#D5DCEB">Trips on overload — not a human hard stop</text>
+            <!-- 3-Tier Containment Ladder -->
+            <rect x="36" y="114" width="184" height="30" rx="7" fill="#111622" stroke="#00E8AF"/>
+            <text class="sm bf" x="48" y="133">T1: DIMMER SWITCH</text>
+            <rect x="36" y="150" width="184" height="30" rx="7" fill="#111622" stroke="#C4A3FF"/>
+            <text class="sm lf" x="48" y="169">T2: STRIP IAM BADGE</text>
+            <rect x="36" y="186" width="184" height="30" rx="7" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.6"/>
+            <text class="sm pf" x="48" y="205">T3: PULL THE PLUG 🔌</text>
+            <!-- Animated Lever -->
+            <circle cx="258" cy="164" r="14" fill="#1E2433" stroke="#FF6B6B" stroke-width="2"/>
+            <g class="cutoff-lever">
+              <line x1="258" y1="164" x2="258" y2="114" stroke="#FF6B6B" stroke-width="6" stroke-linecap="round"/>
+              <circle cx="258" cy="112" r="9" fill="#FF6B6B" stroke="#FFFFFF" stroke-width="1.5"/>
+            </g>
+            <!-- Two output rails: Rogue agent killed vs Core payment rail stays green -->
+            <line x1="272" y1="154" x2="340" y2="140" stroke-width="3" class="rogue-wire"/>
+            <line x1="272" y1="176" x2="340" y2="194" stroke="#00E8AF" stroke-width="3" class="dash-flow"/>
+            <rect x="340" y="122" width="156" height="36" rx="8" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.4"/>
+            <text class="sm pf" x="418" y="144" text-anchor="middle">✕ ROGUE AGENT OFF</text>
+            <rect x="340" y="176" width="156" height="36" rx="8" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.4"/>
+            <text class="sm okf" x="418" y="198" text-anchor="middle">✓ CORE RAILS ON</text>
+            <g class="burst">
+              <rect x="36" y="232" width="460" height="44" rx="10" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.4"/>
+              <text class="sm pf" x="266" y="251" text-anchor="middle">MANUAL HARD STOP → IN-FLIGHT CONTEXT CANCELLED</text>
+              <text class="sm" x="266" y="268" text-anchor="middle" fill="#D5DCEB">RBI demands a human can pull the plug cleanly (RFC-001)</text>
+            </g>
+          </g>
+
+          <!-- RIGHT PANEL: GAP 02 — Pristine Live Board vs 10-Year Model Graveyard -->
+          <g data-d style="transition-delay:.25s">
+            <rect x="542" y="14" width="504" height="282" rx="14" fill="#161B26" stroke="#FFB78E" stroke-width="1.6"/>
+            <text class="sm pf" x="564" y="42">GAP 02 · LIVE BOARD VS. 10-YR GRAVEYARD</text>
+            <!-- Live Board Box -->
+            <rect x="564" y="64" width="204" height="148" rx="10" fill="#0E2427" stroke="#00E8AF" stroke-width="1.6"/>
+            <text class="sm okf" x="666" y="88" text-anchor="middle">PRISTINE LIVE STATE</text>
+            <text class="sm" x="666" y="106" text-anchor="middle">Only what runs right now</text>
+            <rect x="582" y="120" width="168" height="28" rx="6" fill="#161B26" stroke="#00E8AF"/>
+            <text class="sm bf" x="666" y="138" text-anchor="middle">✓ payment_orch (LIVE)</text>
+            <rect x="582" y="160" width="168" height="32" rx="6" fill="#111622" stroke="#323B52" stroke-dasharray="4 3"/>
+            <text class="sm" x="666" y="180" text-anchor="middle">zero-drift live slot</text>
+
+            <!-- 10-Year Graveyard Box -->
+            <rect x="820" y="64" width="204" height="148" rx="10" fill="#1B1930" stroke="#C4A3FF" stroke-width="1.6"/>
+            <text class="sm lf" x="922" y="88" text-anchor="middle">10-YR MODEL GRAVEYARD</text>
+            <text class="sm" x="922" y="106" text-anchor="middle">Retired models 2026–2036</text>
+            <rect x="838" y="120" width="168" height="28" rx="6" fill="#161B26" stroke="#C4A3FF" stroke-dasharray="4 3"/>
+            <text class="sm lf" x="922" y="138" text-anchor="middle">🪦 2024_credit_v1</text>
+            <rect x="838" y="160" width="168" height="32" rx="6" fill="#161B26" stroke="#C4A3FF" stroke-dasharray="4 3"/>
+
+            <!-- Retired model moving cleanly from Live Board (582..750) into Graveyard slot (838..1006) -->
+            <g class="hangar-plane">
+              <rect x="582" y="160" width="168" height="32" rx="6" fill="#3D1C24" stroke="#FFB78E" stroke-width="1.5"/>
+              <text class="sm pf" x="666" y="180" text-anchor="middle">📦 old_scorer (RETIRED)</text>
+            </g>
+
+            <!-- Tension badge -->
+            <rect x="774" y="122" width="40" height="32" rx="16" fill="#3D1C24" stroke="#FF6B6B"/>
+            <text class="lbl pf" x="794" y="143" text-anchor="middle">⚡</text>
+
+            <rect x="564" y="232" width="460" height="44" rx="10" fill="#2B2342" stroke="#FFB78E" stroke-width="1.4"/>
+            <text class="sm pf" x="794" y="251" text-anchor="middle">TENSION: PRISTINE LIVE STATE VS. 10-YR BAGGAGE</text>
+            <text class="sm" x="794" y="268" text-anchor="middle" fill="#FFFFFF">A live inventory cannot drift — and cannot remember (RFC-002)</text>
+          </g>
+        </svg></div>
+      </div>
+      <div class="dia-foot">
+        <p class="note">Real-life map: <span class="peach"><b>Auto-fuse ≠ 3-Tier Dimmer / Manual Plug Pull</b></span> · <span class="lav"><b>Pristine Live State ≠ 10-Year Model Graveyard</b></span>. Press <b>M</b> to toggle.</p>
+        <button class="replay">↻ replay</button>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ==================== SLIDE 21: DEPLOYER -> PROVIDER ==================== -->
-<section class="slide bg-lavender" data-t="Costs you" data-note="18:40 — The most valuable minute for this room whatever regulator binds them. Deployer becomes provider. This belongs in a scoping conversation. Banking Q&amp;A armor: even if a bank remains a pure Deployer, EU AI Act Article 27 STILL requires a mandatory Fundamental Rights Impact Assessment (FRIA) for Annex III credit scoring and life/health insurance pricing (due 2 Dec 2027, cross-referenceable with GDPR DPIA under Reg. 2026/1744) — and DIFC Reg 10 splits roles three ways: Deployer, Operator, Provider.">
+<section class="slide bg-lavender" data-t="Costs you" data-note="18:40 — The most valuable minute for this room whatever regulator binds them. Deployer becomes provider. This belongs in a scoping conversation. Real-life analogy (press M): The Invisible Legal Tripwire (Art. 25) — installing a vendor AI tool under the vendor logo + policy.yaml keeps you in the Deployer Safe Zone, whereas slapping the bank's logo on it or fine-tuning on internal customer emails crosses the tripwire and inherits the vendor's full Provider liability. Banking Q&amp;A armor: even as a pure Deployer, EU AI Act Article 27 STILL requires a mandatory Fundamental Rights Impact Assessment (FRIA) for Annex III credit scoring and life/health insurance pricing (due 2 Dec 2027, cross-referenceable with GDPR DPIA under Reg. 2026/1744) — and DIFC Reg 10 splits roles three ways: Deployer, Operator, Provider.">
   <div class="wrap">
-    <div class="kicker peach"><i class="dash"></i>One thing that costs your customer, not you</div>
-    <h2>Move a customer from <span class="peach">deployer to provider</span><br>without telling them.</h2>
-    <p class="sub">A company using AI under its own authority is a <span class="mint">deployer</span>. One that puts a system into service under its own name, or substantially modifies one, becomes a <span class="peach">provider</span> — carrying a far heavier set of legal duties.</p>
-    <div class="two">
-      <div class="card mint-hl" data-step>
-        <h3>Still a deployer</h3>
-        <p>You install your agent, configured, under your name. Your customer operates it.</p>
-        <p>The heavy provider duties stay largely with you.</p>
-        <div class="foot-pill"><span class="pill ok">Duties stay with vendor</span></div>
-      </div>
-      <div class="card coral" data-step>
-        <h3 style="color:var(--peach)">Now a provider</h3>
-        <p>You fine-tune the model on their data, or ship it under their brand.</p>
-        <p>They have substantially modified a system — <b class="peach">and the heavier duties are now theirs.</b></p>
-        <div class="foot-pill"><span class="pill gap">Heavier duties shift to client</span></div>
+    <div class="slide-top">
+      <div class="kicker peach"><i class="dash"></i>One thing that costs your customer, not you</div>
+      <div class="mode-tabs" role="tablist" aria-label="View mode">
+        <button class="mode-btn on" data-mode="tech" role="tab" aria-selected="true">⚙ Technical</button>
+        <button class="mode-btn" data-mode="life" role="tab" aria-selected="false">⚡ Real-Life: Legal Tripwire</button>
       </div>
     </div>
-    <p class="note" data-step>That difference belongs in the SOW. <span class="peach"><b>Scoping conversation, not post-mortem.</b></span></p>
+    <h2>Move a customer from <span class="peach">deployer to provider</span><br>without telling them.</h2>
+
+    <div class="view-panel on" data-view="tech">
+      <p class="sub">A company using AI under its own authority is a <span class="mint">deployer</span>. One that puts a system into service under its own name, or substantially modifies one, becomes a <span class="peach">provider</span> — carrying a far heavier set of legal duties.</p>
+      <div class="two">
+        <div class="card mint-hl" data-step>
+          <h3>Still a deployer</h3>
+          <p>You install your agent, configured, under your name. Your customer operates it.</p>
+          <p>The heavy provider duties stay largely with you.</p>
+          <div class="foot-pill"><span class="pill ok">Duties stay with vendor</span></div>
+        </div>
+        <div class="card coral" data-step>
+          <h3 style="color:var(--peach)">Now a provider</h3>
+          <p>You fine-tune the model on their data, or ship it under their brand.</p>
+          <p>They have substantially modified a system — <b class="peach">and the heavier duties are now theirs.</b></p>
+          <div class="foot-pill"><span class="pill gap">Heavier duties shift to client</span></div>
+        </div>
+      </div>
+      <p class="note" data-step>That difference belongs in the SOW. <span class="peach"><b>Scoping conversation, not post-mortem.</b></span></p>
+    </div>
+
+    <div class="view-panel" data-view="life">
+      <div class="dia-frame">
+        <div class="dia" data-dia="life-sow" data-broke-ms="1450"><svg viewBox="0 0 1060 318" role="img"
+          aria-label="Real-life SOW Tripwire analogy for EU AI Act Article 25: Installing a vendor AI tool under the vendor logo stays in the Deployer Safe Zone (with Art. 27 FRIA for credit/insurance), whereas slapping the bank's logo on it or fine-tuning on internal customer emails crosses an invisible legal tripwire and inherits Provider liability.">
+          <!-- Left: Vendor AI Tool -->
+          <g data-d>
+            <rect x="18" y="96" width="214" height="118" rx="14" fill="#1E2433" stroke="#C4A3FF" stroke-width="1.8"/>
+            <text class="sm lf" x="125" y="122" text-anchor="middle">VENDOR AI AGENT</text>
+            <rect x="52" y="138" width="146" height="44" rx="8" fill="#111622" stroke="#C4A3FF"/>
+            <text class="lbl" x="125" y="165" text-anchor="middle" fill="#FFFFFF">📦 TechVendor AI</text>
+            <text class="sm" x="125" y="202" text-anchor="middle">Purchased off-the-shelf</text>
+          </g>
+
+          <!-- Invisible Legal Tripwire Line across bottom path -->
+          <line class="tripwire-beam" x1="654" y1="168" x2="654" y2="288" data-d style="transition-delay:.25s"/>
+          <text class="sm pf" x="654" y="305" text-anchor="middle" data-d style="transition-delay:.3s">⚡ INVISIBLE ART. 25 TRIPWIRE</text>
+
+          <!-- Branch tracks -->
+          <path d="M232 132 L320 78 L830 78" fill="none" stroke="#00E8AF" stroke-width="2.2" class="dash-flow" data-d style="transition-delay:.2s"/>
+          <path d="M232 178 L320 232 L830 232" fill="none" stroke="#FF6B6B" stroke-width="2.2" class="dash-flow" data-d style="transition-delay:.2s"/>
+
+          <!-- Top Animated Action: Safe Zone -->
+          <g class="sow-top" style="transition-delay:.45s">
+            <rect x="280" y="42" width="268" height="72" rx="10" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.6"/>
+            <text class="sm okf" x="296" y="66">✓ KEEP VENDOR LOGO</text>
+            <text class="sm" x="296" y="86" fill="#FFFFFF">Install + configure policy.yaml</text>
+            <text class="sm" x="296" y="103">No weight fine-tuning</text>
+          </g>
+
+          <!-- Bottom Animated Action: Crosses Tripwire! -->
+          <g class="sow-bot" style="transition-delay:.7s">
+            <rect x="280" y="196" width="268" height="72" rx="10" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.8"/>
+            <text class="sm pf" x="296" y="220">⚡ SLAP LOGO / TWEAK WEIGHTS</text>
+            <text class="sm" x="296" y="240" fill="#FFFFFF">Fine-tune on bank emails or</text>
+            <text class="sm pf" x="296" y="257">white-label under bank brand!</text>
+          </g>
+
+          <!-- Top Outcome: Safe Zone (Deployer) -->
+          <g class="why" style="transition-delay:1.45s">
+            <rect x="832" y="34" width="212" height="90" rx="12" fill="#0C3A34" stroke="#00E8AF" stroke-width="2"/>
+            <text class="lbl okf" x="938" y="62" text-anchor="middle">SAFE ZONE</text>
+            <text class="sm" x="938" y="82" text-anchor="middle" fill="#FFFFFF">Still a DEPLOYER</text>
+            <text class="sm" x="938" y="102" text-anchor="middle" fill="#D5DCEB">Credit/Ins → Art. 27 FRIA</text>
+          </g>
+
+          <!-- Bottom Outcome: Inherited Vendor Nightmare -->
+          <g class="burst">
+            <rect x="832" y="186" width="212" height="90" rx="12" fill="#3D1C24" stroke="#FF6B6B" stroke-width="2"/>
+            <text class="lbl pf" x="938" y="214" text-anchor="middle">TRIPWIRE HIT!</text>
+            <text class="sm nof" x="938" y="234" text-anchor="middle">NOW A PROVIDER</text>
+            <text class="sm" x="938" y="254" text-anchor="middle" fill="#FFFFFF">Vendor nightmare hits bank</text>
+          </g>
+        </svg></div>
+      </div>
+      <div class="dia-foot">
+        <p class="note"><b>The Invisible Legal Tripwire:</b> Slap your bank's logo on it or fine-tune on customer emails → <span class="peach"><b>you inherit the vendor's full Provider liability.</b></span> Press <b>M</b> to toggle.</p>
+        <button class="replay">↻ replay</button>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1638,7 +2529,7 @@ print("The export does not hide the break. It reports it.")</textarea>
 <div id="chrome-line"></div>
 <div id="hints">
   <span class="brand">CLEARROUTE</span>
-  <span class="keys"><b>← →</b> navigate · <b>o</b> overview · <b>s</b> notes · <b>r</b> run/replay · <b>a</b> steps · <b>f</b> fullscreen · <b>t</b> theme</span>
+  <span class="keys"><b>← →</b> navigate · <b>m</b> real-life · <b>r</b> run/replay · <b>o</b> overview · <b>s</b> notes · <b>a</b> steps · <b>f</b> fullscreen · <b>t</b> theme</span>
 </div>
 <div id="pager">
   <button id="prev" aria-label="Previous slide">‹</button>
@@ -1649,6 +2540,7 @@ print("The export does not hide the break. It reports it.")</textarea>
 <div id="notes"><div class="lbl">Speaker notes</div><p id="noteText"></p></div>
 <div id="ov"><h4>Overview — press O or Esc to close</h4><div id="ovg"></div></div>
 
+<script src="assets/wasm_exec.js"></script>
 <script>
 (function(){
   var slides = [].slice.call(document.querySelectorAll('.slide'));
@@ -1665,6 +2557,35 @@ print("The export does not hide the break. It reports it.")</textarea>
     ovg.appendChild(a);
   });
 
+  function activeDia(slide){
+    if (!slide) return null;
+    var panel = slide.querySelector('.view-panel.on');
+    return panel ? panel.querySelector('.dia') : slide.querySelector('.dia');
+  }
+  function clearDias(root){
+    (root || document).querySelectorAll('.dia').forEach(function(d){
+      if (d._timer) { clearTimeout(d._timer); d._timer = null; }
+      d.classList.remove('go','broke');
+    });
+  }
+  function setSlideMode(slide, mode){
+    if (!slide) return;
+    var panels = slide.querySelectorAll('.view-panel');
+    if (!panels.length) return;
+    panels.forEach(function(p){ p.classList.toggle('on', p.dataset.view === mode); });
+    slide.querySelectorAll('.mode-btn').forEach(function(b){
+      var on = b.dataset.mode === mode;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    clearDias(slide);
+    var d = activeDia(slide);
+    if (d && window.playDia) window.playDia(d);
+    if (window.__anim) window.__anim.reset();
+  }
+  window.__activeDia = activeDia;
+  window.__setSlideMode = setSlideMode;
+
   function show(n){
     i = Math.max(0, Math.min(slides.length-1, n));
     slides.forEach(function(s,k){ s.classList.toggle('on', k===i); });
@@ -1672,12 +2593,17 @@ print("The export does not hide the break. It reports it.")</textarea>
     cur.textContent = String(i+1).padStart(2,'0');
     var nt=document.getElementById('noteText');
     if(nt) nt.textContent = slides[i].dataset.note || '—';
-    document.querySelectorAll('.dia').forEach(function(d){ d.classList.remove('go','broke'); });
-    var d = slides[i].querySelector('.dia');
+    clearDias(document);
+    var d = activeDia(slides[i]);
     if (d && window.playDia) window.playDia(d);
     if (window.__anim) window.__anim.reset();
     if (location.hash !== '#'+(i+1)) history.replaceState(null,'','#'+(i+1));
   }
+
+  document.addEventListener('click', function(e){
+    var mb = e.target.closest('.mode-btn');
+    if (mb) setSlideMode(mb.closest('.slide'), mb.dataset.mode);
+  });
 
   document.getElementById('prev').addEventListener('click',function(){show(i-1)});
   document.getElementById('next').addEventListener('click',function(){show(i+1)});
@@ -1695,6 +2621,11 @@ print("The export does not hide the break. It reports it.")</textarea>
     else if (k==='ArrowLeft'||k==='ArrowUp'||k==='PageUp'){ e.preventDefault(); show(i-1); }
     else if (k==='Home'){ e.preventDefault(); show(0); }
     else if (k==='End'){ e.preventDefault(); show(slides.length-1); }
+    else if (k==='m'||k==='M'){
+      var curSlide = slides[i];
+      var onBtn = curSlide && curSlide.querySelector('.mode-btn.on');
+      if (onBtn) { e.preventDefault(); setSlideMode(curSlide, onBtn.dataset.mode === 'tech' ? 'life' : 'tech'); }
+    }
     else if (k==='o'||k==='O'){ ov.classList.toggle('on'); }
     else if (k==='s'||k==='S'){
       var n=document.getElementById('notes');
@@ -1728,9 +2659,9 @@ print("The export does not hide the break. It reports it.")</textarea>
   window.__deck = { show:function(n){show(n)}, at:function(){return i} };
 })();
 
-/* ---------- runnable Python cells ---------- */
+/* ---------- runnable Go WebAssembly cells (100% offline, zero CDN) ---------- */
 (function(){
-  var PYODIDE = "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js";
+  var WASM_URL = "assets/labs.wasm";
 
   var RECORDED = {
     drift:
@@ -1745,27 +2676,49 @@ print("The export does not hide the break. It reports it.")</textarea>
 "fresh chain           OK\n" +
 "after one edited row  BROKEN at seq 2 (row_hash)\n" +
 "\n" +
-"export manifest       {'count': 3, 'chain_verified': False, 'sha256': '9f3c4dc6a8ff560f326e014a…'}\n" +
+"export manifest       {\"count\":3,\"chain_verified\":false,\"sha256\":\"695b0fd6ba224a064f8eeb50…\"}\n" +
 "\n" +
 "The export does not hide the break. It reports it."
   };
 
-  var pyodide = null, loading = null;
+  var ready = false, loading = null;
 
-  function loadPyodide_(){
+  function loadGoWasm(){
+    if (ready) return Promise.resolve();
     if (loading) return loading;
     loading = new Promise(function(res, rej){
-      var s = document.createElement('script');
-      s.src = PYODIDE;
-      s.crossOrigin = "anonymous";
-      s.referrerPolicy = "no-referrer";
-      s.onload = function(){
-        window.loadPyodide({indexURL:"https://cdn.jsdelivr.net/pyodide/v0.26.4/full/"})
-          .then(function(py){ pyodide = py; res(py); }, rej);
+      if (typeof window.Go !== 'function' || typeof WebAssembly === 'undefined') {
+        rej(new Error("Go wasm_exec.js unavailable"));
+        return;
+      }
+      var go = new window.Go();
+      var done = false;
+      window.__onGoWasmReady = function(){
+        if (done) return;
+        done = true; ready = true; res();
       };
-      s.onerror = function(){ rej(new Error("offline")); };
-      document.head.appendChild(s);
-      setTimeout(function(){ if(!pyodide) rej(new Error("timeout")); }, 6000);
+      var instantiate = function(){
+        if (WebAssembly.instantiateStreaming) {
+          return WebAssembly.instantiateStreaming(fetch(WASM_URL), go.importObject).catch(function(){
+            return fetch(WASM_URL).then(function(r){
+              if (!r.ok) throw new Error("HTTP " + r.status);
+              return r.arrayBuffer();
+            }).then(function(buf){ return WebAssembly.instantiate(buf, go.importObject); });
+          });
+        }
+        return fetch(WASM_URL).then(function(r){
+          if (!r.ok) throw new Error("HTTP " + r.status);
+          return r.arrayBuffer();
+        }).then(function(buf){ return WebAssembly.instantiate(buf, go.importObject); });
+      };
+      instantiate().then(function(result){
+        go.run(result.instance);
+      }).catch(function(err){
+        if (!done) { done = true; loading = null; rej(err); }
+      });
+      setTimeout(function(){
+        if (!done) { done = true; loading = null; rej(new Error("wasm timeout")); }
+      }, 6000);
     });
     return loading;
   }
@@ -1789,26 +2742,24 @@ print("The export does not hide the break. It reports it.")</textarea>
     var out  = cell.querySelector('.out');
     var key  = cell.dataset.lab;
 
-    btn.disabled = true; btn.textContent = 'running…';
-    paint(out, 'starting Python…', 'dim');
+    btn.disabled = true; btn.textContent = 'running Go…';
+    paint(out, 'starting Go WebAssembly…', 'dim');
 
-    loadPyodide_().then(function(py){
-      py.globals.set("_user_code", ta.value);
-      var runner =
-        "import io, contextlib\n" +
-        "_buf = io.StringIO()\n" +
-        "with contextlib.redirect_stdout(_buf):\n" +
-        "    exec(compile(_user_code, '<lab>', 'exec'), {})\n" +
-        "_buf.getvalue()";
-      var res;
-      try { res = py.runPython(runner); }
-      catch(err){ paint(out, String(err.message || err).split('\n').slice(-12).join('\n'), 'no');
-                  btn.disabled=false; btn.textContent='▶ Run'; return; }
-      paint(out, res || '(no output)');
-      btn.disabled = false; btn.textContent = '▶ Run again';
+    loadGoWasm().then(function(){
+      var res = window.goRunLab(key, ta.value);
+      if (!res || !res.ok) {
+        paint(out, (res && res.err) ? String(res.err) : 'Go execution failed', 'no');
+        btn.disabled = false; btn.textContent = '▶ Run Go';
+        return;
+      }
+      paint(out, res.out || '(no output)');
+      btn.disabled = false; btn.textContent = '▶ Run Go again';
     }).catch(function(){
-      paint(out, RECORDED[key] + "\n\n— no network: this is a recording made when the slides were built —");
-      btn.disabled = false; btn.textContent = '▶ Run';
+      var hint = location.protocol === 'file:'
+        ? "— opened via file:// (browser blocks WASM fetch) — run 'make serve' for live Go WebAssembly —"
+        : "— Go WASM unavailable: showing recorded Go output —";
+      paint(out, RECORDED[key] + "\n\n" + hint);
+      btn.disabled = false; btn.textContent = '▶ Run Go';
     });
   }
 
@@ -1826,29 +2777,38 @@ print("The export does not hide the break. It reports it.")</textarea>
     if (e.key === 'r' || e.key === 'R'){
       var c = document.querySelector('.slide.on .cell');
       if (c) { e.preventDefault(); run(c); return; }
-      var d = document.querySelector('.slide.on .dia');
-      if (d) { e.preventDefault(); d.classList.remove('go','broke'); window.playDia(d); }
+      var s = document.querySelector('.slide.on');
+      var d = window.__activeDia ? window.__activeDia(s) : (s && s.querySelector('.dia'));
+      if (d) { e.preventDefault(); window.playDia(d); }
     }
   });
 })();
 
 /* ---------- diagram playback ---------- */
 window.playDia = function(d){
+  if (!d) return;
+  if (d._timer) { clearTimeout(d._timer); d._timer = null; }
+  d.classList.remove('go','broke');
   void d.offsetWidth;
   requestAnimationFrame(function(){
     d.classList.add('go');
-    if (d.dataset.dia === 'chain') setTimeout(function(){ d.classList.add('broke'); }, 1500);
+    var ms = d.dataset.brokeMs ? parseInt(d.dataset.brokeMs, 10) : (d.dataset.dia === 'chain' ? 1500 : 0);
+    if (ms > 0) {
+      d._timer = setTimeout(function(){ d.classList.add('broke'); }, ms);
+    }
   });
 };
 document.addEventListener('click', function(e){
   var b = e.target.closest('.replay');
   if (!b) return;
-  var d = b.closest('.wrap').querySelector('.dia');
-  if (d) { d.classList.remove('go','broke'); window.playDia(d); }
+  var s = b.closest('.slide');
+  var d = window.__activeDia ? window.__activeDia(s) : (s && s.querySelector('.dia'));
+  if (d) window.playDia(d);
 });
 
 addEventListener('load', function(){
-  var d = document.querySelector('.slide.on .dia');
+  var s = document.querySelector('.slide.on');
+  var d = window.__activeDia ? window.__activeDia(s) : (s && s.querySelector('.dia'));
   if (d) window.playDia(d);
 });
 
@@ -1861,7 +2821,9 @@ addEventListener('load', function(){
   }
   function steps(){
     var s = document.querySelector('.slide.on');
-    return s ? [].slice.call(s.querySelectorAll('[data-step]')) : [];
+    if (!s) return [];
+    var p = s.querySelector('.view-panel.on');
+    return [].slice.call((p || s).querySelectorAll('[data-step]'));
   }
   function reset(){
     steps().forEach(function(el, k){ el.classList.toggle('pend', on && k > 0); });

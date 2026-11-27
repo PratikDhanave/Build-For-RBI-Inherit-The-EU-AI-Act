@@ -38,8 +38,8 @@
    - [5.1 The Five-Minute Offline Procurement Test](#51-the-five-minute-offline-procurement-test)
    - [5.2 Composite Policy Gate Pattern (Go)](#52-composite-policy-gate-pattern-go)
    - [5.3 Finding 1 — Runtime Risk-Drift Guard (Go)](#53-finding-1--runtime-risk-drift-guard-go)
-   - [5.4 Lab 01 — Five Agents, One Bad Approval (`approval.py`)](#54-lab-01--five-agents-one-bad-approval-approvalpy)
-   - [5.5 Lab 02 — Rewrite One Row, Watch It Fail (`audit.py`)](#55-lab-02--rewrite-one-row-watch-it-fail-auditpy)
+   - [5.4 Lab 01 — Five Agents, One Bad Approval (`approval.go`)](#54-lab-01--five-agents-one-bad-approval-approvalgo)
+   - [5.5 Lab 02 — Rewrite One Row, Watch It Fail (`audit.go`)](#55-lab-02--rewrite-one-row-watch-it-fail-auditgo)
    - [5.6 Board-Approved Policy-as-Config (`policy.yaml`)](#56-board-approved-policy-as-config-policyyaml)
 6. [Regulatory Convergence: RBI FREE-AI ↔ EU AI Act](#6-regulatory-convergence-rbi-free-ai--eu-ai-act)
 7. [The Binding Instrument: RBI Draft Model Risk Management Guidance](#7-the-binding-instrument-rbi-draft-model-risk-management-guidance)
@@ -56,7 +56,7 @@
 
 | Metric | Count | Meaning |
 | --- | :---: | --- |
-| **RBI FREE-AI (Regulated Entity)** | **17 / 17** | All 17 RE recommendations addressed — executable technical core in [`code/`](./code) (9 Go packages + 4 Python labs) & organizational/process controls in [`docs/`](./docs) (full 127-package benchmark referenced in talk) |
+| **RBI FREE-AI (Regulated Entity)** | **17 / 17** | All 17 RE recommendations addressed — 100% Go executable technical core in [`code/`](./code) & [`labs/`](./labs) (9 Go packages + 4 standalone Go labs + Go WebAssembly deck runner) & organizational/process controls in [`docs/`](./docs) (full 127-package benchmark referenced in talk) |
 | **EU AI Act Controls Inherited** | **7** | Controls built for RBI that directly answer EU AI Act Articles 9, 12, 14, 15, 17, 50, 73 & Annex IV |
 | **RBI Draft MRM Gaps** | **2** | Named transparently against the 24 June 2026 Draft MRM guidance — not closed, not hidden |
 | **Network Dependency** | **0** | Runs offline on a laptop — no cloud account, no API key, no network required |
@@ -74,7 +74,7 @@ These constraints came from regulated **Open Banking delivery across ADGM, DIFC,
 
 ## Beyond the 20-Minute Talk: Deep-Dive Companion Guides
 
-The slide deck at [build-for-rbi-talk.vercel.app](https://build-for-rbi-talk.vercel.app) is intentionally concise for a **20-minute conference talk**. This repository goes much deeper with full engineering guides, runnable Go/Python controls, and buyer playbooks:
+The slide deck at [build-for-rbi-talk.vercel.app](https://build-for-rbi-talk.vercel.app) is intentionally concise for a **20-minute conference talk**. This repository goes much deeper with full engineering guides, runnable Go controls & labs, and buyer playbooks:
 
 | Companion Guide | What It Covers Beyond the Slides |
 | --- | --- |
@@ -302,11 +302,11 @@ sequenceDiagram
 A control nobody can run is a claim. It is a fair test to put to any AI vendor — and a fairer one to put to yourself:
 
 ```bash
-# Run all standalone Go packages, Python labs & evidence-pack export (zero dependencies, zero network):
+# Run all standalone Go packages, Go labs & evidence-pack export (100% Go, zero dependencies, zero network):
 git clone https://github.com/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act.git
 cd Build-For-RBI-Inherit-The-EU-AI-Act
-make demo   # runs code/scripts/offline_verify.sh (9 Go pkgs + cmd/demo + 4 Python labs + cmd/evidencepack)
-make test   # runs all Go/Python assertions + validates JSON/CSV cross-walk & red-team corpus
+make demo   # runs code/scripts/offline_verify.sh (9 Go pkgs + cmd/demo + 4 Go labs + WASM tests + cmd/evidencepack)
+make test   # runs all Go vet/race tests, Go lab assertions & cross-walk/Mermaid/asset verifier
 
 # Full Go implementation benchmark referenced in Slide 08:
 git clone <genie-repo> && cd genie
@@ -314,7 +314,7 @@ go test ./...        # -> 127 packages ok
 go run ./cmd/genie   # -> full pipeline, sample CSV, ~30s
 ```
 
-> Standalone files included in [`code/`](./code): [`code/cmd/demo/main.go`](./code/cmd/demo/main.go) (`go run ./cmd/demo`) · [`code/cmd/evidencepack/main.go`](./code/cmd/evidencepack/main.go) (`go run ./cmd/evidencepack`) · [`code/config/loader.go`](./code/config/loader.go) · [`code/consent/ledger.go`](./code/consent/ledger.go) · [`code/disclosure/disclosure.go`](./code/disclosure/disclosure.go) · [`code/gate/composite_gate.go`](./code/gate/composite_gate.go) · [`code/gate/approval_gate.go`](./code/gate/approval_gate.go) · [`code/audit/chain.go`](./code/audit/chain.go) *(with Ed25519 signing)* · [`code/incident/annexure_vi.go`](./code/incident/annexure_vi.go) · [`code/registry/registry.go`](./code/registry/registry.go) · [`code/redteam/corpus.json`](./code/redteam/corpus.json) *(tagged with OWASP ASI)* · [`code/python/consent_ledger.py`](./code/python/consent_ledger.py) & [`code/python/`](./code/python) · [`code/scripts/offline_verify.sh`](./code/scripts/offline_verify.sh).
+> Standalone Go files included in [`code/`](./code) & [`labs/`](./labs): [`code/cmd/demo/main.go`](./code/cmd/demo/main.go) (`go run ./cmd/demo`) · [`code/cmd/evidencepack/main.go`](./code/cmd/evidencepack/main.go) (`go run ./cmd/evidencepack`) · [`code/cmd/verify/main.go`](./code/cmd/verify/main.go) · [`code/cmd/serve/main.go`](./code/cmd/serve/main.go) · [`code/config/loader.go`](./code/config/loader.go) · [`code/consent/ledger.go`](./code/consent/ledger.go) · [`code/disclosure/disclosure.go`](./code/disclosure/disclosure.go) · [`code/gate/composite_gate.go`](./code/gate/composite_gate.go) · [`code/gate/approval_gate.go`](./code/gate/approval_gate.go) · [`code/audit/chain.go`](./code/audit/chain.go) *(with Ed25519 signing)* · [`code/incident/annexure_vi.go`](./code/incident/annexure_vi.go) · [`code/registry/registry.go`](./code/registry/registry.go) · [`code/redteam/corpus.json`](./code/redteam/corpus.json) *(tagged with OWASP ASI)* · [`labs/`](./labs) (`gate_demo`, `approval`, `audit`, `consent_ledger`, `wasm`) · [`code/scripts/offline_verify.sh`](./code/scripts/offline_verify.sh).
 
 ---
 
@@ -386,9 +386,9 @@ if rec.RiskClass != risk {
 
 ---
 
-### 5.4 Lab 01 — Five Agents, One Bad Approval (`approval.py`)
+### 5.4 Lab 01 — Five Agents, One Bad Approval (`approval.go`)
 
-Interactive in **Slide 11** of [https://build-for-rbi-talk.vercel.app/#11](https://build-for-rbi-talk.vercel.app/#11) (press **`R`** to run live in browser via Pyodide) or run locally via `python3 code/python/approval.py`:
+Interactive in **Slide 11** of [https://build-for-rbi-talk.vercel.app/#11](https://build-for-rbi-talk.vercel.app/#11) (press **`R`** to run live in browser via offline **Go WebAssembly**) or run locally via `go run labs/approval/main.go`:
 
 **Expected Output:**
 
@@ -403,70 +403,89 @@ var_calculator is the one I would have missed.
 ```
 
 <details>
-<summary>View full <code>approval.py</code> source (<a href="./code/python/approval.py"><code>code/python/approval.py</code></a>)</summary>
+<summary>View full <code>approval.go</code> source (<a href="./labs/approval/main.go"><code>labs/approval/main.go</code></a>)</summary>
 
-```python
-from datetime import datetime, timedelta
+```go
+package main
 
-NOW = datetime(2026, 11, 28, 10, 0)
-KNOWN_RISK_TIERS = {"low", "medium", "high"}
+import (
+	"fmt"
+	"strings"
+	"time"
+)
 
-REGISTER = {
-    "payment_orchestrator": dict(
-        status="approved", risk="high", expires=NOW + timedelta(days=60)
-    ),
-    "kyc_orchestrator": dict(
-        status="approved", risk="high", expires=NOW - timedelta(days=1)
-    ),
-    "aml_monitor": dict(status="rejected", risk="high"),
-    "var_calculator": dict(status="approved", risk="medium"),  # signed off at medium
-    "educator": None,  # never reviewed
+type Record struct {
+	Status  string
+	Risk    string
+	Expires *time.Time
 }
 
+var (
+	now            = time.Date(2026, 11, 28, 10, 0, 0, 0, time.UTC)
+	knownRiskTiers = map[string]bool{"low": true, "medium": true, "high": true}
+	in60Days       = now.AddDate(0, 0, 60)
+	yesterday      = now.AddDate(0, 0, -1)
 
-def allow(agent_id, declares_now):
-    risk = declares_now.strip().lower()
-    if risk not in KNOWN_RISK_TIERS:
-        return False, f"ErrUnknownRisk ({declares_now!r})"
-    if risk != "high":
-        return True, "low/medium — no approval required"
-    rec = REGISTER.get(agent_id)
-    if rec is None:
-        return False, "ErrNoApproval"
-    if rec["status"].strip().lower() != "approved":
-        return False, f"ErrNotApproved ({rec['status']})"
-    if rec.get("expires") and NOW > rec["expires"]:
-        return False, "ErrExpired"
-    if rec["risk"].strip().lower() != risk:
-        return False, (
-            f"ErrRiskChanged (approved as {rec['risk']}, now declares {risk})"
-        )
-    return True, "live"
+	register = map[string]*Record{
+		"payment_orchestrator": {Status: "approved", Risk: "high", Expires: &in60Days},
+		"kyc_orchestrator":     {Status: "approved", Risk: "high", Expires: &yesterday},
+		"aml_monitor":          {Status: "rejected", Risk: "high"},
+		"var_calculator":       {Status: "approved", Risk: "medium"}, // signed off at medium
+		"educator":             nil,                                  // never reviewed
+	}
+)
 
+func allow(agentID, declaresNow string) (bool, string) {
+	risk := strings.ToLower(strings.TrimSpace(declaresNow))
+	if !knownRiskTiers[risk] {
+		return false, fmt.Sprintf("ErrUnknownRisk (%q)", declaresNow)
+	}
+	if risk != "high" {
+		return true, "low/medium — no approval required"
+	}
+	rec := register[agentID]
+	if rec == nil {
+		return false, "ErrNoApproval"
+	}
+	if strings.ToLower(strings.TrimSpace(rec.Status)) != "approved" {
+		return false, fmt.Sprintf("ErrNotApproved (%s)", rec.Status)
+	}
+	if rec.Expires != nil && now.After(*rec.Expires) {
+		return false, "ErrExpired"
+	}
+	if strings.ToLower(strings.TrimSpace(rec.Risk)) != risk {
+		return false, fmt.Sprintf("ErrRiskChanged (approved as %s, now declares %s)", rec.Risk, risk)
+	}
+	return true, "live"
+}
 
-today = [
-    ("payment_orchestrator", "high"),
-    ("kyc_orchestrator", "high"),
-    ("aml_monitor", "high"),
-    ("var_calculator", "high"),
-    ("educator", "low"),
-]
-
-for agent_id, risk in today:
-    ok, why = allow(agent_id, risk)
-    print(f"{'RUN ' if ok else 'STOP'}  {agent_id:<22} {why}")
-
-print()
-print("var_calculator is the one I would have missed.")
+func main() {
+	today := []struct{ id, risk string }{
+		{"payment_orchestrator", "high"},
+		{"kyc_orchestrator", "high"},
+		{"aml_monitor", "high"},
+		{"var_calculator", "high"},
+		{"educator", "low"},
+	}
+	for _, a := range today {
+		ok, why := allow(a.id, a.risk)
+		status := "STOP"
+		if ok {
+			status = "RUN "
+		}
+		fmt.Printf("%s  %-22s %s\n", status, a.id, why)
+	}
+	fmt.Println("\nvar_calculator is the one I would have missed.")
+}
 ```
 
 </details>
 
 ---
 
-### 5.5 Lab 02 — Rewrite One Row, Watch It Fail (`audit.py`)
+### 5.5 Lab 02 — Rewrite One Row, Watch It Fail (`audit.go`)
 
-Interactive in **Slide 14** of [https://build-for-rbi-talk.vercel.app/#14](https://build-for-rbi-talk.vercel.app/#14) (press **`R`** to run live in browser via Pyodide) or run locally via `python3 code/python/audit.py`:
+Interactive in **Slide 14** of [https://build-for-rbi-talk.vercel.app/#14](https://build-for-rbi-talk.vercel.app/#14) (press **`R`** to run live in browser via offline **Go WebAssembly**) or run locally via `go run labs/audit/main.go`:
 
 **Expected Output:**
 
@@ -474,70 +493,100 @@ Interactive in **Slide 14** of [https://build-for-rbi-talk.vercel.app/#14](https
 fresh chain           OK
 after one edited row  BROKEN at seq 2 (row_hash)
 
-export manifest       {'count': 3, 'chain_verified': False, 'sha256': '9f3c4dc6a8ff560f326e014a…'}
+export manifest       {"count":3,"chain_verified":false,"sha256":"695b0fd6ba224a064f8eeb50…"}
 
 The export does not hide the break. It reports it.
 ```
 
 <details>
-<summary>View full <code>audit.py</code> source (<a href="./code/python/audit.py"><code>code/python/audit.py</code></a>)</summary>
+<summary>View full <code>audit.go</code> source (<a href="./labs/audit/main.go"><code>labs/audit/main.go</code></a>)</summary>
 
-```python
-import hashlib
-import json
+```go
+package main
 
+import (
+	"crypto/sha256"
+	"encoding/hex"
+	"encoding/json"
+	"fmt"
+	"strings"
+)
 
-def row_hash(prev, entry):
-    body = json.dumps({"prev": prev, **entry}, sort_keys=True).encode()
-    return hashlib.sha256(body).hexdigest()
-
-
-def append(log, actor, action, target):
-    prev = log[-1]["row_hash"] if log else "genesis"
-    e = {"seq": len(log) + 1, "actor": actor, "action": action, "target": target}
-    e["prev_hash"] = prev
-    e["row_hash"] = row_hash(prev, e)
-    log.append(e)
-
-
-def verify(log):
-    if not log:
-        return False, 0, "empty_log"
-    prev = "genesis"
-    for idx, e in enumerate(log, start=1):
-        if e.get("seq") != idx:
-            return False, idx, "seq"
-        if e["prev_hash"] != prev:
-            return False, e["seq"], "prev_hash"
-        chk = {k: v for k, v in e.items() if k != "row_hash"}
-        if row_hash(prev, chk) != e["row_hash"]:
-            return False, e["seq"], "row_hash"
-        prev = e["row_hash"]
-    return True, None, None
-
-
-log = []
-append(log, "system",       "consent.grant",  "user-1")
-append(log, "advisor-7",    "portfolio.read", "user-1")
-append(log, "payment_orch", "refund.issue",   "txn-9931")
-
-ok, seq, field = verify(log)
-print("fresh chain          ", "OK" if ok else f"BROKEN at seq {seq} ({field})")
-
-log[1]["actor"] = "advisor-99"  # someone edits history
-ok, seq, field = verify(log)
-print("after one edited row ", "OK" if ok else f"BROKEN at seq {seq} ({field})")
-
-payload = "\n".join(json.dumps(e, sort_keys=True) for e in log).encode()
-manifest = {
-    "count": len(log),
-    "chain_verified": ok,
-    "sha256": hashlib.sha256(payload).hexdigest()[:24] + "…",
+type Entry struct {
+	Seq      int    `json:"seq"`
+	Actor    string `json:"actor"`
+	Action   string `json:"action"`
+	Target   string `json:"target"`
+	PrevHash string `json:"prev_hash"`
+	RowHash  string `json:"row_hash,omitempty"`
 }
-print()
-print("export manifest      ", manifest)
-print()
-print("The export does not hide the break. It reports it.")
+
+func rowHash(prev string, e Entry) string {
+	e.RowHash = ""
+	body, _ := json.Marshal(struct {
+		Prev string `json:"prev"`
+		Entry
+	}{Prev: prev, Entry: e})
+	sum := sha256.Sum256(body)
+	return hex.EncodeToString(sum[:])
+}
+
+func appendLog(log *[]Entry, actor, action, target string) {
+	prev := "genesis"
+	if n := len(*log); n > 0 {
+		prev = (*log)[n-1].RowHash
+	}
+	e := Entry{Seq: len(*log) + 1, Actor: actor, Action: action, Target: target, PrevHash: prev}
+	e.RowHash = rowHash(prev, e)
+	*log = append(*log, e)
+}
+
+func verify(log []Entry) (bool, int, string) {
+	if len(log) == 0 {
+		return false, 0, "empty_log"
+	}
+	prev := "genesis"
+	for i, e := range log {
+		if e.Seq != i+1 {
+			return false, i + 1, "seq"
+		}
+		if e.PrevHash != prev {
+			return false, e.Seq, "prev_hash"
+		}
+		if rowHash(prev, e) != e.RowHash {
+			return false, e.Seq, "row_hash"
+		}
+		prev = e.RowHash
+	}
+	return true, 0, ""
+}
+
+func main() {
+	var log []Entry
+	appendLog(&log, "system", "consent.grant", "user-1")
+	appendLog(&log, "advisor-7", "portfolio.read", "user-1")
+	appendLog(&log, "payment_orch", "refund.issue", "txn-9931")
+
+	ok, seq, field := verify(log)
+	fmt.Println("fresh chain          ", statusText(ok, seq, field))
+
+	log[1].Actor = "advisor-99" // someone edits history
+	ok, seq, field = verify(log)
+	fmt.Println("after one edited row ", statusText(ok, seq, field))
+
+	lines := make([]string, len(log))
+	for i, e := range log {
+		b, _ := json.Marshal(e)
+		lines[i] = string(b)
+	}
+	sum := sha256.Sum256([]byte(strings.Join(lines, "\n")))
+	manifest, _ := json.Marshal(struct {
+		Count         int    `json:"count"`
+		ChainVerified bool   `json:"chain_verified"`
+		SHA256        string `json:"sha256"`
+	}{len(log), ok, hex.EncodeToString(sum[:])[:24] + "…"})
+	fmt.Printf("\nexport manifest       %s\n\nThe export does not hide the break. It reports it.\n", manifest)
+}
 ```
 
 </details>
@@ -737,13 +786,15 @@ Under the EU AI Act, you can accidentally move your customer from **deployer** t
 ```text
 .
 ├── index.html                           # 23-slide ClearRoute-styled interactive web deck (+ 3 Q&A backup slides)
-├── assets/                              # 9 lightweight brand & QR assets (~260 KB total)
+├── assets/                              # Brand/QR assets + compiled Go WebAssembly (`labs.wasm`, `wasm_exec.js`)
 ├── build-for-rbi-ppt.pptx               # ClearRoute 2026 PowerPoint deck (23 talk + 3 Q&A backup slides, 20" × 11.25")
 ├── build-for-rbi-handout.pdf            # Print-ready 26-slide PDF handout (23 talk + 3 Q&A backup slides)
-├── code/                                # All governance modules & snippets as runnable, tested code
+├── code/                                # 100% Go governance modules & CLIs (zero external dependencies)
 │   ├── go.mod                           # Zero-dependency Go module
 │   ├── cmd/demo/main.go                 # One-command offline CLI pipeline (`go run ./cmd/demo`)
 │   ├── cmd/evidencepack/main.go         # Dual RBI + EU AI Act evidence-pack exporter (`go run ./cmd/evidencepack`)
+│   ├── cmd/verify/main.go               # Pure-Go cross-walk, YAML parity, Mermaid & asset verifier
+│   ├── cmd/serve/main.go                # Pure-Go local static server with `application/wasm` MIME support
 │   ├── config/                          # Board-approved `policy.yaml` + zero-dep Go YAML loader (Rec 14 / Art 17)
 │   ├── consent/                         # Append-only Consent Ledger with Tuesday revocation proof (Rec 15)
 │   ├── disclosure/                      # First-event AI disclosure tracker (Rec 18, 25 / Art 50)
@@ -752,8 +803,7 @@ Under the EU AI Act, you can accidentally move your customer from **deployer** t
 │   ├── incident/                        # RBI Annexure VI / EU AI Act Art 73 generator (Go)
 │   ├── registry/                        # Zero-drift live agent registry exporter (Rec 23 / Annex IV)
 │   ├── redteam/                         # 20-case OWASP ASI adversarial red-team corpus run on every PR (Rec 20 / Art 15)
-│   ├── python/                          # Canonical Python labs (`gate_demo.py`, `approval.py`, `audit.py`, `consent_ledger.py`)
-│   └── scripts/offline_verify.sh        # One-command zero-network verification script
+│   └── scripts/offline_verify.sh        # One-command pure-Go zero-network verification script
 ├── examples/
 │   ├── policy.yaml                      # Board-approved policy YAML
 │   ├── annexure-vi-sample.json          # Sample RBI Annexure VI / EU AI Act Art 73 incident report
@@ -768,10 +818,10 @@ Under the EU AI Act, you can accidentally move your customer from **deployer** t
 │   ├── screenshots/                     # Slide preview renders embedded in README
 │   └── open-problems/                   # Architecture RFCs (`RFC-001` Kill Switch, `RFC-002` Retention)
 ├── crosswalk/                           # Machine-readable JSON & CSV regulatory cross-walks
-├── labs/                                # Thin runpy wrappers delegating to code/python/
+├── labs/                                # Standalone Go labs (`gate_demo`, `approval`, `audit`, `consent_ledger`) + `wasm/`
 ├── .github/                             # CI workflow (`verify.yml`) + RFC issue template
 ├── LICENSE, CONTRIBUTING.md, SECURITY.md
-├── Makefile                             # make demo | make test | make serve
+├── Makefile                             # make demo | make test | make wasm | make serve
 └── README.md
 ```
 
@@ -780,9 +830,7 @@ Under the EU AI Act, you can accidentally move your customer from **deployer** t
 ```bash
 git clone https://github.com/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act.git
 cd Build-For-RBI-Inherit-The-EU-AI-Act
-open index.html
-# Or serve locally:
-make serve   # runs python3 -m http.server 8000
+make serve   # pure-Go server on http://localhost:8000 (enables live offline Go WebAssembly labs)
 ```
 
 ### Keyboard Shortcuts
@@ -790,9 +838,10 @@ make serve   # runs python3 -m http.server 8000
 | Key | Action |
 | --- | --- |
 | `←` / `→` / `Space` | Navigate slides |
+| `M` | Toggle Technical ↔ Animated Real-Life Analogy view (Slides 04, 06, 07, 10, 13, 16, 20, 21) |
 | `O` | Toggle slide overview grid |
 | `S` | Toggle speaker notes drawer |
-| `R` | Run live Pyodide Python lab or replay active SVG diagram |
+| `R` | Run live offline Go WebAssembly lab or replay active SVG diagram |
 | `A` | Toggle step-by-step build animations |
 | `F` | Toggle fullscreen |
 | `T` | Toggle ClearRoute dark / light theme |
@@ -802,7 +851,7 @@ make serve   # runs python3 -m http.server 8000
 | # | Slide | Theme | # | Slide | Theme |
 | :-: | --- | --- | :-: | --- | --- |
 | 01 | Build for RBI, inherit the EU AI Act | Hero Mint | 13 | Edit One Row, Every Link Breaks *(SVG)* | Deep Slate |
-| 02 | Huge Shoutout (FDExHyderabad Operations Team) | Mint | 14 | Lab 02: `audit.py` *(Runnable + Ed25519)* | Deep Slate |
+| 02 | Huge Shoutout (FDExHyderabad Operations Team) | Mint | 14 | Lab 02: `audit.go` *(Go WASM + Ed25519)* | Deep Slate |
 | 03 | The Score, Up Front (`17 / 7 / 2`) | Mint | 15 | The EU AI Act Reaches You | Lavender |
 | 04 | Open Banking: ADGM, DIFC, SAMA | Hero Mint | 16 | Two Regulators, One Control Set *(SVG)* | Deep Slate |
 | 05 | The Map: RBI FREE-AI | Mint | 17 | Cross-Walk: 7 Controls + Omnibus Note | Lavender |
@@ -811,7 +860,7 @@ make serve   # runs python3 -m http.server 8000
 | 08 | Clone It, Run It Offline (`genie` + `make demo`) | Mint | 20 | Two Open Engineering Problems | Peach |
 | 09 | Finding 1: Governance Goes Stale | Peach | 21 | Deployer → Provider (SOW Scoping) | Lavender |
 | 10 | What Drift Looks Like *(SVG)* | Deep Slate | 22 | Take These Four Things + Name Gaps | Mint |
-| 11 | Lab 01: `approval.py` *(Runnable)* | Deep Slate | 23 | Thank You, QR Codes & Companion Repo | Hero Mint |
+| 11 | Lab 01: `approval.go` *(Go WASM)* | Deep Slate | 23 | Thank You, QR Codes & Companion Repo | Hero Mint |
 | 12 | Finding 2: Manifesto *(Diamond)* | Mint | Q&A 01 | Backup: AI Kill Switch — Hard Stop vs. Dimmer Switch | Peach |
 | Q&A 02 | Backup: One Bus Across Five Regimes (Nov 2026) | Mint | Q&A 03 | Backup: Composite Gate vs. OWASP ASI Top 10 | Lavender |
 
