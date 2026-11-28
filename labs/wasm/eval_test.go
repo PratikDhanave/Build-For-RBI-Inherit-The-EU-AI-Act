@@ -40,6 +40,12 @@ func TestEvalApprovalMatchesStandaloneAndLiveEdits(t *testing.T) {
 	if !strings.Contains(outEdited, "RUN   var_calculator         live") {
 		t.Errorf("expected var_calculator to RUN after live edit, got:\n%s", outEdited)
 	}
+	if !strings.Contains(out, "var_calculator is the one I would have missed.") {
+		t.Errorf("default run must name the drifted agent, got:\n%s", out)
+	}
+	if strings.Contains(outEdited, "would have missed") {
+		t.Errorf("re-approved run caught no drift and must not claim one, got:\n%s", outEdited)
+	}
 
 	// Syntax error must be surfaced by go/parser.
 	if _, err := EvalApproval("package main\nfunc main( {"); err == nil {
@@ -72,8 +78,13 @@ func TestEvalAuditMatchesStandaloneAndLiveEdits(t *testing.T) {
 	if err != nil {
 		t.Fatalf("EvalAudit untampered failed: %v", err)
 	}
-	if !strings.Contains(outClean, "after one edited row  OK") || !strings.Contains(outClean, `"chain_verified":true`) {
+	if !strings.Contains(outClean, "re-check, no edits    OK") || !strings.Contains(outClean, `"chain_verified":true`) {
 		t.Errorf("expected untampered chain to verify true, got:\n%s", outClean)
+	}
+	for _, bad := range []string{"after one edited row", "does not hide the break"} {
+		if strings.Contains(outClean, bad) {
+			t.Errorf("untampered run must not claim an edit or a break (%q), got:\n%s", bad, outClean)
+		}
 	}
 
 	// Live edit on stage: edit row 3 instead -> detects seq 3!

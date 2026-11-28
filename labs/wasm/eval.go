@@ -149,15 +149,23 @@ func EvalApproval(src string) (string, error) {
 	}
 
 	var out strings.Builder
+	drifted := ""
 	for _, a := range today {
 		ok, why := allow(a.ID, a.Risk)
 		status := "STOP"
 		if ok {
 			status = "RUN "
 		}
+		if !ok && drifted == "" && strings.HasPrefix(why, "ErrRiskChanged") {
+			drifted = a.ID
+		}
 		fmt.Fprintf(&out, "%s  %-22s %s\n", status, a.ID, why)
 	}
-	out.WriteString("\nvar_calculator is the one I would have missed.")
+	// The closing line names a drifted agent, so it must not print when no drift was caught.
+	if drifted == "" {
+		return strings.TrimRight(out.String(), "\n"), nil
+	}
+	fmt.Fprintf(&out, "\n%s is the one I would have missed.", drifted)
 	return out.String(), nil
 }
 
@@ -245,6 +253,7 @@ func EvalAudit(src string) (string, error) {
 	var lastOK bool
 	var lastSeq int
 	var lastField string
+	mutated := false
 
 	for _, stmt := range mainBody.List {
 		switch s := stmt.(type) {
@@ -280,11 +289,13 @@ func EvalAudit(src string) (string, error) {
 				if id, ok := s.Lhs[0].(*ast.Ident); ok && id.Name == "log" {
 					if rhsID, ok := s.Rhs[0].(*ast.Ident); ok && rhsID.Name == "nil" {
 						log = nil
+						mutated = true
 						continue
 					}
 					if sl, ok := s.Rhs[0].(*ast.SliceExpr); ok && sl.High != nil {
 						if hi, ok := parseInt(sl.High); ok && hi <= len(log) && hi >= 0 {
 							log = log[:hi]
+							mutated = true
 							continue
 						}
 					}
@@ -311,6 +322,7 @@ func EvalAudit(src string) (string, error) {
 				if idx < 0 || idx >= len(log) {
 					return "", fmt.Errorf("runtime error: index out of range [%d] with length %d", idx, len(log))
 				}
+				mutated = true
 				switch sel.Sel.Name {
 				case "Actor":
 					if v, ok := unquoteStr(s.Rhs[0]); ok {
@@ -365,9 +377,17 @@ func EvalAudit(src string) (string, error) {
 
 	var out strings.Builder
 	fmt.Fprintf(&out, "fresh chain           %s\n", freshLine)
-	fmt.Fprintf(&out, "after one edited row  %s\n", afterLine)
+	if mutated {
+		fmt.Fprintf(&out, "after one edited row  %s\n", afterLine)
+	} else {
+		fmt.Fprintf(&out, "re-check, no edits    %s\n", afterLine)
+	}
 	fmt.Fprintf(&out, "\nexport manifest       %s\n\n", manifest)
-	out.WriteString("The export does not hide the break. It reports it.")
+	if lastOK {
+		out.WriteString("Every row still matches its seal, so the manifest verifies cleanly.")
+	} else {
+		out.WriteString("The export does not hide the break. It reports it.")
+	}
 	return out.String(), nil
 }
 
