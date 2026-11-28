@@ -8,94 +8,99 @@
   @page { size: A4 portrait; margin: 11mm; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { background: #fff; color: #111; }
-  body { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 11.5pt; line-height: 1.35; padding: 8mm; max-width: 190mm; margin: 0 auto; }
+  body { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 11pt; line-height: 1.35; padding: 8mm; max-width: 190mm; margin: 0 auto; }
   @media print { body { padding: 0; } .noprint { display: none; } }
-  header { border-bottom: 2.5pt solid #111; padding-bottom: 4pt; margin-bottom: 8pt; display: flex; justify-content: space-between; align-items: baseline; }
-  header h1 { font-size: 15pt; letter-spacing: .2pt; }
-  header .meta { font-size: 9.5pt; color: #444; text-align: right; }
-  h2 { font-size: 10pt; text-transform: uppercase; letter-spacing: 1.2pt; margin: 9pt 0 4pt; color: #333; }
-  .sent { display: flex; gap: 7pt; align-items: baseline; padding: 4.5pt 0; border-bottom: .6pt solid #ccc; }
+  header { border-bottom: 2.5pt solid #111; padding-bottom: 4pt; margin-bottom: 7pt; display: flex; justify-content: space-between; align-items: baseline; }
+  header h1 { font-size: 14.5pt; letter-spacing: .2pt; }
+  header .meta { font-size: 9pt; color: #444; text-align: right; }
+  .thesis { border: 1.5pt solid #111; background: #f3f5f8; border-radius: 5pt; padding: 6pt 9pt; margin-bottom: 7pt; font-size: 10.8pt; font-weight: 700; line-height: 1.38; }
+  h2 { font-size: 9.5pt; text-transform: uppercase; letter-spacing: 1.2pt; margin: 8pt 0 4pt; color: #333; }
+  .sent { display: flex; gap: 7pt; align-items: baseline; padding: 4pt 0; border-bottom: .6pt solid #ccc; }
   .sent:last-child { border-bottom: none; }
-  .sent .n { font-size: 15pt; font-weight: 800; min-width: 14pt; }
-  .sent .t { font-size: 12.5pt; font-weight: 700; }
-  .sent .w { font-size: 9pt; color: #555; margin-left: auto; white-space: nowrap; text-align: right; }
+  .sent .n { font-size: 14pt; font-weight: 800; min-width: 14pt; }
+  .sent .t { font-size: 11.8pt; font-weight: 700; }
+  .sent .w { font-size: 8.8pt; color: #555; margin-left: auto; white-space: nowrap; text-align: right; }
   .anchors { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4pt; }
   .a { border: 1pt solid #111; border-radius: 4pt; padding: 3.5pt 5pt; }
-  .a b { display: block; font-size: 10.5pt; text-transform: uppercase; letter-spacing: .5pt; }
-  .a span { font-size: 8.3pt; color: #444; }
+  .a b { display: block; font-size: 10pt; text-transform: uppercase; letter-spacing: .5pt; }
+  .a span { font-size: 8.2pt; color: #444; }
   .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 7pt; }
   .box { border: 1.3pt solid #111; border-radius: 5pt; padding: 6pt 8pt; }
   .box.fill { background: #111; color: #fff; }
   .box.fill .small { color: #bbb; }
-  .small { font-size: 9pt; color: #555; }
-  .close-line { font-size: 12pt; font-weight: 700; line-height: 1.45; }
-  code { font-family: Menlo, Consolas, monospace; font-size: 9pt; background: #eee; padding: 1pt 3pt; border-radius: 3pt; }
+  .small { font-size: 8.8pt; color: #555; }
+  .close-line { font-size: 11.4pt; font-weight: 700; line-height: 1.42; }
+  code { font-family: Menlo, Consolas, monospace; font-size: 8.8pt; background: #eee; padding: 1pt 3pt; border-radius: 3pt; }
   .fill code { background: #333; color: #fff; }
   ul { list-style: none; }
-  li { padding: 2pt 0; font-size: 10.5pt; }
+  li { padding: 1.8pt 0; font-size: 10pt; }
   li::before { content: "— "; color: #888; }
-  .clock { display: flex; justify-content: space-between; font-size: 9pt; color: #444; border-top: .6pt solid #ccc; margin-top: 7pt; padding-top: 4pt; }
+  .clock { display: flex; justify-content: space-between; font-size: 8.8pt; color: #444; border-top: .6pt solid #ccc; margin-top: 7pt; padding-top: 4pt; }
   .clock b { color: #111; }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>THE WHOLE TALK = 4 SENTENCES</h1>
-  <div class="meta">Build for RBI, Inherit the EU AI Act<br>FDExHyderabad · 18:30 runtime · Run on your laptop</div>
+  <h1>THE WHOLE TALK = 1 THESIS + 4 ACTS (22 SLIDES)</h1>
+  <div class="meta">Build for RBI, Inherit the EU AI Act<br>FDExHyderabad · ~16 min · Run on your laptop</div>
 </header>
 
-<div class="sent"><div class="n">1</div><div class="t">Three teams knocked on our door — and slides couldn't answer any of them.</div><div class="w">slides 1–7 · start 0:00</div></div>
-<div class="sent"><div class="n">2</div><div class="t">So we built one door that every message passes — in under a millisecond.</div><div class="w">slides 8–12 · by 3:50</div></div>
-<div class="sent"><div class="n">3</div><div class="t">Two bugs taught us two locks: the license check and the sealed diary.</div><div class="w">slides 13–19 · by 7:00</div></div>
-<div class="sent"><div class="n">4</div><div class="t">Building for India passed Europe free — 7 checks, 2 honest gaps, 1 contract line.</div><div class="w">slides 20–28 · by 12:15</div></div>
-
-<h2>Eight anchor words — say the word, point at the screen</h2>
-<div class="anchors">
-  <div class="a"><b>Tag</b><span>"The wrong tag never flies."</span></div>
-  <div class="a"><b>Pen</b><span>"New line. Never an eraser."</span></div>
-  <div class="a"><b>Door</b><span>"62 planes, one door."</span></div>
-  <div class="a"><b>License</b><span>"Valid license. Wrong vehicle."</span></div>
-  <div class="a"><b>Seal</b><span>"Edit yesterday — today tears."</span></div>
-  <div class="a"><b>Black box</b><span>"Build once. Inspected twice."</span></div>
-  <div class="a"><b>Plug</b><span>"A fuse is an accident. A plug is a decision."</span></div>
-  <div class="a"><b>Logo</b><span>"Your logo, your liability."</span></div>
+<div class="thesis">
+  SLIDE 03 THESIS: "AI compliance isn't a legal checklist — it's deterministic systems engineering. Build 17 real controls once for India's RBI, and you inherit the EU AI Act free — because every regulator asks the exact same engineering questions."
 </div>
 
-<h2>Safety rules</h2>
+<div class="sent"><div class="n">1</div><div class="t">Three teams knocked on Bodhyanga's app — build your 17 airline controls, not 9 airport ones.</div><div class="w">slides 1–7 · 0:00</div></div>
+<div class="sent"><div class="n">2</div><div class="t">One deterministic Go gate outside 62 helpers (0.85 ms) — every check runs on your laptop.</div><div class="w">slides 8–11 · by 4:10</div></div>
+<div class="sent"><div class="n">3</div><div class="t">Two live Go bugs: scooter-vs-truck permit drift &amp; sealed diary hash chain catching insiders.</div><div class="w">slides 12–16 · by 7:15</div></div>
+<div class="sent"><div class="n">4</div><div class="t">One black box passed Europe free (7 rules, 0 code) — plus 2 honest gaps &amp; 1 Day-1 contract line.</div><div class="w">slides 17–22 · by 11:45</div></div>
+
+<h2>Eight real-life ↔ tech anchors (right on each slide)</h2>
+<div class="anchors">
+  <div class="a"><b>Bag / Pen</b><span>"Wrong tag never flies. New line, never eraser."</span></div>
+  <div class="a"><b>Airline</b><span>"RBI builds runway (9). You build planes (17)."</span></div>
+  <div class="a"><b>Door</b><span>"62 planes, 1 security door (0.85 ms)."</span></div>
+  <div class="a"><b>Detector</b><span>"Moody bouncer vs. metal detector."</span></div>
+  <div class="a"><b>License</b><span>"Valid scooter license, heavy truck."</span></div>
+  <div class="a"><b>Seal</b><span>"Edit page 2 — pages 3 &amp; 4 tear."</span></div>
+  <div class="a"><b>Black box</b><span>"Hyderabad → Frankfurt, 1 black box."</span></div>
+  <div class="a"><b>Plug / Logo</b><span>"CrowdStrike plug · Your logo = liability."</span></div>
+</div>
+
+<h2>Stage shortcuts &amp; safety rules</h2>
 <div class="row2">
   <div class="box">
     <ul>
-      <li><b>Lost?</b> Say the slide's anchor word. Breathe once. Click.</li>
-      <li><b>Notes are under every slide</b> — glance, don't memorize.</li>
-      <li><b>Narrate the animation:</b> say what the screen is doing.</li>
-      <li><b>They see it for the first time.</b> Nothing you do is a mistake.</li>
+      <li><b>Presenter console:</b> press <code>P</code> (notes + clock on laptop).</li>
+      <li><b>Jump to Q&amp;A:</b> type <code>23↵</code> (CrowdStrike), <code>24↵</code>, <code>25↵</code>, <code>26↵</code> (SPOF).</li>
+      <li><b>Say the analogy first</b>, then point at the code diagram.</li>
+      <li><b>Slide 14:</b> read 12 words, 2-sec silence, repeat ending slowly.</li>
     </ul>
   </div>
   <div class="box">
     <ul>
-      <li><b>Demos:</b> press <code>R</code>. Pre-warmed before doors.</li>
-      <li><b>If a demo stalls:</b> <code>go run labs/audit/main.go --test</code></li>
+      <li><b>Demos (Slides 13 &amp; 16):</b> press <code>R</code>.</li>
       <li><b>After a demo lands:</b> stop talking. Two full beats.</li>
-      <li><b>Slide 16:</b> read it, 2-sec silence, repeat the ending slowly.</li>
+      <li><b>Backup CLI:</b> <code>go run labs/audit/main.go --test</code></li>
+      <li><b>Slide 18:</b> pause 5 sec so room photographs cheat sheet.</li>
     </ul>
   </div>
 </div>
 
 <h2>The close — the only lines to know word-for-word</h2>
 <div class="box fill">
-  <div class="close-line">"Bodhyanga never saw any of it. She tapped Stop — and everything simply stopped. That's the whole job: the customer should never find out how hard it was to keep the promise. We built it for India. Europe came free. The code is open — it's yours tonight. Thank you."</div>
+  <div class="close-line">"Bodhyanga never saw any of it. She tapped Stop — and everything simply stopped. That's what deterministic systems engineering buys you: the customer never finds out how hard it was to keep the promise. Build for India. Inherit Europe. The code is open — run it on your own laptop tonight. Thank you."</div>
   <div class="small" style="margin-top:3pt">Stop on "Thank you." Stand still. Don't narrate the QR codes.</div>
 </div>
 
 <div class="clock">
-  <span><b>0:45</b> ending up front</span>
-  <span><b>3:50</b> one door</span>
-  <span><b>7:00</b> two bugs</span>
-  <span><b>9:20</b> the silence</span>
-  <span><b>12:15</b> Europe</span>
-  <span><b>14:25</b> honest gaps</span>
-  <span><b>18:00</b> close</span>
+  <span><b>0:40</b> Thesis</span>
+  <span><b>4:10</b> One Gate</span>
+  <span><b>7:15</b> Two Bugs</span>
+  <span><b>9:15</b> Silence</span>
+  <span><b>11:45</b> Europe Sankey</span>
+  <span><b>14:20</b> 2 Gaps</span>
+  <span><b>16:15</b> Close</span>
 </div>
 
 </body>

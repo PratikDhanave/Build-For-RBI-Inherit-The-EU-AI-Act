@@ -1,7 +1,7 @@
 # Full Narration — simple English, slide by slide
 
-Matches the live deck (32 slides, Bodhyanga). Clock marks show when each slide should START.
-Speak slowly. The full stops are part of the script.
+Matches the live deck (26 slides = 22 talk + 4 Q&A backups, Bodhyanga). Clock marks show when each slide should START.
+Speak slowly. Every technical slide carries its real-life analogy right at the top — say the analogy first, then point at the architecture.
 
 ---
 
@@ -9,95 +9,77 @@ Speak slowly. The full stops are part of the script.
 "Good evening. I'm Pratik. This is a story about teaching a bank's AI to behave — and every check you see tonight, you can run right on your own laptop. No cloud. Nothing to hide behind. If it breaks, you will see it break."
 
 **02 · Shoutout — 0:20**
-"First, a huge thank you to the FDExHyderabad operations team. A talk only looks smooth because other people worked very hard behind the scenes. That's them. [small pause] Okay — the story."
+"First, a huge thank you to the FDExHyderabad operations team. A talk only looks smooth because other people worked very hard behind the scenes. That's them. [small pause] Okay — the one idea behind everything tonight."
 
-**03 · The ending, up front — 0:45**
-"I'll tell you the ending first, so you know where we're going. We built all seventeen of India's bank AI safety rules — in real code. Seven of Europe's rules passed automatically — zero extra work. And two problems are still open. I'll show you those too, openly. Every check you can run right on your own laptop. You should not have to take a speaker's word for anything."
+**03 · The Core Thesis — 0:40**
+"[read slowly, clearly] AI compliance isn't a legal checklist — it's deterministic systems engineering. Build seventeen real controls once for India's RBI, and you inherit the EU AI Act free — because every regulator asks the exact same engineering questions. [beat] Every diagram and live Go demo in the next fifteen minutes is proof of that one sentence."
 
-**04 · Part 1 · Three knocks — 1:20**
-"Meet Bodhyanga. She uses a banking app. Behind that app sit sixty-two AI helpers. One Tuesday afternoon, three different teams knocked on our door. The regulators asked: does her data stay in the country? The risk team asked: she tapped Stop at two o'clock — did it actually stop? And the partner banks asked: prove where her data went. Three questions. And a slide deck couldn't answer a single one."
+**04 · The Ending, Up Front — 1:15**
+"Here is the honest score before I show a single line of code: seventeen of seventeen Indian bank AI rules built in real code. Seven European rules inherited with zero extra stack code. And two problems still open — shown openly, not hidden away. Every check you can run right on your own laptop."
 
-**05 · Borders & the 2:00 PM stop — 1:55**
-"So here are three everyday pictures. One: a bag tag at the airport — the wrong tag never flies. Two: a notebook written in pen — we never erase her Yes; we write her Stop underneath it. New line. Never an eraser. Three: a signed travel receipt — proof of where her data went, in three seconds, not three weeks. Don't memorize these. Each one comes back when we build it."
+**05 · Part 1 · Three Knocks — 1:50**
+"Meet Bodhyanga. She uses a banking app. Behind that app sit sixty-two AI helpers. One Tuesday afternoon, three teams knocked on our door. Regulators asked: does her data stay in the country? Risk officers asked: she tapped Stop at two o'clock — did it actually stop? Partner banks asked: prove where her data went. A slide deck couldn't answer a single one."
 
-**06 · 26 India rules — 2:30**
-"Then India's central bank published twenty-six AI rules. Before you build anything — think of an airline. An airline never builds the runway or the control tower. That's the airport's job — nine of these rules. The airline looks after its own planes — that's your seventeen. Seventeen rules, four systems: a permit check, a sealed diary, a live list, and a simple notice that says 'this is AI.'"
+**06 · Borders, 2:00 PM Stop & 3-Second Proof — 2:30**
+"Three everyday pictures that become three engineering controls. One: a bag tag — the wrong country tag never boards. Two: a never-erase timeline — her Monday Yes stays locked as Seq 1, her Tuesday two o'clock Stop appends below as Seq 2, so a two-oh-one AI call stops cold. Three: a signed travel receipt — answered in three seconds, not three weeks."
 
-**07 · Airport vs Airline — 3:10**
-"That's the whole idea in one picture. The airport builds the city's infrastructure. You keep your own planes safe. [point] Permit check. Black box. Live fleet list. Cabin notice. If you quote for all twenty-six, you just priced the government's own job. Quote for seventeen."
+**07 · 26 India Rules Split (Airport vs. Airline) — 3:20**
+"Then India's central bank published twenty-six AI rules. Think of an airport versus an airline: the airport builds the runway and control tower — that's nine national rules you cannot code in an app. The airline engineers its own planes — that's your seventeen controls, built into four real systems. Quote for all twenty-six and you just priced the government's job. Build seventeen."
 
-**08 · Part 2 · One gate — 3:50**
-"Now — how do you check sixty-two AI helpers? Think of airport security. One checkpoint at the door — not an X-ray machine bolted inside every plane. We tried the obvious way first: rules inside every helper. It got slow — two and a half seconds. Copies went stale. Helper sixty-two ran last month's rules and leaked. So we pulled everything out into one gate. Every message passes it in under a millisecond. Sixty-two planes. One door."
+**08 · Part 2 · 62 Helpers Broke — One Gate Fixed It (Airport Security) — 4:10**
+"How do you police sixty-two AI helpers? Think of airport security: one checkpoint at the terminal door, not an X-ray machine bolted inside all sixty-two planes. Look left — copying rules inside every helper turned into a tangled mesh hitting two-point-four seconds, and Helper sixty-two ran last month's rules and leaked. Look right — one compiled Go Composite Policy Gate outside all sixty-two helpers checks Borders, Consent, Reason, and Role in zero-point-eight-five milliseconds."
 
-**09 · Airport Security — 4:30**
-"That's all this slide is. One checkpoint at the entrance. The planes stay simple inside. When a new rule arrives next month, you change it in one place — not sixty-two."
+**09 · An AI Guard Guesses. Code Rules Don't. — 5:05**
+"People ask: why not use another AI to judge the first AI? That's a moody bouncer versus a metal detector. Watch the exact same risky message sent three times: the AI judge takes up to two seconds and flips its answer — SAFE, UNSAFE, SAFE! Deterministic Go rules answer in zero-point-four milliseconds and say BLOCK — every single time."
 
-**10 · Rules vs AI Judge — 5:05**
-"People ask: why not use another AI to judge the first AI? We tried. Watch — the same risky message, sent three times. The AI judge takes up to two seconds, and changes its mind: safe, unsafe, safe. The same message! Plain code answers in under a millisecond and says BLOCK — every single time. An AI guard guesses. Code repeats."
+**10 · The Whole System, on One Slide — 5:50**
+"Here is the entire pipeline on one slide. Follow the green dot: Bodhyanga's message passes the gate, checks the AI's permit, runs the helper, writes to the sealed diary, and outputs signed reports for both India and Europe. Follow the red dot: any blocked call stops dead before any AI sees it and logs itself straight to the diary."
 
-**11 · Whole system, one slide — 5:45**
-"Here's everything together. Follow the green dot: her message passes the gate, the permit is checked, the helper answers, the diary writes a line, and signed reports come out — one for India, one for Europe. Follow the red dot: a bad message stops dead at the gate, and even the stop is written in the diary."
+**11 · Run on Your Own Laptop — 6:30**
+"One simple test you can use on any AI vendor: download it and run every safety check right on your own laptop. No cloud login. No secret keys. No external API. Ours runs all rules and twenty red-team attack tests in under ten seconds — you can clone it and verify tonight."
 
-**12 · Run on your laptop — 6:20**
-"Before the two bugs — one simple test you can use on any AI vendor. Say: download it and run every safety check right on your own laptop. No cloud login. No secret keys. Ours finishes in under ten seconds — every check you've seen tonight, you can run yourself in five minutes. A safety check nobody can run is just a claim."
+**12 · Part 3 · Bug #1 · Old Permit (Scooter License vs. Heavy Truck) — 7:15**
+"Part three — two production bugs that caught us off guard. Bug one: imagine passing your driving test on a scooter. Your license is valid, never expired — then one day you drive a heavy commercial truck with that scooter license in your pocket. Look at the runway: var_calculator was approved as MEDIUM risk with sixty days left, then upgraded to HIGH risk touching real money. ApprovalDriftPolicy checks license against vehicle on every trip in under a millisecond — sees MEDIUM is not HIGH — and drops the barrier. Valid license. Wrong vehicle. Built for India Rule 17 — satisfies Europe Articles 9 and 14."
 
-**13 · Part 3 · Scooter vs Truck — 7:00**
-"Part three. Two bugs that caught us off guard. First — a story. You pass your driving test on a scooter. Your license is valid. Never expired. Never cancelled. Then one day you climb into a huge truck — with that scooter license in your pocket. [beat] Watch the barrier slam down. Keep that truck in your head —" [click]
+**13 · Live Demo 1 — 8:15**
+"Don't take my word for it — real Go code running right here in the browser, and you can run it on your own laptop tonight. [press R] Five AI helpers ask to run. Watch: payments clears, expired and rejected stop — and var_calculator stops cold on ErrRiskChanged. [stop talking — two full beats]"
 
-**14 · Bug #1 · Old Permit — 7:40**
-"— here it is, in our app. The license says scooter: approved as MEDIUM risk, sixty days left. But the vehicle today is a truck: the team upgraded this AI to HIGH risk. The gate checks the license against the vehicle on every single trip — in under a millisecond — sees MEDIUM is not HIGH, and drops the barrier. Valid license. Wrong vehicle."
+**14 · Bug #2 in Twelve Words — 9:15**
+"[read slowly] A lock that cannot catch its own team is not a lock. [silence, two seconds] Protects the company. Not the customer."
 
-**15 · Live Demo 1 — 8:15**
-"Don't take my word for it. This is real code, running right here — and you can run it on your own laptop tonight. [press R] Five AI helpers ask to run. Watch. [narrate the result] Four pass — their permits match. And var_calculator — blocked. The permit says MEDIUM, the live helper is HIGH. The gate caught it. [stop talking — two full beats]"
+**15 · Bug #2 · Three Locks (Sealed Numbered Diary) — 9:45**
+"Think of a numbered paper diary where every page copies the wax seal of the page before it. Quietly edit page two — pages three and four tear at once. Look at the code: not a blockchain, just three boring locks — SHA-256 linked padlocks between rows, an Ed25519 locked signature, and a 60-second read-only outside backup. Watch the cursor edit advisor-7 to advisor-99 on Seq 2: the padlock snaps open and the chain breaks immediately. Built for India Rule 22 — passes Europe Article 12."
 
-**16 · Bug #2 in twelve words — 9:20**
-"[read slowly] A record book your own team can quietly edit protects the company — not the customer. [silence, two seconds] Protects the company. Not the customer."
+**16 · Live Demo 2 — 10:45**
+"Again — real Go code right here. [press R] Three rows write cleanly. Then the insider edits row two: advisor-7 becomes advisor-99. Watch the verify check: BROKEN at seq 2 — and the export manifest refuses to hide it. [beat] The report refused to lie. [stop talking — two full beats]"
 
-**17 · Sealed Diary Pages — 9:50**
-"Second story. A numbered paper diary. Every page copies the wax seal of the page before it. Someone inside quietly edits page two. Pages three and four tear — at once. And if they rewrite the whole book from page one? It clashes with the copy we keep outside, made every sixty seconds. Now the same diary, in code —" [click]
+**17 · Part 4 · Build 17 for India — Get 7 for Europe Free (One Black Box) — 11:45**
+"Now the payoff of our opening thesis. When a plane flies Hyderabad to Frankfurt, nobody bolts on a second black box over Europe. One engineered safety core passes inspection in both places. Look at the convergence matrix: real India RBI controls on the left flow straight into seven EU AI Act articles on the right with zero extra stack code — and our locked diary alone satisfies both Article 12 and Article 73. Build once. Inspected twice."
 
-**18 · Three locks — 10:30**
-"— not a blockchain. Just three simple locks. Every row copies the seal of the row before it. A locked signature nobody can fake. And a read-only copy saved outside every sixty seconds. Watch the cursor change advisor-7 to advisor-99 — and everything after it tears, just like paper. Edit yesterday — and today tears."
+**18 · Photograph This · 7 Safety Checks, 2 Reports — 12:45**
+"Take a photo of this cheat sheet. [pause] Two rows to remember: row one, our locked diary answers both India Rule 22 and Europe Article 12; and row six, telling the customer 'this is AI' on the first message has been LIVE LAW in Europe since August 2026 — and we built it eleven months earlier for India. One local command prints both signed reports."
 
-**19 · Live Demo 2 — 11:05**
-"Again — real code, right here. [press R] The diary writes three lines. Now the attack: we quietly edit line two, advisor-7 becomes advisor-99. Run the check. [narrate] Broken — at line two. The diary caught its own team. [beat] The report refused to lie. [stop talking — two full beats]"
+**19 · Honest Score · 4 Built, 2 Open Gaps — 13:40**
+"Now the part most talks skip — what we haven't solved yet. In June 2026, India's advice became strict draft rules. Four of six already worked because we engineered early. Two are honest open gaps."
 
-**20 · Part 4 · One Black Box — 12:15**
-"Part four. The European surprise. When a plane flies Hyderabad to Frankfurt, nobody bolts on a second black box over Europe. One set of safety checks passes inspection in both places. One black box, two inspectors —" [click]
+**20 · Two Open Problems (Fuse vs. Plug & 10-Year Graveyard) — 14:20**
+"Gap one: an auto-fuse blows itself — that's an accident, not a decision. The rule wants a human hand on the plug to stop one AI mid-sentence, block auto-restart, and keep Bodhyanga's payments running. Industry has solved this — CrowdStrike Falcon Guardian ships a four-layer stop pattern (I have the backup diagram on Slide 23 if you want to dig in). Gap two is a real design tension: a spotless live noticeboard stays exact, while a ten-year graveyard of retired AIs goes stale fast. If your team solved Gap two cleanly, find me after."
 
-**21 · 17 India → 7 Europe — 12:55**
-"— and here's why Europe matters even if you sit in Hyderabad. Europe's AI law applies the moment anyone in Europe uses what your AI produces. We braced for a second huge project. Instead — seven of our seventeen Indian checks passed Europe's law with zero extra code. Same four checks: stamped in India on the left, passing Europe on the right. Build once. Inspected twice."
+**21 · User vs. Maker — Decide Before Signing (Your Logo, Your Liability) — 15:20**
+"One last rule that saves your customer real pain on Monday. Buy a vendor's AI and keep their name on it — you're a protected User. Slap your own logo on it — like sticking your own label on someone else's water bottle — or retrain it on customer data, and EU Article 25 flips you into the Maker with full legal liability. Put that one line in the contract on Day 1."
 
-**22 · Photograph this — 13:30**
-"Take a photo of this slide. [pause — let them] Two rows only. Row one: our sealed diary satisfies India Rule 22 and Europe Article 12 — one diary, two laws. And the bottom row: telling the user 'this is AI' on the first chat has been live law in Europe since August 2026. We built it for India eleven months earlier. [pause for photos]"
-
-**23 · Honest score — 14:25**
-"Now the part most conference talks skip — what we got wrong. In June 2026, India's advice became strict draft rules. We graded our own code honestly: four already pass, because we started early. Two are real, open gaps. We're not hiding them — they're the next slide."
-
-**24 · Pull the Plug & the Graveyard — 15:05**
-"Gap one, as a story: a fuse blows by itself. That's an accident — not a decision. The rule wants a human hand on the plug: dim it, cancel its badge, pull the plug — while the lights next door stay on. Bodhyanga's payments keep running. Gap two: a spotless live noticeboard — versus a ten-year graveyard of retired AIs. A fuse is an accident. A plug is a decision."
-
-**25 · Two hard problems — 15:45**
-"Why aren't these weekend fixes? The off-switch must stop an AI mid-sentence, stop it restarting itself, and keep payments online — all three at once. And the graveyard is a real design clash: a live list never goes stale, but ten years of stored records always do. These are genuinely hard. If your team has solved either one cleanly — please find me after this talk. I mean it."
-
-**26 · The Legal Tripwire — 16:40**
-"One last warning — it can save your customer a very expensive mistake. You buy an AI tool from a vendor. Keep the vendor's name, adjust the settings — you're just the user. Safe. But put your own logo on it, or retrain it on your customers' emails — and you just stepped over an invisible legal tripwire. You became the maker. All the maker's legal duties — now yours. Your logo. Your liability."
-
-**27 · Put it in the contract — 17:30**
-"So write one line into the contract, on day one: 'If we rename it or retrain it, we take on the maker's duties — and we price for that.' One line. Signed before any work starts. That line has saved real money and real pain. And one small footnote for banks: even as just a user, credit and insurance AI still needs a fundamental-rights check in Europe."
-
-**28 · Thank you — 18:00**
-"Three things for Monday. Build your seventeen — not all twenty-six. Put one fast gate outside your AIs — not sixty-two slow ones inside. And name your gaps before a regulator names them for you — then put that one line in the contract. [beat] And Bodhyanga? She never saw any of it. Her data stayed home. Her two o'clock Stop held at two-oh-one. The bank got its proof in three seconds. She tapped one button — and everything simply worked. That's the whole job: the customer should never find out how hard it was to keep the promise. We built it for India. Europe came free. The code is open — it's yours tonight. Thank you."
-[Stop. Stand still. Let them clap. Don't narrate the QR codes.]
+**22 · Thank You — 16:15**
+"Three things for Monday. Build your seventeen — not all twenty-six. Put one deterministic gate outside your AIs — not sixty-two slow ones inside. And name your gaps plus that one contract line on Day 1. [beat] And Bodhyanga? She never saw any of it. Her data stayed in India. Her two o'clock Stop held at two-oh-one. The bank got signed proof in three seconds. That's what deterministic systems engineering buys you: the customer never finds out how hard it was to keep the promise. Build for India. Inherit Europe. The code is open — run it on your own laptop tonight. Thank you."
+[Stop. Stand still. Don't narrate the QR codes.]
 
 ---
 
-## Q&A backups — opening lines (only if asked)
+## Q&A backups — jump anytime with `23↵`–`26↵`
 
-**29 · Off-Switch** — "Great question — this is open gap number one. Here's the honest ladder: slow it down, cancel its badge, pull the plug. Industry does the same — CrowdStrike ships a four-layer stop. The hard part is keeping payments alive while you pull."
+**23 · Q&A 01 · Off-Switch (`23↵`)** — "Great question — this is open gap number one. Three steps (Dimmer → Cancel Passkey → Pull the Plug) paired with CrowdStrike Falcon Guardian's four-layer stop pattern so core payments stay online."
 
-**30 · Five Places** — "One rules file, one app, zero country copies. India, Abu Dhabi, Dubai, Saudi, Europe — each country is a few lines of configuration, checked per message. Expanding to a new country never forks the codebase."
+**24 · Q&A 02 · Five Places (`24↵`)** — "One `policy.yaml`, one app, zero country copies. India, Abu Dhabi, Dubai, Saudi, Europe — each jurisdiction is declarative config checked per message."
 
-**31 · Top 4 AI Tricks** — "Clever prompts can't sweet-talk the gate, because the gate sits outside the AI's brain. And twenty attack tests run automatically on every code change — the build fails if any slips through."
+**25 · Q&A 03 · Top 4 AI Tricks (`25↵`)** — "Prompt tricks can't sweet-talk the gate because the gate sits outside the AI's brain — and twenty OWASP-tagged attack tests run automatically on every PR."
 
-**32 · Single point of failure?** — "Fair challenge — but there's no central server. One rulebook in Git, compiled into each of the sixty-two helpers. One helper crashes, sixty-one keep serving. And if the rules file is ever broken, the gate fails closed — it blocks, it never shrugs."
+**26 · Q&A 04 · Single Point of Failure? (`26↵`)** — "No central server to crash. One rulebook in Git compiled into each of the sixty-two helpers — one crash isolates cleanly and fails closed while sixty-one keep serving."
