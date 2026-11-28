@@ -1,6 +1,6 @@
 # Deep Dive 02: All 26 RBI FREE-AI Recommendations — The 7 Sutras, 6 Pillars & Exact 9 / 17 Split
 
-> **Companion to [Slide 09](https://build-for-rbi-talk.vercel.app/#9) (RBI FREE-AI · 9 / 17 Split)**  
+> **Companion to [Slide 10](https://build-for-rbi-talk.vercel.app/#10) (RBI FREE-AI · 9 / 17 Split)**  
 > **Primary Source:** [RBI Report of the Committee to Develop a Framework for Responsible and Ethical Enablement of AI (FREE-AI), 13 August 2025 (Official PDF)](https://rbidocs.rbi.org.in/rdocs/PublicationReport/Pdfs/FREEAIR130820250A24FF2D4578453F824C72ED9F5D5851.PDF)
 
 ---

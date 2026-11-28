@@ -13,11 +13,11 @@
 
 ### Deck Preview ([Open Interactive Web Deck →](https://build-for-rbi-talk.vercel.app))
 
-| Cover (Slide 01) | Composite Policy Gate (Slide 16) |
+| Cover (Slide 01) | Composite Policy Gate (Slide 17) |
 | :---: | :---: |
-| [![Cover](docs/screenshots/01-cover.png)](https://build-for-rbi-talk.vercel.app/#1) | [![Composite Policy Gate](docs/screenshots/06-policy-gate.png)](https://build-for-rbi-talk.vercel.app/#16) |
-| **Tamper-Evident Hash Chain (Slide 23)** | **RBI ↔ EU AI Act Cross-Walk (Slide 28)** |
-| [![Hash Chain](docs/screenshots/12-hash-chain.png)](https://build-for-rbi-talk.vercel.app/#23) | [![Cross-Walk](docs/screenshots/16-crosswalk.png)](https://build-for-rbi-talk.vercel.app/#28) |
+| [![Cover](docs/screenshots/01-cover.png)](https://build-for-rbi-talk.vercel.app/#1) | [![Composite Policy Gate](docs/screenshots/06-policy-gate.png)](https://build-for-rbi-talk.vercel.app/#17) |
+| **Tamper-Evident Hash Chain (Slide 24)** | **RBI ↔ EU AI Act Cross-Walk (Slide 29)** |
+| [![Hash Chain](docs/screenshots/12-hash-chain.png)](https://build-for-rbi-talk.vercel.app/#24) | [![Cross-Walk](docs/screenshots/16-crosswalk.png)](https://build-for-rbi-talk.vercel.app/#29) |
 
 **Downloads & Playbooks:** [`build-for-rbi-ppt.pptx`](./build-for-rbi-ppt.pptx) · [`build-for-rbi-handout.pdf`](./build-for-rbi-handout.pdf) · [**Visual Diagram Atlas (25 Diagrams)**](./docs/DIAGRAMS.md) · [**Official RBI FREE-AI Report (PDF)**](https://rbidocs.rbi.org.in/rdocs/PublicationReport/Pdfs/FREEAIR130820250A24FF2D4578453F824C72ED9F5D5851.PDF) · [`17-Rec Traceability Matrix`](./docs/RBI-FREE-AI-17-MATRIX.md) · [`5-Min Vendor Checklist`](./docs/VENDOR-CHECKLIST.md) · [`SOW Deployer vs. Provider Guide`](./docs/SOW-DEPLOYER-VS-PROVIDER.md) · [`rbi-eu-ai-act.json`](./crosswalk/rbi-eu-ai-act.json) · [`rbi-eu-ai-act.csv`](./crosswalk/rbi-eu-ai-act.csv)
 
@@ -308,7 +308,7 @@ cd Build-For-RBI-Inherit-The-EU-AI-Act
 make demo   # runs code/scripts/offline_verify.sh (9 Go pkgs + cmd/demo + 4 Go labs + WASM tests + cmd/evidencepack)
 make test   # runs all Go vet/race tests, Go lab assertions & cross-walk/Mermaid/asset verifier
 
-# Full Go implementation benchmark referenced in Slide 14:
+# Full Go implementation benchmark referenced in Slide 15:
 git clone <genie-repo> && cd genie
 go test ./...        # -> 127 packages ok
 go run ./cmd/genie   # -> full pipeline, sample CSV, ~30s
@@ -388,7 +388,7 @@ if rec.RiskClass != risk {
 
 ### 5.4 Lab 01 — Five Agents, One Bad Approval (`approval.go`)
 
-Interactive in **Slide 22** of [https://build-for-rbi-talk.vercel.app/#22](https://build-for-rbi-talk.vercel.app/#22) (press **`R`** or click a scenario chip to run live in browser via **Go WebAssembly**) or run locally via `go run labs/approval/main.go`:
+Interactive in **Slide 23** of [https://build-for-rbi-talk.vercel.app/#23](https://build-for-rbi-talk.vercel.app/#23) (press **`R`** or click a scenario chip to run live in browser via **Go WebAssembly**) or run locally via `go run labs/approval/main.go`:
 
 **Expected Output:**
 
@@ -485,7 +485,7 @@ func main() {
 
 ### 5.5 Lab 02 — Rewrite One Row, Watch It Fail (`audit.go`)
 
-Interactive in **Slide 24** of [https://build-for-rbi-talk.vercel.app/#24](https://build-for-rbi-talk.vercel.app/#24) (press **`R`** or click a scenario chip to run live in browser via **Go WebAssembly**) or run locally via `go run labs/audit/main.go`:
+Interactive in **Slide 25** of [https://build-for-rbi-talk.vercel.app/#25](https://build-for-rbi-talk.vercel.app/#25) (press **`R`** or click a scenario chip to run live in browser via **Go WebAssembly**) or run locally via `go run labs/audit/main.go`:
 
 **Expected Output:**
 
