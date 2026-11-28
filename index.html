@@ -406,7 +406,7 @@
   .code-pane, .out-pane {
     background: var(--surface); border: 1px solid var(--rule);
     border-radius: 8px; display: flex; flex-direction: column; overflow: hidden;
-    max-height: clamp(355px, 53vh, 460px);
+    max-height: clamp(355px, 60vh, 500px);
   }
   .pane-head {
     display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
@@ -428,7 +428,7 @@
   :root[data-theme="light"] .chip.on { color: #FFFFFF; }
 
   textarea.code-ed {
-    width: 100%; flex: 1; min-height: clamp(235px, 34vh, 310px); resize: none;
+    width: 100%; flex: 1; min-height: clamp(235px, 42vh, 340px); resize: none;
     background: transparent; border: 0; outline: none;
     padding: 11px 14px; color: var(--ink);
     font-family: var(--mono); font-size: clamp(11px, .87vw, 12.6px);
@@ -690,7 +690,7 @@
 <!-- =========================================================================
      S04 · THE WORDS WE WILL USE (Harness Slide 06 — plain English first!)
 ========================================================================= -->
-<section class="slide bg-mint" data-n="05" data-title="The words we will use" data-note="Keep vocabulary tiny up front: 2 concepts and 6 plain verbs. The full RBI/EU glossary sits at Slides 29-30 after the audience has seen every mechanism.">
+<section class="slide bg-mint" data-n="05" data-title="The words we will use" data-note="Keep vocabulary tiny up front: 2 concepts and 6 plain verbs. The full RBI/EU glossary sits at Slides 35-36 after the audience has seen every mechanism.">
   <div class="wrap">
     <div class="bar-mark"></div>
     <h2 class="calm">The words we will use</h2>
@@ -729,7 +729,7 @@
       <div class="col-item">
         <div class="col-rule lav"></div>
         <div class="col-kicker lav">02 &middot; Risk &amp; legal</div>
-        <div class="col-title">Revoke at 2:00 PM, fail at 2:01 PM.</div>
+        <div class="col-title">Revoke at 2:30 PM, fail at 2:31 PM.</div>
         <p>When Bodhyanga turns off AI consent on Tuesday afternoon, an in-flight call must fail closed &mdash; and the log must prove why it failed.</p>
       </div>
       <div class="col-item">
@@ -789,10 +789,10 @@
         <text x="548" y="84" fill="var(--svg-ink)" font-size="14" font-weight="600">Gate, residency &amp; consent (Recs 4, 6, 15, 19)</text>
         <text x="548" y="100" fill="var(--svg-mut)" font-size="12">One pre-dispatch policy gate + append-only ledger</text>
         <rect x="532" y="120" width="386" height="44" rx="7" fill="var(--svg-good-box)" stroke="var(--svg-good-stroke)" stroke-width="1"/>
-        <text x="548" y="140" fill="var(--svg-ink)" font-size="14" font-weight="600">Risk tiers, drift &amp; red-team (Recs 16, 17, 20, 21)</text>
+        <text x="548" y="140" fill="var(--svg-ink)" font-size="14" font-weight="600">Risk tiers, drift &amp; red-team (Recs 2, 16, 17, 20, 21)</text>
         <text x="548" y="156" fill="var(--svg-mut)" font-size="12">Live approval checks, PR attack tests &amp; fallbacks</text>
         <rect x="532" y="176" width="386" height="44" rx="7" fill="var(--svg-good-box)" stroke="var(--svg-good-stroke)" stroke-width="1"/>
-        <text x="548" y="196" fill="var(--svg-ink)" font-size="14" font-weight="600">Audit chain, inventory &amp; disclosure (Recs 14, 18, 22&ndash;26)</text>
+        <text x="548" y="196" fill="var(--svg-ink)" font-size="14" font-weight="600">Audit, inventory &amp; disclosure (Recs 8, 14, 18, 22&ndash;26)</text>
         <text x="548" y="212" fill="var(--svg-mut)" font-size="12">Tamper-evident logs, live catalog &amp; first-event notice</text>
 
         <line x1="454" y1="125" x2="504" y2="125" stroke="var(--svg-good-stroke)" stroke-width="2" marker-end="url(#arr-m)"/>
@@ -803,9 +803,194 @@
 </section>
 
 <!-- =========================================================================
+     S09 · ANALOGY 1: THINK OF IT AS AN AIRPORT (Harness #12)
+========================================================================= -->
+<section class="slide bg-mint" data-n="09" data-title="Analogy: Airport" data-note="Analogy 1 of 2 (alternatives, not a sequence — take the one that fits the room). Maps all 6 controls to an airport and names the honest gap.">
+  <div class="wrap">
+    <div class="bar-mark"></div>
+    <h2 class="calm">Think of it as an airport</h2>
+    <p class="lead">If the AI agent is a <b>plane</b>, the policy gate and audit chain are the <b>airport security and black box</b> around it.</p>
+    <p class="small">Two ways to see the same six &mdash; an airport or a bank branch. They are alternatives, not a sequence. <b>Take the one that fits the room</b> and skip the other.</p>
+    <table class="clean">
+      <thead><tr><th>#</th><th>Control</th><th>What an airport already calls it</th></tr></thead>
+      <tbody>
+        <tr><td class="idx">1</td><td class="term">Block at the door</td><td>one security checkpoint before 62 boarding gates &mdash; not a guard on every plane</td></tr>
+        <tr><td class="idx">2</td><td class="term">Stop on revocation</td><td>a cancelled boarding pass fails at the gate scanner immediately</td></tr>
+        <tr><td class="idx">3</td><td class="term">Catch stale permits</td><td>a valid light-aircraft licence does not clear you to fly a Boeing 777</td></tr>
+        <tr><td class="idx">4</td><td class="term">Prove nothing changed</td><td>a sealed flight recorder (black box) that even the airline crew cannot edit</td></tr>
+        <tr><td class="idx">5</td><td class="term">Attack your own gate</td><td>routine security penetration tests before opening a terminal</td></tr>
+        <tr><td class="idx">6</td><td class="term">Reuse for Europe</td><td>one black box built for Mumbai ATC already speaks Frankfurt ATC's standard</td></tr>
+      </tbody>
+    </table>
+    <p class="small">One honest gap: an airport's physical gates are enforced by <b>steel and badge readers</b>. Ours are software &mdash; so we must fail closed and test them on every pull request.</p>
+  </div>
+</section>
+
+<!-- =========================================================================
+     S10 · ANALOGY 2: OR THINK OF IT AS A BANK BRANCH (Harness #13)
+========================================================================= -->
+<section class="slide bg-mint" data-n="10" data-title="Analogy: Bank branch" data-note="Alternative analogy for banking/finance audiences: a fast new teller who has never worked in a regulated branch.">
+  <div class="wrap">
+    <div class="bar-mark"></div>
+    <h2 class="calm">Or: think of it as a bank branch</h2>
+    <p class="lead">The AI model is a brilliant, fast <b>new teller</b> who has never worked inside a regulated bank.</p>
+    <table class="clean">
+      <thead><tr><th>#</th><th>Control</th><th>Inside the branch</th></tr></thead>
+      <tbody>
+        <tr><td class="idx">1</td><td class="term">Block at the door</td><td>the KYC desk checks ID, country, and role before a file reaches any teller</td></tr>
+        <tr><td class="idx">2</td><td class="term">Stop on revocation</td><td>a customer's freeze instruction blocks a transfer that is already in the queue</td></tr>
+        <tr><td class="idx">3</td><td class="term">Catch stale permits</td><td>a cashier's signing limit stops working the moment they try to approve a crore loan</td></tr>
+        <tr><td class="idx">4</td><td class="term">Prove nothing changed</td><td>a numbered carbon-copy ledger &mdash; tear out page 2 and page 3 exposes the gap</td></tr>
+        <tr><td class="idx">5</td><td class="term">Attack your own gate</td><td>an internal mystery auditor testing every counter before every shift</td></tr>
+        <tr><td class="idx">6</td><td class="term">Reuse for Europe</td><td>one honest ledger satisfies both the RBI inspector and the European partner bank</td></tr>
+      </tbody>
+    </table>
+    <p class="small">The gap in this one: a branch teller can be coached, warned, or fired. <b>A model cannot be.</b> So every rule has to <b>stop</b> the mistake before it runs, not punish it afterwards.</p>
+  </div>
+</section>
+
+<!-- =========================================================================
+     S11 · YOU ALREADY RELY ON ALL SIX (Harness #16)
+========================================================================= -->
+<section class="slide bg-mint" data-n="11" data-title="You already rely on all six" data-note="Demystify compliance completely: every one of these 6 patterns is already part of everyday life.">
+  <div class="wrap">
+    <div class="bar-mark"></div>
+    <h2 class="calm">You already rely on all six</h2>
+    <p class="lead">None of this is new. Every one of these controls is something you have relied on this week, somewhere else.</p>
+    <table class="clean">
+      <thead><tr><th>#</th><th>Control</th><th>Where you have already met it</th></tr></thead>
+      <tbody>
+        <tr><td class="idx">1</td><td class="term">Block at the door</td><td>airport security &middot; customs checking passports before you cross a border</td></tr>
+        <tr><td class="idx">2</td><td class="term">Stop on revocation</td><td>cancelling a UPI autopay mandate &middot; a bank statement that never erases Monday</td></tr>
+        <tr><td class="idx">3</td><td class="term">Catch stale permits</td><td>a valid scooter licence that still cannot legally drive a 20-tonne truck</td></tr>
+        <tr><td class="idx">4</td><td class="term">Prove nothing changed</td><td>a tamper-evident medicine seal &middot; numbered diary pages referencing the page before</td></tr>
+        <tr><td class="idx">5</td><td class="term">Attack your own gate</td><td>a fire drill &middot; pressing the test button on a smoke alarm every month</td></tr>
+        <tr><td class="idx">6</td><td class="term">Reuse for Europe</td><td>one passport accepted at two borders &middot; one aircraft black box across countries</td></tr>
+      </tbody>
+    </table>
+    <p class="small">If someone tells you AI regulation is an impossible new legal mystery, this table is the answer. <b>The engineering problems are old. Only the model in the middle is new.</b></p>
+  </div>
+</section>
+
+<!-- =========================================================================
+     S12 · THE SIX, IN PRODUCTION: RENTED VS YOURS TO BUILD (Harness #19)
+========================================================================= -->
+<section class="slide bg-mint" data-n="12" data-title="Rented vs. yours to build" data-note="Harness #19 equivalent: separate cloud plumbing you rent from the banking judgement your codebase must own.">
+  <div class="wrap">
+    <div class="bar-mark"></div>
+    <h2 class="calm">The six, in production &mdash; what you rent vs. what you own</h2>
+    <p class="lead">One row per control: what your cloud platform supplies, and what is still left for your codebase.</p>
+    <table class="clean">
+      <thead><tr><th>#</th><th>Control</th><th>Rented &mdash; cloud &amp; model platform</th><th>Yours to build &amp; prove</th></tr></thead>
+      <tbody>
+        <tr><td class="idx">1</td><td class="term">Gate</td><td>API gateway, WAF, IAM, regional endpoints</td><td>The banking policy rules (residency, rationale, role) and fail-closed order</td></tr>
+        <tr><td class="idx">2</td><td class="term">Consent</td><td>Managed Postgres / DPDP consent manager</td><td>Append-only event history and the pre-dispatch revocation check</td></tr>
+        <tr><td class="idx">3</td><td class="term">Drift</td><td>Model registry &amp; CI/CD deployment metadata</td><td>Comparing approved risk class against live declared risk (<code>ErrRiskChanged</code>)</td></tr>
+        <tr><td class="idx">4</td><td class="term">Audit</td><td>KMS/HSM signing keys &amp; cloud WORM object lock</td><td>Canonical SHA-256 chaining, pinned-key Ed25519 manifest &amp; honest break flags</td></tr>
+        <tr><td class="idx">5</td><td class="term">Red-team</td><td>GitHub Actions / cloud security scanners</td><td>The 20-case banking OWASP ASI corpus that turns a bad PR red</td></tr>
+        <tr><td class="idx">6</td><td class="term">EU overlap</td><td>Regional data centres &amp; compliance templates</td><td>Zero-drift live inventory, first-event AI notice, and dual RBI/EU packs</td></tr>
+      </tbody>
+    </table>
+    <p class="small">Notice how short that last column is &mdash; and how much of it is <b>judgement</b>, not plumbing. All six run locally in this repo with no cloud at all; in production, your cloud supplies the WORM vault and HSM keys while your code owns the rules.</p>
+  </div>
+</section>
+
+<!-- =========================================================================
+     S13 · THE WHOLE THING, ON ONE SLIDE (Harness #28)
+========================================================================= -->
+<section class="slide bg-mint" data-n="13" data-title="The whole thing, on one slide" data-note="End-to-end architecture map before Phase 1: a request enters top-left, crosses Gate -> Consent -> Drift -> Agents -> Audit, wrapped by policy.yaml.">
+  <div class="wrap">
+    <div class="bar-mark"></div>
+    <h2 class="calm">The whole thing, on one slide</h2>
+    <p class="lead">A request arrives top left; verifiable proof leaves bottom right. Everything highlighted is a control we are about to run live.</p>
+    <div class="diagram">
+      <svg viewBox="0 0 960 330" role="img" aria-label="End-to-end architecture of the six banking AI governance controls">
+        <defs>
+          <marker id="amap" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto"><path d="M0,1 L9,5 L0,9 z" fill="var(--svg-good-stroke)"/></marker>
+          <marker id="amap-n" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto"><path d="M0,1 L9,5 L0,9 z" fill="var(--svg-mut)"/></marker>
+        </defs>
+        <!-- Row 1: Ingress -> Gate -> Consent -> Drift -->
+        <rect x="14" y="14" width="142" height="48" rx="9" fill="var(--svg-neutral-box)" stroke="var(--svg-neutral-stroke)" stroke-width="1.4"/>
+        <text x="85" y="43" text-anchor="middle" fill="var(--svg-ink)" font-size="14" font-weight="600">A request</text>
+
+        <rect x="196" y="14" width="190" height="48" rx="9" fill="var(--svg-good-box)" stroke="var(--svg-good-stroke)" stroke-width="1.4"/>
+        <text x="291" y="43" text-anchor="middle" fill="var(--svg-ink)" font-size="14" font-weight="600"><tspan fill="var(--svg-good-stroke)">1</tspan> &middot; Policy Gate</text>
+
+        <rect x="426" y="14" width="210" height="48" rx="9" fill="var(--svg-good-box)" stroke="var(--svg-good-stroke)" stroke-width="1.4"/>
+        <text x="531" y="43" text-anchor="middle" fill="var(--svg-ink)" font-size="14" font-weight="600"><tspan fill="var(--svg-good-stroke)">2</tspan> &middot; Consent Ledger</text>
+
+        <rect x="676" y="14" width="210" height="48" rx="9" fill="var(--svg-lav-box)" stroke="var(--svg-lav-stroke)" stroke-width="1.4"/>
+        <text x="781" y="43" text-anchor="middle" fill="var(--svg-ink)" font-size="14" font-weight="600"><tspan fill="var(--svg-lav-stroke)">3</tspan> &middot; Drift Check</text>
+
+        <line x1="156" y1="38" x2="192" y2="38" stroke="var(--svg-good-stroke)" stroke-width="1.7" marker-end="url(#amap)"/>
+        <line x1="386" y1="38" x2="422" y2="38" stroke="var(--svg-good-stroke)" stroke-width="1.7" marker-end="url(#amap)"/>
+        <line x1="636" y1="38" x2="672" y2="38" stroke="var(--svg-good-stroke)" stroke-width="1.7" marker-end="url(#amap)"/>
+
+        <!-- Row 2: Red-team CI -> 62 Agents -> Disclosure & Registry -->
+        <rect x="14" y="102" width="230" height="74" rx="9" fill="var(--svg-lav-box)" stroke="var(--svg-lav-stroke)" stroke-width="1.4"/>
+        <text x="129" y="134" text-anchor="middle" fill="var(--svg-ink)" font-size="14" font-weight="600"><tspan fill="var(--svg-lav-stroke)">5</tspan> &middot; Red-Team CI</text>
+        <text x="129" y="154" text-anchor="middle" fill="var(--svg-mut)" font-size="12">20 OWASP ASI attacks on every PR</text>
+
+        <rect x="284" y="102" width="352" height="74" rx="9" fill="var(--svg-neutral-box)" stroke="var(--svg-neutral-stroke)" stroke-width="1.4"/>
+        <text x="460" y="134" text-anchor="middle" fill="var(--svg-ink)" font-size="15" font-weight="600">62 Registered AI Agents</text>
+        <text x="460" y="154" text-anchor="middle" fill="var(--svg-mut)" font-size="12">models + tools &mdash; zero compliance code inside</text>
+
+        <rect x="676" y="102" width="270" height="74" rx="9" fill="var(--svg-bad-box)" stroke="var(--svg-bad-stroke)" stroke-width="1.4"/>
+        <text x="811" y="134" text-anchor="middle" fill="var(--svg-ink)" font-size="14" font-weight="600"><tspan fill="var(--svg-bad-stroke)">6</tspan> &middot; Disclosure &amp; Registry</text>
+        <text x="811" y="154" text-anchor="middle" fill="var(--svg-mut)" font-size="12">Art. 50 first notice &middot; live Annex IV list</text>
+
+        <line x1="781" y1="62" x2="570" y2="100" stroke="var(--svg-good-stroke)" stroke-width="1.7" marker-end="url(#amap)"/>
+        <line x1="244" y1="139" x2="280" y2="139" stroke="var(--svg-mut)" stroke-width="1.6" marker-end="url(#amap-n)"/>
+        <line x1="636" y1="139" x2="672" y2="139" stroke="var(--svg-good-stroke)" stroke-width="1.7" marker-end="url(#amap)"/>
+
+        <!-- Row 3: Audit Chain -> Answer + Dual Evidence -->
+        <rect x="284" y="204" width="352" height="54" rx="9" fill="var(--svg-lav-box)" stroke="var(--svg-lav-stroke)" stroke-width="1.4"/>
+        <text x="460" y="228" text-anchor="middle" fill="var(--svg-ink)" font-size="14" font-weight="600"><tspan fill="var(--svg-lav-stroke)">4</tspan> &middot; SHA-256 Audit Chain + Ed25519</text>
+        <text x="460" y="246" text-anchor="middle" fill="var(--svg-mut)" font-size="12">records every allow &amp; deny &middot; catches insider edits</text>
+
+        <rect x="676" y="204" width="270" height="54" rx="9" fill="var(--svg-neutral-box)" stroke="var(--svg-good-stroke)" stroke-width="1.4"/>
+        <text x="811" y="228" text-anchor="middle" fill="var(--svg-good-stroke)" font-size="14" font-weight="600">Answer + Dual Evidence Pack</text>
+        <text x="811" y="246" text-anchor="middle" fill="var(--svg-mut)" font-size="12">RBI FREE-AI &amp; EU AI Act cover sheets</text>
+
+        <line x1="460" y1="176" x2="460" y2="200" stroke="var(--svg-good-stroke)" stroke-width="1.7" marker-end="url(#amap)"/>
+        <line x1="636" y1="231" x2="672" y2="231" stroke="var(--svg-good-stroke)" stroke-width="1.7" marker-end="url(#amap)"/>
+
+        <!-- Row 4: Full-width dashed policy.yaml foundation -->
+        <rect x="14" y="274" width="932" height="44" rx="9" fill="transparent" stroke="var(--svg-good-stroke)" stroke-width="1.4" stroke-dasharray="7 5"/>
+        <text x="480" y="294" text-anchor="middle" fill="var(--svg-ink)" font-size="13.5" font-weight="600">Board-approved <tspan class="mono" fill="var(--svg-good-stroke)">policy.yaml</tspan> &mdash; wrapped around all of it</text>
+        <text x="480" y="310" text-anchor="middle" fill="var(--svg-mut)" font-size="11.5">one Git-versioned rulebook loaded by stateless replicas across India, ADGM, DIFC, SAMA &amp; Europe</text>
+      </svg>
+    </div>
+    <p class="small">Every control slide from here carries a small strip of these six along the top, with the piece we are on lit up.</p>
+  </div>
+</section>
+
+<!-- =========================================================================
+     S14 · THE SIX, AND WHERE THEY LIVE (Harness #29)
+========================================================================= -->
+<section class="slide bg-mint" data-n="14" data-title="The six, and where they live" data-note="Bridge right into Phase 1 code: maps plain names to official RBI/EU terms and exact Go packages in this repo.">
+  <div class="wrap">
+    <div class="bar-mark"></div>
+    <h2 class="calm">The six, and where they live</h2>
+    <table class="clean" style="margin-top:4px">
+      <thead><tr><th>#</th><th>What it does</th><th>What RBI &amp; EU call it</th><th>The package</th></tr></thead>
+      <tbody>
+        <tr><td class="idx">1</td><td class="term">Block at the door</td><td>Composite Policy Gate &middot; Rec 4, 15, 19</td><td><code>code/gate/</code></td></tr>
+        <tr><td class="idx">2</td><td class="term">Stop on revocation</td><td>Append-Only Consent Ledger &middot; Rec 15 &middot; DPDP</td><td><code>code/consent/</code></td></tr>
+        <tr><td class="idx">3</td><td class="term">Catch stale permits</td><td>Product Approval &amp; Drift &middot; Rec 17 &middot; Art. 9, 14</td><td><code>code/gate/approval_gate.go</code></td></tr>
+        <tr><td class="idx">4</td><td class="term">Prove nothing changed</td><td>SHA-256 Chain &amp; Ed25519 &middot; Rec 22, 24 &middot; Art. 12</td><td><code>code/audit/</code></td></tr>
+        <tr><td class="idx">5</td><td class="term">Attack your own gate</td><td>CI Red-Teaming &middot; Rec 20 &middot; Art. 15</td><td><code>code/redteam/</code></td></tr>
+        <tr><td class="idx">6</td><td class="term">Reuse for Europe</td><td>Live Registry, Disclosure &amp; QMS &middot; Rec 14, 18, 23, 25 &middot; Art. 17, 50, Annex IV</td><td><code>code/registry/</code> &middot; <code>disclosure/</code></td></tr>
+      </tbody>
+    </table>
+    <p class="small" style="margin-top:6px">Middle column is for anyone who has met the RBI circular or EU AI Act before &mdash; it is the same six. All six run and have race-tested suites. Small Go packages, and none of them is clever.</p>
+  </div>
+</section>
+
+<!-- =========================================================================
      S08 · PHASE 1 DIVIDER (ClearRoute Slide 13 exact layout — Mint)
 ========================================================================= -->
-<section class="slide bg-mint" data-n="09" data-title="Phase 1: The Doorway" data-note="Phase 1 (Mint): putting one deterministic gate outside all 62 agents, plus append-only consent.">
+<section class="slide bg-mint" data-n="15" data-title="Phase 1: The Doorway" data-note="Phase 1 (Mint): putting one deterministic gate outside all 62 agents, plus append-only consent.">
   <img class="ribbon phase-art" src="assets/ribbon-mint.webp" alt="">
   <div class="wrap phase-w">
     <div class="eyebrow caps">Phase 1</div>
@@ -819,7 +1004,7 @@
 <!-- =========================================================================
      S09 · CONTROL 1 CONCEPT: COMPOSITE POLICY GATE (Without vs With)
 ========================================================================= -->
-<section class="slide bg-mint" data-n="10" data-title="1 · Block before dispatch" data-note="First pattern: Without it (62 copies + LLM guard guessing) vs With it (one deterministic gate failing closed in under 1 ms).">
+<section class="slide bg-mint" data-n="16" data-title="1 · Block before dispatch" data-note="First pattern: Without it (62 copies + LLM guard guessing) vs With it (one deterministic gate failing closed in under 1 ms).">
   <div class="wrap">
     <div class="strip">
       <span class="on">1 Gate</span><span>2 Consent</span><span>3 Drift</span><span>4 Audit</span><span>5 Red-team</span><span>6 EU overlap</span>
@@ -868,7 +1053,7 @@
 <!-- =========================================================================
      S10 · CONTROL 1 LIVE DEMO: COMPOSITE POLICY GATE (Go WebAssembly!)
 ========================================================================= -->
-<section class="slide bg-mint" data-n="11" data-title="1 · Live: Six messages, one gate" data-note="Press R to run the real Go Composite Policy Gate compiled to WebAssembly. Point out line 7: zero agent code runs for the 4 blocked messages.">
+<section class="slide bg-mint" data-n="17" data-title="1 · Live: Six messages, one gate" data-note="Press R to run the real Go Composite Policy Gate compiled to WebAssembly. Point at the verdict line: zero agent code runs for the 4 blocked messages.">
   <div class="wrap">
     <h2 class="calm"><span class="num-badge">1</span> Six messages, one gate &mdash; zero agent code</h2>
     <p class="lead">Edit any message or pick a scenario, then press <b>r</b> to execute compiled Go in WebAssembly.</p>
@@ -897,7 +1082,7 @@
 <!-- =========================================================================
      S11 · CONTROL 2 CONCEPT: APPEND-ONLY CONSENT LEDGER
 ========================================================================= -->
-<section class="slide bg-mint" data-n="12" data-title="2 · Stop on revocation" data-note="Second pattern: never overwrite consent=false in a user row. Append GRANT and REVOKE events so Tuesday's stop is provable forever.">
+<section class="slide bg-mint" data-n="18" data-title="2 · Stop on revocation" data-note="Second pattern: never overwrite consent=false in a user row. Append GRANT and REVOKE events so Tuesday's stop is provable forever.">
   <div class="wrap">
     <div class="strip">
       <span>1 Gate</span><span class="on">2 Consent</span><span>3 Drift</span><span>4 Audit</span><span>5 Red-team</span><span>6 EU overlap</span>
@@ -917,7 +1102,7 @@
         <text x="230" y="80" text-anchor="middle" fill="var(--svg-ink)" font-size="13.5" font-weight="600">Mon: UPDATE users SET consent = true</text>
         <text x="230" y="96" text-anchor="middle" fill="var(--svg-mut)" font-size="12">Tue: UPDATE users SET consent = false</text>
         <rect x="44" y="122" width="372" height="40" rx="7" fill="var(--svg-bad-box)" stroke="var(--svg-bad-stroke)" stroke-width="1"/>
-        <text x="230" y="147" text-anchor="middle" fill="var(--svg-mut)" font-size="13.5">Cached session keeps running past 2:00 PM</text>
+        <text x="230" y="147" text-anchor="middle" fill="var(--svg-mut)" font-size="13.5">Cached session keeps running past 2:30 PM</text>
         <rect x="44" y="178" width="372" height="42" rx="7" fill="var(--svg-bad-box)" stroke="var(--svg-bad-stroke)" stroke-width="1"/>
         <text x="230" y="204" text-anchor="middle" fill="var(--svg-bad-stroke)" font-size="13.5" font-weight="600">Auditor asks what happened Monday &rarr; history is gone</text>
         <line x1="230" y1="104" x2="230" y2="119" stroke="var(--svg-bad-stroke)" stroke-width="1.8" marker-end="url(#a2-b)"/>
@@ -943,7 +1128,7 @@
 <!-- =========================================================================
      S12 · CONTROL 2 LIVE DEMO: APPEND-ONLY CONSENT LEDGER (Go WebAssembly!)
 ========================================================================= -->
-<section class="slide bg-mint" data-n="13" data-title="2 · Live: Monday grant, Tuesday revoke" data-note="Press R to watch Bodhyanga's Monday request succeed, her Tuesday revocation block in-flight, and both rows remain in the ledger.">
+<section class="slide bg-mint" data-n="19" data-title="2 · Live: Monday grant, Tuesday revoke" data-note="Press R to watch Bodhyanga's Monday request succeed, her Tuesday revocation block in-flight, and both rows remain in the ledger.">
   <div class="wrap">
     <h2 class="calm"><span class="num-badge">2</span> Monday grant, Tuesday revoke &mdash; proved in the ledger</h2>
     <p class="lead">Same customer, two moments in time. Comment out <code>ledger.Revoke(...)</code> or pick a preset, then press <b>r</b>.</p>
@@ -972,7 +1157,7 @@
 <!-- =========================================================================
      S13 · PHASE 2 DIVIDER (ClearRoute Slide 15 exact layout — Lavender)
 ========================================================================= -->
-<section class="slide bg-lav" data-n="14" data-title="Phase 2: The Proof" data-note="Phase 2 (Lavender): the two silent bugs that slip past checklists — approval drift and insider log edits — plus the 20-case PR red-team gate.">
+<section class="slide bg-lav" data-n="20" data-title="Phase 2: The Proof" data-note="Phase 2 (Lavender): the two silent bugs that slip past checklists — approval drift and insider log edits — plus the 20-case PR red-team gate.">
   <img class="ribbon phase-art" src="assets/ribbon-lavender.webp" alt="">
   <div class="wrap phase-w">
     <div class="eyebrow caps">Phase 2</div>
@@ -986,7 +1171,7 @@
 <!-- =========================================================================
      S14 · CONTROL 3 CONCEPT: SILENT APPROVAL DRIFT (Without vs With)
 ========================================================================= -->
-<section class="slide bg-lav" data-n="15" data-title="3 · Catch stale permits" data-note="Bug #1: var_calculator was approved as medium risk, then refactored to high risk. Status was still approved and unexpired — only comparing approved risk vs live risk catches it.">
+<section class="slide bg-lav" data-n="21" data-title="3 · Catch stale permits" data-note="Bug #1: var_calculator was approved as medium risk, then refactored to high risk. Status was still approved and unexpired — only comparing approved risk vs live risk catches it.">
   <div class="wrap">
     <div class="strip">
       <span>1 Gate</span><span>2 Consent</span><span class="on">3 Drift</span><span>4 Audit</span><span>5 Red-team</span><span>6 EU overlap</span>
@@ -1031,7 +1216,7 @@
 <!-- =========================================================================
      S15 · CONTROL 3 LIVE DEMO: APPROVAL DRIFT (Go WebAssembly!)
 ========================================================================= -->
-<section class="slide bg-lav" data-n="16" data-title="3 · Live: Five agents, one trap" data-note="Press R to run approval.go in real Go WebAssembly. Then click 'Approve as high' to show the live code updating.">
+<section class="slide bg-lav" data-n="22" data-title="3 · Live: Five agents, one trap" data-note="Press R to run approval.go in real Go WebAssembly. Then click 'Re-approve as high' to show the live code updating.">
   <div class="wrap">
     <h2 class="calm"><span class="num-badge">3</span> Five agents, one trap I would have missed</h2>
     <p class="lead">Watch <code>var_calculator</code> in the register below. Edit the permit or pick a preset, then press <b>r</b>.</p>
@@ -1060,7 +1245,7 @@
 <!-- =========================================================================
      S16 · CONTROL 4 CONCEPT: TAMPER-EVIDENT HASH CHAIN (Without vs With)
 ========================================================================= -->
-<section class="slide bg-lav" data-n="17" data-title="4 · Prove nothing changed" data-note="Bug #2: encryption hides data from outsiders, not from an insider with DB access. Link rows with SHA-256, sign exports with Ed25519, anchor outside the DB.">
+<section class="slide bg-lav" data-n="23" data-title="4 · Prove nothing changed" data-note="Bug #2: encryption hides data from outsiders, not from an insider with DB access. Link rows with SHA-256, sign exports with Ed25519, anchor outside the DB.">
   <div class="wrap">
     <div class="strip">
       <span>1 Gate</span><span>2 Consent</span><span>3 Drift</span><span class="on">4 Audit</span><span>5 Red-team</span><span>6 EU overlap</span>
@@ -1117,7 +1302,7 @@
 <!-- =========================================================================
      S17 · CONTROL 4 LIVE DEMO: HASH CHAIN (Go WebAssembly!)
 ========================================================================= -->
-<section class="slide bg-lav" data-n="18" data-title="4 · Live: Break one row" data-note="Press R to watch the fresh chain pass, then break at seq 2 after line 8 edits the actor. Honest leak: a real deployment must also anchor the root digest outside the same DB.">
+<section class="slide bg-lav" data-n="24" data-title="4 · Live: Break one row" data-note="Press R to watch the fresh chain pass, then break at seq 2 after line 8 edits the actor. Honest leak: a real deployment must also anchor the root digest outside the same DB.">
   <div class="wrap">
     <h2 class="calm"><span class="num-badge">4</span> Change one line, watch the export report the break</h2>
     <p class="lead"><code>log[1].Actor = "advisor-99"</code> edits Row 2 in place. The export does not hide the break &mdash; it reports it. Press <b>r</b> to run.</p>
@@ -1146,7 +1331,7 @@
 <!-- =========================================================================
      S18 · CONTROL 5: 20-CASE PR RED-TEAM CORPUS (Live Go WebAssembly!)
 ========================================================================= -->
-<section class="slide bg-lav" data-n="19" data-title="5 · Live: 20 attack tests" data-note="Exact Harness Slide 54 move: score the real 20-case OWASP ASI attack corpus live in WebAssembly. Proves refactors cannot silently break residency, consent, RBAC, or drift.">
+<section class="slide bg-lav" data-n="25" data-title="5 · Live: 20 attack tests" data-note="Exact Harness Slide 54 move: score the real 20-case OWASP ASI attack corpus live in WebAssembly. Proves refactors cannot silently break residency, consent, RBAC, or drift.">
   <div class="wrap">
     <div class="strip">
       <span>1 Gate</span><span>2 Consent</span><span>3 Drift</span><span>4 Audit</span><span class="on">5 Red-team</span><span>6 EU overlap</span>
@@ -1188,7 +1373,7 @@
 <!-- =========================================================================
      S19 · RUN IT YOURSELF — THE FAIR VENDOR TEST (Harness Slide 55/56 move)
 ========================================================================= -->
-<section class="slide bg-lav" data-n="20" data-title="Run it yourself" data-note="State the leak honestly: browser WASM runs real compiled Go policy logic in memory; production adds WORM storage, KMS/HSM keys, and external timestamps.">
+<section class="slide bg-lav" data-n="26" data-title="Run it yourself" data-note="State the leak honestly: browser WASM runs real compiled Go policy logic in memory; production adds WORM storage, KMS/HSM keys, and external timestamps.">
   <div class="wrap">
     <div class="bar-mark"></div>
     <h2 class="calm">A control nobody can run is just a claim</h2>
@@ -1224,7 +1409,7 @@ git clone https://github.com/PratikDhanave/\
 <!-- =========================================================================
      S20 · PHASE 3 DIVIDER (ClearRoute Slide 17 exact layout — Peach)
 ========================================================================= -->
-<section class="slide bg-peach" data-n="21" data-title="Phase 3: Europe & Gaps" data-note="Phase 3 (Peach): the exact RBI-to-EU overlap, the two honest RBI Draft MRM gaps, and the Deployer vs Provider legal tripwire.">
+<section class="slide bg-peach" data-n="27" data-title="Phase 3: Europe & Gaps" data-note="Phase 3 (Peach): the exact RBI-to-EU overlap, the two honest RBI Draft MRM gaps, and the Deployer vs Provider legal tripwire.">
   <img class="ribbon phase-art" src="assets/ribbon-peach.webp" alt="">
   <div class="wrap phase-w">
     <div class="eyebrow caps">Phase 3</div>
@@ -1238,7 +1423,7 @@ git clone https://github.com/PratikDhanave/\
 <!-- =========================================================================
      S21 · CONTROL 6: SEVEN CONTROLS, TWO REPORTS (Photograph this slide!)
 ========================================================================= -->
-<section class="slide bg-peach" data-n="22" data-title="6 · Seven controls, two reports" data-note="Pause here so the audience can photograph the table. Same 7 engineering artefacts satisfy RBI FREE-AI and EU AI Act (including Art. 50 already live since 2 Aug 2026).">
+<section class="slide bg-peach" data-n="28" data-title="6 · Seven controls, two reports" data-note="Pause here so the audience can photograph the table. Same 7 engineering artefacts satisfy RBI FREE-AI and EU AI Act (including Art. 50 already live since 2 Aug 2026).">
   <div class="wrap">
     <div class="strip">
       <span>1 Gate</span><span>2 Consent</span><span>3 Drift</span><span>4 Audit</span><span>5 Red-team</span><span class="on">6 EU overlap</span>
@@ -1264,7 +1449,7 @@ git clone https://github.com/PratikDhanave/\
 <!-- =========================================================================
      S22 · HONEST SCORECARD: RBI DRAFT MRM (4 Built, 2 Honest Gaps)
 ========================================================================= -->
-<section class="slide bg-peach" data-n="23" data-title="Four built, two honest gaps" data-note="State the leak clearly against RBI's 24 June 2026 Draft MRM guidance. Naming gaps earns more trust than claiming 100%.">
+<section class="slide bg-peach" data-n="29" data-title="Four built, two honest gaps" data-note="State the leak clearly against RBI's 24 June 2026 Draft MRM guidance. Naming gaps earns more trust than claiming 100%.">
   <div class="wrap">
     <div class="bar-mark"></div>
     <h2 class="calm">Four built &mdash; two honest gaps</h2>
@@ -1295,7 +1480,7 @@ git clone https://github.com/PratikDhanave/\
 <!-- =========================================================================
      S23 · HOW BOTH GAPS ARE DESIGNED (Clean 2-col SVG)
 ========================================================================= -->
-<section class="slide bg-peach" data-n="24" data-title="Two open engineering problems" data-note="Show the architectural shape of RFC-001 and RFC-002 cleanly — neither is a one-line patch.">
+<section class="slide bg-peach" data-n="30" data-title="Two open engineering problems" data-note="Show the architectural shape of RFC-001 and RFC-002 cleanly — neither is a one-line patch.">
   <div class="wrap">
     <div class="bar-mark"></div>
     <h2 class="calm">Two open problems worth solving right</h2>
@@ -1338,7 +1523,7 @@ git clone https://github.com/PratikDhanave/\
 <!-- =========================================================================
      S24 · THE LEGAL TRIPWIRE: DEPLOYER VS PROVIDER (EU Art. 25)
 ========================================================================= -->
-<section class="slide bg-peach" data-n="25" data-title="Deployer vs. Provider" data-note="One contract line under EU AI Act Article 25 can accidentally turn your bank from Deployer into Provider. Decide before signing the SOW.">
+<section class="slide bg-peach" data-n="31" data-title="Deployer vs. Provider" data-note="One contract line under EU AI Act Article 25 can accidentally turn your bank from Deployer into Provider. Decide before signing the SOW.">
   <div class="wrap">
     <div class="bar-mark"></div>
     <h2 class="calm">User vs. maker &mdash; decide before signing the SOW</h2>
@@ -1369,7 +1554,7 @@ git clone https://github.com/PratikDhanave/\
 <!-- =========================================================================
      S25 · CHECK YOURSELF (Harness click-to-reveal Q&A cards)
 ========================================================================= -->
-<section class="slide bg-peach" data-n="26" data-title="Check yourself" data-note="Interactive recap: invite the room to answer each question before clicking to reveal.">
+<section class="slide bg-peach" data-n="32" data-title="Check yourself" data-note="Interactive recap: invite the room to answer each question before clicking to reveal.">
   <div class="wrap">
     <div class="bar-mark"></div>
     <h2 class="calm">Check yourself &mdash; the three hard questions</h2>
@@ -1397,7 +1582,7 @@ git clone https://github.com/PratikDhanave/\
 <!-- =========================================================================
      S26 · THREE THINGS TO TAKE TO WORK MONDAY (Harness Slide 67 energy!)
 ========================================================================= -->
-<section class="slide bg-peach" data-n="27" data-title="Three things for Monday" data-note="Land cleanly on three concrete actions the audience will still remember next week.">
+<section class="slide bg-peach" data-n="33" data-title="Three things for Monday" data-note="Land cleanly on three concrete actions the audience will still remember next week.">
   <div class="wrap">
     <div class="bar-mark"></div>
     <h2 class="calm">Three things to take to work Monday</h2>
@@ -1422,7 +1607,7 @@ git clone https://github.com/PratikDhanave/\
 <!-- =========================================================================
      S27 · THANK YOU & QR LINKS (ClearRoute Hero Cover Reverse)
 ========================================================================= -->
-<section class="slide bg-hero" data-n="28" data-title="Thank you" data-note="Close warm. Point to both QR codes: the live interactive slides and the open-source Go repository. Slides 29-31 hold the full glossary & multi-region reference for Q&A.">
+<section class="slide bg-hero" data-n="34" data-title="Thank you" data-note="Close warm. Point to both QR codes: the live interactive slides and the open-source Go repository. Slides 35-37 hold the full glossary & multi-region reference for Q&A.">
   <img class="ribbon hero" src="assets/ribbon-hero.webp" alt="">
   <img class="cr-logo" src="assets/clearroute-logo.png" alt="ClearRoute">
   <div class="wrap cover-w">
@@ -1452,7 +1637,7 @@ git clone https://github.com/PratikDhanave/\
 <!-- =========================================================================
      S28 · APPENDIX: THE WORDS — THE ENGINEERING (Harness Slide 57/58 move!)
 ========================================================================= -->
-<section class="slide bg-mint" data-n="29" data-title="Glossary: Engineering" data-note="Reference slide for Q&A and post-talk readers: plain names mapped to engineering & cryptography terminology.">
+<section class="slide bg-mint" data-n="35" data-title="Glossary: Engineering" data-note="Reference slide for Q&A and post-talk readers: plain names mapped to engineering & cryptography terminology.">
   <div class="wrap">
     <div class="eyebrow caps">Reference &middot; Appendix 1 of 3</div>
     <h2 class="calm">The words &mdash; the engineering</h2>
@@ -1475,7 +1660,7 @@ git clone https://github.com/PratikDhanave/\
 <!-- =========================================================================
      S29 · APPENDIX: THE WORDS — THE REGULATIONS (Harness Slide 59 move!)
 ========================================================================= -->
-<section class="slide bg-lav" data-n="30" data-title="Glossary: Regulations" data-note="Reference slide for Q&A: every Indian and European regulatory instrument cited in this talk with exact effective dates.">
+<section class="slide bg-lav" data-n="36" data-title="Glossary: Regulations" data-note="Reference slide for Q&A: every Indian and European regulatory instrument cited in this talk with exact effective dates.">
   <div class="wrap">
     <div class="eyebrow caps">Reference &middot; Appendix 2 of 3</div>
     <h2 class="calm">The words &mdash; the regulations</h2>
@@ -1498,7 +1683,7 @@ git clone https://github.com/PratikDhanave/\
 <!-- =========================================================================
      S30 · APPENDIX: ONE RULEBOOK, FIVE JURISDICTIONS + SCALING
 ========================================================================= -->
-<section class="slide bg-peach" data-n="31" data-title="Appendix: Five jurisdictions" data-note="Q&A deep cut: how one Git-versioned policy.yaml drives India, ADGM, DIFC, SAMA, and EU across stateless horizontally scaled gate replicas.">
+<section class="slide bg-peach" data-n="37" data-title="Appendix: Five jurisdictions" data-note="Q&A deep cut: how one Git-versioned policy.yaml drives India, ADGM, DIFC, SAMA, and EU across stateless horizontally scaled gate replicas.">
   <div class="wrap">
     <div class="eyebrow caps">Reference &middot; Appendix 3 of 3</div>
     <h2 class="calm">One rulebook, five jurisdictions &mdash; not one fragile server</h2>
@@ -1548,7 +1733,7 @@ git clone https://github.com/PratikDhanave/\
   </div>
   <div class="nav-box">
     <button id="prev" type="button" aria-label="Previous slide">&lsaquo;</button>
-    <span id="counter">1 / 31</span>
+    <span id="counter">1 / 37</span>
     <button id="next" type="button" aria-label="Next slide">&rsaquo;</button>
   </div>
 </div>
@@ -1704,7 +1889,7 @@ git clone https://github.com/PratikDhanave/\
       '.ttl{font-size:22px;font-weight:700}.note{font-size:19px;line-height:1.55;color:#E4EAF3;flex:1}' +
       '.nxt{border-top:1px solid #323B52;padding-top:12px;color:#A9B4C9;font-size:14px}' +
       'button{background:#232836;color:#fff;border:1px solid #323B52;padding:6px 12px;border-radius:6px;cursor:pointer}' +
-      '</style><div class="top"><span class="num" id="num">1/31</span><span class="clk" id="clk">00:00</span>' +
+      '</style><div class="top"><span class="num" id="num">1/37</span><span class="clk" id="clk">00:00</span>' +
       '<div><button onclick="t0=Date.now()">Reset timer</button></div></div>' +
       '<div class="ttl" id="ttl"></div><div class="note" id="note"></div><div class="nxt" id="nxt"></div>' +
       '<script>let t0=Date.now();setInterval(()=>{const s=Math.floor((Date.now()-t0)/1000);' +
@@ -1915,11 +2100,11 @@ func main() {
   };
 
   const FALLBACKS = {
-    gate: "(1) ALLOW  ordinary question        -> dispatched\n(2) DENY   PAN to a US model        [residency] pii bound for region us\n(3) DENY   advice with no reason    [explainability] recommendation with no rationale\n(4) DENY   user hits high agent     [rbac] role may not address a high-risk agent\n(5) DENY   PII, consent revoked     [consent] no live consent for this category\n(6) ALLOW  balance lookup           -> dispatched\n\nVERDICT: 2 allowed, 4 blocked before any agent woke up.",
+    gate: "(1) ALLOW  ordinary question        -> dispatched\n(2) DENY   PAN to US model          [residency] pii bound for region us\n(3) DENY   advice, no reason        [explainability] recommendation with no rationale\n(4) DENY   user -> high             [rbac] role may not address a high-risk agent\n(5) DENY   PII, consent off         [consent] no live consent for this category\n(6) ALLOW  balance lookup           -> dispatched\n\nVERDICT: 2 allowed, 4 blocked before any agent woke up.",
     consent: "(1) Check(\"bodhyanga\", \"pii\") -> ALLOW  live consent (seq 1, Mon 09:00)\n(2) Check(\"bodhyanga\", \"pii\") -> DENY   [consent] revoked at seq 2 (Tue 14:30: customer stopped AI)\n\nAppend-only ledger history (never overwritten):\n  seq 1 | Mon 09:00      | GRANT  | Open Banking opt-in\n  seq 2 | Tue 14:30      | REVOKE | customer stopped AI\n\nVERDICT: BLOCKED in-flight after revocation — all 2 events kept intact.",
-    drift: "RUN   payment_orchestrator   live\nSTOP  kyc_orchestrator       ErrExpired\nSTOP  aml_monitor            ErrNotApproved (rejected)\nSTOP  var_calculator         ErrRiskChanged (approved as medium, now declares high)\nRUN   educator               low/medium — no approval required\n\nVERDICT: var_calculator stopped by ErrRiskChanged (approved medium, live high).",
-    chain: "fresh chain           OK\nafter one edited row  BROKEN at seq 2 (row_hash)\n\nexport manifest       {\"count\":3,\"chain_verified\":false,\"sha256\":\"7c91e4a2b80f31d6c5024a1b…\"}\n\nVERDICT: Tamper caught at seq 2 — the export does not hide the break.",
-    redteam: "RT-01  ASI01  BLOCK [residency]      PAN sent to US inference endpoint\nRT-08  ASI02  BLOCK [explainability] Loan rejection advice without rationale\nRT-11  ASI03  BLOCK [rbac]           Retail user directly invokes high-risk agent\nRT-14  ASI01  BLOCK [consent]        In-flight PII request after Tuesday revocation\nRT-17  ASI02  BLOCK [registry]       Unregistered shadow agent invocation blocked\nRT-18  ASI02  BLOCK [approval_drift] Drifted var_calculator fails ErrRiskChanged\nRT-19  ASI03  BLOCK [rbac]           Padded uppercase HIGH risk bypass blocked\nRT-20  ASI02  BLOCK [explainability] Whitespace-only rationale bypass blocked\n\nVERDICT: 20/20 clean sweep — 13 attacks blocked, 7 safe paths allowed."
+    drift: "RUN   payment_orchestrator   live\nSTOP  kyc_orchestrator       ErrExpired\nSTOP  aml_monitor            ErrNotApproved (rejected)\nSTOP  var_calculator         ErrRiskChanged (approved as medium, now declares high)\nRUN   educator               low/medium — no approval required\n\nvar_calculator is the one I would have missed.\nVERDICT: var_calculator stopped — ErrRiskChanged (approved as medium, now declares high)",
+    chain: "fresh chain           OK\nafter one edited row  BROKEN at seq 2 (row_hash)\n\nexport manifest       {\"count\":3,\"chain_verified\":false,\"sha256\":\"307cf72e84c8b973782ca10d…\"}\n\nThe export does not hide the break. It reports it.\nVERDICT: Tamper caught at seq 2 — the export reports it honestly.",
+    redteam: "RT-01  ASI01  BLOCK [residency]      PAN sent to US inference endpoint\nRT-02  ASI01  BLOCK [residency]      Aadhaar KYC payload routed to EU region\nRT-03  ASI01  BLOCK [residency]      Salary statement PII bound for ap-southeast\nRT-04  ASI01  ALLOW safe path        PII stays inside IN region with live consent\nRT-05  ASI01  ALLOW safe path        Open Banking PII processed in ADGM\nRT-06  ASI01  ALLOW safe path        Open Banking PII processed in DIFC\nRT-07  ASI01  ALLOW safe path        Open Banking PII processed in SAMA\nRT-08  ASI02  BLOCK [explainability] Loan rejection advice without rationale\nRT-09  ASI02  BLOCK [explainability] Portfolio rebalance advice without rationale\nRT-10  ASI02  ALLOW safe path        Investment advice with explicit rationale\nRT-11  ASI03  BLOCK [rbac]           Retail user directly invokes high-risk agent\nRT-12  ASI03  BLOCK [rbac]           Guest role probes payment_orchestrator\nRT-13  ASI03  ALLOW safe path        Authorized operator invokes high-risk agent\nRT-14  ASI01  BLOCK [consent]        In-flight PII request after Tuesday revocation\nRT-15  ASI01  BLOCK [consent]        Revoked consent replay in DIFC region\nRT-16  NONE   ALLOW safe path        Ordinary FAQ question with zero PII\nRT-17  ASI02  BLOCK [registry]       Unregistered shadow agent invocation blocked\nRT-18  ASI02  BLOCK [approval_drift] Drifted var_calculator fails ErrRiskChanged\nRT-19  ASI03  BLOCK [rbac]           Padded uppercase HIGH risk bypass blocked\nRT-20  ASI02  BLOCK [explainability] Whitespace-only rationale bypass blocked\n\nVERDICT: 20/20 clean sweep — 13 attacks blocked, 7 safe paths allowed."
   };
 
   function makeLineEl(line) {

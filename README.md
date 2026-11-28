@@ -13,11 +13,11 @@
 
 ### Deck Preview ([Open Interactive Web Deck →](https://build-for-rbi-talk.vercel.app))
 
-| Cover (Slide 01) | Composite Policy Gate (Slide 10) |
+| Cover (Slide 01) | Composite Policy Gate (Slide 16) |
 | :---: | :---: |
-| [![Cover](docs/screenshots/01-cover.png)](https://build-for-rbi-talk.vercel.app/#1) | [![Composite Policy Gate](docs/screenshots/06-policy-gate.png)](https://build-for-rbi-talk.vercel.app/#10) |
-| **Tamper-Evident Hash Chain (Slide 17)** | **RBI ↔ EU AI Act Cross-Walk (Slide 22)** |
-| [![Hash Chain](docs/screenshots/12-hash-chain.png)](https://build-for-rbi-talk.vercel.app/#17) | [![Cross-Walk](docs/screenshots/16-crosswalk.png)](https://build-for-rbi-talk.vercel.app/#22) |
+| [![Cover](docs/screenshots/01-cover.png)](https://build-for-rbi-talk.vercel.app/#1) | [![Composite Policy Gate](docs/screenshots/06-policy-gate.png)](https://build-for-rbi-talk.vercel.app/#16) |
+| **Tamper-Evident Hash Chain (Slide 23)** | **RBI ↔ EU AI Act Cross-Walk (Slide 28)** |
+| [![Hash Chain](docs/screenshots/12-hash-chain.png)](https://build-for-rbi-talk.vercel.app/#23) | [![Cross-Walk](docs/screenshots/16-crosswalk.png)](https://build-for-rbi-talk.vercel.app/#28) |
 
 **Downloads & Playbooks:** [`build-for-rbi-ppt.pptx`](./build-for-rbi-ppt.pptx) · [`build-for-rbi-handout.pdf`](./build-for-rbi-handout.pdf) · [**Visual Diagram Atlas (25 Diagrams)**](./docs/DIAGRAMS.md) · [**Official RBI FREE-AI Report (PDF)**](https://rbidocs.rbi.org.in/rdocs/PublicationReport/Pdfs/FREEAIR130820250A24FF2D4578453F824C72ED9F5D5851.PDF) · [`17-Rec Traceability Matrix`](./docs/RBI-FREE-AI-17-MATRIX.md) · [`5-Min Vendor Checklist`](./docs/VENDOR-CHECKLIST.md) · [`SOW Deployer vs. Provider Guide`](./docs/SOW-DEPLOYER-VS-PROVIDER.md) · [`rbi-eu-ai-act.json`](./crosswalk/rbi-eu-ai-act.json) · [`rbi-eu-ai-act.csv`](./crosswalk/rbi-eu-ai-act.csv)
 
