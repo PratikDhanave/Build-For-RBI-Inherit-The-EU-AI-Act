@@ -308,7 +308,7 @@ cd Build-For-RBI-Inherit-The-EU-AI-Act
 make demo   # runs code/scripts/offline_verify.sh (9 Go pkgs + cmd/demo + 4 Go labs + WASM tests + cmd/evidencepack)
 make test   # runs all Go vet/race tests, Go lab assertions & cross-walk/Mermaid/asset verifier
 
-# Full Go implementation benchmark referenced in Slide 12:
+# Full Go implementation benchmark referenced in Slide 14:
 git clone <genie-repo> && cd genie
 go test ./...        # -> 127 packages ok
 go run ./cmd/genie   # -> full pipeline, sample CSV, ~30s
@@ -388,7 +388,7 @@ if rec.RiskClass != risk {
 
 ### 5.4 Lab 01 — Five Agents, One Bad Approval (`approval.go`)
 
-Interactive in **Slide 15** of [https://build-for-rbi-talk.vercel.app/#15](https://build-for-rbi-talk.vercel.app/#15) (press **`R`** or click a scenario chip to run live in browser via offline **Go WebAssembly**) or run locally via `go run labs/approval/main.go`:
+Interactive in **Slide 22** of [https://build-for-rbi-talk.vercel.app/#22](https://build-for-rbi-talk.vercel.app/#22) (press **`R`** or click a scenario chip to run live in browser via **Go WebAssembly**) or run locally via `go run labs/approval/main.go`:
 
 **Expected Output:**
 
@@ -485,7 +485,7 @@ func main() {
 
 ### 5.5 Lab 02 — Rewrite One Row, Watch It Fail (`audit.go`)
 
-Interactive in **Slide 19** of [https://build-for-rbi-talk.vercel.app/#19](https://build-for-rbi-talk.vercel.app/#19) (press **`R`** or click a scenario chip to run live in browser via offline **Go WebAssembly**) or run locally via `go run labs/audit/main.go`:
+Interactive in **Slide 24** of [https://build-for-rbi-talk.vercel.app/#24](https://build-for-rbi-talk.vercel.app/#24) (press **`R`** or click a scenario chip to run live in browser via **Go WebAssembly**) or run locally via `go run labs/audit/main.go`:
 
 **Expected Output:**
 
