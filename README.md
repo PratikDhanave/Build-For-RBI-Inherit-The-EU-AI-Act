@@ -785,10 +785,10 @@ Under the EU AI Act, you can accidentally move your customer from **deployer** t
 
 ```text
 .
-├── index.html                           # 31-slide ClearRoute 4-Act storytelling web deck (23 animated SVGs, 2 live Go WASM labs + 3 Q&A backups)
+├── index.html                           # 32-slide ClearRoute 4-Act storytelling web deck (24 animated SVGs, 2 live Go WASM labs + 4 Q&A backups)
 ├── assets/                              # Brand/QR assets + compiled Go WebAssembly (`labs.wasm`, `wasm_exec.js`)
-├── build-for-rbi-ppt.pptx               # ClearRoute 2026 PowerPoint deck (28 talk + 3 Q&A backup slides = 31 slides, 20" × 11.25")
-├── build-for-rbi-handout.pdf            # Print-ready 31-slide PDF handout (28 talk + 3 Q&A backup slides)
+├── build-for-rbi-ppt.pptx               # ClearRoute 2026 PowerPoint deck (28 talk + 4 Q&A backup slides = 32 slides, 20" × 11.25")
+├── build-for-rbi-handout.pdf            # Print-ready 32-slide PDF handout (28 talk + 4 Q&A backup slides)
 ├── code/                                # 100% Go governance modules & CLIs (zero external dependencies)
 │   ├── go.mod                           # Zero-dependency Go module
 │   ├── cmd/demo/main.go                 # One-command offline CLI pipeline (`go run ./cmd/demo`)
