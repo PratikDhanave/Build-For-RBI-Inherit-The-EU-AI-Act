@@ -5,6 +5,18 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Build for RBI, inherit the EU AI Act — ClearRoute</title>
 <meta name="description" content="How one banking AI safety system followed India's rules — and passed Europe's AI law too. FDExHyderabad, 28 November 2026. ClearRoute.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23151A25'/%3E%3Cpath d='M16 5l9 3.5v6.5c0 5.5-3.8 9.2-9 11-5.2-1.8-9-5.5-9-11V8.5L16 5z' fill='%230C3A34' stroke='%2300E8AF' stroke-width='2.2'/%3E%3Cpath d='M12 16l2.8 2.8L20.5 13' fill='none' stroke='%2300E8AF' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://build-for-rbi-talk.vercel.app/">
+<meta property="og:title" content="Build for RBI, inherit the EU AI Act — ClearRoute">
+<meta property="og:description" content="How one banking AI safety system built 17 controls for India's RBI FREE-AI framework — and inherited 7 EU AI Act obligations with zero extra stack code. Runs offline in Go WebAssembly.">
+<meta property="og:image" content="https://build-for-rbi-talk.vercel.app/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Build for RBI, inherit the EU AI Act — ClearRoute">
+<meta name="twitter:description" content="17 India RBI checks built once → 7 EU AI Act rules inherited free. Live offline Go demos + open-source code.">
+<meta name="twitter:image" content="https://build-for-rbi-talk.vercel.app/assets/og-cover.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Montserrat:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -617,10 +629,36 @@
     line-height: 1.35; transition: border-color .15s, transform .12s;
   }
   #ovg a:hover { border-color: var(--mint); transform: translateY(-2px); }
+  #ovg a.cur { border-color: var(--mint); background: #0C2E2F; box-shadow: 0 0 0 1px var(--mint); }
   #ovg a span {
     display: block; font-family: var(--mono); font-size: 11px;
     color: var(--mint); font-weight: 700; margin-bottom: 5px;
   }
+
+  /* Quick numeric Q&A slide jump badge */
+  #jump-hud {
+    position: fixed; right: clamp(20px, 4vw, 56px); bottom: 54px; z-index: 45;
+    display: none; align-items: center; gap: 8px;
+    background: #111622; border: 1.5px solid var(--mint); color: #FFFFFF;
+    font-family: var(--mono); font-size: 13px; font-weight: 700;
+    padding: 6px 14px; border-radius: 999px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.45);
+  }
+  #jump-hud.on { display: inline-flex; }
+  #jump-hud b { color: var(--mint); }
+
+  /* Clickable QR cards on Slide 28 */
+  .qr-card {
+    display: block; text-decoration: none;
+    background: var(--card); border-radius: 12px; padding: 12px 14px; text-align: center; width: 208px;
+    transition: transform .16s ease, box-shadow .16s ease;
+  }
+  .qr-card:hover { transform: translateY(-3px); box-shadow: 0 10px 26px rgba(0,0,0,.35); }
+  .qr-card .qr-url {
+    font-family: var(--mono); font-size: 10px; color: var(--mut); margin-top: 3px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  body.og-mode #pager, body.og-mode #bar, body.og-mode #chrome-line { display: none !important; }
 
   @media print {
     body { overflow: visible; background: #151A25 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -915,7 +953,7 @@
           </g>
         </g>
 
-        <!-- LANE 2: 2:00 PM STOP (NEVER-ERASE NOTEBOOK) -->
+        <!-- LANE 2: 2:00 PM STOP (APPEND-ONLY TIMELINE NOTEBOOK) -->
         <g data-d class="rise" style="transition-delay:.18s">
           <rect x="10" y="114" width="1040" height="96" rx="14" fill="url(#g-lav)" stroke="#C4A3FF" stroke-width="1.5"/>
           <rect x="24" y="128" width="184" height="68" rx="10" fill="#211938" stroke="#C4A3FF" stroke-opacity=".6"/>
@@ -923,29 +961,36 @@
           <text class="hd lf" x="76" y="156">2 · NOTEBOOK</text>
           <text class="xs" x="76" y="176" fill="#D5DCEB">Never-erase log</text>
 
-          <!-- Step 1: Monday Line 1 -->
-          <rect x="234" y="128" width="194" height="68" rx="9" fill="#0E2D2B" stroke="#00E8AF" stroke-width="1.4"/>
-          <text class="xs okf mono" x="248" y="150">LINE 1 · MON 9:00 AM</text>
-          <text class="sm" x="248" y="174" fill="#FFFFFF">Bodhyanga says Yes ✓</text>
+          <!-- Horizontal append-only timeline spine -->
+          <line x1="234" y1="196" x2="758" y2="196" stroke="#C4A3FF" stroke-width="2.4" stroke-opacity=".75"/>
+          <circle cx="332" cy="196" r="6" fill="#0E2D2B" stroke="#00E8AF" stroke-width="2.4"/>
+          <line x1="332" y1="181" x2="332" y2="190" stroke="#00E8AF" stroke-width="2"/>
+          <circle cx="450" cy="196" r="4.5" fill="#FFB78E"/>
+          <circle cx="600" cy="196" r="6" fill="#3D1C24" stroke="#FF6B6B" stroke-width="2.4"/>
+          <line x1="600" y1="181" x2="600" y2="190" stroke="#FF6B6B" stroke-width="2"/>
 
-          <line x1="428" y1="162" x2="460" y2="162" stroke="#C4A3FF" stroke-width="2.2" class="dash-flow"/>
-          <polygon points="458,157 468,162 458,167" fill="#C4A3FF"/>
+          <!-- Seq 1: Grant (Locked) -->
+          <rect x="234" y="123" width="198" height="58" rx="9" fill="#0E2D2B" stroke="#00E8AF" stroke-width="1.5"/>
+          <text class="xs okf mono" x="246" y="143">SEQ 1 · GRANT</text>
+          <rect x="358" y="129" width="64" height="17" rx="8" fill="#0C3A34" stroke="#00E8AF" stroke-opacity=".7"/>
+          <text class="xs bf" x="390" y="141" text-anchor="middle" style="font-size:9.5px">LOCKED</text>
+          <text class="xs" x="246" y="168" fill="#FFFFFF">Mon 9 AM · Bodhyanga says Yes ✓</text>
 
-          <!-- Step 2: Tuesday 2:00 PM Line 2 Added Below -->
+          <!-- Seq 2: Revoke (New line appended below) -->
           <g class="stamp-drop">
-            <rect x="470" y="128" width="260" height="68" rx="9" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.8"/>
-            <text class="xs nof mono" x="486" y="150">LINE 2 · TUE 2:00 PM</text>
-            <text class="sm pf" x="486" y="174">Bodhyanga taps Stop (Line 1 stays)</text>
+            <rect x="470" y="123" width="260" height="58" rx="9" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.8"/>
+            <text class="xs nof mono" x="484" y="143">SEQ 2 · REVOKE · TUE 2:00 PM</text>
+            <text class="xs pf" x="484" y="168">Bodhyanga taps Stop (Seq 1 untouched)</text>
           </g>
 
-          <line x1="730" y1="162" x2="758" y2="162" stroke="#FF6B6B" stroke-width="2.2"/>
-          <polygon points="756,157 766,162 756,167" fill="#FF6B6B"/>
+          <line x1="730" y1="156" x2="758" y2="156" stroke="#FF6B6B" stroke-width="2.2"/>
+          <polygon points="756,151 766,156 756,161" fill="#FF6B6B"/>
 
           <!-- Step 3: 2:01 PM Blocked with Proof -->
           <g class="burst">
-            <rect x="768" y="128" width="262" height="68" rx="9" fill="#2A1721" stroke="#FF6B6B" stroke-width="1.5"/>
+            <rect x="768" y="126" width="262" height="72" rx="9" fill="#2A1721" stroke="#FF6B6B" stroke-width="1.5"/>
             <text class="sm pf" x="784" y="152">✕ 2:01 PM AI call stops cold</text>
-            <text class="xs" x="784" y="175" fill="#DCE4F4">Book proves she stopped 1 min earlier</text>
+            <text class="xs" x="784" y="176" fill="#DCE4F4">Timeline proves she stopped 1 min earlier</text>
           </g>
         </g>
 
@@ -1194,94 +1239,155 @@
     <h2>Checks inside 62 AI helpers broke — <span class="mint">one gate fixed it</span></h2>
     <p class="slide-lead">What happens when every AI helper carries its own copy of the safety rules:</p>
     <div class="dia-frame">
-      <div class="dia" data-dia="gate-compare"><svg viewBox="0 30 1060 292" role="img"
-        aria-label="Before and after architecture: Left shows rules duplicated inside 62 helpers hitting 2.4 seconds across a 4-hop call (~600ms each) with outdated Helper #62 leaking data; Right shows one 4-step safety gate sitting outside all 62 helpers running in 0.85 ms per message and logging blocked calls straight to the diary.">
+      <div class="dia" data-dia="gate-compare"><svg viewBox="0 20 1060 308" role="img"
+        aria-label="Before and after architecture: Left shows a tangled in-agent compliance mesh with rules copied inside 62 helpers hitting 2.4 seconds across a 4-hop call (~600ms each) and stale Helper #62 leaking; Right shows one 4-step Composite Policy Gate outside all 62 helpers running in 0.85 ms and fanning cleared messages out cleanly.">
 
-        <!-- LEFT: BEFORE (COPIED INTO 62 HELPERS) -->
+        <!-- LEFT: BEFORE (TANGLED IN-AGENT COMPLIANCE MESH) -->
         <g data-d class="slide-in">
-          <rect x="10" y="36" width="434" height="278" rx="14" fill="url(#g-coral)" stroke="#FF6B6B" stroke-width="1.6"/>
-          <text class="hd pf" x="28" y="62">BEFORE · RULES COPIED INSIDE 62 HELPERS</text>
+          <rect x="10" y="26" width="436" height="296" rx="14" fill="url(#g-coral)" stroke="#FF6B6B" stroke-width="1.6"/>
+          <text class="hd pf" x="28" y="48">BEFORE · 62 DUPLICATED IN-AGENT LOCKS</text>
 
-          <rect x="22" y="120" width="96" height="52" rx="10" fill="#141824" stroke="#FF6B6B" stroke-width="1.5"/>
-          <text class="xs pf" x="70" y="143" text-anchor="middle" style="font-size:10px">BODHYANGA'S</text>
-          <text class="xs" x="70" y="160" text-anchor="middle" fill="#FFFFFF">MESSAGE</text>
-
-          <g stroke="#FF6B6B" stroke-opacity=".65" stroke-width="1.8" fill="none" class="dash-flow">
-            <path d="M118 146 C 138 146, 142 92,  160 92"/>
-            <path d="M118 146 L 160 130"/>
-            <path d="M118 146 L 160 168"/>
-            <path d="M118 146 C 138 146, 142 206, 160 206"/>
+          <!-- Tangled Spiderweb Mesh (centered cleanly with padding for right labels) -->
+          <g transform="translate(-14, 4)">
+          <g stroke="#FFB78E" stroke-opacity=".42" stroke-width="1.5" fill="none" class="dash-flow">
+            <polygon points="228,84 316,110 316,184 228,210 140,184 140,110"/>
+            <line x1="228" y1="84"  x2="228" y2="210"/>
+            <line x1="140" y1="110" x2="316" y2="184"/>
+            <line x1="316" y1="110" x2="140" y2="184"/>
+            <line x1="140" y1="110" x2="316" y2="110"/>
+            <line x1="140" y1="184" x2="316" y2="184"/>
+            <line x1="228" y1="84"  x2="140" y2="184"/>
+            <line x1="228" y1="84"  x2="316" y2="184"/>
+            <line x1="228" y1="210" x2="140" y2="110"/>
+            <line x1="228" y1="210" x2="316" y2="110"/>
           </g>
 
-          <rect x="160" y="76"  width="268" height="32" rx="7" fill="#251621" stroke="#FF6B6B"/>
-          <text class="xs" x="174" y="96" fill="#FFFFFF">Helper #01 · own rule copy</text>
-          <text class="xs pf mono" x="416" y="96" text-anchor="end">~600ms</text>
+          <!-- 7 Mesh Padlock Nodes -->
+          <!-- Top: Auth Guard -->
+          <circle cx="228" cy="84" r="15" fill="#1C1420" stroke="#FFB78E" stroke-width="1.8"/>
+          <rect x="222" y="83" width="12" height="9" rx="2" fill="#FFB78E"/>
+          <path d="M225 83v-3a3 3 0 0 1 6 0v3" fill="none" stroke="#FFB78E" stroke-width="1.8"/>
+          <text class="xs" x="228" y="65" text-anchor="middle" fill="#F4F7FC">Auth Guard</text>
 
-          <rect x="160" y="114" width="268" height="32" rx="7" fill="#251621" stroke="#FF6B6B"/>
-          <text class="xs" x="174" y="134" fill="#FFFFFF">Helper #02 · own rule copy</text>
-          <text class="xs" x="416" y="134" text-anchor="end" fill="#9AA7C0">copy #2</text>
+          <!-- Top-Left: AML Scan -->
+          <circle cx="140" cy="110" r="15" fill="#1C1420" stroke="#FFB78E" stroke-width="1.8"/>
+          <rect x="134" y="109" width="12" height="9" rx="2" fill="#FFB78E"/>
+          <path d="M137 109v-3a3 3 0 0 1 6 0v3" fill="none" stroke="#FFB78E" stroke-width="1.8"/>
+          <text class="xs" x="118" y="114" text-anchor="end" fill="#F4F7FC">AML Scan</text>
 
-          <rect x="160" y="152" width="268" height="32" rx="7" fill="#251621" stroke="#FF6B6B"/>
-          <text class="xs" x="174" y="172" fill="#FFFFFF">Helper #03 · own rule copy</text>
-          <text class="xs" x="416" y="172" text-anchor="end" fill="#9AA7C0">copy #3</text>
+          <!-- Bottom-Left: KYC Agent -->
+          <circle cx="140" cy="184" r="15" fill="#1C1420" stroke="#FFB78E" stroke-width="1.8"/>
+          <rect x="134" y="183" width="12" height="9" rx="2" fill="#FFB78E"/>
+          <path d="M137 183v-3a3 3 0 0 1 6 0v3" fill="none" stroke="#FFB78E" stroke-width="1.8"/>
+          <text class="xs" x="118" y="188" text-anchor="end" fill="#F4F7FC">KYC Agent</text>
 
-          <rect x="160" y="190" width="268" height="32" rx="7" fill="#3D1C24" stroke="#FFB78E" stroke-dasharray="4 3"/>
-          <text class="xs pf" x="174" y="210">Helper #62 · LAST MONTH'S RULES!</text>
-          <text class="xs nof" x="416" y="210" text-anchor="end">LEAK</text>
+          <!-- Bottom: Fraud Svc -->
+          <circle cx="228" cy="210" r="15" fill="#1C1420" stroke="#FFB78E" stroke-width="1.8"/>
+          <rect x="222" y="209" width="12" height="9" rx="2" fill="#FFB78E"/>
+          <path d="M225 209v-3a3 3 0 0 1 6 0v3" fill="none" stroke="#FFB78E" stroke-width="1.8"/>
+          <text class="xs" x="228" y="238" text-anchor="middle" fill="#F4F7FC">Fraud Svc</text>
 
-          <rect x="26" y="236" width="402" height="66" rx="10" fill="#2A121B" stroke="#FF6B6B" stroke-width="1.6"/>
-          <rect x="40" y="246" width="374" height="8" rx="4" fill="#441D28"/>
-          <rect x="40" y="246" width="352" height="8" rx="4" fill="#FF6B6B"/>
-          <text class="lbl nof" x="227" y="275" text-anchor="middle">✕ 2.4 SECONDS (4-HOP CALL · ~600ms EACH)</text>
-          <text class="xs" x="227" y="294" text-anchor="middle" fill="#F4F7FC">62 copies to keep in sync · Miss 1 helper = instant leak</text>
+          <!-- Top-Right: Payments -->
+          <circle cx="316" cy="110" r="15" fill="#1C1420" stroke="#FFB78E" stroke-width="1.8"/>
+          <rect x="310" y="109" width="12" height="9" rx="2" fill="#FFB78E"/>
+          <path d="M313 109v-3a3 3 0 0 1 6 0v3" fill="none" stroke="#FFB78E" stroke-width="1.8"/>
+          <text class="xs" x="338" y="114" fill="#F4F7FC">Payments</text>
+
+          <!-- Bottom-Right: Helper #62 STALE LEAK! -->
+          <circle cx="316" cy="184" r="17" fill="#3D1C24" stroke="#FF6B6B" stroke-width="2.2" stroke-dasharray="4 3"/>
+          <text class="hd nof" x="316" y="189" text-anchor="middle" style="font-size:13px">✕</text>
+          <text class="xs nof" x="338" y="180">#62 STALE!</text>
+          <text class="xs pf" x="338" y="195">OLD RULES · LEAK</text>
+
+          <!-- Center Hub -->
+          <circle cx="228" cy="147" r="16" fill="#2A1420" stroke="#FF6B6B" stroke-width="2"/>
+          <rect x="222" y="146" width="12" height="9" rx="2" fill="#FF6B6B"/>
+          <path d="M225 146v-3a3 3 0 0 1 6 0v3" fill="none" stroke="#FF6B6B" stroke-width="1.8"/>
+          </g>
+
+          <!-- Telemetry Readout -->
+          <rect x="26" y="248" width="404" height="62" rx="10" fill="#2A121B" stroke="#FF6B6B" stroke-width="1.6"/>
+          <rect x="40" y="257" width="376" height="7" rx="3.5" fill="#441D28"/>
+          <rect x="40" y="257" width="356" height="7" rx="3.5" fill="#FF6B6B"/>
+          <text class="lbl nof" x="228" y="284" text-anchor="middle">✕ 2.4 SECONDS (4-HOP CALL · ~600ms EACH)</text>
+          <text class="xs" x="228" y="302" text-anchor="middle" fill="#F4F7FC">62 copies in sync · Miss 1 helper = instant leak</text>
         </g>
 
         <!-- Center Arrow -->
         <g data-d style="transition-delay:.16s">
-          <line x1="452" y1="175" x2="480" y2="175" stroke="#00E8AF" stroke-width="2.5"/>
-          <polygon points="478,169 490,175 478,181" fill="#00E8AF"/>
+          <line x1="454" y1="174" x2="482" y2="174" stroke="#00E8AF" stroke-width="2.6"/>
+          <polygon points="480,168 492,174 480,180" fill="#00E8AF"/>
         </g>
 
-        <!-- RIGHT: AFTER (ONE CLEAN 4-STEP HORIZONTAL PIPELINE OUTSIDE ALL 62 HELPERS!) -->
+        <!-- RIGHT: AFTER (COMPOSITE POLICY GATE FUNNEL OUTSIDE ALL 62 HELPERS) -->
         <g data-d class="slide-in-r" style="transition-delay:.2s">
-          <rect x="498" y="36" width="552" height="278" rx="14" fill="url(#g-mint)" stroke="#00E8AF" stroke-width="2"/>
-          <text class="hd bf" x="518" y="62">AFTER · ONE CENTRAL GATE OUTSIDE ALL 62 HELPERS</text>
+          <rect x="498" y="26" width="552" height="296" rx="14" fill="url(#g-mint)" stroke="#00E8AF" stroke-width="2"/>
+          <text class="hd bf" x="518" y="50">AFTER · ONE COMPOSITE GATE OUTSIDE ALL 62 HELPERS</text>
 
-          <!-- Clean 4-Step Numbered Horizontal Gate Strip -->
-          <rect x="516" y="78" width="516" height="86" rx="11" fill="#0C2E2F" stroke="#00E8AF" stroke-width="1.8"/>
-          <text class="hd bf" x="532" y="98" style="font-size:10px">ONE SAFETY GATE · 0.85 MS PER MESSAGE</text>
+          <!-- Left Ingress Node -->
+          <rect x="512" y="138" width="94" height="54" rx="10" fill="#121C29" stroke="#00E8AF" stroke-width="1.5"/>
+          <text class="xs bf" x="559" y="161" text-anchor="middle" style="font-size:10px">BODHYANGA'S</text>
+          <text class="xs" x="559" y="178" text-anchor="middle" fill="#FFFFFF">MESSAGE</text>
+          <line x1="606" y1="165" x2="628" y2="165" stroke="#00E8AF" stroke-width="2.2" class="dash-flow"/>
+
+          <!-- Center Composite Policy Gate Box -->
+          <rect x="628" y="64" width="248" height="208" rx="12" fill="#0B2228" stroke="#00E8AF" stroke-width="1.8"/>
+          <text class="hd bf" x="752" y="84" text-anchor="middle" style="font-size:11px">COMPOSITE POLICY GATE</text>
+          <text class="xs" x="752" y="98" text-anchor="middle" fill="#B4C0D8" style="font-size:10px">Compiled Go · Zero network hop</text>
+
+          <!-- 4 Stacked Deterministic Checks -->
+          <rect x="640" y="107" width="224" height="29" rx="7" fill="#111C2A" stroke="#00E8AF" stroke-opacity=".85"/>
+          <text class="xs bf" x="652" y="125">1 · BORDERS</text>
+          <text class="xs" x="738" y="125" fill="#DCE4F4">Stays in India</text>
+          <circle cx="850" cy="121.5" r="8" fill="#0C3A34" stroke="#00E8AF"/><text class="xs okf" x="850" y="125" text-anchor="middle" style="font-size:10px">✓</text>
+
+          <rect x="640" y="141" width="224" height="29" rx="7" fill="#111C2A" stroke="#C4A3FF" stroke-opacity=".85"/>
+          <text class="xs lf" x="652" y="159">2 · CONSENT</text>
+          <text class="xs" x="738" y="159" fill="#DCE4F4">Live yes on file</text>
+          <circle cx="850" cy="155.5" r="8" fill="#0C3A34" stroke="#00E8AF"/><text class="xs okf" x="850" y="159" text-anchor="middle" style="font-size:10px">✓</text>
+
+          <rect x="640" y="175" width="224" height="29" rx="7" fill="#111C2A" stroke="#FFB78E" stroke-opacity=".85"/>
+          <text class="xs pf" x="652" y="193">3 · REASON</text>
+          <text class="xs" x="738" y="193" fill="#DCE4F4">Explains why</text>
+          <circle cx="850" cy="189.5" r="8" fill="#0C3A34" stroke="#00E8AF"/><text class="xs okf" x="850" y="193" text-anchor="middle" style="font-size:10px">✓</text>
+
+          <rect x="640" y="209" width="224" height="29" rx="7" fill="#111C2A" stroke="#00E8AF" stroke-opacity=".85"/>
+          <text class="xs bf" x="652" y="227">4 · ROLE</text>
+          <text class="xs" x="738" y="227" fill="#DCE4F4">Allowed user</text>
+          <circle cx="850" cy="223.5" r="8" fill="#0C3A34" stroke="#00E8AF"/><text class="xs okf" x="850" y="227" text-anchor="middle" style="font-size:10px">✓</text>
+
+          <!-- Deterministic Latency Badge -->
+          <rect x="652" y="244" width="200" height="21" rx="10" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.2"/>
+          <text class="xs okf mono" x="752" y="258" text-anchor="middle" style="font-size:10.5px">0.85 MS · DETERMINISTIC</text>
+
+          <!-- Fan-out Hub & Lines to 62 Clean Helpers -->
+          <line x1="876" y1="150" x2="914" y2="150" stroke="#00E8AF" stroke-width="2.2" class="dash-flow"/>
+          <circle cx="918" cy="150" r="6" fill="#0C3A34" stroke="#00E8AF" stroke-width="2"/>
+          <g stroke="#00E8AF" stroke-opacity=".65" stroke-width="1.4" fill="none">
+            <path d="M924 150 C 932 150, 932 82,  944 82"/>
+            <path d="M924 150 C 932 150, 932 114, 944 114"/>
+            <path d="M924 150 L 944 146"/>
+            <path d="M924 150 C 932 150, 932 178, 944 178"/>
+            <path d="M924 150 C 932 150, 932 210, 944 210"/>
+          </g>
 
           <g text-anchor="middle">
-            <rect x="530" y="108" width="110" height="44" rx="8" fill="#121C29" stroke="#00E8AF"/><text class="xs bf" x="585" y="126">1 · BORDERS</text><text class="xs" x="585" y="143">Stays in India</text>
-            <rect x="656" y="108" width="110" height="44" rx="8" fill="#121C29" stroke="#C4A3FF"/><text class="xs lf" x="711" y="126">2 · CONSENT</text><text class="xs" x="711" y="143">Live yes on file</text>
-            <rect x="782" y="108" width="110" height="44" rx="8" fill="#121C29" stroke="#FFB78E"/><text class="xs pf" x="837" y="126">3 · REASON</text><text class="xs" x="837" y="143">Explains why</text>
-            <rect x="908" y="108" width="110" height="44" rx="8" fill="#121C29" stroke="#00E8AF"/><text class="xs bf" x="963" y="126">4 · ROLE</text><text class="xs" x="963" y="143">Allowed user</text>
-          </g>
-          <g stroke="#00E8AF" stroke-width="1.8">
-            <line x1="640" y1="130" x2="656" y2="130"/>
-            <line x1="766" y1="130" x2="782" y2="130"/>
-            <line x1="892" y1="130" x2="908" y2="130"/>
+            <rect x="944" y="69"  width="92" height="25" rx="6" fill="#13222F" stroke="#00E8AF"/><text class="xs" x="990" y="85" fill="#FFFFFF">KYC Agent</text>
+            <rect x="944" y="101" width="92" height="25" rx="6" fill="#13222F" stroke="#00E8AF"/><text class="xs" x="990" y="117" fill="#FFFFFF">Payments</text>
+            <rect x="944" y="133" width="92" height="25" rx="6" fill="#13222F" stroke="#00E8AF"/><text class="xs" x="990" y="149" fill="#FFFFFF">AML Watch</text>
+            <rect x="944" y="165" width="92" height="25" rx="6" fill="#13222F" stroke="#00E8AF"/><text class="xs" x="990" y="181" fill="#FFFFFF">Balance AI</text>
+            <rect x="944" y="197" width="92" height="25" rx="6" fill="#0C3A34" stroke="#00E8AF"/><text class="xs bf" x="990" y="213">+ 58 Clean</text>
           </g>
 
-          <!-- Clean Split Outcomes Below the Gate -->
-          <line x1="644" y1="164" x2="644" y2="192" stroke="#00E8AF" stroke-width="2.4" class="dash-flow"/>
-          <polygon points="639,190 644,200 649,190" fill="#00E8AF"/>
-          <line x1="904" y1="164" x2="904" y2="192" stroke="#FF6B6B" stroke-width="2.4" class="dash-flow"/>
-          <polygon points="899,190 904,200 909,190" fill="#FF6B6B"/>
+          <!-- Blocked branch to Locked Diary -->
+          <path d="M876 238 L 914 238 L 914 252 L 944 252" fill="none" stroke="#FF6B6B" stroke-width="2" class="dash-flow"/>
+          <rect x="944" y="233" width="92" height="38" rx="7" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.5"/>
+          <text class="xs nof" x="990" y="249" text-anchor="middle" style="font-size:10px">✕ BLOCKED</text>
+          <text class="xs pf" x="990" y="264" text-anchor="middle" style="font-size:9.5px">Logged cold</text>
 
-          <!-- Left Outcome: Safe Traffic enters 62 Clean Helpers -->
-          <rect x="516" y="202" width="254" height="96" rx="10" fill="#13222F" stroke="#00E8AF" stroke-width="1.6"/>
-          <text class="hd okf" x="532" y="226" style="font-size:10.5px">✓ SAFE → 62 CLEAN HELPERS</text>
-          <text class="sm" x="532" y="250" fill="#FFFFFF">Helpers stay fast &amp; simple</text>
-          <text class="xs" x="532" y="272" fill="#B4C0D8">Zero copied rule logic inside</text>
-          <text class="xs bf" x="532" y="289">One rulebook to audit</text>
-
-          <!-- Right Outcome: Bad Traffic Stopped & Logged -->
-          <rect x="782" y="202" width="250" height="96" rx="10" fill="#2A1721" stroke="#FF6B6B" stroke-width="1.6"/>
-          <text class="hd pf" x="798" y="226" style="font-size:10.5px">✕ UNSAFE → STOPPED COLD</text>
-          <text class="sm" x="798" y="250" fill="#FFFFFF">AI helper never sees it</text>
-          <text class="xs" x="798" y="272" fill="#D5DCEB">Exact rule &amp; minute saved</text>
-          <text class="xs pf" x="798" y="289">straight to the locked diary</text>
+          <!-- Bottom Summary Strip -->
+          <rect x="512" y="282" width="524" height="28" rx="14" fill="#0E262A" stroke="#00E8AF" stroke-opacity=".7"/>
+          <text class="xs okf" x="774" y="300" text-anchor="middle">✓ 62 HELPERS STAY SIMPLE (0 COPIED RULES)  ·  ✕ UNSAFE STOPPED BEFORE ANY AI SEES IT</text>
         </g>
       </svg></div>
     </div>
@@ -1749,68 +1855,108 @@
     <h2>When an old permit <span class="peach">stops matching the code</span></h2>
     <p class="slide-lead">Before any high-risk AI helper runs, the gate checks the signed risk level on file against the risk level running today.</p>
     <div class="dia-frame">
-      <div class="dia" data-dia="drift-hud" data-broke-ms="850"><svg viewBox="0 30 1060 292" role="img"
-        aria-label="Live gate comparison: signed permit on file says MEDIUM risk while the upgraded live app runs at HIGH risk, triggering an automatic stop in under 1 millisecond.">
+      <div class="dia" data-dia="drift-hud" data-broke-ms="850"><svg viewBox="0 20 1060 306" role="img"
+        aria-label="Live runway inspection: var_calculator rolls toward the ApprovalDriftPolicy deterministic barrier while an inspection HUD shows approved MEDIUM risk versus live HIGH risk, triggering an automatic block in under 1 millisecond.">
 
-        <g data-d class="slide-in">
-          <rect x="10" y="38" width="332" height="174" rx="12" fill="url(#g-mint)" stroke="#00E8AF" stroke-width="1.8"/>
-          <text class="hd bf" x="30" y="64">ON FILE · SIGNED BY RISK CHIEF</text>
-          <line x1="30" y1="76" x2="322" y2="76" stroke="#1E4A45"/>
-          <text class="sm" x="30" y="100" fill="#FFFFFF">Helper: <tspan class="mono">var_calculator</tspan></text>
-          <text class="sm okf" x="30" y="122">Status: APPROVED ✓</text>
-          <text class="sm okf" x="30" y="144">Expires: Valid (+60 days) ✓</text>
-          <rect x="30" y="162" width="292" height="34" rx="8" fill="#161B26" stroke="#C4A3FF" stroke-width="1.4"/>
-          <text class="hd lf" x="176" y="184" text-anchor="middle">APPROVED RISK: MEDIUM</text>
-        </g>
-
-        <g data-d class="slide-in-r" style="transition-delay:.18s">
-          <rect x="718" y="38" width="332" height="174" rx="12" fill="url(#g-coral)" stroke="#FF6B6B" stroke-width="1.8"/>
-          <text class="hd pf" x="738" y="64">RUNNING TODAY · LIVE APP</text>
-          <line x1="738" y1="76" x2="1030" y2="76" stroke="#4D2430"/>
-          <text class="sm" x="738" y="100" fill="#FFFFFF">Helper: <tspan class="mono">var_calculator</tspan></text>
-          <text class="sm" x="738" y="122" fill="#D5DCEB">Change: Team upgraded it</text>
-          <text class="sm pf" x="738" y="144">Impact: Now touches real money</text>
-          <rect x="738" y="162" width="292" height="34" rx="8" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.6"/>
-          <text class="hd nof" x="884" y="184" text-anchor="middle">LIVE RISK NOW: HIGH</text>
-        </g>
-
-        <line x1="342" y1="124" x2="386" y2="124" stroke="#00E8AF" stroke-width="2.4" class="dash-flow" data-d style="transition-delay:.3s"/>
-        <line x1="674" y1="124" x2="718" y2="124" stroke="#FF6B6B" stroke-width="2.4" class="dash-flow" data-d style="transition-delay:.3s"/>
-
-        <g data-d style="transition-delay:.35s" text-anchor="middle">
-          <rect x="386" y="38" width="288" height="174" rx="12" fill="url(#g-card)" stroke="#FFB78E" stroke-width="1.6"/>
-          <text class="hd pf" x="530" y="66" style="font-size:10.5px">GATE CHECK · UNDER 1 MS</text>
-          <text class="big-n nof" x="530" y="110" style="font-size:26px">MEDIUM ≠ HIGH</text>
-          <g class="stamp-drop">
-            <rect x="406" y="134" width="248" height="54" rx="10" fill="#3D1C24" stroke="#FF6B6B" stroke-width="2"/>
-            <text class="lbl pf" x="530" y="158">✕ STOP · RISK CHANGED</text>
-            <text class="xs" x="530" y="176" fill="#FFFFFF">Blocked automatically</text>
+        <!-- TOP STAGE: RUNWAY TRACK + FLOATING AGENT INSPECTION HUD + DRIFT BARRIER -->
+        <g data-d>
+          <rect x="10" y="24" width="1040" height="196" rx="14" fill="url(#g-card)" stroke="#323B52" stroke-width="1.4"/>
+          <!-- Graduated Runway Track -->
+          <line x1="28" y1="206" x2="1032" y2="206" stroke="#45506B" stroke-width="2"/>
+          <g stroke="#45506B" stroke-width="1.5">
+            <line x1="50"  y1="206" x2="50"  y2="213"/><line x1="110" y1="206" x2="110" y2="213"/>
+            <line x1="170" y1="206" x2="170" y2="213"/><line x1="230" y1="206" x2="230" y2="213"/>
+            <line x1="290" y1="206" x2="290" y2="213"/><line x1="350" y1="206" x2="350" y2="213"/>
+            <line x1="410" y1="206" x2="410" y2="213"/><line x1="470" y1="206" x2="470" y2="213"/>
+            <line x1="530" y1="206" x2="530" y2="213"/><line x1="590" y1="206" x2="590" y2="213"/>
+            <line x1="650" y1="206" x2="650" y2="213"/><line x1="710" y1="206" x2="710" y2="213"/>
+            <line x1="770" y1="206" x2="770" y2="213"/><line x1="830" y1="206" x2="830" y2="213"/>
+            <line x1="890" y1="206" x2="890" y2="213"/><line x1="950" y1="206" x2="950" y2="213"/>
+            <line x1="1010" y1="206" x2="1010" y2="213"/>
           </g>
         </g>
 
-        <g data-d class="rise" style="transition-delay:.55s" text-anchor="middle">
-          <rect x="10" y="224" width="1040" height="92" rx="12" fill="url(#g-card)" stroke="#323B52"/>
-          <text class="hd" x="530" y="246" style="font-size:10.5px" fill="#9AA6C0">NEXT SLIDE · WATCH LIVE CODE CHECK ALL 5 AI HELPERS:</text>
+        <!-- Floating Inspection HUD + var_calculator Pod on Runway -->
+        <g data-d class="slide-in">
+          <rect x="34" y="34" width="528" height="122" rx="12" fill="#121826" stroke="#00E8AF" stroke-width="1.8" class="blk edited"/>
+          <text class="hd bf" x="298" y="56" text-anchor="middle">AGENT INSPECTION: <tspan class="mono">var_calculator</tspan></text>
+          <line x1="54" y1="64" x2="542" y2="64" stroke="#28344D"/>
 
-          <rect x="24"  y="256" width="194" height="48" rx="9" fill="#0C3A34" stroke="#00E8AF"/>
-          <text class="xs" x="121" y="275" fill="#FFFFFF">1 · Payments AI</text>
-          <text class="xs okf mono" x="121" y="294">✓ RUN · valid permit</text>
+          <text class="xs" x="56" y="83" fill="#9AA7C0">Signed Permit on File:</text>
+          <text class="xs okf mono" x="218" y="83">status = "approved" ✓  (+60 days left)</text>
 
-          <rect x="230" y="256" width="194" height="48" rx="9" fill="#2A1721" stroke="#FF6B6B"/>
-          <text class="xs" x="327" y="275" fill="#FFFFFF">2 · ID Check AI</text>
-          <text class="xs pf mono" x="327" y="294">✕ STOP · expired</text>
+          <text class="xs" x="56" y="102" fill="#9AA7C0">Approved Baseline:</text>
+          <text class="xs lf mono" x="218" y="102">MEDIUM RISK (Scooter permit)</text>
 
-          <rect x="436" y="256" width="194" height="48" rx="9" fill="#2A1721" stroke="#FF6B6B"/>
-          <text class="xs" x="533" y="275" fill="#FFFFFF">3 · Fraud Watch AI</text>
-          <text class="xs pf mono" x="533" y="294">✕ STOP · rejected</text>
+          <text class="xs" x="56" y="121" fill="#9AA7C0">Live App Today:</text>
+          <text class="xs pf mono" x="218" y="121">HIGH RISK (Upgraded — touches real money)</text>
 
-          <rect x="642" y="256" width="204" height="48" rx="9" fill="#3D1C24" stroke="#FFB78E" stroke-width="1.8"/>
-          <text class="xs mono" x="744" y="275" fill="#FFFFFF">4 · var_calculator</text>
-          <text class="xs nof mono" x="744" y="294">✕ STOP · RISK CHANGED!</text>
+          <rect x="52" y="130" width="492" height="20" rx="6" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.2"/>
+          <text class="xs nof mono" x="298" y="144" text-anchor="middle">✕ DRIFT DETECTED: Approved MEDIUM ≠ Live HIGH</text>
 
-          <rect x="858" y="256" width="178" height="48" rx="9" fill="#0C3A34" stroke="#00E8AF"/>
-          <text class="xs" x="947" y="275" fill="#FFFFFF">5 · Learning AI</text>
-          <text class="xs okf mono" x="947" y="294">✓ RUN · low risk</text>
+          <!-- Vertical Tether to Agent Pod on Track -->
+          <line x1="298" y1="156" x2="298" y2="168" stroke="#00E8AF" stroke-width="2"/>
+          <rect x="208" y="168" width="180" height="38" rx="8" fill="#172233" stroke="#00E8AF" stroke-width="1.8"/>
+          <text class="sm mono" x="298" y="185" text-anchor="middle" fill="#FFFFFF">var_calculator</text>
+          <text class="xs bf" x="298" y="199" text-anchor="middle" style="font-size:9.5px">AI HELPER · DISPATCHING →</text>
+        </g>
+
+        <!-- Dispatch Motion Beam Hitting Barrier -->
+        <g data-d style="transition-delay:.22s">
+          <line x1="388" y1="187" x2="722" y2="187" stroke="#FF6B6B" stroke-width="2.6" class="dash-flow"/>
+          <polygon points="720,181 732,187 720,193" fill="#FF6B6B"/>
+          <rect x="576" y="156" width="144" height="22" rx="11" fill="#2A1721" stroke="#FFB78E" stroke-width="1.2"/>
+          <text class="xs pf mono" x="648" y="171" text-anchor="middle">check (&lt; 1 ms)</text>
+        </g>
+
+        <!-- ApprovalDriftPolicy Deterministic Barrier Gate -->
+        <g data-d style="transition-delay:.28s" text-anchor="middle">
+          <text class="hd bf" x="750" y="46" style="font-size:11px">ApprovalDriftPolicy</text>
+          <text class="xs" x="750" y="61" fill="#9AA7C0">Deterministic Gate</text>
+          <!-- Upper Gate Pillar -->
+          <rect x="738" y="68" width="24" height="54" rx="6" fill="#122130" stroke="#00E8AF" stroke-width="2"/>
+          <!-- Laser Cutoff Beam -->
+          <line x1="750" y1="122" x2="750" y2="156" stroke="#FF6B6B" stroke-width="3.5" class="dash-flow"/>
+          <!-- Lower Gate Pillar anchored to Runway -->
+          <rect x="738" y="156" width="24" height="50" rx="6" fill="#122130" stroke="#FF6B6B" stroke-width="2"/>
+        </g>
+
+        <!-- Right Outcome: Blocked Stamp -->
+        <g data-d class="slide-in-r" style="transition-delay:.36s" text-anchor="middle">
+          <g class="stamp-drop">
+            <rect x="786" y="62" width="246" height="126" rx="12" fill="url(#g-coral)" stroke="#FF6B6B" stroke-width="2"/>
+            <text class="big-n nof" x="909" y="100" style="font-size:22px">MEDIUM ≠ HIGH</text>
+            <rect x="806" y="112" width="206" height="32" rx="8" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.6"/>
+            <text class="lbl pf" x="909" y="133">✕ STOP · RISK CHANGED</text>
+            <text class="xs" x="909" y="164" fill="#FFFFFF">Blocked before touching money</text>
+            <text class="xs pf mono" x="909" y="180">ErrRiskChanged</text>
+          </g>
+        </g>
+
+        <!-- Bottom 5-Helper Preview Strip -->
+        <g data-d class="rise" style="transition-delay:.52s" text-anchor="middle">
+          <rect x="10" y="230" width="1040" height="90" rx="12" fill="url(#g-card)" stroke="#323B52"/>
+          <text class="hd" x="530" y="250" style="font-size:10.5px" fill="#9AA6C0">NEXT SLIDE · WATCH LIVE CODE CHECK ALL 5 AI HELPERS:</text>
+
+          <rect x="24"  y="260" width="194" height="48" rx="9" fill="#0C3A34" stroke="#00E8AF"/>
+          <text class="xs" x="121" y="279" fill="#FFFFFF">1 · Payments AI</text>
+          <text class="xs okf mono" x="121" y="298">✓ RUN · valid permit</text>
+
+          <rect x="230" y="260" width="194" height="48" rx="9" fill="#2A1721" stroke="#FF6B6B"/>
+          <text class="xs" x="327" y="279" fill="#FFFFFF">2 · ID Check AI</text>
+          <text class="xs pf mono" x="327" y="298">✕ STOP · expired</text>
+
+          <rect x="436" y="260" width="194" height="48" rx="9" fill="#2A1721" stroke="#FF6B6B"/>
+          <text class="xs" x="533" y="279" fill="#FFFFFF">3 · Fraud Watch AI</text>
+          <text class="xs pf mono" x="533" y="298">✕ STOP · rejected</text>
+
+          <rect x="642" y="260" width="204" height="48" rx="9" fill="#3D1C24" stroke="#FFB78E" stroke-width="1.8"/>
+          <text class="xs mono" x="744" y="279" fill="#FFFFFF">4 · var_calculator</text>
+          <text class="xs nof mono" x="744" y="298">✕ STOP · RISK CHANGED!</text>
+
+          <rect x="858" y="260" width="178" height="48" rx="9" fill="#0C3A34" stroke="#00E8AF"/>
+          <text class="xs" x="947" y="279" fill="#FFFFFF">5 · Learning AI</text>
+          <text class="xs okf mono" x="947" y="298">✓ RUN · low risk</text>
         </g>
       </svg></div>
     </div>
@@ -1986,58 +2132,110 @@ var today = []struct{ id, risk string }{
     <h2>Three locks that catch <span class="peach">even an insider</span></h2>
     <p class="slide-lead">You don't need a blockchain. Three boring, well-tested locks make quiet history edits mathematically impossible to hide.</p>
     <div class="dia-frame">
-      <div class="dia" data-dia="three-locks" data-broke-ms="900"><svg viewBox="0 30 1060 296" role="img"
-        aria-label="Three-lock record book: editing row 2 snaps the padlock from valid to broken at row 2; backed by linked page seals, a locked signature, and a 60-second outside read-only backup.">
+      <div class="dia" data-dia="three-locks" data-broke-ms="900"><svg viewBox="0 16 1060 310" role="img"
+        aria-label="SHA-256 linked audit chain satisfying RBI Rec. 22 and EU AI Act Art. 12: padlocks bridge SEQ 01 to SEQ 02 to SEQ 03; editing advisor-7 to advisor-99 on SEQ 02 snaps the link to SEQ 03 and trips the chain monitor.">
 
         <g data-d>
-          <rect x="10" y="36" width="1040" height="170" rx="12" fill="url(#g-card)" stroke="#323B52" stroke-width="1.5"/>
-          <text class="hd" x="32" y="58" fill="#9AA6C0" style="font-size:10.5px">LIVE RECORD BOOK</text>
+          <!-- Header & Dual Regulatory Badges -->
+          <text class="hd" x="14" y="34" fill="#9AA6C0" style="font-size:11px">LIVE RECORD BOOK · SHA-256 LINKED CHAIN</text>
+          <rect x="756" y="18" width="120" height="24" rx="12" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.3"/>
+          <text class="xs bf" x="816" y="34" text-anchor="middle">RBI Rec. 22</text>
+          <rect x="888" y="18" width="162" height="24" rx="12" fill="#271F42" stroke="#C4A3FF" stroke-width="1.3"/>
+          <text class="xs lf" x="969" y="34" text-anchor="middle">EU AI Act Art. 12</text>
 
-          <rect x="28" y="68" width="644" height="36" rx="7" fill="#0E2427" stroke="#00E8AF" stroke-width="1.4" class="blk"/>
-          <text class="sm" x="44" y="91" fill="#FFFFFF">ROW 1 · Bodhyanga says yes</text>
-          <text class="sm bf mono" x="654" y="91" text-anchor="end">seal: a1b2c3 ✓</text>
+          <!-- Left Ledger Container -->
+          <rect x="10" y="50" width="728" height="176" rx="12" fill="url(#g-card)" stroke="#323B52" stroke-width="1.5"/>
 
-          <rect x="28" y="112" width="644" height="36" rx="7" fill="#1E2433" stroke="#00E8AF" stroke-width="1.4" class="blk edited"/>
-          <text class="sm" x="44" y="135" fill="#FFFFFF">ROW 2 · Account viewed by:</text>
-          <text class="sm pf mono" x="234" y="135">advisor-7 → advisor-99</text>
-          <rect class="cursor-bar" x="398" y="120" width="3" height="20" fill="#FF6B6B"/>
-          <text class="sm nof burst" x="654" y="135" text-anchor="end">✎ EDITED!</text>
+          <!-- SEQ 01 -->
+          <rect x="24" y="60" width="700" height="44" rx="8" fill="#0E2427" stroke="#00E8AF" stroke-width="1.5" class="blk"/>
+          <rect x="34" y="70" width="60" height="24" rx="6" fill="#0C3A34" stroke="#00E8AF"/>
+          <text class="xs bf mono" x="64" y="86" text-anchor="middle">SEQ 01</text>
+          <text class="xs mono" x="106" y="79" fill="#9AA7C0" style="font-size:10px">10:14:02</text>
+          <text class="xs" x="106" y="95" fill="#FFFFFF">advisor-7</text>
+          <text class="xs okf" x="218" y="86">ALLOW · Bodhyanga Yes</text>
+          <rect x="498" y="65" width="216" height="34" rx="6" fill="#0A141E" stroke="#00E8AF" stroke-opacity=".7"/>
+          <text class="xs mono" x="508" y="79" fill="#9AA7C0" style="font-size:9.5px">prev: 00000000…</text>
+          <text class="xs bf mono" x="508" y="93" style="font-size:10px">seal: e3b0c442…</text>
 
-          <rect x="28" y="156" width="644" height="36" rx="7" fill="#1E2433" stroke="#00E8AF" stroke-width="1.4" class="blk after"/>
-          <text class="sm" x="44" y="179" fill="#FFFFFF">ROW 3 · Refund issued</text>
-          <text class="sm nof burst" x="654" y="179" text-anchor="end">seal broken! ✕</text>
+          <!-- SEQ 02 (Edited Row!) -->
+          <rect x="24" y="116" width="700" height="44" rx="8" fill="#1E2433" stroke="#00E8AF" stroke-width="1.5" class="blk edited"/>
+          <rect x="34" y="126" width="60" height="24" rx="6" fill="#162033" stroke="#C4A3FF"/>
+          <text class="xs lf mono" x="64" y="142" text-anchor="middle">SEQ 02</text>
+          <text class="xs mono" x="106" y="135" fill="#9AA7C0" style="font-size:10px">10:14:03</text>
+          <text class="xs pf mono" x="106" y="151">advisor-7 → advisor-99</text>
+          <!-- Vector Pointer Cursor hovering edit -->
+          <path d="M276 144 l12 5 l-5 2 l-2 6 z" fill="#FFB78E" stroke="#111622" stroke-width="1"/>
+          <rect class="cursor-bar" x="266" y="137" width="2.5" height="16" fill="#FF6B6B"/>
+          <text class="xs nof burst" x="304" y="142">✎ EDITED!</text>
+          <rect x="498" y="121" width="216" height="34" rx="6" fill="#0A141E" stroke="#00E8AF" stroke-opacity=".7" class="blk edited"/>
+          <text class="xs mono" x="508" y="135" fill="#9AA7C0" style="font-size:9.5px">prev: e3b0c442…</text>
+          <text class="xs bf mono lock-ok" x="508" y="149" style="font-size:10px">seal: 8f4b1c90…</text>
+          <text class="xs nof mono lock-bad" x="508" y="149" style="font-size:10px">seal: MISMATCH ✕</text>
 
-          <rect x="692" y="54" width="340" height="138" rx="10" fill="#0E131F" stroke="#323B52" stroke-width="1.5"/>
+          <!-- SEQ 03 (Downstream Break!) -->
+          <rect x="24" y="172" width="700" height="44" rx="8" fill="#1E2433" stroke="#00E8AF" stroke-width="1.5" class="blk after"/>
+          <rect x="34" y="182" width="60" height="24" rx="6" fill="#162033" stroke="#00E8AF"/>
+          <text class="xs bf mono" x="64" y="198" text-anchor="middle">SEQ 03</text>
+          <text class="xs mono" x="106" y="191" fill="#9AA7C0" style="font-size:10px">10:14:05</text>
+          <text class="xs" x="106" y="207" fill="#FFFFFF">system_gate</text>
+          <text class="xs bf" x="218" y="198">REFUND · DISCLOSURE</text>
+          <rect x="498" y="177" width="216" height="34" rx="6" fill="#0A141E" stroke="#00E8AF" stroke-opacity=".7" class="blk after"/>
+          <text class="xs mono" x="508" y="191" fill="#9AA7C0" style="font-size:9.5px">prev: 8f4b1c90…</text>
+          <text class="xs bf mono lock-ok" x="508" y="205" style="font-size:10px">seal: 2a9e7d1f…</text>
+          <text class="xs nof mono lock-bad" x="508" y="205" style="font-size:10px">CHAIN SEVERED ✕</text>
+
+          <!-- Physical Padlock Bridge #1 (SEQ 01 <-> SEQ 02: stays locked) -->
+          <g transform="translate(596,101)">
+            <rect x="0" y="7" width="18" height="13" rx="3" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.6"/>
+            <path d="M4 7V4a5 5 0 0 1 10 0v3" fill="none" stroke="#00E8AF" stroke-width="1.8"/>
+          </g>
+
+          <!-- Physical Padlock Bridge #2 (SEQ 02 <-> SEQ 03: snaps open on edit!) -->
+          <g class="lock-ok" transform="translate(596,157)">
+            <rect x="0" y="7" width="18" height="13" rx="3" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.6"/>
+            <path d="M4 7V4a5 5 0 0 1 10 0v3" fill="none" stroke="#00E8AF" stroke-width="1.8"/>
+          </g>
+          <g class="lock-bad" transform="translate(596,157)">
+            <rect x="0" y="7" width="18" height="13" rx="3" fill="#3D1C24" stroke="#FF6B6B" stroke-width="1.8"/>
+            <path d="M4 7V3a5 5 0 0 1 10 -1" fill="none" stroke="#FF6B6B" stroke-width="1.8"/>
+          </g>
+
+          <!-- Right Live Chain Status Monitor -->
+          <rect x="756" y="50" width="294" height="176" rx="12" fill="#0E131F" stroke="#323B52" stroke-width="1.6"/>
           <g class="lock-ok" text-anchor="middle">
-            <rect x="842" y="84" width="40" height="32" rx="6" fill="#0C3A34" stroke="#00E8AF" stroke-width="2"/>
-            <path d="M 850 84 L 850 74 A 12 12 0 0 1 874 74 L 874 84" fill="none" stroke="#00E8AF" stroke-width="2.4"/>
-            <text class="lbl okf" x="862" y="142">LOCKED &amp; HONEST ✓</text>
-            <text class="xs bf" x="862" y="166">Report says: ALL GOOD</text>
+            <rect x="883" y="84" width="40" height="32" rx="6" fill="#0C3A34" stroke="#00E8AF" stroke-width="2"/>
+            <path d="M 891 84 L 891 74 A 12 12 0 0 1 915 74 L 915 84" fill="none" stroke="#00E8AF" stroke-width="2.4"/>
+            <text class="lbl okf" x="903" y="144">● CHAIN: UNBROKEN</text>
+            <text class="xs" x="903" y="166" fill="#D5DCEB">Every seal matches row before</text>
+            <rect x="782" y="182" width="242" height="28" rx="14" fill="#0C3A34" stroke="#00E8AF"/>
+            <text class="xs okf" x="903" y="200">Report says: VERIFIED ✓</text>
           </g>
           <g class="lock-bad" text-anchor="middle">
-            <rect x="842" y="84" width="40" height="32" rx="6" fill="#3D1C24" stroke="#FF6B6B" stroke-width="2"/>
-            <path d="M 850 84 L 850 72 A 12 12 0 0 1 874 70" fill="none" stroke="#FF6B6B" stroke-width="2.4"/>
-            <text class="lbl nof" x="862" y="142">✕ BROKEN AT ROW 2</text>
-            <rect x="718" y="154" width="288" height="26" rx="13" fill="#3D1C24" stroke="#FF6B6B"/>
-            <text class="xs pf" x="862" y="171">Report says: TAMPERED!</text>
+            <rect x="883" y="84" width="40" height="32" rx="6" fill="#3D1C24" stroke="#FF6B6B" stroke-width="2"/>
+            <path d="M 891 84 L 891 72 A 12 12 0 0 1 915 70" fill="none" stroke="#FF6B6B" stroke-width="2.4"/>
+            <text class="lbl nof" x="903" y="144">✕ BROKEN AT SEQ 02</text>
+            <text class="xs" x="903" y="166" fill="#D5DCEB">Row 2 seal ≠ Row 3 prev_hash</text>
+            <rect x="782" y="182" width="242" height="28" rx="14" fill="#3D1C24" stroke="#FF6B6B"/>
+            <text class="xs pf" x="903" y="200">Report says: TAMPERED!</text>
           </g>
         </g>
 
+        <!-- Bottom 3 Simple Locks -->
         <g data-d class="rise" style="transition-delay:.22s">
-          <rect x="10" y="220" width="332" height="96" rx="12" fill="url(#g-mint)" stroke="#00E8AF" stroke-width="1.5"/>
-          <text class="hd bf" x="28" y="246">1 · LINKED SEALS</text>
-          <text class="xs bf" x="28" y="264">Digital fingerprint</text>
-          <text class="sm" x="28" y="288" fill="#D5DCEB">Every row seals the row before it</text>
+          <rect x="10" y="238" width="332" height="82" rx="12" fill="url(#g-mint)" stroke="#00E8AF" stroke-width="1.5"/>
+          <text class="hd bf" x="28" y="262">1 · LINKED SEALS (SHA-256)</text>
+          <text class="xs bf" x="28" y="280">Digital fingerprint</text>
+          <text class="sm" x="28" y="304" fill="#D5DCEB">Every row seals the row before it</text>
 
-          <rect x="364" y="220" width="332" height="96" rx="12" fill="url(#g-lav)" stroke="#C4A3FF" stroke-width="1.5"/>
-          <text class="hd lf" x="382" y="246">2 · LOCKED SIGNATURE</text>
-          <text class="xs lf" x="382" y="264">Unforgeable stamp</text>
-          <text class="sm" x="382" y="288" fill="#D5DCEB">Reports sealed with a locked key</text>
+          <rect x="364" y="238" width="332" height="82" rx="12" fill="url(#g-lav)" stroke="#C4A3FF" stroke-width="1.5"/>
+          <text class="hd lf" x="382" y="262">2 · LOCKED SIGNATURE (Ed25519)</text>
+          <text class="xs lf" x="382" y="280">Unforgeable stamp</text>
+          <text class="sm" x="382" y="304" fill="#D5DCEB">Reports sealed with a locked key</text>
 
-          <rect x="718" y="220" width="332" height="96" rx="12" fill="url(#g-peach)" stroke="#FFB78E" stroke-width="1.5"/>
-          <text class="hd pf" x="736" y="246">3 · 60-SECOND BACKUP</text>
-          <text class="xs pf" x="736" y="264">Read-only outside copy</text>
-          <text class="sm" x="736" y="288" fill="#D5DCEB">Saved outside so Row 1 can't move</text>
+          <rect x="718" y="238" width="332" height="82" rx="12" fill="url(#g-peach)" stroke="#FFB78E" stroke-width="1.5"/>
+          <text class="hd pf" x="736" y="262">3 · 60-SECOND BACKUP (WORM)</text>
+          <text class="xs pf" x="736" y="280">Read-only outside copy</text>
+          <text class="sm" x="736" y="304" fill="#D5DCEB">Saved outside so Row 1 can't move</text>
         </g>
       </svg></div>
     </div>
@@ -2181,54 +2379,107 @@ func main() {
     <h2>Build 17 for India — <span class="lav">get 7 for Europe free</span></h2>
     <p class="slide-lead">Europe's AI Act entered scope mid-project. Here is what our India build already covered:</p>
     <div class="dia-frame">
-      <div class="dia" data-dia="funnel-17-7"><svg viewBox="0 30 1060 292" role="img"
-        aria-label="Funnel showing 7 of the 17 India safety checks built once pass through zero extra code to satisfy 7 Europe AI law rules, including telling users it is AI which is already live law.">
+      <div class="dia" data-dia="funnel-17-7"><svg viewBox="0 16 1060 310" role="img"
+        aria-label="Regulatory Convergence Matrix: Sankey ribbons map India's RBI FREE-AI recommendations on the left (Rec 16, Rec 22, Rec 20, Rec 14, Rec 18 & 25, Rec 23 plus 10 India-only controls) through zero extra stack code directly to 7 EU AI Act articles on the right, with Rec 22 fanning into both Art. 12 and Art. 73 and Art. 50 marked LIVE LAW.">
 
+        <!-- Column Headers -->
+        <g data-d>
+          <text class="hd bf" x="14" y="34">INDIA · RBI FREE-AI (17 BUILT)</text>
+          <text class="hd" x="518" y="34" text-anchor="middle" fill="#9AA7C0">REGULATORY CONVERGENCE MATRIX</text>
+          <text class="hd lf" x="1046" y="34" text-anchor="end">EUROPE · EU AI ACT (7 INHERITED)</text>
+          <line x1="518" y1="46" x2="518" y2="318" stroke="#323B52" stroke-width="1.5" stroke-dasharray="5 5"/>
+        </g>
+
+        <!-- Glowing Sankey Ribbons (Center Flow) -->
+        <g data-d style="transition-delay:.2s" fill="none" stroke-linecap="round">
+          <!-- Glow Halos -->
+          <path d="M 332 67  C 470 67,  560 67,  706 67"  stroke="#00E8AF" stroke-opacity=".18" stroke-width="10"/>
+          <path d="M 332 105 C 460 105, 575 105, 706 105" stroke="#FFB78E" stroke-opacity=".24" stroke-width="11"/>
+          <path d="M 332 105 C 460 105, 555 251, 706 251" stroke="#FFB78E" stroke-opacity=".22" stroke-width="10"/>
+          <path d="M 332 143 C 470 143, 560 143, 706 143" stroke="#00E8AF" stroke-opacity=".18" stroke-width="10"/>
+          <path d="M 332 181 C 470 181, 560 181, 706 181" stroke="#00E8AF" stroke-opacity=".18" stroke-width="10"/>
+          <path d="M 332 219 C 470 219, 560 215, 706 215" stroke="#FFB78E" stroke-opacity=".20" stroke-width="10"/>
+          <path d="M 332 257 C 470 257, 560 289, 706 289" stroke="#C4A3FF" stroke-opacity=".20" stroke-width="10"/>
+
+          <!-- Animated Core Ribbons -->
+          <path d="M 332 67  C 470 67,  560 67,  706 67"  stroke="#00E8AF" stroke-width="3" class="dash-flow"/>
+          <path d="M 332 105 C 460 105, 575 105, 706 105" stroke="#FFB78E" stroke-width="3.6" class="dash-flow"/>
+          <path d="M 332 105 C 460 105, 555 251, 706 251" stroke="#FFB78E" stroke-width="3.2" class="dash-flow"/>
+          <path d="M 332 143 C 470 143, 560 143, 706 143" stroke="#00E8AF" stroke-width="3" class="dash-flow"/>
+          <path d="M 332 181 C 470 181, 560 181, 706 181" stroke="#00E8AF" stroke-width="3" class="dash-flow"/>
+          <path d="M 332 219 C 470 219, 560 215, 706 215" stroke="#FFB78E" stroke-width="3.2" class="dash-flow"/>
+          <path d="M 332 257 C 470 257, 560 289, 706 289" stroke="#C4A3FF" stroke-width="3" class="dash-flow"/>
+        </g>
+
+        <!-- Center Convergence Badge -->
+        <g data-d style="transition-delay:.28s" text-anchor="middle">
+          <rect x="410" y="130" width="216" height="94" rx="14" fill="#111622" stroke="#00E8AF" stroke-width="2"/>
+          <text class="big-n bf" x="518" y="164" style="font-size:23px">7 CONVERGED</text>
+          <text class="hd" x="518" y="186" fill="#FFFFFF" style="font-size:11px">0 EXTRA STACK CODE</text>
+          <text class="xs lf" x="518" y="208">1 offline evidence command</text>
+        </g>
+
+        <!-- LEFT COLUMN: REAL RBI FREE-AI CONTROLS -->
         <g data-d class="slide-in">
-          <rect x="10" y="38" width="298" height="274" rx="14" fill="url(#g-mint)" stroke="#00E8AF" stroke-width="1.8"/>
-          <text class="hd bf" x="159" y="64" text-anchor="middle">IN · 17 INDIA CHECKS BUILT</text>
-          <rect x="26" y="78" width="266" height="148" rx="10" fill="#0C3A34" stroke="#00E8AF" stroke-width="1.6"/>
-          <text class="hd okf" x="159" y="104" text-anchor="middle">7 SHARED CORE CHECKS</text>
-          <text class="xs" x="159" y="126" text-anchor="middle" fill="#FFFFFF">Locked Diary · Accident Form</text>
-          <text class="xs" x="159" y="146" text-anchor="middle" fill="#FFFFFF">Risk Gate · Live AI List</text>
-          <text class="xs" x="159" y="166" text-anchor="middle" fill="#FFFFFF">Attack Tests · First Notice</text>
-          <text class="xs" x="159" y="186" text-anchor="middle" fill="#FFFFFF">Leader-Signed Rules File</text>
-          <text class="xs bf" x="159" y="212" text-anchor="middle">Built once for India</text>
-          <rect x="26" y="238" width="266" height="58" rx="10" fill="#141C29" stroke="#323B52"/>
-          <text class="hd" x="159" y="262" text-anchor="middle" fill="#9AA6C0" style="font-size:10.5px">+ 10 INDIA-ONLY</text>
-          <text class="xs" x="159" y="282" text-anchor="middle">Borders · Test Lab · Training</text>
+          <rect x="10" y="51" width="322" height="32" rx="8" fill="#0E2427" stroke="#00E8AF" stroke-width="1.4"/>
+          <text class="xs bf mono" x="22" y="71">Rec 16</text>
+          <text class="xs" x="86" y="71" fill="#FFFFFF">Pre-Dispatch Risk &amp; Drift Gate</text>
+
+          <rect x="10" y="89" width="322" height="32" rx="8" fill="#35241E" stroke="#FFB78E" stroke-width="2"/>
+          <text class="xs pf mono" x="22" y="109">Rec 22</text>
+          <text class="xs" x="86" y="109" fill="#FFFFFF">Locked Diary + Incident Form</text>
+
+          <rect x="10" y="127" width="322" height="32" rx="8" fill="#0E2427" stroke="#00E8AF" stroke-width="1.4"/>
+          <text class="xs bf mono" x="22" y="147">Rec 20</text>
+          <text class="xs" x="86" y="147" fill="#FFFFFF">20 Attack Tests on Every PR</text>
+
+          <rect x="10" y="165" width="322" height="32" rx="8" fill="#0E2427" stroke="#00E8AF" stroke-width="1.4"/>
+          <text class="xs bf mono" x="22" y="185">Rec 14</text>
+          <text class="xs" x="86" y="185" fill="#FFFFFF">Board-Signed Rules (policy.yaml)</text>
+
+          <rect x="10" y="203" width="322" height="32" rx="8" fill="#0E2427" stroke="#FFB78E" stroke-width="1.6"/>
+          <text class="xs pf mono" x="22" y="223">Rec 18,25</text>
+          <text class="xs" x="98" y="223" fill="#FFFFFF">First-Message AI Notice</text>
+
+          <rect x="10" y="241" width="322" height="32" rx="8" fill="#0E2427" stroke="#C4A3FF" stroke-width="1.4"/>
+          <text class="xs lf mono" x="22" y="261">Rec 23</text>
+          <text class="xs" x="86" y="261" fill="#FFFFFF">Live 62-Helper AI Registry</text>
+
+          <!-- +10 India-Only Built Controls -->
+          <rect x="10" y="280" width="322" height="40" rx="8" fill="#141C29" stroke="#323B52" stroke-width="1.3"/>
+          <text class="xs bf" x="22" y="297">+ 10 INDIA-ONLY BUILT CONTROLS</text>
+          <text class="xs" x="22" y="313" fill="#9AA7C0" style="font-size:10px">Recs 2, 4, 6, 8, 15, 17, 19, 21, 24, 26 · Borders &amp; BCP</text>
         </g>
 
-        <g data-d style="transition-delay:.2s">
-          <path d="M 308 108 C 390 108, 404 152, 444 152" fill="none" stroke="#00E8AF" stroke-width="2.4" class="dash-flow"/>
-          <path d="M 308 152 L 444 152" fill="none" stroke="#00E8AF" stroke-width="2.8" class="dash-flow"/>
-          <path d="M 308 196 C 390 196, 404 152, 444 152" fill="none" stroke="#00E8AF" stroke-width="2.4" class="dash-flow"/>
+        <!-- RIGHT COLUMN: 7 REAL EU AI ACT OBLIGATIONS -->
+        <g data-d class="slide-in-r" style="transition-delay:.35s">
+          <rect x="706" y="51" width="344" height="32" rx="8" fill="#211A38" stroke="#00E8AF" stroke-width="1.4"/>
+          <text class="xs bf mono" x="720" y="71">Art. 9, 14</text>
+          <text class="xs" x="802" y="71" fill="#FFFFFF">Risk &amp; Human Oversight</text>
 
-          <path d="M 616 152 C 652 152, 666 108, 718 108" fill="none" stroke="#C4A3FF" stroke-width="2.4" class="dash-flow"/>
-          <path d="M 616 152 L 718 152" fill="none" stroke="#C4A3FF" stroke-width="2.8" class="dash-flow"/>
-          <path d="M 616 152 C 652 152, 666 250, 718 250" fill="none" stroke="#FFB78E" stroke-width="2.4" class="dash-flow"/>
+          <rect x="706" y="89" width="344" height="32" rx="8" fill="#35241E" stroke="#FFB78E" stroke-width="2"/>
+          <text class="xs pf mono" x="720" y="109">Art. 12</text>
+          <text class="xs" x="802" y="109" fill="#FFFFFF">Traceability &amp; Audit Logging</text>
 
-          <rect x="444" y="98" width="172" height="108" rx="16" fill="url(#g-card)" stroke="#FFFFFF" stroke-width="1.8"/>
-          <text class="big-n bf" x="530" y="140" text-anchor="middle" style="font-size:28px">0 EXTRA</text>
-          <text class="hd" x="530" y="164" text-anchor="middle" fill="#FFFFFF" style="font-size:11px">LINES OF CODE</text>
-          <text class="xs lf" x="530" y="188" text-anchor="middle">Exact same code</text>
+          <rect x="706" y="127" width="344" height="32" rx="8" fill="#211A38" stroke="#00E8AF" stroke-width="1.4"/>
+          <text class="xs bf mono" x="720" y="147">Art. 15</text>
+          <text class="xs" x="802" y="147" fill="#FFFFFF">Cybersecurity &amp; Accuracy</text>
 
-          <rect x="404" y="238" width="252" height="58" rx="10" fill="#111622" stroke="#C4A3FF" stroke-width="1.4"/>
-          <text class="hd bf" x="530" y="262" text-anchor="middle" style="font-size:10.5px">1 OFFLINE COMMAND</text>
-          <text class="xs" x="530" y="282" text-anchor="middle" fill="#D5DCEB">Prints India + Europe reports</text>
-        </g>
+          <rect x="706" y="165" width="344" height="32" rx="8" fill="#211A38" stroke="#00E8AF" stroke-width="1.4"/>
+          <text class="xs bf mono" x="720" y="185">Art. 17</text>
+          <text class="xs" x="802" y="185" fill="#FFFFFF">Quality Management (QMS)</text>
 
-        <g data-d class="slide-in-r" style="transition-delay:.35s" text-anchor="middle">
-          <rect x="718" y="38" width="332" height="274" rx="14" fill="url(#g-lav)" stroke="#C4A3FF" stroke-width="1.8"/>
-          <text class="hd lf" x="884" y="64">EU · 7 EUROPE RULES ANSWERED</text>
-          <rect x="736" y="78"  width="296" height="28" rx="6" fill="#2B2342" stroke="#C4A3FF"/><text class="xs" x="884" y="96" fill="#FFFFFF">Locked History Logs (Art. 12)</text>
-          <rect x="736" y="112" width="296" height="28" rx="6" fill="#2B2342" stroke="#C4A3FF"/><text class="xs" x="884" y="130" fill="#FFFFFF">Serious Accident Form (Art. 73)</text>
-          <rect x="736" y="146" width="296" height="28" rx="6" fill="#2B2342" stroke="#C4A3FF"/><text class="xs" x="884" y="164" fill="#FFFFFF">Risk &amp; Human Check (Art. 9, 14)</text>
-          <rect x="736" y="180" width="296" height="28" rx="6" fill="#2B2342" stroke="#C4A3FF"/><text class="xs" x="884" y="198" fill="#FFFFFF">Up-to-Date AI List (Annex IV)</text>
-          <rect x="736" y="214" width="296" height="28" rx="6" fill="#2B2342" stroke="#C4A3FF"/><text class="xs" x="884" y="232" fill="#FFFFFF">Attack Tests &amp; Rules (Art. 15, 17)</text>
-          <rect x="736" y="250" width="296" height="46" rx="8" fill="#3D2620" stroke="#FFB78E" stroke-width="1.8"/>
-          <text class="hd pf" x="884" y="270" style="font-size:11px">★ TELL USERS IT'S AI (Art. 50)</text>
-          <text class="xs" x="884" y="287" fill="#FFFFFF">LIVE LAW since Aug 2026</text>
+          <rect x="706" y="201" width="344" height="32" rx="8" fill="#3D2620" stroke="#FFB78E" stroke-width="2"/>
+          <text class="xs pf mono" x="720" y="221">Art. 50</text>
+          <text class="xs" x="786" y="221" fill="#FFFFFF">AI Disclosure · <tspan class="pf" font-weight="700">★ LIVE LAW</tspan></text>
+
+          <rect x="706" y="237" width="344" height="32" rx="8" fill="#35241E" stroke="#FFB78E" stroke-width="2"/>
+          <text class="xs pf mono" x="720" y="257">Art. 73</text>
+          <text class="xs" x="802" y="257" fill="#FFFFFF">Serious Incident Reporting</text>
+
+          <rect x="706" y="273" width="344" height="32" rx="8" fill="#211A38" stroke="#C4A3FF" stroke-width="1.5"/>
+          <text class="xs lf mono" x="720" y="293">Annex IV</text>
+          <text class="xs" x="802" y="293" fill="#FFFFFF">Live Technical Documentation</text>
         </g>
       </svg></div>
     </div>
@@ -2568,14 +2819,16 @@ func main() {
     <div class="hr"></div>
     <p class="note"><b>PRATIK DHANAVE</b> &nbsp;·&nbsp; <span class="mint">Staff Engineer, ClearRoute</span> &nbsp;·&nbsp; all real code · runs offline</p>
     <div style="display:flex;gap:24px;margin-top:8px;flex-wrap:wrap">
-      <div style="background:var(--card);border:1.8px solid var(--mint);border-radius:12px;padding:12px;text-align:center;width:168px">
+      <a class="qr-card" href="https://build-for-rbi-talk.vercel.app/" target="_blank" rel="noopener" style="border:1.8px solid var(--mint)">
         <img src="assets/qr-live-deck.png" alt="QR: Live Web Deck" style="width:144px;height:144px;border-radius:6px;display:block;margin:0 auto">
-        <div style="font-family:var(--display);font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--mint);margin-top:8px">LIVE SLIDES</div>
-      </div>
-      <div style="background:var(--card);border:1.8px solid var(--lavender);border-radius:12px;padding:12px;text-align:center;width:168px">
+        <div style="font-family:var(--display);font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--mint);margin-top:8px">LIVE SLIDES ↗</div>
+        <div class="qr-url">build-for-rbi-talk.vercel.app</div>
+      </a>
+      <a class="qr-card" href="https://github.com/PratikDhanave/Build-For-RBI-Inherit-The-EU-AI-Act" target="_blank" rel="noopener" style="border:1.8px solid var(--lavender)">
         <img src="assets/qr-repo.png" alt="QR: GitHub Repo" style="width:144px;height:144px;border-radius:6px;display:block;margin:0 auto">
-        <div style="font-family:var(--display);font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--lavender);margin-top:8px">OPEN-SOURCE CODE</div>
-      </div>
+        <div style="font-family:var(--display);font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--lavender);margin-top:8px">OPEN-SOURCE CODE ↗</div>
+        <div class="qr-url">github.com/PratikDhanave</div>
+      </a>
     </div>
   </div>
 </section>
@@ -2889,8 +3142,9 @@ func main() {
 <div id="chrome-line"></div>
 <div id="hints">
   <span class="brand">CLEARROUTE</span>
-  <span class="keys"><b>← →</b> move · <b>r</b> run/replay · <b>o</b> all slides · <b>s</b> notes · <b>h</b> hide bar · <b>f</b> fullscreen · <b>t</b> theme</span>
+  <span class="keys"><b>← →</b> move · <b>r</b> run/replay · <b>o</b> all slides · <b>0–9↵</b> jump · <b>s</b> notes · <b>p</b> presenter · <b>h</b> hide bar · <b>f</b> fullscreen</span>
 </div>
+<div id="jump-hud" aria-live="polite"></div>
 <div id="pager">
   <button id="prev" aria-label="Previous slide">‹</button>
   <span class="ct"><b id="cur">01</b> / <span id="tot">32</span></span>
@@ -2906,6 +3160,9 @@ func main() {
 var STATIC_MODE = /[?&]static=1\b/.test(location.search);
 if (STATIC_MODE) {
   document.body.classList.add('static-mode', 'hide-hints');
+}
+if (/[?&]og=1\b/.test(location.search)) {
+  document.body.classList.add('og-mode');
 }
 
 window.playDia = function(d){
@@ -2954,9 +3211,28 @@ window.playDia = function(d){
   }
   window.__activeDia = activeDia;
 
+  var jumpHud = document.getElementById('jump-hud');
+  var jumpBuf = '', jumpTimer = null;
+  var syncCh = (typeof BroadcastChannel === 'function') ? new BroadcastChannel('build-for-rbi-deck-sync') : null;
+  var presenterWin = null;
+
+  function broadcastState(){
+    if (!syncCh) return;
+    var nextSlide = slides[i + 1];
+    syncCh.postMessage({
+      type: 'state',
+      index: i,
+      total: slides.length,
+      title: slides[i].dataset.t || '',
+      note: slides[i].dataset.note || '—',
+      nextTitle: nextSlide ? (String(i + 2).padStart(2,'0') + ' · ' + (nextSlide.dataset.t || '')) : 'End of deck'
+    });
+  }
+
   function show(n){
     i = Math.max(0, Math.min(slides.length - 1, n));
     slides.forEach(function(s, k){ s.classList.toggle('on', k === i); });
+    [].forEach.call(ovg.children, function(el, k){ el.classList.toggle('cur', k === i); });
     bar.style.width = ((i + 1) / slides.length * 100) + '%';
     cur.textContent = String(i + 1).padStart(2,'0');
     var nt = document.getElementById('noteText');
@@ -2966,6 +3242,79 @@ window.playDia = function(d){
     if (d) window.playDia(d);
     if (window.__anim) window.__anim.reset();
     if (location.hash !== '#' + (i + 1)) history.replaceState(null, '', '#' + (i + 1));
+    broadcastState();
+  }
+
+  if (syncCh) {
+    syncCh.onmessage = function(ev){
+      var msg = ev.data || {};
+      if (msg.type === 'nav') show(i + (msg.delta || 0));
+      else if (msg.type === 'goto' && typeof msg.index === 'number') show(msg.index);
+      else if (msg.type === 'hello') broadcastState();
+    };
+  }
+
+  function openPresenter(){
+    if (presenterWin && !presenterWin.closed) { presenterWin.focus(); broadcastState(); return; }
+    presenterWin = window.open('', 'buildForRbiPresenter', 'width=980,height=700');
+    if (!presenterWin) return;
+    var d = presenterWin.document;
+    d.open();
+    d.write(
+      '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Presenter View — Build for RBI</title><style>' +
+      '*{box-sizing:border-box}body{margin:0;background:#111622;color:#F4F7FC;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:24px 28px;display:flex;flex-direction:column;gap:18px;height:100vh}' +
+      '.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #2A3348;padding-bottom:14px;gap:16px;flex-wrap:wrap}' +
+      '.badge{font-family:ui-monospace,Menlo,monospace;font-size:15px;font-weight:700;color:#00E8AF;background:#0C3A34;border:1px solid #00E8AF;padding:6px 14px;border-radius:999px}' +
+      '.title{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-left:10px}' +
+      '.timer-box{display:flex;align-items:center;gap:10px;background:#181E2B;border:1px solid #323B52;padding:6px 14px;border-radius:12px}' +
+      '#clk{font-family:ui-monospace,Menlo,monospace;font-size:26px;font-weight:800;color:#00E8AF;min-width:84px;text-align:center}' +
+      '#clk.warn{color:#FFB78E}#clk.over{color:#FF6B6B}' +
+      'button{background:#1E2638;color:#F4F7FC;border:1px solid #3A4663;border-radius:8px;padding:6px 12px;font-size:13px;font-weight:700;cursor:pointer}' +
+      'button:hover{border-color:#00E8AF;color:#00E8AF}' +
+      '.notes{flex:1;background:#181E2B;border:1px solid #323B52;border-top:3px solid #00E8AF;border-radius:12px;padding:22px 26px;overflow:auto;font-size:22px;line-height:1.58;color:#FFFFFF}' +
+      '.lbl{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#00E8AF;margin-bottom:10px}' +
+      '.foot{display:flex;justify-content:space-between;align-items:center;gap:16px;border-top:1px solid #2A3348;padding-top:12px}' +
+      '.nxt{font-size:14px;color:#C2CBE0}.nxt b{color:#C4A3FF}' +
+      '</style></head><body>' +
+      '<div class="top"><div style="display:flex;align-items:center"><span class="badge" id="pnum">01 / 32</span><span class="title" id="ptitle"></span></div>' +
+      '<div class="timer-box"><span id="clk">00:00</span><span style="font-size:12px;color:#8490AA">/ 18:30</span><button id="tbtn">Start</button><button id="trst">Reset</button></div></div>' +
+      '<div class="notes"><div class="lbl">Speaker Notes</div><div id="pnote">Connecting…</div></div>' +
+      '<div class="foot"><div class="nxt">Next: <b id="pnext">—</b></div><div style="display:flex;gap:8px"><button id="pprev">← Prev</button><button id="pnextbtn">Next →</button></div></div>' +
+      '<script>' +
+      'var ch=new BroadcastChannel("build-for-rbi-deck-sync");' +
+      'ch.onmessage=function(e){var m=e.data||{};if(m.type!=="state")return;' +
+      'document.getElementById("pnum").textContent=String(m.index+1).padStart(2,"0")+" / "+String(m.total).padStart(2,"0");' +
+      'document.getElementById("ptitle").textContent=m.title||"";' +
+      'document.getElementById("pnote").textContent=m.note||"—";' +
+      'document.getElementById("pnext").textContent=m.nextTitle||"—";};' +
+      'ch.postMessage({type:"hello"});' +
+      'document.getElementById("pprev").onclick=function(){ch.postMessage({type:"nav",delta:-1});};' +
+      'document.getElementById("pnextbtn").onclick=function(){ch.postMessage({type:"nav",delta:1});};' +
+      'document.addEventListener("keydown",function(e){if(e.key==="ArrowRight"||e.key===" "||e.key==="PageDown"){e.preventDefault();ch.postMessage({type:"nav",delta:1});}' +
+      'else if(e.key==="ArrowLeft"||e.key==="PageUp"){e.preventDefault();ch.postMessage({type:"nav",delta:-1});}});' +
+      'var sec=0,run=false,iv=null,clk=document.getElementById("clk"),tbtn=document.getElementById("tbtn");' +
+      'function paint(){var mm=String(Math.floor(sec/60)).padStart(2,"0"),ss=String(sec%60).padStart(2,"0");clk.textContent=mm+":"+ss;' +
+      'clk.className=sec>=1110?"over":(sec>=960?"warn":"");}' +
+      'tbtn.onclick=function(){run=!run;tbtn.textContent=run?"Pause":"Start";if(run){iv=setInterval(function(){sec++;paint();},1000);}else{clearInterval(iv);}};' +
+      'document.getElementById("trst").onclick=function(){sec=0;paint();};' +
+      '<\/script></body></html>'
+    );
+    d.close();
+    setTimeout(broadcastState, 120);
+  }
+
+  function clearJump(){
+    jumpBuf = '';
+    if (jumpTimer) { clearTimeout(jumpTimer); jumpTimer = null; }
+    if (jumpHud) { jumpHud.classList.remove('on'); jumpHud.textContent = ''; }
+  }
+  function updateJump(){
+    if (!jumpHud) return;
+    if (!jumpBuf) { clearJump(); return; }
+    jumpHud.innerHTML = 'Jump → <b>' + jumpBuf + '</b> ↵';
+    jumpHud.classList.add('on');
+    if (jumpTimer) clearTimeout(jumpTimer);
+    jumpTimer = setTimeout(clearJump, 2200);
   }
 
   document.getElementById('prev').addEventListener('click', function(){ show(i - 1); });
@@ -2984,6 +3333,21 @@ window.playDia = function(d){
     var k = e.key;
     if (ov.classList.contains('on') && (k === 'Escape' || k === 'o' || k === 'O')){ ov.classList.remove('on'); return; }
     if (e.target && e.target.tagName === 'TEXTAREA') return;
+    if (/^[0-9]$/.test(k) && !ov.classList.contains('on')) {
+      if (jumpBuf.length < 2) { jumpBuf += k; updateJump(); }
+      return;
+    }
+    if (jumpBuf) {
+      if (k === 'Enter') {
+        e.preventDefault();
+        var target = parseInt(jumpBuf, 10);
+        clearJump();
+        if (Number.isFinite(target) && target >= 1 && target <= slides.length) show(target - 1);
+        return;
+      }
+      if (k === 'Backspace') { e.preventDefault(); jumpBuf = jumpBuf.slice(0, -1); updateJump(); return; }
+      if (k === 'Escape') { clearJump(); return; }
+    }
     if (k === 'ArrowRight' || k === 'ArrowDown' || k === 'PageDown' || k === ' '){
       e.preventDefault();
       if (window.__anim && window.__anim.advance()) return;
@@ -2993,6 +3357,7 @@ window.playDia = function(d){
     else if (k === 'Home'){ e.preventDefault(); show(0); }
     else if (k === 'End'){ e.preventDefault(); show(slides.length - 1); }
     else if (k === 'o' || k === 'O'){ ov.classList.toggle('on'); }
+    else if (k === 'p' || k === 'P'){ openPresenter(); }
     else if (k === 's' || k === 'S'){
       var n = document.getElementById('notes');
       n.classList.toggle('on');
