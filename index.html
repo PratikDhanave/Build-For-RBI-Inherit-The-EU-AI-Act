@@ -817,8 +817,34 @@
   </div>
 </section>
 
+<!-- ==================== SLIDE 03: GLOSSARY ==================== -->
+<section class="slide bg-deep" data-t="Glossary" data-note="0:35 — Quick plain-English glossary up front so everyone in the room — technical or business — shares the exact same words before Bodhyanga's story starts. Don't read every line: just say every term below returns as an everyday picture.">
+  <div class="wrap">
+    <div class="kicker"><i class="dash"></i>Before we begin · Every technical word of tonight</div>
+    <h2>The glossary — <span class="mint">in plain words</span></h2>
+    <p class="slide-lead">One line each. If a word tonight wasn't here, it wasn't needed.</p>
+    <table style="width:100%;border-collapse:collapse;font-size:15px;line-height:1.45;margin-top:10px">
+      <tbody>
+        <tr><td style="padding:5px 14px 5px 0;color:#00E8AF;font-weight:700;white-space:nowrap;vertical-align:top">SHA-256 fingerprint</td><td style="padding:5px 0;color:#F4F7FC">A unique stamp for data — change one letter, the whole stamp changes.</td></tr>
+        <tr><td style="padding:5px 14px 5px 0;color:#00E8AF;font-weight:700;vertical-align:top">Hash chain</td><td style="padding:5px 0;color:#F4F7FC">Every diary row carries the stamp of the row before it — edit one, all later rows tear.</td></tr>
+        <tr><td style="padding:5px 14px 5px 0;color:#00E8AF;font-weight:700;vertical-align:top">Ed25519 signature</td><td style="padding:5px 0;color:#F4F7FC">A signature only our system can write — and anyone can check.</td></tr>
+        <tr><td style="padding:5px 14px 5px 0;color:#00E8AF;font-weight:700;vertical-align:top">WORM backup</td><td style="padding:5px 0;color:#F4F7FC">A copy written once, readable forever, editable never.</td></tr>
+        <tr><td style="padding:5px 14px 5px 0;color:#C4A3FF;font-weight:700;vertical-align:top">Consent ledger</td><td style="padding:5px 0;color:#F4F7FC">The notebook of Yes and Stop — new lines only, no eraser.</td></tr>
+        <tr><td style="padding:5px 14px 5px 0;color:#C4A3FF;font-weight:700;vertical-align:top">Composite gate</td><td style="padding:5px 0;color:#F4F7FC">The one door — four checks on every message before any AI sees it.</td></tr>
+        <tr><td style="padding:5px 14px 5px 0;color:#C4A3FF;font-weight:700;vertical-align:top">Risk drift</td><td style="padding:5px 0;color:#F4F7FC">Approved as one thing, running as another — the scooter license in the truck.</td></tr>
+        <tr><td style="padding:5px 14px 5px 0;color:#C4A3FF;font-weight:700;vertical-align:top">Residency</td><td style="padding:5px 0;color:#F4F7FC">Where data may live and travel — checked per message, like a bag tag.</td></tr>
+        <tr><td style="padding:5px 14px 5px 0;color:#FFB78E;font-weight:700;vertical-align:top">RBI FREE-AI</td><td style="padding:5px 0;color:#F4F7FC">India's 2025 AI rulebook for banks — 26 rules; 17 are yours to build.</td></tr>
+        <tr><td style="padding:5px 14px 5px 0;color:#FFB78E;font-weight:700;vertical-align:top">RBI Draft MRM (2026)</td><td style="padding:5px 0;color:#F4F7FC">India's stricter draft rules for bank AI models — our honest score: 4 built, 2 open.</td></tr>
+        <tr><td style="padding:5px 14px 5px 0;color:#FFB78E;font-weight:700;vertical-align:top">EU AI Act</td><td style="padding:5px 0;color:#F4F7FC">Europe's AI law — it applies the moment anyone in Europe uses your AI's output.</td></tr>
+        <tr><td style="padding:5px 14px 5px 0;color:#FFB78E;font-weight:700;vertical-align:top">User ("Deployer")</td><td style="padding:5px 0;color:#F4F7FC">You run a vendor's AI as-is — lighter legal duties.</td></tr>
+        <tr><td style="padding:5px 14px 5px 0;color:#FFB78E;font-weight:700;vertical-align:top">Maker ("Provider")</td><td style="padding:5px 0;color:#F4F7FC">Your logo on it, or your data trained into it — full legal duties are now yours.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
 <!-- ==================== SLIDE 04: PART 1 — THREE KNOCKS ON OUR DOOR ==================== -->
-<section class="slide bg-deep" data-t="Three knocks" data-note="0:45 — START THE STORY (Tension first!): Meet Bodhyanga. Behind her banking app sit 62 AI helpers. Tuesday 2:00 PM she taps Stop — and suddenly three teams knock on our door at once: Regulators (does her data stay in India?), Risk Officers (did the 2:00 PM stop hold at 2:01 PM?), Partner Banks (prove where her data went). A slide deck couldn&#x27;t answer a single one.">
+<section class="slide bg-deep" data-t="Three knocks" data-note="0:45 — START THE STORY (Tension first!): Meet Bodhyanga. Behind her banking app sit 62 AI helpers. Tuesday 2:00 PM she taps Stop — and suddenly three teams knock on our door at once: Regulators (does her data stay in India?), Risk Officers (did the 2:00 PM stop hold at 2:01 PM?), Partner Banks (prove where her data went). A slide deck couldn&#x27;t answer a single one. STORY LAYER — the engineer: 'These were not hypothetical. These were my Tuesdays — three real teams, three real demands, one delivery.'">
   <div class="wrap">
     <div class="kicker"><i class="dash"></i>THE PROBLEM · Tuesday at 2:00 PM · Bodhyanga's banking app</div>
     <h2>Three knocks <span class="mint">on our door</span></h2>
@@ -1267,7 +1293,7 @@
 </section>
 
 <!-- ==================== SLIDE 08: PART 2 — BEFORE VS AFTER (ONE CENTRAL GATE — REDESIGNED!) ==================== -->
-<section class="slide bg-deep" data-t="One Gate" data-note="4:15 — TUESDAY 2:01 PM: Bodhyanga&#x27;s Tax ID hits our 62 helpers. Say the analogy: One airport security checkpoint at the terminal door, not X-rays inside 62 planes. Left: copying rules inside 62 helpers hit 2.4s (~600ms/hop) and stale Helper #62 leaked! Right: 1 compiled Go Composite Policy Gate outside all 62 helpers checks Borders, Consent, Reason &amp; Role in 0.85 ms. (Jump to Q&amp;A Slide 26 if asked about SPOF.)">
+<section class="slide bg-deep" data-t="One Gate" data-note="4:15 — TUESDAY 2:01 PM: Bodhyanga&#x27;s Tax ID hits our 62 helpers. Say the analogy: One airport security checkpoint at the terminal door, not X-rays inside 62 planes. Left: copying rules inside 62 helpers hit 2.4s (~600ms/hop) and stale Helper #62 leaked! Right: 1 compiled Go Composite Policy Gate outside all 62 helpers checks Borders, Consent, Reason &amp; Role in 0.85 ms. (Jump to Learning 04 · No Single SPOF if asked.) STORY LAYER — the message: from here to the laptop slide, follow ONE traveler: 'It is 2:01 PM. Her message is in this queue. Watch it walk through the door.' Narrate ITS journey, not the boxes.">
   <div class="wrap">
     <div class="kicker"><i class="dash"></i>THE SOLUTION · Tuesday 2:01 PM · We tried the obvious way — it broke</div>
     <h2>Checks inside 62 AI helpers broke — <span class="mint">one gate fixed it</span></h2>
@@ -2003,7 +2029,7 @@
 
 <!-- ==================== SLIDE 15: PART 3 — LIVE DEMO 1 ==================== -->
 <section class="slide bg-deep" data-t="Live Demo 1 · Permits"
-  data-note="8:00 — LIVE DEMO 1 (FRAME THE BET FIRST!): &#x27;If I miss this one helper, an unapproved AI touches Bodhyanga&#x27;s money today. Watch what happens when I press R.&#x27; [PRESS R — STOP TALKING FOR 2 FULL BEATS when STOP var_calculator ErrRiskChanged flashes red!] Optional: click &#x27;Fix permit&#x27; chip to show it clearing live.">
+  data-note="8:00 — LIVE DEMO 1 (FRAME THE BET FIRST!): &#x27;If I miss this one helper, an unapproved AI touches Bodhyanga&#x27;s money today. Watch what happens when I press R.&#x27; [PRESS R — STOP TALKING FOR 2 FULL BEATS when STOP var_calculator ErrRiskChanged flashes red!] Optional: click &#x27;Fix permit&#x27; chip to show it clearing live. STORY LAYER — the near-miss: before pressing R say: 'You are about to watch a near-miss happen, live.' After the block: 'Almost ran. That word — almost — is this whole system.'">
   <div class="wrap">
     <div class="kicker peach"><i class="dash"></i>THE PROOF · Live Demo 1 · Real code running right here (press R)</div>
     <h2>Five AI helpers, <span class="peach">one hidden trap</span></h2>
@@ -2282,7 +2308,7 @@ var today = []struct{ id, risk string }{
 
 <!-- ==================== SLIDE 19: PART 3 — LIVE DEMO 2 ==================== -->
 <section class="slide bg-deep" data-t="Live Demo 2 · Diary"
-  data-note="10:30 — LIVE DEMO 2 (FRAME THE BET FIRST!): &#x27;An insider just changed one name in Bodhyanga&#x27;s history to cover their tracks. Watch whether our report lies for us — or catches us.&#x27; [PRESS R — WAIT FOR BROKEN AT SEQ 2 — SAY: &#x27;The report refused to lie.&#x27; HOLD 2 FULL BEATS OF SILENCE!]">
+  data-note="10:30 — LIVE DEMO 2 (FRAME THE BET FIRST!): &#x27;An insider just changed one name in Bodhyanga&#x27;s history to cover their tracks. Watch whether our report lies for us — or catches us.&#x27; [PRESS R — WAIT FOR BROKEN AT SEQ 2 — SAY: &#x27;The report refused to lie.&#x27; HOLD 2 FULL BEATS OF SILENCE!] STORY LAYER — the auditor: after the silence, add: 'By the way — what you just watched WAS an RBI audit. It took nine seconds.'">
   <div class="wrap">
     <div class="kicker peach"><i class="dash"></i>THE PROOF · Live Demo 2 · Real code running right here (press R)</div>
     <h2>Change one line, <span class="peach">watch the lock snap</span></h2>
@@ -2336,7 +2362,7 @@ func main() {
 </section>
 
 <!-- ==================== SLIDE 21: PART 4 — 17 -> 7 FUNNEL ==================== -->
-<section class="slide bg-deep" data-t="17 India → 7 Europe" data-note="11:30 — NEXT MONTH (THE FRANKFURT TWIST!): Bodhyanga&#x27;s family in Frankfurt uses the same banking app — EU AI Act Art. 2(1)(c) kicks in immediately! Analogy: One aircraft black box (Hyderabad -&gt; Frankfurt) — nobody bolts on a second box over Europe. Look at the Sankey Matrix: 17 RBI controls -&gt; 7 EU AI Act rules with ZERO extra stack code (Rec. 22 alone satisfies Art. 12 AND Art. 73!).">
+<section class="slide bg-deep" data-t="17 India → 7 Europe" data-note="11:30 — NEXT MONTH (THE FRANKFURT TWIST!): Bodhyanga&#x27;s family in Frankfurt uses the same banking app — EU AI Act Art. 2(1)(c) kicks in immediately! Analogy: One aircraft black box (Hyderabad -&gt; Frankfurt) — nobody bolts on a second box over Europe. Look at the Sankey Matrix: 17 RBI controls -&gt; 7 EU AI Act rules with ZERO extra stack code (Rec. 22 alone satisfies Art. 12 AND Art. 73!). STORY LAYER — the auditor returns: 'Next month, a second inspector arrives — from Europe. Same questions. Same folder. Zero new code.'">
   <div class="wrap">
     <div class="kicker lav"><i class="dash"></i>THE IMPACT · Next Month · Bodhyanga's family in Frankfurt uses the app</div>
     <h2>Build 17 for India — <span class="lav">get 7 for Europe free</span></h2>
@@ -2574,7 +2600,7 @@ func main() {
 </section>
 
 <!-- ==================== SLIDE 25: PART 4 — WHY THESE TWO ARE GENUINELY HARD ==================== -->
-<section class="slide bg-deep" data-t="Two hard problems" data-note="13:55 — Two genuinely hard open problems: Gap 1 — Auto-fuse != human hand on the plug (stop one rogue AI mid-sentence, block auto-restart, keep Bodhyanga&#x27;s payments running — solved in industry by CrowdStrike Falcon Guardian, jump to Learning Slide 23 if asked!). Gap 2 — Live noticeboard != 10-year graveyard (2026-2036). If your team solved Gap 2 cleanly, come find me after!">
+<section class="slide bg-deep" data-t="Two hard problems" data-note="13:55 — Two genuinely hard open problems: Gap 1 — Auto-fuse != human hand on the plug (stop one rogue AI mid-sentence, block auto-restart, keep Bodhyanga&#x27;s payments running — solved in industry by CrowdStrike Falcon Guardian, jump to Learning Slide 31 if asked!). Gap 2 — Live noticeboard != 10-year graveyard (2026-2036). If your team solved Gap 2 cleanly, come find me after!">
   <div class="wrap">
     <div class="kicker peach"><i class="dash"></i>THE IMPACT · Not quick fixes — two genuinely hard problems</div>
     <h2>Two open problems <span class="peach">worth solving together</span></h2>
@@ -2838,7 +2864,7 @@ func main() {
 </section>
 
 <!-- ==================== SLIDE 28: THANK YOU / QUESTIONS ==================== -->
-<section class="slide bg-hero" data-t="Thank you" data-note="15:45 — FULL-CIRCLE CLOSE (NO LOGISTICS!): Three things for Monday: Build your 17, not 26; put 1 deterministic gate outside your AIs; name your gaps &amp; contract line Day 1. [BEAT] &#x27;And Bodhyanga? She never saw Go, SHA-256, or EU Article 50. She tapped Stop at 2:00 PM — and everything simply stopped. That&#x27;s what deterministic systems engineering buys you: the customer never finds out how hard it was to keep the promise. Build for India. Inherit Europe. Run it on your own laptop tonight. Thank you.&#x27; [STOP STILL. Learning slides 23–26.]">
+<section class="slide bg-hero" data-t="Thank you" data-note="15:45 — FULL-CIRCLE CLOSE (NO LOGISTICS!): Three things for Monday: Build your 17, not 26; put 1 deterministic gate outside your AIs; name your gaps &amp; contract line Day 1. [BEAT] &#x27;And Bodhyanga? She never saw Go, SHA-256, or EU Article 50. She tapped Stop at 2:00 PM — and everything simply stopped. That&#x27;s what deterministic systems engineering buys you: the customer never finds out how hard it was to keep the promise. Build for India. Inherit Europe. Run it on your own laptop tonight. Thank you.&#x27; [STOP STILL. Learning slides 31–34.]">
   <img class="ribbon hero" src="assets/ribbon-hero.webp" alt="">
   <img class="cr-hero-logo" src="assets/clearroute-logo.png" alt="ClearRoute">
   <div class="wrap narrow-left">
@@ -3172,32 +3198,6 @@ func main() {
   </div>
 </section>
 
-<!-- ==================== LEARNING 05: GLOSSARY ==================== -->
-<section class="slide bg-deep" data-t="Learning 05 · Glossary" data-note="Learning 05 — the glossary. Point anyone here during questions: every technical word of the night, each in one plain line. Also great as the slide left on screen while people walk out.">
-  <div class="wrap">
-    <div class="kicker"><i class="dash"></i>Learning 05 · Every technical word of tonight</div>
-    <h2>The glossary — <span class="mint">in plain words</span></h2>
-    <p class="slide-lead">One line each. If a word tonight wasn't here, it wasn't needed.</p>
-    <table style="width:100%;border-collapse:collapse;font-size:15px;line-height:1.45;margin-top:10px">
-      <tbody>
-        <tr><td style="padding:5px 14px 5px 0;color:#00E8AF;font-weight:700;white-space:nowrap;vertical-align:top">SHA-256 fingerprint</td><td style="padding:5px 0;color:#F4F7FC">A unique stamp for data — change one letter, the whole stamp changes.</td></tr>
-        <tr><td style="padding:5px 14px 5px 0;color:#00E8AF;font-weight:700;vertical-align:top">Hash chain</td><td style="padding:5px 0;color:#F4F7FC">Every diary row carries the stamp of the row before it — edit one, all later rows tear.</td></tr>
-        <tr><td style="padding:5px 14px 5px 0;color:#00E8AF;font-weight:700;vertical-align:top">Ed25519 signature</td><td style="padding:5px 0;color:#F4F7FC">A signature only our system can write — and anyone can check.</td></tr>
-        <tr><td style="padding:5px 14px 5px 0;color:#00E8AF;font-weight:700;vertical-align:top">WORM backup</td><td style="padding:5px 0;color:#F4F7FC">A copy written once, readable forever, editable never.</td></tr>
-        <tr><td style="padding:5px 14px 5px 0;color:#C4A3FF;font-weight:700;vertical-align:top">Consent ledger</td><td style="padding:5px 0;color:#F4F7FC">The notebook of Yes and Stop — new lines only, no eraser.</td></tr>
-        <tr><td style="padding:5px 14px 5px 0;color:#C4A3FF;font-weight:700;vertical-align:top">Composite gate</td><td style="padding:5px 0;color:#F4F7FC">The one door — four checks on every message before any AI sees it.</td></tr>
-        <tr><td style="padding:5px 14px 5px 0;color:#C4A3FF;font-weight:700;vertical-align:top">Risk drift</td><td style="padding:5px 0;color:#F4F7FC">Approved as one thing, running as another — the scooter license in the truck.</td></tr>
-        <tr><td style="padding:5px 14px 5px 0;color:#C4A3FF;font-weight:700;vertical-align:top">Residency</td><td style="padding:5px 0;color:#F4F7FC">Where data may live and travel — checked per message, like a bag tag.</td></tr>
-        <tr><td style="padding:5px 14px 5px 0;color:#FFB78E;font-weight:700;vertical-align:top">RBI FREE-AI</td><td style="padding:5px 0;color:#F4F7FC">India's 2025 AI rulebook for banks — 26 rules; 17 are yours to build.</td></tr>
-        <tr><td style="padding:5px 14px 5px 0;color:#FFB78E;font-weight:700;vertical-align:top">RBI Draft MRM (2026)</td><td style="padding:5px 0;color:#F4F7FC">India's stricter draft rules for bank AI models — our honest score: 4 built, 2 open.</td></tr>
-        <tr><td style="padding:5px 14px 5px 0;color:#FFB78E;font-weight:700;vertical-align:top">EU AI Act</td><td style="padding:5px 0;color:#F4F7FC">Europe's AI law — it applies the moment anyone in Europe uses your AI's output.</td></tr>
-        <tr><td style="padding:5px 14px 5px 0;color:#FFB78E;font-weight:700;vertical-align:top">User ("Deployer")</td><td style="padding:5px 0;color:#F4F7FC">You run a vendor's AI as-is — lighter legal duties.</td></tr>
-        <tr><td style="padding:5px 14px 5px 0;color:#FFB78E;font-weight:700;vertical-align:top">Maker ("Provider")</td><td style="padding:5px 0;color:#F4F7FC">Your logo on it, or your data trained into it — full legal duties are now yours.</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
 <!-- Persistent Chrome -->
 <div id="chrome-line"></div>
 <div id="hints">
@@ -3207,7 +3207,7 @@ func main() {
 <div id="jump-hud" aria-live="polite"></div>
 <div id="pager">
   <button id="prev" aria-label="Previous slide">‹</button>
-  <span class="ct"><b id="cur">01</b> / <span id="tot">26</span></span>
+  <span class="ct"><b id="cur">01</b> / <span id="tot">34</span></span>
   <button id="next" aria-label="Next slide">›</button>
 </div>
 
@@ -3336,7 +3336,7 @@ window.playDia = function(d){
       '.foot{display:flex;justify-content:space-between;align-items:center;gap:16px;border-top:1px solid #2A3348;padding-top:12px}' +
       '.nxt{font-size:14px;color:#C2CBE0}.nxt b{color:#C4A3FF}' +
       '</style></head><body>' +
-      '<div class="top"><div style="display:flex;align-items:center"><span class="badge" id="pnum">01 / 26</span><span class="title" id="ptitle"></span></div>' +
+      '<div class="top"><div style="display:flex;align-items:center"><span class="badge" id="pnum">01 / 34</span><span class="title" id="ptitle"></span></div>' +
       '<div class="timer-box"><span id="clk">00:00</span><span style="font-size:12px;color:#8490AA">/ 18:30</span><button id="tbtn">Start</button><button id="trst">Reset</button></div></div>' +
       '<div class="notes"><div class="lbl">Speaker Notes</div><div id="pnote">Connecting…</div></div>' +
       '<div class="foot"><div class="nxt">Next: <b id="pnext">—</b></div><div style="display:flex;gap:8px"><button id="pprev">← Prev</button><button id="pnextbtn">Next →</button></div></div>' +
