@@ -744,9 +744,47 @@
 </section>
 
 <!-- =========================================================================
-     S06 · THE ONE IDEA (ClearRoute Slide 12 Diamond Statement)
+     S07 · WHEN IT GOES WRONG IN PUBLIC (Harness Slide 9 mapped to our controls)
 ========================================================================= -->
-<section class="slide bg-diamond" data-n="07" data-title="The one idea" data-note="Pause here for 3 seconds. Let the single thesis of the whole talk land cleanly.">
+<section class="slide bg-mint" data-n="07" data-title="When it goes wrong in public" data-note="Four widely reported incidents before any architecture: none were exotic attacks — they were systems moving fast with no deterministic check in the way.">
+  <div class="wrap">
+    <div class="bar-mark"></div>
+    <h2 class="calm">When it goes wrong in public</h2>
+    <p class="lead">Four widely reported incidents. Every one of them is a missing control we are about to build.</p>
+    <div class="open-cols two" style="gap:clamp(18px,2.2vh,26px) clamp(26px,3.4vw,48px);margin-top:4px">
+      <div class="col-item">
+        <div class="col-rule peach"></div>
+        <div class="col-title">The one-dollar car</div>
+        <p>A dealership's support chatbot was told to agree with whatever the customer said &mdash; and agreed to sell a vehicle for a dollar. Screenshots went round the internet the same day.</p>
+        <p class="small"><b>Missing: block at the door.</b> The instruction arrived in the message and nothing checked it first.</p>
+      </div>
+      <div class="col-item">
+        <div class="col-rule peach"></div>
+        <div class="col-title">The refund policy that did not exist</div>
+        <p>An airline's chatbot invented a bereavement refund policy the airline did not offer. A tribunal held the airline to what its bot had promised.</p>
+        <p class="small"><b>Missing: explainability &amp; accountability.</b> No grounded rationale, and nobody checked before committing the company.</p>
+      </div>
+      <div class="col-item">
+        <div class="col-rule peach"></div>
+        <div class="col-title">Source code into a public chatbot</div>
+        <p>Engineers reportedly pasted internal code into a public assistant to get help with it. Proprietary data left the building in the process.</p>
+        <p class="small"><b>Missing: per-message residency.</b> Nothing decided what was allowed to cross the border before it left.</p>
+      </div>
+      <div class="col-item">
+        <div class="col-rule peach"></div>
+        <div class="col-title">Knight Capital, 2012</div>
+        <p>Not even AI &mdash; old code went live after a bad deployment and lost roughly $440 million in about 45 minutes.</p>
+        <p class="small"><b>Missing: approval drift check &amp; kill switch.</b> Live code stopped matching its approval, with no hard stop (our open gap <code>RFC-001</code>).</p>
+      </div>
+    </div>
+    <p class="anchor"><b>Three of these were not clever attacks.</b> They were systems doing exactly what they were told, quickly, with nobody in the way.</p>
+  </div>
+</section>
+
+<!-- =========================================================================
+     S08 · THE ONE IDEA (ClearRoute Slide 12 Diamond Statement)
+========================================================================= -->
+<section class="slide bg-diamond" data-n="08" data-title="The one idea" data-note="Pause here for 3 seconds. Let the single thesis of the whole talk land cleanly.">
   <img class="ribbon diamond" src="assets/ribbon-diamond.webp" alt="">
   <div class="wrap diamond-w">
     <div class="eyebrow caps">The one idea</div>
@@ -756,22 +794,22 @@
 </section>
 
 <!-- =========================================================================
-     S07 · ONE MENTAL MODEL: 9 VS 17 (Clean 2-col SVG + Airport anchor)
+     S09 · ONE MENTAL MODEL: 9 VS 17 (Clean 2-col SVG + Airport anchor)
 ========================================================================= -->
-<section class="slide bg-mint" data-n="08" data-title="Nine belong to the referee" data-note="Scope before quoting. RBI FREE-AI (13 Aug 2025) has 26 recommendations: 9 belong to RBI/SROs, 17 belong to your bank's codebase.">
+<section class="slide bg-mint" data-n="09" data-title="Nine belong to the referee" data-note="Scope before quoting. RBI FREE-AI (13 Aug 2025) has 26 recommendations: 9 belong to RBI/SROs and org training (Rec 10), 17 map to technical codebase scope.">
   <div class="wrap">
     <div class="bar-mark"></div>
     <h2 class="calm">Nine belong to the referee &mdash; seventeen are yours</h2>
-    <p class="lead">RBI FREE-AI (13 Aug 2025) lists <b>26 recommendations</b>. Quote for all 26 and you just priced the central bank's own roadmap.</p>
+    <p class="lead">RBI FREE-AI (13 Aug 2025) lists <b>26 recommendations</b>: 17 codebase-scope controls, and 9 owned by regulators, SROs, or org training.</p>
     <div class="diagram">
-      <svg viewBox="0 0 960 250" role="img" aria-label="RBI FREE-AI 9 regulator recommendations vs 17 bank recommendations">
+      <svg viewBox="0 0 960 250" role="img" aria-label="RBI FREE-AI 9 regulator and org recommendations vs 17 codebase recommendations">
         <defs>
           <marker id="arr-p" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,1 L9,5 L0,9 z" fill="var(--svg-bad-stroke)"/></marker>
           <marker id="arr-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,1 L9,5 L0,9 z" fill="var(--svg-good-stroke)"/></marker>
         </defs>
-        <!-- Left box: Regulator / SRO (9) -->
+        <!-- Left box: Regulator / SRO / Org (9) -->
         <rect x="20" y="16" width="430" height="218" rx="10" fill="var(--svg-bad-fill)" stroke="var(--svg-bad-stroke)" stroke-width="1.4"/>
-        <text x="42" y="46" fill="var(--svg-bad-stroke)" font-size="13" font-weight="700" letter-spacing="1">REGULATOR &amp; SRO SCOPE &middot; 9 RECS</text>
+        <text x="42" y="46" fill="var(--svg-bad-stroke)" font-size="13" font-weight="700" letter-spacing="1">REGULATOR, SRO &amp; ORG TRAINING &middot; 9 RECS</text>
         <rect x="42" y="64" width="386" height="44" rx="7" fill="var(--svg-bad-box)" stroke="var(--svg-bad-stroke)" stroke-width="1"/>
         <text x="58" y="84" fill="var(--svg-ink)" font-size="14" font-weight="600">Shared data &amp; funding (Recs 1, 3, 5)</text>
         <text x="58" y="100" fill="var(--svg-mut)" font-size="12">AI Kosh, Digital Public Infrastructure, shared compute</text>
@@ -780,17 +818,17 @@
         <text x="58" y="156" fill="var(--svg-mut)" font-size="12">Permanent RBI AI body &amp; sector-wide guidance</text>
         <rect x="42" y="176" width="386" height="44" rx="7" fill="var(--svg-bad-box)" stroke="var(--svg-bad-stroke)" stroke-width="1"/>
         <text x="58" y="196" fill="var(--svg-ink)" font-size="14" font-weight="600">Training, SROs &amp; awards (Recs 10&ndash;13)</text>
-        <text x="58" y="212" fill="var(--svg-mut)" font-size="12">Board training, industry playbooks &mdash; not codebase work</text>
+        <text x="58" y="212" fill="var(--svg-mut)" font-size="12">Board/staff training, industry playbooks &mdash; not codebase work</text>
 
-        <!-- Right box: Your Bank (17) -->
+        <!-- Right box: Your Bank's Codebase (17) -->
         <rect x="510" y="16" width="430" height="218" rx="10" fill="var(--svg-good-fill)" stroke="var(--svg-good-stroke)" stroke-width="1.4"/>
         <text x="532" y="46" fill="var(--svg-good-stroke)" font-size="13" font-weight="700" letter-spacing="1">YOUR BANK'S CODEBASE &middot; 17 RECS</text>
         <rect x="532" y="64" width="386" height="44" rx="7" fill="var(--svg-good-box)" stroke="var(--svg-good-stroke)" stroke-width="1"/>
         <text x="548" y="84" fill="var(--svg-ink)" font-size="14" font-weight="600">Gate, residency &amp; consent (Recs 4, 6, 15, 19)</text>
         <text x="548" y="100" fill="var(--svg-mut)" font-size="12">One pre-dispatch policy gate + append-only ledger</text>
         <rect x="532" y="120" width="386" height="44" rx="7" fill="var(--svg-good-box)" stroke="var(--svg-good-stroke)" stroke-width="1"/>
-        <text x="548" y="140" fill="var(--svg-ink)" font-size="14" font-weight="600">Risk tiers, drift &amp; red-team (Recs 2, 16, 17, 20, 21)</text>
-        <text x="548" y="156" fill="var(--svg-mut)" font-size="12">Live approval checks, PR attack tests &amp; fallbacks</text>
+        <text x="548" y="140" fill="var(--svg-ink)" font-size="14" font-weight="600">Sandbox, drift &amp; red-team (Recs 2, 16, 17, 20, 21)</text>
+        <text x="548" y="156" fill="var(--svg-mut)" font-size="12">Offline testbed, live approval checks, PR attacks &amp; fallbacks</text>
         <rect x="532" y="176" width="386" height="44" rx="7" fill="var(--svg-good-box)" stroke="var(--svg-good-stroke)" stroke-width="1"/>
         <text x="548" y="196" fill="var(--svg-ink)" font-size="14" font-weight="600">Audit, inventory &amp; disclosure (Recs 8, 14, 18, 22&ndash;26)</text>
         <text x="548" y="212" fill="var(--svg-mut)" font-size="12">Tamper-evident logs, live catalog &amp; first-event notice</text>
@@ -803,14 +841,13 @@
 </section>
 
 <!-- =========================================================================
-     S09 · ANALOGY 1: THINK OF IT AS AN AIRPORT (Harness #12)
+     S10 · ANALOGY: THINK OF IT AS AN AIRPORT (Harness #12 — kept per request!)
 ========================================================================= -->
-<section class="slide bg-mint" data-n="09" data-title="Analogy: Airport" data-note="Analogy 1 of 2 (alternatives, not a sequence — take the one that fits the room). Maps all 6 controls to an airport and names the honest gap.">
+<section class="slide bg-mint" data-n="10" data-title="Analogy: Airport" data-note="One clean mental model for the whole room: maps all 6 controls to an airport and names the honest software gap.">
   <div class="wrap">
     <div class="bar-mark"></div>
     <h2 class="calm">Think of it as an airport</h2>
     <p class="lead">If the AI agent is a <b>plane</b>, the policy gate and audit chain are the <b>airport security and black box</b> around it.</p>
-    <p class="small">Two ways to see the same six &mdash; an airport or a bank branch. They are alternatives, not a sequence. <b>Take the one that fits the room</b> and skip the other.</p>
     <table class="clean">
       <thead><tr><th>#</th><th>Control</th><th>What an airport already calls it</th></tr></thead>
       <tbody>
@@ -823,29 +860,6 @@
       </tbody>
     </table>
     <p class="small">One honest gap: an airport's physical gates are enforced by <b>steel and badge readers</b>. Ours are software &mdash; so we must fail closed and test them on every pull request.</p>
-  </div>
-</section>
-
-<!-- =========================================================================
-     S10 · ANALOGY 2: OR THINK OF IT AS A BANK BRANCH (Harness #13)
-========================================================================= -->
-<section class="slide bg-mint" data-n="10" data-title="Analogy: Bank branch" data-note="Alternative analogy for banking/finance audiences: a fast new teller who has never worked in a regulated branch.">
-  <div class="wrap">
-    <div class="bar-mark"></div>
-    <h2 class="calm">Or: think of it as a bank branch</h2>
-    <p class="lead">The AI model is a brilliant, fast <b>new teller</b> who has never worked inside a regulated bank.</p>
-    <table class="clean">
-      <thead><tr><th>#</th><th>Control</th><th>Inside the branch</th></tr></thead>
-      <tbody>
-        <tr><td class="idx">1</td><td class="term">Block at the door</td><td>the KYC desk checks ID, country, and role before a file reaches any teller</td></tr>
-        <tr><td class="idx">2</td><td class="term">Stop on revocation</td><td>a customer's freeze instruction blocks a transfer that is already in the queue</td></tr>
-        <tr><td class="idx">3</td><td class="term">Catch stale permits</td><td>a cashier's signing limit stops working the moment they try to approve a crore loan</td></tr>
-        <tr><td class="idx">4</td><td class="term">Prove nothing changed</td><td>a numbered carbon-copy ledger &mdash; tear out page 2 and page 3 exposes the gap</td></tr>
-        <tr><td class="idx">5</td><td class="term">Attack your own gate</td><td>an internal mystery auditor testing every counter before every shift</td></tr>
-        <tr><td class="idx">6</td><td class="term">Reuse for Europe</td><td>one honest ledger satisfies both the RBI inspector and the European partner bank</td></tr>
-      </tbody>
-    </table>
-    <p class="small">The gap in this one: a branch teller can be coached, warned, or fired. <b>A model cannot be.</b> So every rule has to <b>stop</b> the mistake before it runs, not punish it afterwards.</p>
   </div>
 </section>
 
@@ -997,7 +1011,7 @@
     <h2 class="cr-display">The Doorway</h2>
     <div class="col-kicker mint" style="font-size:13px;margin-top:4px">Put one boring gate outside all 62 agents</div>
     <p class="lead">We tried putting compliance checks inside each AI agent first. At 62 agents, one team forgot a region check, another skipped consent, and nobody could prove what ran.</p>
-    <p class="small">Moving ten plain rules into one pre-dispatch gate fixed all 62 agents at once &mdash; and kept compliance out of agent code forever.</p>
+    <p class="small">Moving six plain rules into one pre-dispatch gate fixed all 62 agents at once &mdash; and kept compliance out of agent code forever.</p>
   </div>
 </section>
 
@@ -1385,6 +1399,7 @@
         <p>Every <b>&#9654; Run</b> panel in this deck executes compiled Go via WebAssembly (<code>assets/labs.wasm</code>).</p>
         <p style="margin-top:6px"><b>One honest leak:</b> the browser runner checks policy logic and SHA-256 math in memory. Real WORM storage, HSM signing keys, and external timestamp anchors live in your infrastructure.</p>
         <p style="margin-top:6px;color:var(--mut)">If WebAssembly cannot load, each panel replays the verified build-time Go transcript and tells you plainly.</p>
+        <p style="margin-top:6px"><b>The documentation is tested too:</b> <code>make test</code> verifies the crosswalk JSON, policy YAML parity, 11 deck assets, and 25 Mermaid diagrams.</p>
       </div>
       <div class="col-item">
         <div class="col-rule mint"></div>
