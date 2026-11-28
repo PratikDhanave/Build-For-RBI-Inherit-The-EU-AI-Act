@@ -6,13 +6,13 @@ Speak slowly. The full stops are part of the script.
 ---
 
 **01 · Title — 0:00**
-"Good evening. Before I even say my name — watch this. [turn Wi-Fi off, visibly] Wi-Fi: off. Everything you see tonight runs on this laptop alone. No cloud. Nothing to hide behind. If it breaks, you will see it break. I'm Pratik. This is a story about teaching a bank's AI to behave."
+"Good evening. I'm Pratik. This is a story about teaching a bank's AI to behave — and every check you see tonight, you can run right on your own laptop. No cloud. Nothing to hide behind. If it breaks, you will see it break."
 
 **02 · Shoutout — 0:20**
 "First, a huge thank you to the FDExHyderabad operations team. A talk only looks smooth because other people worked very hard behind the scenes. That's them. [small pause] Okay — the story."
 
 **03 · The ending, up front — 0:45**
-"I'll tell you the ending first, so you know where we're going. We built all seventeen of India's bank AI safety rules — in real code. Seven of Europe's rules passed automatically — zero extra work. And two problems are still open. I'll show you those too, openly. Every claim runs live, right here, with Wi-Fi off. You should not have to take a speaker's word for anything."
+"I'll tell you the ending first, so you know where we're going. We built all seventeen of India's bank AI safety rules — in real code. Seven of Europe's rules passed automatically — zero extra work. And two problems are still open. I'll show you those too, openly. Every check you can run right on your own laptop. You should not have to take a speaker's word for anything."
 
 **04 · Part 1 · Three knocks — 1:20**
 "Meet Bodhyanga. She uses a banking app. Behind that app sit sixty-two AI helpers. One Tuesday afternoon, three different teams knocked on our door. The regulators asked: does her data stay in the country? The risk team asked: she tapped Stop at two o'clock — did it actually stop? And the partner banks asked: prove where her data went. Three questions. And a slide deck couldn't answer a single one."
@@ -38,8 +38,8 @@ Speak slowly. The full stops are part of the script.
 **11 · Whole system, one slide — 5:45**
 "Here's everything together. Follow the green dot: her message passes the gate, the permit is checked, the helper answers, the diary writes a line, and signed reports come out — one for India, one for Europe. Follow the red dot: a bad message stops dead at the gate, and even the stop is written in the diary."
 
-**12 · Prove it offline — 6:20**
-"Before the two bugs — one simple test you can use on any AI vendor. Say: download it, turn off Wi-Fi, and run your safety checks on a laptop. No cloud login. No keys. Ours finishes in under ten seconds. I turned Wi-Fi off at the start of this talk — everything you've seen has already passed this test. A safety check nobody can run is just a claim."
+**12 · Run on your laptop — 6:20**
+"Before the two bugs — one simple test you can use on any AI vendor. Say: download it and run every safety check right on your own laptop. No cloud login. No secret keys. Ours finishes in under ten seconds — every check you've seen tonight, you can run yourself in five minutes. A safety check nobody can run is just a claim."
 
 **13 · Part 3 · Scooter vs Truck — 7:00**
 "Part three. Two bugs that caught us off guard. First — a story. You pass your driving test on a scooter. Your license is valid. Never expired. Never cancelled. Then one day you climb into a huge truck — with that scooter license in your pocket. [beat] Watch the barrier slam down. Keep that truck in your head —" [click]
@@ -48,7 +48,7 @@ Speak slowly. The full stops are part of the script.
 "— here it is, in our app. The license says scooter: approved as MEDIUM risk, sixty days left. But the vehicle today is a truck: the team upgraded this AI to HIGH risk. The gate checks the license against the vehicle on every single trip — in under a millisecond — sees MEDIUM is not HIGH, and drops the barrier. Valid license. Wrong vehicle."
 
 **15 · Live Demo 1 — 8:15**
-"Don't take my word for it. This is real code, running right here, no network. [press R] Five AI helpers ask to run. Watch. [narrate the result] Four pass — their permits match. And var_calculator — blocked. The permit says MEDIUM, the live helper is HIGH. The gate caught it. [stop talking — two full beats]"
+"Don't take my word for it. This is real code, running right here — and you can run it on your own laptop tonight. [press R] Five AI helpers ask to run. Watch. [narrate the result] Four pass — their permits match. And var_calculator — blocked. The permit says MEDIUM, the live helper is HIGH. The gate caught it. [stop talking — two full beats]"
 
 **16 · Bug #2 in twelve words — 9:20**
 "[read slowly] A record book your own team can quietly edit protects the company — not the customer. [silence, two seconds] Protects the company. Not the customer."
