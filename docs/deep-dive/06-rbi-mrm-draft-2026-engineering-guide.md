@@ -1,6 +1,6 @@
 # Deep Dive 06: Preparing for the Binding RBI Draft Model Risk Management Guidance (24 June 2026)
 
-> **Companion to Slides [21–23](https://build-for-rbi-talk.vercel.app/#21), [`RFC-001`](../open-problems/RFC-001-ai-kill-switch.md) & [`RFC-002`](../open-problems/RFC-002-ten-year-retention.md)**  
+> **Companion to Slides [23–25](https://build-for-rbi-talk.vercel.app/#23), [`RFC-001`](../open-problems/RFC-001-ai-kill-switch.md) & [`RFC-002`](../open-problems/RFC-002-ten-year-retention.md)**  
 > *"FREE-AI was advice; this will not be."*
 
 ---

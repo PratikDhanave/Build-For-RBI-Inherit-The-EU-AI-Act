@@ -1,6 +1,6 @@
 # Deep Dive 04: Tamper-Evident Audit Trails, External Anchoring & Approval Drift in Production
 
-> **Companion to Slides [11–17](https://build-for-rbi-talk.vercel.app/#11), [`code/gate/approval_gate.go`](../../code/gate/approval_gate.go) & [`code/audit/chain.go`](../../code/audit/chain.go)**
+> **Companion to Slides [13–19](https://build-for-rbi-talk.vercel.app/#13), [`code/gate/approval_gate.go`](../../code/gate/approval_gate.go) & [`code/audit/chain.go`](../../code/audit/chain.go)**
 
 ---
 

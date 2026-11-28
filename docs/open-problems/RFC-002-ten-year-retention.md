@@ -2,7 +2,7 @@
 
 - **Status:** Open Architectural Conflict (`GAP 02`)
 - **Regulatory Trigger:** RBI Draft Model Risk Management Guidance (24 June 2026) — 10-Year Inventory Retention (including decommissioned models)
-- **Related Slides:** [Slide 21](https://build-for-rbi-talk.vercel.app/#21), [Slide 22](https://build-for-rbi-talk.vercel.app/#22), [Slide 23](https://build-for-rbi-talk.vercel.app/#23)
+- **Related Slides:** [Slide 23](https://build-for-rbi-talk.vercel.app/#23), [Slide 24](https://build-for-rbi-talk.vercel.app/#24), [Slide 25](https://build-for-rbi-talk.vercel.app/#25)
 
 ---
 
