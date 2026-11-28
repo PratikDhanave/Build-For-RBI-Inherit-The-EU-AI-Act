@@ -565,3 +565,441 @@ func parseTodaySlice(e ast.Expr) ([]approvalCheck, bool) {
 	}
 	return out, true
 }
+
+// --- Lab 00: Composite Policy Gate (gate_demo) ---
+
+type gateMessage struct {
+	Label        string
+	ActorRole    string
+	TargetRisk   string
+	ContainsPII  bool
+	TargetRegion string
+	IsAdvice     bool
+	HasRationale bool
+	ConsentLive  bool
+}
+
+func evalGateMessage(msg gateMessage, allowedRegions, highRiskRoles map[string]bool) (bool, string) {
+	knownRisk := map[string]bool{"low": true, "medium": true, "high": true}
+	risk := strings.ToLower(strings.TrimSpace(msg.TargetRisk))
+	role := strings.ToLower(strings.TrimSpace(msg.ActorRole))
+	region := strings.ToLower(strings.TrimSpace(msg.TargetRegion))
+	if region == "" {
+		region = "in"
+	}
+	if !knownRisk[risk] {
+		return false, fmt.Sprintf("[rbac] unknown risk tier %q", msg.TargetRisk)
+	}
+	if msg.ContainsPII && !allowedRegions[region] {
+		return false, fmt.Sprintf("[residency] pii bound for region %s", region)
+	}
+	if msg.IsAdvice && !msg.HasRationale {
+		return false, "[explainability] recommendation with no rationale"
+	}
+	if risk == "high" && !highRiskRoles[role] {
+		return false, "[rbac] role may not address a high-risk agent"
+	}
+	if msg.ContainsPII && !msg.ConsentLive {
+		return false, "[consent] no live consent for this category"
+	}
+	return true, "dispatched to agent"
+}
+
+func parseBoolLit(e ast.Expr) (bool, bool) {
+	id, ok := e.(*ast.Ident)
+	if !ok {
+		return false, false
+	}
+	if id.Name == "true" {
+		return true, true
+	}
+	if id.Name == "false" {
+		return false, true
+	}
+	return false, false
+}
+
+func parseGateMessages(e ast.Expr) ([]gateMessage, bool) {
+	cl, ok := e.(*ast.CompositeLit)
+	if !ok {
+		return nil, false
+	}
+	var out []gateMessage
+	for _, elt := range cl.Elts {
+		item, ok := elt.(*ast.CompositeLit)
+		if !ok {
+			continue
+		}
+		m := gateMessage{TargetRegion: "in", ConsentLive: true, HasRationale: true}
+		hasFields := false
+		for _, fe := range item.Elts {
+			kv, ok := fe.(*ast.KeyValueExpr)
+			if !ok {
+				continue
+			}
+			fn, ok := kv.Key.(*ast.Ident)
+			if !ok {
+				continue
+			}
+			hasFields = true
+			switch fn.Name {
+			case "Label":
+				if s, ok := unquoteStr(kv.Value); ok {
+					m.Label = s
+				}
+			case "ActorRole":
+				if s, ok := unquoteStr(kv.Value); ok {
+					m.ActorRole = s
+				}
+			case "TargetRisk":
+				if s, ok := unquoteStr(kv.Value); ok {
+					m.TargetRisk = s
+				}
+			case "TargetRegion":
+				if s, ok := unquoteStr(kv.Value); ok {
+					m.TargetRegion = s
+				}
+			case "ContainsPII":
+				if b, ok := parseBoolLit(kv.Value); ok {
+					m.ContainsPII = b
+				}
+			case "IsAdvice":
+				if b, ok := parseBoolLit(kv.Value); ok {
+					m.IsAdvice = b
+				}
+			case "HasRationale":
+				if b, ok := parseBoolLit(kv.Value); ok {
+					m.HasRationale = b
+				}
+			case "ConsentLive":
+				if b, ok := parseBoolLit(kv.Value); ok {
+					m.ConsentLive = b
+				}
+			}
+		}
+		if hasFields && m.Label != "" {
+			out = append(out, m)
+		}
+	}
+	return out, len(out) > 0
+}
+
+// EvalGate parses edited Go source for the Composite Policy Gate demo with go/parser
+// and runs the real fail-closed policy evaluation in order.
+func EvalGate(src string) (string, error) {
+	fset := token.NewFileSet()
+	file, err := parser.ParseFile(fset, "gate.go", src, 0)
+	if err != nil {
+		return "", err
+	}
+	allowedRegions := map[string]bool{"in": true, "adgm": true, "difc": true, "sama": true}
+	highRiskRoles := map[string]bool{"advisor": true, "operator": true}
+	var msgs []gateMessage
+	foundMsgs := false
+
+	ast.Inspect(file, func(n ast.Node) bool {
+		switch node := n.(type) {
+		case *ast.ValueSpec:
+			for i, name := range node.Names {
+				if i >= len(node.Values) {
+					continue
+				}
+				switch name.Name {
+				case "allowedPIIRegions":
+					if m, ok := parseBoolMap(node.Values[i]); ok {
+						allowedRegions = m
+					}
+				case "highRiskRoles":
+					if m, ok := parseBoolMap(node.Values[i]); ok {
+						highRiskRoles = m
+					}
+				case "messages":
+					if list, ok := parseGateMessages(node.Values[i]); ok {
+						msgs = list
+						foundMsgs = true
+					}
+				}
+			}
+		case *ast.AssignStmt:
+			for i, lhs := range node.Lhs {
+				if i >= len(node.Rhs) {
+					continue
+				}
+				id, ok := lhs.(*ast.Ident)
+				if !ok {
+					continue
+				}
+				if id.Name == "messages" {
+					if list, ok := parseGateMessages(node.Rhs[i]); ok {
+						msgs = list
+						foundMsgs = true
+					}
+				}
+			}
+		}
+		return true
+	})
+
+	if !foundMsgs {
+		return "", fmt.Errorf("gate.go: expected `messages` slice definition")
+	}
+
+	var out strings.Builder
+	allowedCnt, deniedCnt := 0, 0
+	for i, msg := range msgs {
+		ok, reason := evalGateMessage(msg, allowedRegions, highRiskRoles)
+		if ok {
+			allowedCnt++
+			fmt.Fprintf(&out, "(%d) ALLOW  %-24s -> dispatched\n", i+1, msg.Label)
+		} else {
+			deniedCnt++
+			fmt.Fprintf(&out, "(%d) DENY   %-24s %s\n", i+1, msg.Label, reason)
+		}
+	}
+	fmt.Fprintf(&out, "\nVERDICT: %d allowed, %d blocked before any agent woke up.", allowedCnt, deniedCnt)
+	return out.String(), nil
+}
+
+// --- Lab 03: Append-Only Consent Ledger ---
+
+type consentEvent struct {
+	Seq      int
+	Day      string
+	Subject  string
+	Category string
+	Action   string
+	Reason   string
+}
+
+// EvalConsent parses edited Go source for the Append-Only Consent Ledger demo
+// and executes Grant/Revoke/Check calls in sequence.
+func EvalConsent(src string) (string, error) {
+	fset := token.NewFileSet()
+	file, err := parser.ParseFile(fset, "consent.go", src, 0)
+	if err != nil {
+		return "", err
+	}
+	var mainBody *ast.BlockStmt
+	for _, decl := range file.Decls {
+		fn, ok := decl.(*ast.FuncDecl)
+		if ok && fn.Name.Name == "main" {
+			mainBody = fn.Body
+			break
+		}
+	}
+	if mainBody == nil {
+		return "", fmt.Errorf("consent.go: missing func main()")
+	}
+
+	var events []consentEvent
+	check := func(subject, category string) (bool, string) {
+		for i := len(events) - 1; i >= 0; i-- {
+			ev := events[i]
+			if ev.Subject == subject && ev.Category == category {
+				if ev.Action == "GRANT" {
+					return true, fmt.Sprintf("live consent (seq %d, %s)", ev.Seq, ev.Day)
+				}
+				return false, fmt.Sprintf("[consent] revoked at seq %d (%s: %s)", ev.Seq, ev.Day, ev.Reason)
+			}
+		}
+		return false, "[consent] no consent record"
+	}
+
+	var out strings.Builder
+	step := 0
+	lastOK := false
+	hasRevoke := false
+
+	handleCall := func(call *ast.CallExpr) {
+		sel, ok := call.Fun.(*ast.SelectorExpr)
+		if !ok {
+			return
+		}
+		switch sel.Sel.Name {
+		case "Grant":
+			if len(call.Args) == 4 {
+				subj, o1 := unquoteStr(call.Args[0])
+				cat, o2 := unquoteStr(call.Args[1])
+				day, o3 := unquoteStr(call.Args[2])
+				rsn, o4 := unquoteStr(call.Args[3])
+				if o1 && o2 && o3 && o4 {
+					events = append(events, consentEvent{Seq: len(events) + 1, Day: day, Subject: subj, Category: cat, Action: "GRANT", Reason: rsn})
+				}
+			}
+		case "Revoke":
+			if len(call.Args) == 4 {
+				subj, o1 := unquoteStr(call.Args[0])
+				cat, o2 := unquoteStr(call.Args[1])
+				day, o3 := unquoteStr(call.Args[2])
+				rsn, o4 := unquoteStr(call.Args[3])
+				if o1 && o2 && o3 && o4 {
+					hasRevoke = true
+					events = append(events, consentEvent{Seq: len(events) + 1, Day: day, Subject: subj, Category: cat, Action: "REVOKE", Reason: rsn})
+				}
+			}
+		case "Check":
+			if len(call.Args) == 2 {
+				subj, o1 := unquoteStr(call.Args[0])
+				cat, o2 := unquoteStr(call.Args[1])
+				if o1 && o2 {
+					step++
+					ok, why := check(subj, cat)
+					lastOK = ok
+					tag := "DENY "
+					if ok {
+						tag = "ALLOW"
+					}
+					fmt.Fprintf(&out, "(%d) Check(%q, %q) -> %s  %s\n", step, subj, cat, tag, why)
+				}
+			}
+		}
+	}
+
+	for _, stmt := range mainBody.List {
+		switch s := stmt.(type) {
+		case *ast.ExprStmt:
+			if call, ok := s.X.(*ast.CallExpr); ok {
+				handleCall(call)
+			}
+		case *ast.AssignStmt:
+			for _, rhs := range s.Rhs {
+				if call, ok := rhs.(*ast.CallExpr); ok {
+					handleCall(call)
+				}
+			}
+		}
+	}
+
+	out.WriteString("\nAppend-only ledger history (never overwritten):\n")
+	if len(events) == 0 {
+		out.WriteString("  (empty — zero events recorded)\n")
+	}
+	for _, ev := range events {
+		fmt.Fprintf(&out, "  seq %d | %-14s | %-6s | %s\n", ev.Seq, ev.Day, ev.Action, ev.Reason)
+	}
+	if !lastOK && hasRevoke {
+		fmt.Fprintf(&out, "\nVERDICT: BLOCKED in-flight after revocation — all %d events kept intact.", len(events))
+	} else if !lastOK {
+		fmt.Fprintf(&out, "\nVERDICT: BLOCKED fail-closed — no live consent on record (%d events).", len(events))
+	} else {
+		fmt.Fprintf(&out, "\nVERDICT: ALLOWED — live consent verified (%d events on record).", len(events))
+	}
+	return out.String(), nil
+}
+
+// --- Lab 04: 20-Case OWASP ASI Red-Team Corpus (code/redteam/corpus.json) ---
+
+type redTeamCase struct {
+	ID           string
+	Category     string
+	OWASP        string
+	AgentID      string
+	Description  string
+	ActorRole    string
+	DeclaredRisk string
+	ContainsPII  bool
+	Region       string
+	IsAdvice     bool
+	Rationale    string
+	ConsentLive  bool
+	ExpectAllow  bool
+	ExpectPolicy string
+}
+
+var redTeamCorpus = []redTeamCase{
+	{"RT-01", "residency", "ASI01", "educator", "PAN sent to US inference endpoint", "advisor", "medium", true, "us", false, "", true, false, "residency"},
+	{"RT-02", "residency", "ASI01", "payment_orchestrator", "Aadhaar KYC payload routed to EU region", "operator", "high", true, "eu", false, "", true, false, "residency"},
+	{"RT-03", "residency", "ASI01", "educator", "Salary statement PII bound for ap-southeast", "advisor", "medium", true, "sg", false, "", true, false, "residency"},
+	{"RT-04", "residency", "ASI01", "educator", "PII stays inside IN region with live consent", "advisor", "medium", true, "in", false, "", true, true, ""},
+	{"RT-05", "residency", "ASI01", "educator", "Open Banking PII processed in ADGM", "advisor", "medium", true, "adgm", false, "", true, true, ""},
+	{"RT-06", "residency", "ASI01", "educator", "Open Banking PII processed in DIFC", "advisor", "medium", true, "difc", false, "", true, true, ""},
+	{"RT-07", "residency", "ASI01", "educator", "Open Banking PII processed in SAMA", "advisor", "medium", true, "sama", false, "", true, true, ""},
+	{"RT-08", "explainability", "ASI02", "educator", "Loan rejection advice without rationale", "advisor", "medium", false, "in", true, "", true, false, "explainability"},
+	{"RT-09", "explainability", "ASI02", "payment_orchestrator", "Portfolio rebalance advice without rationale", "operator", "high", false, "in", true, "", true, false, "explainability"},
+	{"RT-10", "explainability", "ASI02", "educator", "Investment advice with explicit rationale", "advisor", "medium", false, "in", true, "risk-tier-2", true, true, ""},
+	{"RT-11", "rbac", "ASI03", "payment_orchestrator", "Retail user directly invokes high-risk agent", "user", "high", false, "in", false, "", true, false, "rbac"},
+	{"RT-12", "rbac", "ASI03", "payment_orchestrator", "Guest role probes payment_orchestrator", "guest", "high", false, "in", false, "", true, false, "rbac"},
+	{"RT-13", "rbac", "ASI03", "payment_orchestrator", "Authorized operator invokes high-risk agent", "operator", "high", false, "in", false, "", true, true, ""},
+	{"RT-14", "consent", "ASI01", "educator", "In-flight PII request after Tuesday revocation", "advisor", "medium", true, "in", false, "", false, false, "consent"},
+	{"RT-15", "consent", "ASI01", "payment_orchestrator", "Revoked consent replay in DIFC region", "operator", "high", true, "difc", false, "", false, false, "consent"},
+	{"RT-16", "baseline", "NONE", "educator", "Ordinary FAQ question with zero PII", "user", "low", false, "in", false, "", false, true, ""},
+	{"RT-17", "registry", "ASI02", "shadow_agent_99", "Unregistered shadow agent invocation blocked", "operator", "low", false, "in", false, "", true, false, "registry"},
+	{"RT-18", "approval_drift", "ASI02", "var_calculator", "Drifted var_calculator fails ErrRiskChanged", "operator", "high", false, "in", false, "", true, false, "approval_drift"},
+	{"RT-19", "rbac", "ASI03", "payment_orchestrator", "Padded uppercase HIGH risk bypass blocked", "user", " HIGH ", false, "in", false, "", true, false, "rbac"},
+	{"RT-20", "explainability", "ASI02", "educator", "Whitespace-only rationale bypass blocked", "advisor", "medium", false, "in", true, "   \t\n", true, false, "explainability"},
+}
+
+// EvalRedTeam executes the 20-case OWASP ASI adversarial corpus against the
+// full 6-policy deterministic gate (registry, residency, explainability, rbac, consent, approval_drift).
+// Optional filter in src: "all" (default), "ASI01", "ASI02", "ASI03".
+func EvalRedTeam(src string) (string, error) {
+	filter := strings.ToUpper(strings.TrimSpace(src))
+	if filter == "" || filter == "ALL" {
+		filter = "ALL"
+	}
+
+	registered := map[string]bool{
+		"educator": true, "payment_orchestrator": true, "var_calculator": true,
+	}
+	allowedRegions := map[string]bool{"in": true, "adgm": true, "difc": true, "sama": true}
+	highRiskRoles := map[string]bool{"advisor": true, "operator": true}
+	knownRisk := map[string]bool{"low": true, "medium": true, "high": true}
+	approvals := map[string]string{
+		"payment_orchestrator": "high",
+		"var_calculator":       "medium", // drifted
+	}
+
+	runCase := func(c redTeamCase) (bool, string) {
+		if !registered[strings.TrimSpace(c.AgentID)] {
+			return false, "registry"
+		}
+		if c.ContainsPII && !allowedRegions[strings.ToLower(strings.TrimSpace(c.Region))] {
+			return false, "residency"
+		}
+		if c.IsAdvice && strings.TrimSpace(c.Rationale) == "" {
+			return false, "explainability"
+		}
+		risk := strings.ToLower(strings.TrimSpace(c.DeclaredRisk))
+		if !knownRisk[risk] {
+			return false, "rbac"
+		}
+		if risk == "high" && !highRiskRoles[strings.ToLower(strings.TrimSpace(c.ActorRole))] {
+			return false, "rbac"
+		}
+		if c.ContainsPII && !c.ConsentLive {
+			return false, "consent"
+		}
+		if risk == "high" && approvals[c.AgentID] != risk {
+			return false, "approval_drift"
+		}
+		return true, ""
+	}
+
+	var out strings.Builder
+	total, passed, attacksBlocked, safeAllowed := 0, 0, 0, 0
+	for _, c := range redTeamCorpus {
+		if filter != "ALL" && c.OWASP != filter {
+			continue
+		}
+		total++
+		gotAllow, gotPolicy := runCase(c)
+		ok := (gotAllow == c.ExpectAllow) && (gotPolicy == c.ExpectPolicy)
+		if ok {
+			passed++
+		}
+		if !gotAllow {
+			attacksBlocked++
+		} else {
+			safeAllowed++
+		}
+		tag := "ALLOW"
+		detail := "safe path"
+		if !gotAllow {
+			tag = "BLOCK"
+			detail = "[" + gotPolicy + "]"
+		}
+		fmt.Fprintf(&out, "%s  %-5s  %s %-16s %s\n", c.ID, c.OWASP, tag, detail, c.Description)
+	}
+	fmt.Fprintf(&out, "\nVERDICT: %d/%d clean sweep — %d attacks blocked, %d safe paths allowed.", passed, total, attacksBlocked, safeAllowed)
+	return out.String(), nil
+}

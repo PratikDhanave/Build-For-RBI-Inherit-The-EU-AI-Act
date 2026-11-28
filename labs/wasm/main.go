@@ -17,10 +17,16 @@ func main() {
 			err error
 		)
 		switch lab {
+		case "gate":
+			out, err = EvalGate(src)
+		case "consent":
+			out, err = EvalConsent(src)
 		case "drift":
 			out, err = EvalApproval(src)
 		case "chain":
 			out, err = EvalAudit(src)
+		case "redteam":
+			out, err = EvalRedTeam(src)
 		default:
 			return map[string]any{"ok": false, "err": "unknown lab: " + lab}
 		}

@@ -86,3 +86,37 @@ func TestEvalAuditMatchesStandaloneAndLiveEdits(t *testing.T) {
 		t.Errorf("expected seq 3 break, got:\n%s", outRow3)
 	}
 }
+
+func TestEvalGateConsentAndRedTeam(t *testing.T) {
+	gateRaw, err := os.ReadFile("../gate_demo/main.go")
+	if err != nil {
+		t.Fatalf("read gate_demo: %v", err)
+	}
+	gateOut, err := EvalGate(string(gateRaw))
+	if err != nil {
+		t.Fatalf("EvalGate failed: %v", err)
+	}
+	if !strings.Contains(gateOut, "VERDICT: 2 allowed, 4 blocked") {
+		t.Errorf("unexpected EvalGate output:\n%s", gateOut)
+	}
+
+	consentRaw, err := os.ReadFile("../consent_ledger/main.go")
+	if err != nil {
+		t.Fatalf("read consent_ledger: %v", err)
+	}
+	consentOut, err := EvalConsent(string(consentRaw))
+	if err != nil {
+		t.Fatalf("EvalConsent failed: %v", err)
+	}
+	if !strings.Contains(consentOut, "ALLOW") || !strings.Contains(consentOut, "revoked at seq 2") {
+		t.Errorf("unexpected EvalConsent output:\n%s", consentOut)
+	}
+
+	rtOut, err := EvalRedTeam("ALL")
+	if err != nil {
+		t.Fatalf("EvalRedTeam failed: %v", err)
+	}
+	if !strings.Contains(rtOut, "VERDICT: 20/20 clean sweep — 13 attacks blocked, 7 safe paths allowed.") {
+		t.Errorf("unexpected EvalRedTeam output:\n%s", rtOut)
+	}
+}
